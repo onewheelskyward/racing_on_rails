@@ -1,0 +1,20 @@
+@import "blueprint/reset";
+
+$background: white;
+$background-light: #BEBEBE;
+$content: white;
+$header: #360;
+$highlight: #339900;
+$nav: #360;
+$nav-text: white;
+$table: white;
+$table-head: #360;
+$table-odd-row: #F4FDBF;
+$table-bottom: #360;
+$text: black;
+
+table.styled th {
+  color: white;
+}
+
+@import "partials/base";

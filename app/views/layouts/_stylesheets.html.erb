@@ -1,9 +1,3 @@
-<%= stylesheet_link_tag "reset" %>
+<%= stylesheet_link_tag "#{RacingAssociation.current.short_name.downcase}.css", :media => "screen, projection" %>
+<!--[if lt IE 8]><%= stylesheet_link_tag 'ie.css', :media => 'screen, projection' %><![endif]-->
 <%= stylesheet_link_tag "jquery-ui/jquery-ui-1.8.2.custom" %>
-<%= stylesheet_link_tag "application", "grid", "tabs", "forms", "tables", "pages", "admin" %>
-<!--[if IE]>
-<%= stylesheet_link_tag "ie" %>
-<![endif]-->
-<!--[if IE 6]>
-<%= stylesheet_link_tag "ie_6" %>
-<![endif]-->

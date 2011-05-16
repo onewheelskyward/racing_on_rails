@@ -1,44 +1,30 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title><%= page_title %></title>
-    <%= csrf_meta_tag %>
-    <%= hoptoad_javascript_notifier %>
-    <%= render :partial => "layouts/stylesheets" %>
-    <%= render :partial => "layouts/javascripts" %>
-  </head>
-  <body>
-  <div class="shadow_2">
-    <div class="shadow_1">
-      <div class="frame">
-        <div class="nav" id="top">
-          <h1><%= link_to RacingAssociation.current.name, "/" %></h1>
-          <div class="breadcrumb"><%= link_to RacingAssociation.current.short_name, "/" %></div>
-        </div>
-        <div class="content container">
-          <%= render :partial => "shared/tabs" %>
-          <%= render :partial => "shared/flash_messages", :locals => { :flash => flash } %>
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= page_title %></title>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0;">
+  <%= csrf_meta_tag %>
+
+  <%= render :partial => "layouts/stylesheets" %>
+
+  <%= render :partial => "layouts/javascripts" %>
+  <%= hoptoad_javascript_notifier %>
+</head>
+<body>
+  <nav>
+    <h1><%= link_to RacingAssociation.current.short_name, "/" %></h1>
+    <%= link_to "Schedule", schedule_path, :class => "schedule" %>
+    <%= link_to "Results", results_path, :class => "results" %>
+  </nav>
+
+  <div class="content">
 <%= yield %>
-        </div>
-          <div class="nav" id="bottom">
-          <div class="breadcrumb">
-            <%= link_to RacingAssociation.current.short_name, "/" %> |
-            <%= link_to "Results", results_path, :id => "results_link" %> |
-            <%= link_to "Schedule", schedule_path, :id => "schedule_link" %> | 
-      <% if current_person %>
-      <%= link_to "Logout", person_session_path, :method => :delete, :id => "account_link" %>
-      <% else %>
-      <%= link_to "Login", new_person_session_path, { :id => "account_link" } %>
-      <% end %>
-      <% if current_person && current_person.administrator? %>
-       | <%= link_to "Administration", {:controller => "/admin/events"}, { :id => "admin_link" } %>
-      <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
-  </body>
+
+  <footer>
+    <a href="/account">Account</a>
+    <a href="/login">Login</a>
+  </footer>
+</body>
 </html>

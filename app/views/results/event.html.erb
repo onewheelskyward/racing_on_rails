@@ -11,7 +11,7 @@
   <%- end -%>
 
   <%- if @event.parent -%>
-  <p>Part of the <%= link_to @event.parent.name, event_results_path(@event.parent) %></p>
+  <p>Part of the <%= link_to @event.parent.name, event_results_path(@event.parent), :class => "obvious" %></p>
   <%- end -%>
   
   <% unless @event.children_and_child_competitions_with_results.select { |child| child.is_a?(SingleDayEvent) }.empty? -%>
@@ -20,7 +20,7 @@
     <% @event.children_and_child_competitions_with_results.select { |child| child.is_a?(SingleDayEvent) }.each do |child| -%>
     <tr>
       <td class="right"><%= link_to child.date.strftime('%A, %B %d'), event_results_path(child) %></td>
-      <td><%= link_to child.name, event_results_path(child), { :class => "obvious" } %></td>
+      <td><%= link_to child.name, event_results_path(child), :class => "obvious" %></td>
     </tr>
     <% child.children_and_child_competitions_with_results.each do |child_child| -%>
       <tr>
@@ -56,21 +56,23 @@
 
   <% benchmark("Render results", :silence => false) do %>
   <% @event.races_with_results.sort.each do |race| %>
-  <a name="race_<%= race.id %>" id="race_<%= race.id %>" class="anchor" />
-  <%= table :caption => race.name, :class => "event_results" do %>
-    <tr>
-      <%- race.result_columns_or_default.map.each do |column| -%>
-      <th class="<%= column %>"><%= result_header column %></th>
-      <%- end -%>
-    </tr>
-    <%- race.results.sort.each do |result| -%>
-    <tr class="<%= cycle "even", "odd" %>">
-      <%- race.result_columns_or_default.each do |column| -%>
-      <td<%= result_cell_class column %>><%= result_cell result, column %></td>
-      <%- end -%>
-    </tr>
+  <div id="race_<%= race.id %>">
+    <h3><%= race.name %></h3>
+    <%= table :class => "event_results" do %>
+      <tr>
+        <%- race.result_columns_or_default.map.each do |column| -%>
+        <th class="<%= column %>"><%= result_header column %></th>
+        <%- end -%>
+      </tr>
+      <%- race.results.sort.each do |result| -%>
+      <tr>
+        <%- race.result_columns_or_default.each do |column| -%>
+        <td class="<%= column %>"><%= result_cell result, column %></td>
+        <%- end -%>
+      </tr>
     <%- end -%>
   <%- end -%>
+  </div>
 <%- end -%>
 <%- end -%>
 </div>

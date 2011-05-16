@@ -6,7 +6,7 @@
 <%= javascript_include_tag "widgets/tooltip" %>
 <%= javascript_include_tag "tabs" %>
 <%= yield :javascript_include_tag %>
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   $(document).ready(function() {
     <%= yield :javascript -%>
   });

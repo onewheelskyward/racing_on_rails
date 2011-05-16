@@ -1,0 +1,223 @@
+/* line 4, /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+html {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* line 18, /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+.bp-reset-element, body, h1, h2, h3, h4, h5, h6, article, aside, dialog, figure, footer, header, hgroup, nav, section, blockquote, q, th, td, caption, table,
+div, span, object, iframe, p,
+pre, a, abbr, acronym, address,
+code, del, dfn, em, img,
+dl, dt, dd, ol, ul, li, fieldset,
+form, label, legend,
+caption, tbody, tfoot, thead, tr {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+
+/* line 20, /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+article, aside, dialog, figure, footer, header, hgroup, nav, section {
+  display: block;
+}
+
+/* line 21, /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+blockquote, q {
+  quotes: "" "";
+}
+/* line 67, /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+blockquote:before, blockquote:after, q:before, q:after {
+  content: "";
+}
+
+/* line 22, /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+th, td, caption {
+  float: none !important;
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 23, /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+}
+
+/* line 24, /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 1, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+body {
+  background-color: #d2d2d2;
+  color: black;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", FreeSans;
+  line-height: 133%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+/* line 10, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+body nav a, body a, a {
+  color: black;
+  text-decoration: none;
+}
+
+/* line 15, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+body a:hover, a:hover {
+  background-color: #ffde14;
+  color: black;
+  text-decoration: underline;
+}
+
+/* line 21, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+a.obvious {
+  text-decoration: underline;
+}
+
+/* line 25, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+.centered {
+  text-align: center;
+}
+
+/* line 29, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+body nav, body footer {
+  background-color: #1e1e1e;
+  border-radius: 3px;
+  margin-top: 1em;
+  padding-bottom: 0.4em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  padding-top: 0.4em;
+  vertical-align: center;
+  text-align: right;
+  whitespace: nowrap;
+}
+
+/* line 42, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+body footer {
+  text-align: center;
+}
+
+/* line 46, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+body nav a, body footer a {
+  border-right: 2px solid #d2d2d2;
+  color: #f0f0f0;
+  font-size: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+/* line 54, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+nav a:last-child, footer a:last-child {
+  border-right: none;
+}
+
+/* line 58, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+nav h1 {
+  float: left;
+}
+
+/* line 62, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+.content {
+  background-color: white;
+  border-radius: 3px;
+  margin-top: 1em;
+  padding: 1em;
+}
+
+/* line 69, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+h1, nav h1 a {
+  color: #ffde14;
+  font-weight: bold;
+  line-height: 133%;
+}
+
+/* line 75, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+body h2, h2 {
+  color: #999999;
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 133%;
+  text-align: center;
+}
+
+/* line 83, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+h3 {
+  color: #999999;
+  font-weight: bold;
+  line-height: 133%;
+  padding-top: 2em;
+  text-align: center;
+}
+
+/* line 91, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+.right {
+  text-align: right;
+}
+
+/* line 95, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+table.styled {
+  background-color: #ffff99;
+  border-bottom: solid 2px #ffde14;
+  width: 100%;
+}
+
+/* line 101, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+table.styled th {
+  background-color: #ffde14;
+  font-weight: bold;
+}
+
+/* line 106, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+table.styled tr:nth-child(odd) {
+  background-color: #ffffbd;
+}
+
+/* line 110, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+th, td {
+  padding: 0.4em;
+}
+
+/* line 114, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+.event_races {
+  padding-top: 1em;
+  text-align: center;
+}
+
+/* line 119, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+.event_races table {
+  display: inline-table;
+}
+
+/* line 123, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+.event_races td {
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
+
+/* line 128, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+.notes {
+  padding-top: 1em;
+}
+
+/* line 132, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+.notes, .notes a, .updatedon {
+  color: #1e1e1e;
+  text-align: center;
+}
+
+/* line 137, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
+.place {
+  text-align: right;
+}

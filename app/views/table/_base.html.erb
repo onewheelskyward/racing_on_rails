@@ -1,17 +1,13 @@
-<div class="table_container<%= " #{style_class}" if style_class %>"<%= " id='#{id}'" if id %>>
-  <%- if caption_visible %><div class="caption"><%= caption %></div><% end -%>
-  <table cellspacing="0" class="base<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %>>
-    <%- if insert_header -%>
-    <tr>
-      <% columns.times do -%><th>&nbsp;</th><%- end -%>
-    </tr>
-    <%- end -%>
+<table class="styled<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %>>
+  <%- if insert_header -%>
+  <tr>
+    <% columns.times do -%><th>&nbsp;</th><%- end -%>
+  </tr>
+  <%- end -%>
 <%= body -%>
-    <%- if body.blank? || collection.try(:empty?) -%>
-    <tr>
-      <td class="empty">None</td>
-    </tr>
-    <%- end -%>
-  </table>
-  <%= link_to(image_tag("/images/icons/add.png"), :url => { :action => new_action }, :html => { :class => "image" }, :remote => true) if new_action -%>
-</div>
+  <%- if body.blank? || collection.try(:empty?) -%>
+  <tr>
+    <td class="empty">None</td>
+  </tr>
+  <%- end -%>
+</table>

@@ -1,0 +1,20 @@
+@import "blueprint/reset";
+
+$background: rgb(240, 240, 240);
+$background-light: #E0E0E0;
+$content: #ffffff;
+$header: #999999;
+$highlight: rgb(255, 222, 20);
+$nav: rgb(30, 30, 30);
+$nav-text: #e0e0e0;
+$table: #ff9;
+$table-head: rgb(255, 222, 20);
+$table-odd-row: #ffffbd;
+$table-bottom: rgb(255, 222, 20);
+$text: black;
+
+@import "partials/base";
+
+h1, nav h1 a {
+  color: $highlight;
+}

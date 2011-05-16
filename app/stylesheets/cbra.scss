@@ -1,0 +1,16 @@
+@import "blueprint/reset";
+
+$background: white;
+$background-light: #BEBEBE;
+$content: #fafafa;
+$header: #323232;
+$highlight: #D0FA30;
+$nav: rgb(240, 240, 240);
+$nav-text: #6D6D6D;
+$table: white;
+$table-head: rgb(240, 240, 240);
+$table-odd-row: #e6e6e6;
+$table-bottom: #cccccc;
+$text: black;
+
+@import "partials/base";

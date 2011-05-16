@@ -1,0 +1,139 @@
+body {
+  background-color: $background;
+  color: $text;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", FreeSans;  
+  line-height: 133%;
+  margin-bottom: 1em;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+body nav a, body a, a {
+  color: $text;
+  text-decoration: none;
+}
+
+body a:hover, a:hover {
+  background-color: $highlight;
+  color: $text;
+  text-decoration: underline;
+}
+
+a.obvious {
+  text-decoration: underline;
+}
+
+.centered {
+  text-align: center;
+}
+
+body nav, body footer {
+  background-color: $nav;
+  border-radius: 3px;
+  margin-top: 1em;
+  padding-bottom: 0.4em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  padding-top: 0.4em;
+  vertical-align: center;
+  text-align: right;
+  whitespace: nowrap;
+}
+
+body footer {
+  text-align: center;
+}
+
+body nav a, body footer a {
+  border-right: 2px solid $background-light;
+  color: $nav-text;
+  font-size: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+nav a:last-child, footer a:last-child {
+  border-right: none;
+}
+
+nav h1 {
+  float: left;
+}
+
+.content {
+  background-color: $content;
+  border-radius: 3px;
+  margin-top: 1em;
+  padding: 1em;
+}
+
+h1, nav h1 a {
+  font-weight: bold;
+  line-height: 133%;
+}
+
+body h2, h2 {
+  color: $header;
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 133%;
+  text-align: center;
+}
+
+h3 {
+  color: $header;
+  font-weight: bold;
+  line-height: 133%;
+  padding-top: 2em;
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+table.styled {
+  background-color: $table;
+  border-bottom: solid 2px $table-bottom;
+  width: 100%;
+}
+
+table.styled th {
+  background-color: $table-head;
+  font-weight: bold;
+}
+
+table.styled tr:nth-child(odd) {
+  background-color: $table-odd-row;
+}
+
+th, td {
+  padding: 0.4em;
+}
+
+.event_races {
+  padding-top: 1em;
+  text-align: center;
+}
+
+.event_races table {
+  display: inline-table;
+}
+
+.event_races td {
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
+
+.notes {
+  padding-top: 1em;
+}
+
+.notes, .notes a, .updatedon {
+  color: $text;
+  text-align: center;
+}
+
+.place {
+  text-align: right;
+}
