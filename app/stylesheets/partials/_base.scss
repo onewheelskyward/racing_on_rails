@@ -2,6 +2,7 @@ body {
   background-color: $background;
   color: $text;
   font-family: "Lucida Grande", "Lucida Sans Unicode", FreeSans;  
+  font-size: $text-size;
   line-height: 133%;
   margin-bottom: 1em;
   margin-left: 5%;
@@ -30,7 +31,8 @@ a.obvious {
 body nav, body footer {
   background-color: $nav;
   border-radius: 3px;
-  margin-top: 1em;
+  font-size: $text-size-bigger;
+  margin-top: 1.4em;
   padding-bottom: 0.4em;
   padding-left: 0.4em;
   padding-right: 0.4em;
@@ -47,7 +49,6 @@ body footer {
 body nav a, body footer a {
   border-right: 2px solid $background-light;
   color: $nav-text;
-  font-size: 1em;
   padding-left: 1em;
   padding-right: 1em;
 }
@@ -60,21 +61,21 @@ nav h1 {
   float: left;
 }
 
+nav h1 a {
+  font-weight: bold;
+}
+
 .content {
   background-color: $content;
-  border-radius: 3px;
+  border-radius: 6px;
+  border: 1px solid $content-border;
   margin-top: 1em;
-  padding: 1em;
+  padding: 2em;
 }
 
-h1, nav h1 a {
-  font-weight: bold;
-  line-height: 133%;
-}
-
-body h2, h2 {
+body h2, h2, h2 a {
   color: $header;
-  font-size: 2em;
+  font-size: $text-size-biggest;
   font-weight: bold;
   line-height: 133%;
   text-align: center;
@@ -82,6 +83,7 @@ body h2, h2 {
 
 h3 {
   color: $header;
+  font-size: $text-size-bigger;
   font-weight: bold;
   line-height: 133%;
   padding-top: 2em;
@@ -92,14 +94,27 @@ h3 {
   text-align: right;
 }
 
+th, td {
+  padding-bottom: 0.1em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  padding-top: 0.1em;
+}
+
 table.styled {
   background-color: $table;
+  border-top: solid 2px $table-top;
   border-bottom: solid 2px $table-bottom;
   width: 100%;
 }
 
+table.styled th, table.styled td {
+  padding: 0.4em;
+}
+
 table.styled th {
   background-color: $table-head;
+  color: $table-head-text;
   font-weight: bold;
 }
 
@@ -107,8 +122,8 @@ table.styled tr:nth-child(odd) {
   background-color: $table-odd-row;
 }
 
-th, td {
-  padding: 0.4em;
+h3 + table.styled {
+  margin-top: 0.4em;
 }
 
 .event_races {
@@ -118,11 +133,6 @@ th, td {
 
 .event_races table {
   display: inline-table;
-}
-
-.event_races td {
-  padding-left: 0.4em;
-  padding-right: 0.4em;
 }
 
 .notes {
@@ -136,4 +146,14 @@ th, td {
 
 .place {
   text-align: right;
+}
+
+/* temp */
+.span-2 {
+  float: left;
+  width: 33%;
+}
+
+.span-2 img {
+  border: 2px solid black;
 }

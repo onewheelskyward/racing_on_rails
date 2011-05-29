@@ -60,42 +60,44 @@ a img {
 /* line 1, ../../app/stylesheets/partials/_base.scss */
 body {
   background-color: white;
-  color: black;
+  color: #1e1e1e;
   font-family: "Lucida Grande", "Lucida Sans Unicode", FreeSans;
+  font-size: 0.813em;
   line-height: 133%;
   margin-bottom: 1em;
   margin-left: 5%;
   margin-right: 5%;
 }
 
-/* line 11, ../../app/stylesheets/partials/_base.scss */
+/* line 12, ../../app/stylesheets/partials/_base.scss */
 body nav a, body a, a {
-  color: black;
+  color: #1e1e1e;
   text-decoration: none;
 }
 
-/* line 16, ../../app/stylesheets/partials/_base.scss */
+/* line 17, ../../app/stylesheets/partials/_base.scss */
 body a:hover, a:hover {
   background-color: #d0fa30;
-  color: black;
+  color: #1e1e1e;
   text-decoration: underline;
 }
 
-/* line 22, ../../app/stylesheets/partials/_base.scss */
+/* line 23, ../../app/stylesheets/partials/_base.scss */
 a.obvious {
   text-decoration: underline;
 }
 
-/* line 26, ../../app/stylesheets/partials/_base.scss */
+/* line 27, ../../app/stylesheets/partials/_base.scss */
 .centered {
   text-align: center;
 }
 
-/* line 30, ../../app/stylesheets/partials/_base.scss */
+/* line 31, ../../app/stylesheets/partials/_base.scss */
 body nav, body footer {
-  background-color: #f0f0f0;
+  background-color: #6d6d6d;
   border-radius: 3px;
-  margin-top: 1em;
+  font-size: 1.2em;
+  margin-top: 1.4em;
   padding-bottom: 0.4em;
   padding-left: 0.4em;
   padding-right: 0.4em;
@@ -105,119 +107,140 @@ body nav, body footer {
   whitespace: nowrap;
 }
 
-/* line 43, ../../app/stylesheets/partials/_base.scss */
+/* line 45, ../../app/stylesheets/partials/_base.scss */
 body footer {
   text-align: center;
 }
 
-/* line 47, ../../app/stylesheets/partials/_base.scss */
+/* line 49, ../../app/stylesheets/partials/_base.scss */
 body nav a, body footer a {
   border-right: 2px solid #bebebe;
-  color: #6d6d6d;
-  font-size: 1em;
+  color: #cbcbcb;
   padding-left: 1em;
   padding-right: 1em;
 }
 
-/* line 55, ../../app/stylesheets/partials/_base.scss */
+/* line 56, ../../app/stylesheets/partials/_base.scss */
 nav a:last-child, footer a:last-child {
   border-right: none;
 }
 
-/* line 59, ../../app/stylesheets/partials/_base.scss */
+/* line 60, ../../app/stylesheets/partials/_base.scss */
 nav h1 {
   float: left;
 }
 
-/* line 63, ../../app/stylesheets/partials/_base.scss */
-.content {
-  background-color: #fafafa;
-  border-radius: 3px;
-  margin-top: 1em;
-  padding: 1em;
-}
-
-/* line 70, ../../app/stylesheets/partials/_base.scss */
-h1, nav h1 a {
+/* line 64, ../../app/stylesheets/partials/_base.scss */
+nav h1 a {
   font-weight: bold;
-  line-height: 133%;
 }
 
-/* line 75, ../../app/stylesheets/partials/_base.scss */
-body h2, h2 {
-  color: #323232;
-  font-size: 2em;
+/* line 68, ../../app/stylesheets/partials/_base.scss */
+.content {
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #cccccc;
+  margin-top: 1em;
+  padding: 2em;
+}
+
+/* line 76, ../../app/stylesheets/partials/_base.scss */
+body h2, h2, h2 a {
+  color: #5a5a5a;
+  font-size: 1.6em;
   font-weight: bold;
   line-height: 133%;
   text-align: center;
 }
 
-/* line 83, ../../app/stylesheets/partials/_base.scss */
+/* line 84, ../../app/stylesheets/partials/_base.scss */
 h3 {
-  color: #323232;
+  color: #5a5a5a;
+  font-size: 1.2em;
   font-weight: bold;
   line-height: 133%;
   padding-top: 2em;
   text-align: center;
 }
 
-/* line 91, ../../app/stylesheets/partials/_base.scss */
+/* line 93, ../../app/stylesheets/partials/_base.scss */
 .right {
   text-align: right;
 }
 
-/* line 95, ../../app/stylesheets/partials/_base.scss */
+/* line 97, ../../app/stylesheets/partials/_base.scss */
+th, td {
+  padding-bottom: 0.1em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  padding-top: 0.1em;
+}
+
+/* line 104, ../../app/stylesheets/partials/_base.scss */
 table.styled {
-  background-color: white;
+  background-color: #fafafa;
+  border-top: solid 2px #cccccc;
   border-bottom: solid 2px #cccccc;
   width: 100%;
 }
 
-/* line 101, ../../app/stylesheets/partials/_base.scss */
+/* line 111, ../../app/stylesheets/partials/_base.scss */
+table.styled th, table.styled td {
+  padding: 0.4em;
+}
+
+/* line 115, ../../app/stylesheets/partials/_base.scss */
 table.styled th {
-  background-color: #f0f0f0;
+  background-color: #cbcbcb;
+  color: #5a5a5a;
   font-weight: bold;
 }
 
-/* line 106, ../../app/stylesheets/partials/_base.scss */
+/* line 121, ../../app/stylesheets/partials/_base.scss */
 table.styled tr:nth-child(odd) {
   background-color: #e6e6e6;
 }
 
-/* line 110, ../../app/stylesheets/partials/_base.scss */
-th, td {
-  padding: 0.4em;
+/* line 125, ../../app/stylesheets/partials/_base.scss */
+h3 + table.styled {
+  margin-top: 0.4em;
 }
 
-/* line 114, ../../app/stylesheets/partials/_base.scss */
+/* line 129, ../../app/stylesheets/partials/_base.scss */
 .event_races {
   padding-top: 1em;
   text-align: center;
 }
 
-/* line 119, ../../app/stylesheets/partials/_base.scss */
+/* line 134, ../../app/stylesheets/partials/_base.scss */
 .event_races table {
   display: inline-table;
 }
 
-/* line 123, ../../app/stylesheets/partials/_base.scss */
-.event_races td {
-  padding-left: 0.4em;
-  padding-right: 0.4em;
-}
-
-/* line 128, ../../app/stylesheets/partials/_base.scss */
+/* line 138, ../../app/stylesheets/partials/_base.scss */
 .notes {
   padding-top: 1em;
 }
 
-/* line 132, ../../app/stylesheets/partials/_base.scss */
+/* line 142, ../../app/stylesheets/partials/_base.scss */
 .notes, .notes a, .updatedon {
-  color: black;
+  color: #1e1e1e;
   text-align: center;
 }
 
-/* line 137, ../../app/stylesheets/partials/_base.scss */
+/* line 147, ../../app/stylesheets/partials/_base.scss */
 .place {
   text-align: right;
+}
+
+/* temp */
+/* line 152, ../../app/stylesheets/partials/_base.scss */
+.span-2 {
+  float: left;
+  width: 33%;
+}
+
+/* line 157, ../../app/stylesheets/partials/_base.scss */
+.span-2 img {
+  border: 2px solid black;
 }
