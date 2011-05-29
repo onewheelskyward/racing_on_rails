@@ -1,9 +1,4 @@
 <table class="styled<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %>>
-  <%- if insert_header -%>
-  <tr>
-    <% columns.times do -%><th>&nbsp;</th><%- end -%>
-  </tr>
-  <%- end -%>
 <%= body -%>
   <%- if body.blank? || collection.try(:empty?) -%>
   <tr>
