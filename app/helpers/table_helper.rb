@@ -9,7 +9,6 @@ module TableHelper
   # * style_class or class. CSS style class
   # * collection. Table contents. Only used to show "None"
   # * columns. Default 1. If insert_header is true, insert +columns+ <th />
-  # * insert_header. Insert <th/> for "bar" on top of tables
   def table(options = {}, &block)
     # TODO Use merge or something
     options[:caption] = nil unless options[:caption]
@@ -20,7 +19,6 @@ module TableHelper
     options.delete(:class)
     options[:collection] = options[:collection]
     options[:columns] = options[:columns] || 1
-    options[:insert_header] = nil unless (options[:insert_header] && RacingAssociation.current.always_insert_table_headers?)
     block_to_partial "table/base", options, &block
   end
 
