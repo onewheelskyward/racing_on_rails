@@ -23,17 +23,17 @@ class Admin::PagesControllerTest < ActionController::TestCase
   
   def test_update_title_inplace
     page = pages(:plain)
-    post(:set_page_title, 
+    xhr(:put, :update_attribute, 
         :id => page.to_param,
         :value => "OBRA Banquet",
-        :editorId => "page_#{page.id}_name"
+        :name => "title"
     )
     assert_response(:success)
     assert_template(nil)
-    assert_equal(page, assigns("item"), "@page")
+    assert_equal(page, assigns("page"), "@page")
     page.reload
     assert_equal("OBRA Banquet", page.title, "Page title")
-    assert_equal(people(:administrator), page.author, "author")
+    assert_equal(people(:administrator), page.last_updated_by, "updated_by")
   end
   
   def test_edit_page
@@ -55,7 +55,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
     page.reload
     assert_equal("My Awesome Bike Racing Page", page.title, "title")
     assert_equal("<blink>Race</blink>", page.body, "body")
-    assert_equal(people(:administrator), page.author, "author")
+    assert_equal(people(:administrator), page.last_updated_by, "updated_by")
   end
   
   def test_update_page_parent
@@ -72,7 +72,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
     page.reload
     assert_equal("My Awesome Bike Racing Page", page.title, "title")
     assert_equal("<blink>Race</blink>", page.body, "body")
-    assert_equal(people(:administrator), page.author, "author")
+    assert_equal(people(:administrator), page.last_updated_by, "updated_by")
     assert_equal(parent_page, page.parent, "Page parent")
     assert_redirected_to(edit_admin_page_path(page))
   end
@@ -101,7 +101,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
     page.reload
     assert_equal("My Awesome Bike Racing Page", page.title, "title")
     assert_equal("<blink>Race</blink>", page.body, "body")
-    assert_equal(people(:administrator), page.author, "author")
+    assert_equal(people(:administrator), page.last_updated_by, "updated_by")
   end
   
   def test_create_child_page
@@ -118,7 +118,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
     page.reload
     assert_equal("My Awesome Bike Racing Page", page.title, "title")
     assert_equal("<blink>Race</blink>", page.body, "body")
-    assert_equal(people(:administrator), page.author, "author")
+    assert_equal(people(:administrator), page.last_updated_by, "updated_by")
     assert_equal(parent_page, page.parent, "Page parent")
   end
   

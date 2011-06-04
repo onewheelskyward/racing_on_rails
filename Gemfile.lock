@@ -6,10 +6,19 @@ GIT
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
 
+GIT
+  remote: https://github.com/yalab/turn.git
+  revision: e7cc1b931c80325a058d434142aed90a99d461cc
+  specs:
+    turn (0.8.2.1)
+      ansi (>= 1.2.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
     Ascii85 (1.0.1)
+    SyslogLogger (1.4.0)
+      hoe (>= 1.2.0)
     abstract (1.0.0)
     actionmailer (3.0.7)
       actionpack (= 3.0.7)
@@ -55,7 +64,9 @@ GEM
     fastercsv (1.5.4)
     ffi (1.0.9)
     fssm (0.2.7)
-    hoptoad_notifier (2.4.10)
+    hoe (2.9.4)
+      rake (>= 0.8.7)
+    hoptoad_notifier (2.4.11)
       activesupport
       builder
     i18n (0.5.0)
@@ -67,6 +78,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    minitest (2.2.2)
     mocha (0.9.12)
     mysql2 (0.2.7)
     newrelic_rpm (3.0.1)
@@ -95,11 +107,11 @@ GEM
       activesupport (= 3.0.7)
       rake (>= 0.8.7)
       thor (~> 0.14.4)
-    rake (0.9.0)
+    rake (0.8.7)
     rb-fsevent (0.4.0)
     rubyzip (0.9.4)
-    sass (3.1.1)
-    selenium-webdriver (0.2.0)
+    sass (3.1.2)
+    selenium-webdriver (0.2.1)
       childprocess (>= 0.1.7)
       ffi (>= 1.0.7)
       json_pure
@@ -110,8 +122,6 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     ttfunk (1.0.1)
-    turn (0.8.2)
-      ansi (>= 1.2.2)
     tzinfo (0.3.27)
     unicorn (3.6.2)
       kgio (~> 2.3)
@@ -123,11 +133,13 @@ PLATFORMS
 
 DEPENDENCIES
   Ascii85
+  SyslogLogger
   ansi
   authlogic
   compass
   fastercsv
   hoptoad_notifier
+  minitest
   mocha
   mysql2 (< 0.3.0)
   newrelic_rpm
@@ -135,12 +147,13 @@ DEPENDENCIES
   prawn
   prawn-core
   rack (~> 1.2.1)
-  rails
+  rails (= 3.0.7)
+  rake (~> 0.8.0)
   rb-fsevent
   selenium-webdriver
   tabular (> 0.0.5)
   timecop
-  turn
+  turn!
   unicorn
   vestal_versions!
   will_paginate (~> 3.0.beta)

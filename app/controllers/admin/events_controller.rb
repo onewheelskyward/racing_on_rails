@@ -1,13 +1,13 @@
 # Show Schedule, add and edit Events, edit Results for Events. Promoters can view and edit their own events. Promoters can edit
 # fewer fields than administrators.
+
+# FIXME No route matches {:action=>"create_from_children", :id=>nil, :controller=>"admin/events"}
 class Admin::EventsController < Admin::AdminController
   before_filter :assign_event, :only => [ :edit, :update ]
   before_filter :require_administrator_or_promoter, :only => [ :edit, :update ]
   before_filter :require_administrator, :except => [ :edit, :update ]
   before_filter :assign_disciplines, :only => [ :new, :create, :edit, :update ]
   layout 'admin/application'
-  in_place_edit_for :event, :first_aid_provider
-  in_place_edit_for :event, :chief_referee
   
   # schedule calendar  with links to admin Event pages
   # === Params
@@ -133,6 +133,18 @@ class Admin::EventsController < Admin::AdminController
     end
   end
 
+  def update_attribute
+    respond_to do |format|
+      format.js {
+        @event = Event.find(params[:id])
+        @event.send "#{params[:name]}=", params[:value]
+        @event.save!
+        expire_cache
+        render :text => @event.send(params[:name]), :content_type => "text/html"
+      }
+    end
+  end
+
   # Upload results from Excel spreadsheet. 
   # Expects column headers in first row
   # Expects Race names in first column before set of results:
@@ -230,12 +242,16 @@ class Admin::EventsController < Admin::AdminController
   end
   
   def destroy_races
-    @event = Event.find(params[:id])
-    # Remember races for view
-    @races = @event.races.dup
-    @combined_results = @event.combined_results
-    @event.destroy_races
-    expire_cache
+    respond_to do |format|
+      format.js {
+        @event = Event.find(params[:id])
+        # Remember races for view
+        @races = @event.races.dup
+        @combined_results = @event.combined_results
+        @event.destroy_races
+        expire_cache
+      }
+    end
   end
 
   def set_parent
