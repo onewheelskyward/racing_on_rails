@@ -59,13 +59,15 @@ RacingOnRails::Application.routes.draw do
         post :resolve_duplicates
       end
       member do
-        get  :card
+        get    :card
         delete :destroy_number
-        post :number_year_changed
-        post :toggle_member
+        post   :number_year_changed
+        post   :toggle_member
       end
       resources :results
     end
+    match "/people/:id/merge/:other_person_id" => "people#merge", :constraints => { :id => /\d+/, :other_person_id => /\d+/ }, :via => :post, :as => :merge_person
+
     resources :races do
       member do
         post :create_result
@@ -87,15 +89,17 @@ RacingOnRails::Application.routes.draw do
     
     resources :series
     resources :single_day_events
+
     resources :teams do
       member do
         post :cancel_in_place_edit
         post :destroy_name
-        get  :merge
         post :toggle_member
         put  :update_attribute
       end
     end
+    match "/teams/:id/merge/:other_team_id" => "teams#merge", :constraints => { :id => /\d+/, :other_team_id => /\d+/ }, :via => :post, :as => :merge_team
+
     resources :velodromes do
       member do
         put  :update_attribute
@@ -167,19 +171,14 @@ RacingOnRails::Application.routes.draw do
   end
 
   match '/people/:person_id/results' => 'results#person', :constraints => { :person_id => /\d+/ }
-  match '/people/:person_id/:year' => 'results#person', :constraints => { :person_id => /\d+/, :year => /\d\d\d\d/ }
+  match '/people/:person_id/:year' => 'results#person', :constraints => { :person_id => /\d+/, :year => /\d\d\d\d/ }, :as => :person_results_year
   match '/people/:person_id' => 'results#person', :constraints => { :person_id => /\d+/ }, :via => :get
   match '/people/list' => 'people#list'
   match '/people/new_login' => 'people#new_login'
   match "/people/:id/account" => redirect("/people/%{id}/edit"), :constraints => { :person_id => /\d+/ }
   resources :people do
-    resources :editors do
-      member do
-        get :create
-        get :destroy
-      end
-    end
-
+    post :create_login, :on => :collection
+    resources :editors
     resources :editor_requests
     resources :events
     resource :membership
@@ -208,7 +207,7 @@ RacingOnRails::Application.routes.draw do
   match '/schedule' => 'schedule#index', :as => :schedule
   resources :single_day_events
   match '/teams/:team_id/results' => 'results#team'
-  match '/teams/:team_id/:year' => 'results#team', :constraints => { :person_id => /\d+/, :year => /\d\d\d\d/ }
+  match '/teams/:team_id/:year' => 'results#team', :constraints => { :person_id => /\d+/, :year => /\d\d\d\d/ }, :as => :team_results_year
   match '/teams/:team_id' => 'results#team'
   resources :teams do
     resources :results

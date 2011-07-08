@@ -236,6 +236,20 @@ class WebDriverTestCase < ActiveSupport::TestCase
     end
   end
   
+  def wait_for_not_displayed(element_finder)
+    raise ArgumentError if element_finder.empty? || element_finder.blank?
+
+    begin
+      Timeout::timeout(10) do
+        until find_elements(element_finder).none? || !find_elements(element_finder).first.displayed?
+          sleep 0.25
+        end
+      end
+    rescue Timeout::Error => e
+      raise Timeout::Error, "Element #{element_finder.inspect} still displayed after 10 seconds"
+    end
+  end
+  
   def wait_for_download(glob_pattern)
     raise ArgumentError if glob_pattern.blank? || (glob_pattern.respond_to?(:empty?) && glob_pattern.empty?)
     begin
@@ -371,6 +385,10 @@ class WebDriverTestCase < ActiveSupport::TestCase
   
   def drag_and_drop_by(right_by, down_by, element_finder)
     find_element(element_finder).drag_and_drop_by right_by, down_by
+  end
+  
+  def drag_and_drop_on(element_finder, on_element_finder)
+    find_element(element_finder).drag_and_drop_on find_element(on_element_finder)
   end
   
   def find_element(element_finder)

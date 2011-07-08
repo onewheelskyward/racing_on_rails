@@ -5,7 +5,7 @@ set :scm, "git"
 set :repository, "git://github.com/scottwillson/racing_on_rails.git"
 set :site_local_repository, "git@butlerpress.com:#{application}.git"
 set :site_local_repository_branch, nil
-set :branch, "master"
+set :branch, "rails_3"
 set :deploy_via, :remote_cache
 set :keep_releases, 5
 
@@ -14,13 +14,6 @@ set :deploy_to, "/usr/local/www/rails/#{application}"
 set :user, "app"
 set :use_sudo, false
 set :scm_auth_cache, true
-
-set :default_environment, { 
-  'PATH'         => "/usr/local/rvm/gems/ruby-1.9.2-p136/bin:/usr/local/rvm/gems/ruby-1.9.2-p136@global/bin:/usr/local/rvm/rubies/ruby-1.9.2-p136/bin:$PATH",
-  'RUBY_VERSION' => 'ruby-1.9.2-p136',
-  'GEM_HOME'     => '/usr/local/rvm/gems/ruby-1.9.2-p136',
-  'GEM_PATH'     => '/usr/local/rvm/gems/ruby-1.9.2-p136:/usr/local/rvm/gems/ruby-1.9.2-p136@global'
-}
 
 namespace :deploy do
   desc "Deploy association-specific customizations"
@@ -75,7 +68,37 @@ namespace :deploy do
   end
 end
 
-after "deploy:update_code", "deploy:local_code", "deploy:symlinks", "deploy:copy_cache"
+namespace :bundler do
+  task :create_symlink, :roles => :app do
+    shared_dir = File.join(shared_path, 'bundle')
+    release_dir = File.join(release_path, '.bundle')
+    run("mkdir -p #{shared_dir} && ln -s #{shared_dir} #{release_dir}")
+  end
 
-        require './config/boot'
-        require 'hoptoad_notifier/capistrano'
+  task :install, :roles => :app do
+    run "cd #{release_path} && bundle install --deployment --without test development acceptance"
+
+    on_rollback do
+      if previous_release
+        run "cd #{previous_release} && bundle install --deployment --without test development acceptance"
+      else
+        logger.important "no previous release to rollback to, rollback of bundler:install skipped"
+      end
+    end
+  end
+
+  task :bundle_new_release, :roles => :db do
+    bundler.create_symlink
+    bundler.install
+  end
+end
+
+after "deploy:rollback:revision", "bundler:install"
+after "deploy:update_code", "bundler:bundle_new_release", "deploy:local_code", "deploy:symlinks", "deploy:copy_cache"
+
+
+Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
+  $: << File.join(vendored_notifier, 'lib')
+end
+
+require 'hoptoad_notifier/capistrano'

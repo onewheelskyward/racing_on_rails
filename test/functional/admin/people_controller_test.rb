@@ -160,7 +160,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
         :name => "name",
         :value => "Erik Tonkin"
     assert_response :success
-    assert_template("admin/people/_merge_confirm")
+    assert_template("admin/people/merge_confirm")
     assert_not_nil(assigns["person"], "Should assign person")
     assert_equal(molly, assigns['person'], 'Person')
     assert_not_nil(Person.find_all_by_name('Molly Cameron'), 'Molly still in database')
@@ -220,10 +220,10 @@ class Admin::PeopleControllerTest < ActionController::TestCase
         :name => "name",
         :value => "Mollie Cameron"
     assert_response :success
-    assert_template("admin/people/_merge_confirm")
+    assert_template("admin/people/merge_confirm")
     assert_not_nil(assigns["person"], "Should assign person")
     assert_equal(tonkin, assigns['person'], 'Person')
-    assert_equal([people(:molly)], assigns['existing_people'], 'existing_people')
+    assert_equal([people(:molly)], assigns['other_people'], 'other_people')
     assert(!Alias.find_all_people_by_name('Mollie Cameron').empty?, 'Mollie still in database')
     assert(!Person.find_all_by_name('Molly Cameron').empty?, 'Molly still in database')
     assert(!Person.find_all_by_name('Erik Tonkin').empty?, 'Erik Tonkin still in database')
@@ -243,24 +243,17 @@ class Admin::PeopleControllerTest < ActionController::TestCase
         :name => "name",
         :value => "Mollie Cameron"
     assert_response :success
-    assert_template("admin/people/_merge_confirm")
+    assert_template("admin/people/merge_confirm")
     assert_not_nil(assigns["person"], "Should assign person")
     assert_equal(tonkin, assigns['person'], 'Person')
-    assert_equal(1, assigns['existing_people'].size, "existing_people: #{assigns['existing_people']}")
+    assert_equal(1, assigns['other_people'].size, "other_people: #{assigns['other_people']}")
 
     assert_equal(0, Person.count(:conditions => ['first_name = ? and last_name = ?', 'Mollie', 'Cameron']), 'Mollies in database')
     assert_equal(2, Person.count(:conditions => ['first_name = ? and last_name = ?', 'Molly', 'Cameron']), 'Mollys in database')
     assert_equal(1, Person.count(:conditions => ['first_name = ? and last_name = ?', 'Erik', 'Tonkin']), 'Eriks in database')
     assert_equal(1, Alias.count(:conditions => ['name = ?', 'Mollie Cameron']), 'Mollie aliases in database')
   end
-  
-  def test_destroy
-    person = people(:no_results)
-    delete :destroy, :id => person.id
-    assert_redirected_to(admin_people_path)
-    assert(!Person.exists?(person.id), 'Person should have been destroyed')
-  end
-  
+
   def test_destroy_number
     race_number = race_numbers(:molly_road_number)
     assert_not_nil(RaceNumber.find(race_number.id), 'RaceNumber should exist')
@@ -292,9 +285,9 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_equal(tonkin, assigns['person'], 'Person')
     person = assigns['person']
     assert(person.errors.empty?, "Person should have no errors, but had: #{person.errors.full_messages.join(', ')}")
-    assert_template("admin/people/_merge_confirm")
+    assert_template("admin/people/merge_confirm")
     assert_equal(molly.name, assigns['person'].name, 'Unsaved Tonkin name should be Molly')
-    assert_equal([molly], assigns['existing_people'], 'existing_people')
+    assert_equal([molly], assigns['other_people'], 'other_people')
   end
   
   def test_merge
@@ -303,9 +296,9 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     old_id = tonkin.id
     assert Person.find_all_by_name("Erik Tonkin"), "Tonkin should be in database"
 
-    get :merge, :id => tonkin.to_param, :target_id => molly.id
+    xhr :post, :merge, :other_person_id => tonkin.to_param, :id => molly.to_param, :format => :js
     assert_response :success
-    assert_template %Q{admin/people/merge}
+    assert_template "admin/people/merge"
 
     assert Person.find_all_by_name("Molly Cameron"), "Molly should be in database"
     assert_equal [], Person.find_all_by_name("Erik Tonkin"), "Tonkin should not be in database"
@@ -379,10 +372,10 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_equal tonkin, assigns['person'], 'Person'
     person = assigns['person']
     assert person.errors.empty?, "Person should have no errors, but had: #{person.errors.full_messages.join(', ')}"
-    assert_template "admin/people/_merge_confirm", "template"
+    assert_template "admin/people/merge_confirm", "template"
     assert_equal(molly.name, assigns['person'].name, 'Unsaved Tonkin name should be Molly')
-    existing_people = assigns['existing_people'].sort {|x, y| x.id <=> y.id}
-    assert_equal([molly, molly_with_different_road_number], existing_people, 'existing_people')
+    other_people = assigns['other_people'].sort {|x, y| x.id <=> y.id}
+    assert_equal([molly, molly_with_different_road_number], other_people, 'other_people')
   end
   
   def test_dupes_merge_one_has_road_number_one_has_cross_number?
@@ -399,15 +392,15 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_equal(tonkin, assigns['person'], 'Person')
     person = assigns['person']
     assert(person.errors.empty?, "Person should have no errors, but had: #{person.errors.full_messages.join(', ')}")
-    assert_template("admin/people/_merge_confirm")
+    assert_template("admin/people/merge_confirm")
     assert_equal(molly.name, assigns['person'].name, 'Unsaved Tonkin name should be Molly')
-    existing_people = assigns['existing_people'].collect do |p|
+    other_people = assigns['other_people'].collect do |p|
       "#{p.name} ##{p.id}"
     end
-    existing_people = existing_people.join(', ')
-    assert(assigns['existing_people'].include?(molly), "existing_people should include Molly ##{molly.id}, but has #{existing_people}")
-    assert(assigns['existing_people'].include?(molly_with_different_cross_number), 'existing_people')
-    assert_equal(2, assigns['existing_people'].size, 'existing_people')
+    other_people = other_people.join(', ')
+    assert(assigns['other_people'].include?(molly), "other_people should include Molly ##{molly.id}, but has #{other_people}")
+    assert(assigns['other_people'].include?(molly_with_different_cross_number), 'other_people')
+    assert_equal(2, assigns['other_people'].size, 'other_people')
   end
   
   def test_dupes_merge_alias?
@@ -422,7 +415,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     person = assigns['person']
     assert(person.errors.empty?, "Person should have no errors, but had: #{person.errors.full_messages.join(', ')}")
     assert_equal('Eric Tonkin', assigns['person'].name, 'Unsaved Molly name should be Eric Tonkin alias')
-    assert_equal([tonkin], assigns['existing_people'], 'existing_people')
+    assert_equal([tonkin], assigns['other_people'], 'other_peoples')
   end
   
   def test_dupe_merge
@@ -434,7 +427,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     old_id = tonkin.id
     assert_equal(2, Person.find_all_by_name('Erik Tonkin').size, 'Tonkins in database')
 
-    get(:merge, :id => tonkin.to_param, :target_id => molly.id)
+    post :merge, :id => molly.id, :other_person_id => tonkin.to_param, :format => :js
     assert_response :success
     assert_template("admin/people/merge")
 
@@ -903,17 +896,17 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     # assert_not_nil(@response.headers['Content-Length'], 'Should set content length')
     assert_equal(11, assigns['people'].size, "People export size")
     expected_body = %Q{license	first_name	last_name	team_name	member_from	member_to	ccx_only	print_card	card_printed_at	membership_card	date_of_birth	occupation	street	city	state	zip	wants_mail	email	wants_email	home_phone	work_phone	cell_fax	gender	road_category	track_category	ccx_category	mtb_category	dh_category	ccx_number	dh_number	road_number	singlespeed_number	track_number	xc_number	notes	volunteer_interest	official_interest	race_promotion_interest	team_interest	created_at	updated_at
-						0	0		0							0	sixhobsons@comcast.net	0	(503) 223-3343																0	0	0	0	01/13/2010  	01/13/2010
-	Molly	Cameron	Vanilla	01/01/1999	12/31/2010	0	0		0							0		0				F								202					0	0	0	0	01/13/2010  	01/13/2010
-576	Kevin	Condron	Gentle Lovers	01/01/2000	12/31/2009	0	0		0							0	kc@example.com	0																	0	0	0	0	01/13/2010  	01/13/2010
-	Bob	Jones		01/01/2009	12/31/2009	0	0		0							0	member@example.com	0																	0	0	0	0	01/13/2010  	01/13/2010
-576	Mark	Matson	Kona	01/01/1999	12/31/2010	0	0		0							0	mcfatson@gentlelovers.com	0				M								340					0	0	0	0	01/13/2010  	01/13/2010
-	Candi	Murray				0	0		0							0	admin@example.com	0	(503) 555-1212																0	0	0	0	01/13/2010  	01/13/2010
-	Alice	Pennington	Gentle Lovers	01/01/1999	12/31/2010	0	0		0							0		0				F								230					0	0	0	0	01/13/2010  	01/13/2010
-	Non	Results				0	0		0							0		0																	0	0	0	0	01/13/2010  	01/13/2010
-	Brad	Ross				0	0		0							0		0																	0	0	0	0	01/13/2010  	01/13/2010
-7123811	Erik	Tonkin	Kona	01/01/1999	12/31/2010	0	0		0	01/01/1980		127 SE Lambert	Portland	OR	19990	0		0	415 221-3773			M	1	5						102	409				0	0	0	0	01/13/2010  	01/13/2010
-	Ryan	Weaver	Gentle Lovers	01/01/1999	12/31/2010	0	0		0							0	hotwheels@yahoo.com	0				M								341			437		0	0	0	0	01/13/2010  	01/13/2010
+						0	0		0							0	sixhobsons@comcast.net	0	(503) 223-3343																0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+	Molly	Cameron	Vanilla	01/01/1999	12/31/#{Date.today.year}	0	0		0							0		0				F								202					0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+576	Kevin	Condron	Gentle Lovers	01/01/2000	12/31/#{Date.today.year - 1}	0	0		0							0	kc@example.com	0																	0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+	Bob	Jones		01/01/2009	12/31/2009	0	0		0							0	member@example.com	0																	0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+576	Mark	Matson	Kona	01/01/1999	12/31/#{Date.today.year}	0	0		0							0	mcfatson@gentlelovers.com	0				M								340					0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+	Candi	Murray				0	0		0							0	admin@example.com	0	(503) 555-1212																0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+	Alice	Pennington	Gentle Lovers	01/01/1999	12/31/#{Date.today.year}	0	0		0							0		0				F								230					0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+	Non	Results				0	0		0							0		0																	0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+	Brad	Ross				0	0		0							0		0																	0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+7123811	Erik	Tonkin	Kona	01/01/1999	12/31/#{Date.today.year}	0	0		0	#{30.years.ago.to_date.to_s(:mdY)}		127 SE Lambert	Portland	OR	19990	0		0	415 221-3773			M	1	5						102	409				0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
+	Ryan	Weaver	Gentle Lovers	01/01/1999	12/31/#{Date.today.year}	0	0		0							0	hotwheels@yahoo.com	0				M								341			437		0	0	0	0	#{Time.zone.now.to_s(:mdY)}	#{Time.zone.now.to_s(:mdY)}
 }
     # FIXME
     # assert_equal expected_body, @response.body, "Excel contents"

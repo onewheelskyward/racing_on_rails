@@ -1,13 +1,12 @@
 source :gemcutter
 
-gem "rails", "3.0.7"
+gem "rails", "3.0.9"
 
 gem "fastercsv", :platforms => :ruby_18
-gem "rack", "~>1.2.1"
+gem "rack", "~>1.2.3"
 gem "rake", "~>0.8.0"
 gem "authlogic"
 gem "tabular", ">0.0.5"
-gem "hoptoad_notifier"
 gem "mysql2", "<0.3.0"
 gem "pdf-reader", :require => "pdf/reader"
 gem "Ascii85", :require => "ascii85"
@@ -15,7 +14,13 @@ gem "prawn"
 gem "prawn-core", :require => "prawn/core"
 gem "vestal_versions", :git => "git://github.com/laserlemon/vestal_versions"
 gem "newrelic_rpm"
+gem "erubis"
 gem "will_paginate", "~> 3.0.beta"
+gem "hoptoad_notifier"
+
+group :development do
+  gem "capistrano"
+end
 
 group :development do
   gem "compass"
@@ -28,7 +33,6 @@ group :test do
   gem "minitest"
   gem "selenium-webdriver"
   gem "timecop"
-  gem "turn", :git => "https://github.com/yalab/turn.git"
 end
 
 group :acceptance do
