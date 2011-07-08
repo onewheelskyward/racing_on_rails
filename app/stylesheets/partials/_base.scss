@@ -36,7 +36,7 @@ body nav, body footer {
   padding-bottom: 0.4em;
   padding-left: 0.4em;
   padding-right: 0.4em;
-  padding-top: 0.4em;
+  padding-top: 0.33em;
   vertical-align: center;
   text-align: right;
   whitespace: nowrap;
@@ -47,10 +47,15 @@ body footer {
 }
 
 body nav a, body footer a {
-  border-right: 2px solid $background-light;
+  border-left: 1px solid $background-light;
+  border-right: 1px solid $background-light;
   color: $nav-text;
   padding-left: 1em;
   padding-right: 1em;
+}
+
+nav a:first-child, footer a:first-child, body nav h1 + a {
+  border-left: none;
 }
 
 nav a:last-child, footer a:last-child {
@@ -146,6 +151,55 @@ h3 + table.styled {
 
 .place {
   text-align: right;
+}
+
+/* tabs */
+.tabs {
+  padding-bottom: 0.4em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  padding-top: 0.33em;
+  text-align: center;
+  vertical-align: center;
+  whitespace: nowrap;
+}
+
+.tabs a {
+  border-left: 1px solid $background-light;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
+}
+
+.tabs a:first-child {
+  border-left: none;
+}
+
+/* calendar */
+.calendar th {
+  text-align: center;
+} 
+
+.calendar .day {
+  height: 5em;
+  border: 1px solid white;
+  background: $table-odd-row;
+  padding: 0.4em;
+  vertical-align: top;
+  width: 14%;
+}
+
+.calendar .day .number {
+  font-weight: bold;
+}
+
+.calendar .day.other_month {
+  background: $table;
+}
+
+.calendar .day.other_month .number {
+  color: $nav;
+  font-weight: normal;
+  font-style: italic;
 }
 
 /* temp */

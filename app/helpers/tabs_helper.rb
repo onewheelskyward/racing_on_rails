@@ -17,10 +17,8 @@ module TabsHelper
       @tabs = []
     end
 
-    def add(name, options = {}, html_options = {}, &block)
-      _html_options = { :onmouseover => "hover(this)", :onmouseout => "hoverOut(this)" }
-      _html_options.merge!(html_options) if html_options
-      @tabs << Tab.new(name, options, _html_options)
+    def add(name, options = {}, &block)
+      @tabs << Tab.new(name, options)
     end
     
     # Show tab named +name+ as selected
@@ -44,9 +42,9 @@ HTML
             html << "      <td class=\"first\"><div class=\"first\"><span>"
           end
           if select_current_page
-            html << link_to_unless_current(tab.name, tab.options, tab.html_options).to_s
+            html << link_to_unless_current(tab.name, tab.options).to_s
           else
-            html << link_to(tab.name, tab.options, tab.html_options).to_s
+            html << link_to(tab.name, tab.options).to_s
           end
           html << "</span></div>"
           if @tabs.size < 2
@@ -64,9 +62,9 @@ HTML
             html << "      <td class=\"last\"><div class=\"last\"><span>"
           end
           if select_current_page
-            html << link_to_unless_current(tab.name, tab.options, tab.html_options).to_s
+            html << link_to_unless_current(tab.name, tab.options).to_s
           else
-            html << link_to(tab.name, tab.options, tab.html_options).to_s
+            html << link_to(tab.name, tab.options).to_s
           end
           html << "</span></div>"
         else
@@ -76,9 +74,9 @@ HTML
             html << "      <td><div><span>"
           end
           if select_current_page
-            html << link_to_unless_current(tab.name, tab.options, tab.html_options).to_s
+            html << link_to_unless_current(tab.name, tab.options).to_s
           else
-            html << link_to(tab.name, tab.options, tab.html_options).to_s
+            html << link_to(tab.name, tab.options).to_s
           end
           html << "</span></div>"
         end

@@ -1,11 +1,11 @@
-<%= tabs do |tabs|
-  tabs.add('All', :discipline => nil, :year => @year)
-  tabs.add('Criterium', :discipline => 'criterium', :year => @year)
-  tabs.add('Cyclocross', :discipline => 'cyclocross', :year => @year)
-  tabs.add('Downhill', :discipline => 'downhill', :year => @year)
-  tabs.add('Mountain Bike (XC)', :discipline => 'mountain_bike', :year => @year)
-  tabs.add('Super D', :discipline => 'super_d', :year => @year)
-  tabs.add('Road', :discipline => 'road', :year => @year)
-  tabs.add('Time Trial', :discipline => 'time_trial', :year => @year)
-  tabs.add('Track', :discipline => 'track', :year => @year)
-end  %>
+<div class="tabs">
+<%= link_to "All", :discipline => nil, :year => @year -%>
+<%= link_to "Criterium", :discipline => "criterium", :year => @year -%>
+<%= link_to "Cyclocross", :discipline => "cyclocross", :year => @year -%>
+<%= link_to "Downhill", :discipline => "downhill", :year => @year -%>
+<%= link_to "Mountain Bike (XC)", :discipline => "mountain_bike", :year => @year -%>
+<%= link_to "Super D", :discipline => "super_d", :year => @year -%>
+<%= link_to "Road", :discipline => "road", :year => @year -%>
+<%= link_to "Time Trial", :discipline => "time_trial", :year => @year -%>
+<%= link_to "Track", :discipline => "track", :year => @year -%>
+</div>

@@ -1,11 +1,11 @@
-/* line 4, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+/* line 4, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
 html {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-/* line 18, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+/* line 18, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
 .bp-reset-element, body, h1, h2, h3, h4, h5, h6, article, aside, dialog, figure, footer, header, hgroup, nav, section, blockquote, q, th, td, caption, table,
 div, span, object, iframe, p,
 pre, a, abbr, acronym, address,
@@ -23,21 +23,21 @@ caption, tbody, tfoot, thead, tr {
   vertical-align: baseline;
 }
 
-/* line 20, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+/* line 20, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
 article, aside, dialog, figure, footer, header, hgroup, nav, section {
   display: block;
 }
 
-/* line 21, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+/* line 21, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
 blockquote, q {
   quotes: "" "";
 }
-/* line 67, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+/* line 67, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
 blockquote:before, blockquote:after, q:before, q:after {
   content: "";
 }
 
-/* line 22, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+/* line 22, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
 th, td, caption {
   float: none !important;
   text-align: left;
@@ -45,14 +45,14 @@ th, td, caption {
   vertical-align: middle;
 }
 
-/* line 23, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+/* line 23, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
 table {
   border-collapse: separate;
   border-spacing: 0;
   vertical-align: middle;
 }
 
-/* line 24, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
+/* line 24, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
 a img {
   border: none;
 }
@@ -102,7 +102,7 @@ body nav, body footer {
   padding-bottom: 0.4em;
   padding-left: 0.4em;
   padding-right: 0.4em;
-  padding-top: 0.4em;
+  padding-top: 0.33em;
   vertical-align: center;
   text-align: right;
   whitespace: nowrap;
@@ -115,28 +115,34 @@ body footer {
 
 /* line 49, ../../app/stylesheets/partials/_base.scss */
 body nav a, body footer a {
-  border-right: 2px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
   color: #e0e0e0;
   padding-left: 1em;
   padding-right: 1em;
 }
 
-/* line 56, ../../app/stylesheets/partials/_base.scss */
+/* line 57, ../../app/stylesheets/partials/_base.scss */
+nav a:first-child, footer a:first-child, body nav h1 + a {
+  border-left: none;
+}
+
+/* line 61, ../../app/stylesheets/partials/_base.scss */
 nav a:last-child, footer a:last-child {
   border-right: none;
 }
 
-/* line 60, ../../app/stylesheets/partials/_base.scss */
+/* line 65, ../../app/stylesheets/partials/_base.scss */
 nav h1 {
   float: left;
 }
 
-/* line 64, ../../app/stylesheets/partials/_base.scss */
+/* line 69, ../../app/stylesheets/partials/_base.scss */
 nav h1 a {
   font-weight: bold;
 }
 
-/* line 68, ../../app/stylesheets/partials/_base.scss */
+/* line 73, ../../app/stylesheets/partials/_base.scss */
 .content {
   background-color: white;
   border-radius: 6px;
@@ -145,7 +151,7 @@ nav h1 a {
   padding: 2em;
 }
 
-/* line 76, ../../app/stylesheets/partials/_base.scss */
+/* line 81, ../../app/stylesheets/partials/_base.scss */
 body h2, h2, h2 a {
   color: #999999;
   font-size: 1.6em;
@@ -154,7 +160,7 @@ body h2, h2, h2 a {
   text-align: center;
 }
 
-/* line 84, ../../app/stylesheets/partials/_base.scss */
+/* line 89, ../../app/stylesheets/partials/_base.scss */
 h3 {
   color: #999999;
   font-size: 1.2em;
@@ -164,12 +170,12 @@ h3 {
   text-align: center;
 }
 
-/* line 93, ../../app/stylesheets/partials/_base.scss */
+/* line 98, ../../app/stylesheets/partials/_base.scss */
 .right {
   text-align: right;
 }
 
-/* line 97, ../../app/stylesheets/partials/_base.scss */
+/* line 102, ../../app/stylesheets/partials/_base.scss */
 th, td {
   padding-bottom: 0.1em;
   padding-left: 0.4em;
@@ -177,7 +183,7 @@ th, td {
   padding-top: 0.1em;
 }
 
-/* line 104, ../../app/stylesheets/partials/_base.scss */
+/* line 109, ../../app/stylesheets/partials/_base.scss */
 table.styled {
   background-color: #ffff99;
   border-top: solid 2px #ffde14;
@@ -185,63 +191,120 @@ table.styled {
   width: 100%;
 }
 
-/* line 111, ../../app/stylesheets/partials/_base.scss */
+/* line 116, ../../app/stylesheets/partials/_base.scss */
 table.styled th, table.styled td {
   padding: 0.4em;
 }
 
-/* line 115, ../../app/stylesheets/partials/_base.scss */
+/* line 120, ../../app/stylesheets/partials/_base.scss */
 table.styled th {
   background-color: #ffde14;
   color: black;
   font-weight: bold;
 }
 
-/* line 121, ../../app/stylesheets/partials/_base.scss */
+/* line 126, ../../app/stylesheets/partials/_base.scss */
 table.styled tr:nth-child(odd) {
   background-color: #ffffbd;
 }
 
-/* line 125, ../../app/stylesheets/partials/_base.scss */
+/* line 130, ../../app/stylesheets/partials/_base.scss */
 h3 + table.styled {
   margin-top: 0.4em;
 }
 
-/* line 129, ../../app/stylesheets/partials/_base.scss */
+/* line 134, ../../app/stylesheets/partials/_base.scss */
 .event_races {
   padding-top: 1em;
   text-align: center;
 }
 
-/* line 134, ../../app/stylesheets/partials/_base.scss */
+/* line 139, ../../app/stylesheets/partials/_base.scss */
 .event_races table {
   display: inline-table;
 }
 
-/* line 138, ../../app/stylesheets/partials/_base.scss */
+/* line 143, ../../app/stylesheets/partials/_base.scss */
 .notes {
   padding-top: 1em;
 }
 
-/* line 142, ../../app/stylesheets/partials/_base.scss */
+/* line 147, ../../app/stylesheets/partials/_base.scss */
 .notes, .notes a, .updatedon {
   color: black;
   text-align: center;
 }
 
-/* line 147, ../../app/stylesheets/partials/_base.scss */
+/* line 152, ../../app/stylesheets/partials/_base.scss */
 .place {
   text-align: right;
 }
 
+/* tabs */
+/* line 157, ../../app/stylesheets/partials/_base.scss */
+.tabs {
+  padding-bottom: 0.4em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  padding-top: 0.33em;
+  text-align: center;
+  vertical-align: center;
+  whitespace: nowrap;
+}
+
+/* line 167, ../../app/stylesheets/partials/_base.scss */
+.tabs a {
+  border-left: 1px solid #e0e0e0;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
+}
+
+/* line 173, ../../app/stylesheets/partials/_base.scss */
+.tabs a:first-child {
+  border-left: none;
+}
+
+/* calendar */
+/* line 178, ../../app/stylesheets/partials/_base.scss */
+.calendar th {
+  text-align: center;
+}
+
+/* line 182, ../../app/stylesheets/partials/_base.scss */
+.calendar .day {
+  height: 5em;
+  border: 1px solid white;
+  background: #ffffbd;
+  padding: 0.4em;
+  vertical-align: top;
+  width: 14%;
+}
+
+/* line 191, ../../app/stylesheets/partials/_base.scss */
+.calendar .day .number {
+  font-weight: bold;
+}
+
+/* line 195, ../../app/stylesheets/partials/_base.scss */
+.calendar .day.other_month {
+  background: #ffff99;
+}
+
+/* line 199, ../../app/stylesheets/partials/_base.scss */
+.calendar .day.other_month .number {
+  color: #1e1e1e;
+  font-weight: normal;
+  font-style: italic;
+}
+
 /* temp */
-/* line 152, ../../app/stylesheets/partials/_base.scss */
+/* line 206, ../../app/stylesheets/partials/_base.scss */
 .span-2 {
   float: left;
   width: 33%;
 }
 
-/* line 157, ../../app/stylesheets/partials/_base.scss */
+/* line 211, ../../app/stylesheets/partials/_base.scss */
 .span-2 img {
   border: 2px solid black;
 }

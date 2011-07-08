@@ -1,6 +1,3 @@
-<tr>
-  <th colspan="2"><%= caption %></th>
-</tr>
 <%- discipline.upcoming_events.sort_by(&:date).each do |event| -%>
 <tr>
   <td class="date"><%= event.date_range_s %></td>

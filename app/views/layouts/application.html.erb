@@ -20,8 +20,7 @@
 <body>
   <nav>
     <h1><%= link_to RacingAssociation.current.short_name, "/" %></h1>
-    <%= link_to "Schedule", schedule_path, :class => "schedule" %>
-    <%= link_to "Results", results_path, :class => "results" %>
+    <%= link_to "Schedule", schedule_path, :class => "schedule" %><%= link_to "Results", results_path, :class => "results" %>
   </nav>
 
   <div class="content">
@@ -29,8 +28,7 @@
   </div>
 
   <footer>
-    <a href="/account">Account</a>
-    <a href="/login">Login</a>
+    <a href="/account">Account</a><a href="/login">Login</a>
   </footer>
 </body>
 </html>

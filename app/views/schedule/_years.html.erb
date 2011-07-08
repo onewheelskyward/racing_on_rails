@@ -1,17 +1,14 @@
-<%= tabs do |tabs|
+<div class="tabs">
+  <%
   years = Event.find_all_years
   current_year = RacingAssociation.current.effective_year
-  
+
   unless years.include?(current_year)
     years << current_year
     years.sort!.reverse!
   end
 
-  years.each do |year|
-    if year == @year
-      tabs.add(year.to_s, :year => nil, :discipline => @discipline)
-    else
-      tabs.add(year.to_s, :year => year, :discipline => @discipline)
-    end
-  end
-end -%>
+  years.each do |year| %>
+<%= link_to(year.to_s, {:year => year == @year ? nil : year, :discipline => @discipline}, {:class => year == @year ? "selected" : ""}) -%>
+  <% end -%>
+</div>

@@ -1,11 +1,13 @@
 <% @page_title = "Schedule: #{@year}" %>
 
 <%= render_page "schedule/years" %>
-<%= tabs do |tabs|
-  @schedule.months.each do |month|
-    tabs.add(month.name, :anchor => month.name)
-  end
-end -%>
+
+<div class="tabs">
+<% @schedule.months.each do |month| -%>
+<%= link_to month.name, :anchor => month.name -%>
+<% end -%>
+</div>
+
 <%= render_page "schedule/disciplines", :locals => { :year => @year } %>
 
 <% if Date.today < Date.new(@year, 2) %>
@@ -20,8 +22,9 @@ end -%>
 <%- end %>
 
 <div class="container">
-  <%- for month in @schedule.months -%>
-  <%= table :class => "calendar", :caption => "<a name='#{month.name}'>#{month.name} #{@year}</a>".html_safe do %>
+  <%- @schedule.months.each do |month| -%>
+  <h3><%= content_tag :a, :name => month.name do %><%= month.name %> <%= @year %><% end %></h3>
+  <%= table :class => "calendar" do %>
       <tr>
         <th>Sunday</th>
         <th>Monday</th>
@@ -31,15 +34,15 @@ end -%>
         <th>Friday</th>
         <th>Saturday</th>
       </tr>
-    <%- for week in month.weeks -%>
+    <%- month.weeks.each do |week| -%>
       <tr class="month">
-      <%- for day in week.days -%>
+      <%- week.days.each do |day| -%>
         <%- if day.other_month? -%>
-        <td class="day_from_other_month"><div class="number"><%= day.day_of_month -%></div>
+        <td class="day other_month"><div class="number"><%= day.day_of_month -%></div>
         <%- else -%>
         <td class="day">
           <div class="number"><%= day.day_of_month -%></div>
-          <%- for event in day.events -%>
+          <%- day.events.each do |event| -%>
           <div class="event<%= ' atra_points_series' if event.atra_points_series? %><%= " beginner_friendly" if event.beginner_friendly? %>">
             <%- if event.cancelled %>
         <span class="cancelled"><%= event.full_name -%></span> <i>cancelled</i>
