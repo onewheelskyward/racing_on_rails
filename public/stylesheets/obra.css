@@ -1,321 +1,90 @@
-/* line 4, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
-html {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
+/*
+Syntax error: Undefined mixin 'blueprint-liquid-grid'.
+        on line 206 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss, in `blueprint-liquid-grid'
+        from line 206 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss
+        from line 27 of /Users/sw/devel/compass/app/stylesheets/obra.scss
 
-/* line 18, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
-.bp-reset-element, body, h1, h2, h3, h4, h5, h6, article, aside, dialog, figure, footer, header, hgroup, nav, section, blockquote, q, th, td, caption, table,
-div, span, object, iframe, p,
-pre, a, abbr, acronym, address,
-code, del, dfn, em, img,
-dl, dt, dd, ol, ul, li, fieldset,
-form, label, legend,
-caption, tbody, tfoot, thead, tr {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-weight: inherit;
-  font-style: inherit;
-  font-size: 100%;
-  font-family: inherit;
-  vertical-align: baseline;
-}
-
-/* line 20, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
-article, aside, dialog, figure, footer, header, hgroup, nav, section {
-  display: block;
-}
-
-/* line 21, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
-blockquote, q {
-  quotes: "" "";
-}
-/* line 67, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
-blockquote:before, blockquote:after, q:before, q:after {
-  content: "";
-}
-
-/* line 22, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
-th, td, caption {
-  float: none !important;
-  text-align: left;
-  font-weight: normal;
-  vertical-align: middle;
-}
-
-/* line 23, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
-table {
-  border-collapse: separate;
-  border-spacing: 0;
-  vertical-align: middle;
-}
-
-/* line 24, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.1/frameworks/blueprint/stylesheets/blueprint/reset/_utilities.scss */
-a img {
-  border: none;
-}
-
-/*$background: rgb(240, 240, 240);*/
-/* line 1, ../../app/stylesheets/partials/_base.scss */
-body {
-  background-color: white;
-  color: black;
-  font-family: "Lucida Grande", "Lucida Sans Unicode", FreeSans;
-  font-size: 0.813em;
-  line-height: 133%;
-  margin-bottom: 1em;
-  margin-left: 5%;
-  margin-right: 5%;
-}
-
-/* line 12, ../../app/stylesheets/partials/_base.scss */
-body nav a, body a, a {
-  color: black;
-  text-decoration: none;
-}
-
-/* line 17, ../../app/stylesheets/partials/_base.scss */
-body a:hover, a:hover {
-  background-color: #ffde14;
-  color: black;
-  text-decoration: underline;
-}
-
-/* line 23, ../../app/stylesheets/partials/_base.scss */
-a.obvious {
-  text-decoration: underline;
-}
-
-/* line 27, ../../app/stylesheets/partials/_base.scss */
-.centered {
-  text-align: center;
-}
-
-/* line 31, ../../app/stylesheets/partials/_base.scss */
-body nav, body footer {
-  background-color: #1e1e1e;
-  border-radius: 3px;
-  font-size: 1.2em;
-  margin-top: 1.4em;
-  padding-bottom: 0.4em;
-  padding-left: 0.4em;
-  padding-right: 0.4em;
-  padding-top: 0.33em;
-  vertical-align: center;
-  text-align: right;
-  whitespace: nowrap;
-}
-
-/* line 45, ../../app/stylesheets/partials/_base.scss */
-body footer {
-  text-align: center;
-}
-
-/* line 49, ../../app/stylesheets/partials/_base.scss */
-body nav a, body footer a {
-  border-left: 1px solid #e0e0e0;
-  border-right: 1px solid #e0e0e0;
-  color: #e0e0e0;
-  padding-left: 1em;
-  padding-right: 1em;
-}
-
-/* line 57, ../../app/stylesheets/partials/_base.scss */
-nav a:first-child, footer a:first-child, body nav h1 + a {
-  border-left: none;
-}
-
-/* line 61, ../../app/stylesheets/partials/_base.scss */
-nav a:last-child, footer a:last-child {
-  border-right: none;
-}
-
-/* line 65, ../../app/stylesheets/partials/_base.scss */
-nav h1 {
-  float: left;
-}
-
-/* line 69, ../../app/stylesheets/partials/_base.scss */
-nav h1 a {
-  font-weight: bold;
-}
-
-/* line 73, ../../app/stylesheets/partials/_base.scss */
-.content {
-  background-color: white;
-  border-radius: 6px;
-  border: 1px solid black;
-  margin-top: 1em;
-  padding: 2em;
-}
-
-/* line 81, ../../app/stylesheets/partials/_base.scss */
-body h2, h2, h2 a {
-  color: #999999;
-  font-size: 1.6em;
-  font-weight: bold;
-  line-height: 133%;
-  text-align: center;
-}
-
-/* line 89, ../../app/stylesheets/partials/_base.scss */
-h3 {
-  color: #999999;
-  font-size: 1.2em;
-  font-weight: bold;
-  line-height: 133%;
-  padding-top: 2em;
-  text-align: center;
-}
-
-/* line 98, ../../app/stylesheets/partials/_base.scss */
-.right {
-  text-align: right;
-}
-
-/* line 102, ../../app/stylesheets/partials/_base.scss */
-th, td {
-  padding-bottom: 0.1em;
-  padding-left: 0.4em;
-  padding-right: 0.4em;
-  padding-top: 0.1em;
-}
-
-/* line 109, ../../app/stylesheets/partials/_base.scss */
-table.styled {
-  background-color: #ffff99;
-  border-top: solid 2px #ffde14;
-  border-bottom: solid 2px #ffde14;
-  width: 100%;
-}
-
-/* line 116, ../../app/stylesheets/partials/_base.scss */
-table.styled th, table.styled td {
-  padding: 0.4em;
-}
-
-/* line 120, ../../app/stylesheets/partials/_base.scss */
-table.styled th {
-  background-color: #ffde14;
-  color: black;
-  font-weight: bold;
-}
-
-/* line 126, ../../app/stylesheets/partials/_base.scss */
-table.styled tr:nth-child(odd) {
-  background-color: #ffffbd;
-}
-
-/* line 130, ../../app/stylesheets/partials/_base.scss */
-h3 + table.styled {
-  margin-top: 0.4em;
-}
-
-/* line 134, ../../app/stylesheets/partials/_base.scss */
-.event_races {
-  padding-top: 1em;
-  text-align: center;
-}
-
-/* line 139, ../../app/stylesheets/partials/_base.scss */
-.event_races table {
-  display: inline-table;
-}
-
-/* line 143, ../../app/stylesheets/partials/_base.scss */
-.notes {
-  padding-top: 1em;
-}
-
-/* line 147, ../../app/stylesheets/partials/_base.scss */
-.notes, .notes a, .updatedon {
-  color: black;
-  text-align: center;
-}
-
-/* line 152, ../../app/stylesheets/partials/_base.scss */
-.place {
-  text-align: right;
-}
-
-/* tabs */
-/* line 157, ../../app/stylesheets/partials/_base.scss */
-.tabs {
-  padding-bottom: 0.4em;
-  padding-left: 0.4em;
-  padding-right: 0.4em;
-  padding-top: 0.33em;
-  text-align: center;
-  vertical-align: center;
-  whitespace: nowrap;
-}
-
-/* line 167, ../../app/stylesheets/partials/_base.scss */
-.tabs a {
-  border-left: 1px solid #e0e0e0;
-  padding-left: 0.6em;
-  padding-right: 0.6em;
-}
-
-/* line 173, ../../app/stylesheets/partials/_base.scss */
-.tabs a:first-child {
-  border-left: none;
-}
-
-/* calendar */
-/* line 178, ../../app/stylesheets/partials/_base.scss */
-.calendar th {
-  text-align: center;
-}
-
-/* line 182, ../../app/stylesheets/partials/_base.scss */
-.calendar .day {
-  height: 5em;
-  border: 1px solid white;
-  background: #ffffbd;
-  padding: 0.4em;
-  vertical-align: top;
-  width: 14%;
-}
-
-/* line 191, ../../app/stylesheets/partials/_base.scss */
-.calendar .day .number {
-  font-weight: bold;
-}
-
-/* line 195, ../../app/stylesheets/partials/_base.scss */
-.calendar .day.other_month {
-  background: #ffff99;
-}
-
-/* line 199, ../../app/stylesheets/partials/_base.scss */
-.calendar .day.other_month .number {
-  color: #1e1e1e;
-  font-weight: normal;
-  font-style: italic;
-}
-
-/* temp */
-/* line 206, ../../app/stylesheets/partials/_base.scss */
-.span-2 {
-  float: left;
-  width: 33%;
-}
-
-/* line 211, ../../app/stylesheets/partials/_base.scss */
-.span-2 img {
-  border: 2px solid black;
-}
-
-/* line 29, ../../app/stylesheets/obra.scss */
-h1, nav h1 a {
-  color: #ffde14;
-}
-
-/* line 33, ../../app/stylesheets/obra.scss */
-.content {
-  /*  border: 2px solid $content-border;*/
-  border: none;
-}
+Backtrace:
+/Users/sw/devel/compass/app/stylesheets/partials/_base.scss:206:in `blueprint-liquid-grid'
+/Users/sw/devel/compass/app/stylesheets/partials/_base.scss:206
+/Users/sw/devel/compass/app/stylesheets/obra.scss:27
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:169:in `visit_mixin'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:18:in `visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `map'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:230:in `visit_rule'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:18:in `visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:145:in `block in visit_import'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:145:in `map'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:145:in `visit_import'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:18:in `visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `map'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:47:in `visit_root'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:18:in `visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:7:in `visit'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/root_node.rb:20:in `render'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/engine.rb:291:in `_render'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/engine.rb:239:in `block in render'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/util.rb:297:in `silence_sass_warnings'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/engine.rb:239:in `render'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:136:in `block (2 levels) in compile'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:122:in `timed'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:135:in `block in compile'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/logger.rb:45:in `red'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:134:in `compile'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:114:in `compile_if_required'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:99:in `block (2 levels) in run'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:97:in `each'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:97:in `block in run'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:122:in `timed'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/compiler.rb:96:in `run'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/commands/watch_project.rb:142:in `recompile'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/path.rb:73:in `call'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/path.rb:73:in `run_callback'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/path.rb:55:in `callback_action'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/path.rb:35:in `update'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/state/directory.rb:39:in `block in modified'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/state/directory.rb:37:in `each'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/state/directory.rb:37:in `modified'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/state/directory.rb:18:in `refresh'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/backends/rbfsevent.rb:30:in `block in temporary_multipath_handler'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/backends/rbfsevent.rb:27:in `each'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/backends/rbfsevent.rb:27:in `temporary_multipath_handler'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/backends/rbfsevent.rb:17:in `block (2 levels) in run'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/backends/rbfsevent.rb:16:in `each'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/backends/rbfsevent.rb:16:in `block in run'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/rb-fsevent-0.4.1/lib/rb-fsevent/fsevent.rb:34:in `call'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/rb-fsevent-0.4.1/lib/rb-fsevent/fsevent.rb:34:in `run'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/backends/rbfsevent.rb:20:in `run'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm/monitor.rb:26:in `run'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/fssm-0.2.7/lib/fssm.rb:20:in `monitor'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/commands/watch_project.rb:86:in `perform'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/commands/base.rb:18:in `execute'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/commands/project_base.rb:19:in `execute'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/bin/compass:25:in `block in <top (required)>'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/bin/compass:39:in `call'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/compass-0.11.4/bin/compass:39:in `<top (required)>'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/bin/compass:19:in `load'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/bin/compass:19:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined mixin 'blueprint-liquid-grid'.\A         on line 206 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss, in `blueprint-liquid-grid'\A         from line 206 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss\A         from line 27 of /Users/sw/devel/compass/app/stylesheets/obra.scss"; }

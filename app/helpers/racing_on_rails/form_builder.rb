@@ -7,7 +7,7 @@ module RacingOnRails
       if text_field_options[:editable] == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} #{text_field(method, text_field_options)}}.html_safe
+        %Q{<div class="text_field">#{label(method, "#{text || method.to_s.titleize}", label_options)} #{text_field(method, text_field_options)}</div>}.html_safe
       end
     end
 
@@ -18,7 +18,7 @@ module RacingOnRails
       if options[:editable] == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} #{select(method, select_options, options)}}.html_safe
+        %Q{<div class="select">#{label(method, "#{text || method.to_s.titleize}", label_options)}<div class="input">#{select(method, select_options, options)}</div></div>}.html_safe
       end
     end
 
@@ -29,7 +29,7 @@ module RacingOnRails
     
     def labelled_password_field(method, text = method.to_s.titleize, password_field_options = {})
       label_options = password_field_options.delete(:label) || {}
-      %Q{#{label(method, "#{text}", label_options)} #{password_field(method, password_field_options)}}.html_safe
+      %Q{<div class="password_field">#{label(method, "#{text}", label_options)} #{password_field(method, password_field_options)}</div>}.html_safe
     end
 
     # Set +editable+ to false for read-only
@@ -38,7 +38,7 @@ module RacingOnRails
       if check_box_options[:editable] == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{<div class="check_box"><div class="input">#{check_box(method, check_box_options)}</div><div  class="label">#{label(method, text || method.to_s.titleize)}</div></div>}.html_safe
+        %Q{<div class="check_box">#{label(method, "#{check_box(method, check_box_options)}#{text}".html_safe || method.to_s.titleize)}</div>}.html_safe
       end
     end
     
@@ -58,7 +58,7 @@ module RacingOnRails
     end
     
     def labelled_text(method, text = nil, label_text = nil, label_options = {})
-      %Q{#{label(method, "#{label_text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{text || @object.send(method)}</div>}.html_safe
+      %Q{<div class="labelled_text">#{label(method, "#{label_text || method.to_s.titleize}", label_options)} <div class="input #{object_name}_#{method}">#{text || @object.send(method)}</div></div>}.html_safe
     end
   end
 end

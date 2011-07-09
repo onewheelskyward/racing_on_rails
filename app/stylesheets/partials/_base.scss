@@ -202,12 +202,35 @@ h3 + table.styled {
   font-style: italic;
 }
 
-/* temp */
-.span-2 {
-  float: left;
-  width: 33%;
+.person {
+  @include blueprint-liquid-grid;
+  @include clearfix;
 }
 
-.span-2 img {
-  border: 2px solid black;
+.person .names, .person .contact {
+  @include column(3);
+}
+
+.person .membership, .person .address, .person .login {
+  @include column(3, true);
+}
+
+.person .numbers, .person .categories, .person .account_permissions {
+  @include column(2);
+}
+
+.person .account_permissions {
+  @include column(2, true);  
+}
+
+#person_city {
+  width: 24%;
+}
+
+#person_state {
+  width: 6%;
+}
+
+#person_zip {
+  width: 12%;
 }

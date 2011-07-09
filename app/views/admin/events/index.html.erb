@@ -1,11 +1,11 @@
 <% @page_title = "Admin: Schedule: #{@year}" %>
 
 <%= render :partial => "schedule/years" %>
-<%= tabs do |tabs|
-  @schedule.months.each do |month|
-    tabs.add(month.name, :year => @year, :anchor => month.name)
-  end
-end -%>
+<div class="tabs">
+<% @schedule.months.each do |month| -%>
+<%= link_to month.name, :anchor => month.name -%>
+<% end -%>
+</div>
 
 <div class="page_buttons container">
   <div class="left">

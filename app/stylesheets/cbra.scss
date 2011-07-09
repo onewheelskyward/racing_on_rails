@@ -1,4 +1,11 @@
+$blueprint-liquid-grid-columns: 6;
+$blueprint-liquid-grid-width: 15.668%;
+
+$input-width: 50%;
+
 @import "blueprint/reset";
+@import "blueprint/liquid";
+@import "blueprint/form";
 
 $background-light: #BEBEBE;
 $content: white;
@@ -21,4 +28,45 @@ $text-size-big: 1em;
 $text-size-bigger: 1.2em;
 $text-size-biggest: 1.6em;
 
+form {
+  @include blueprint-inline-form;
+  @include blueprint-form-sizes(50%);
+  line-height: 1em;
+}
+
 @import "partials/base";
+
+.container {
+  width: 99%
+}
+
+.select .input, .text .input, .labelled_text .input {
+  display: inline-block;
+  text-align: left;
+  width: 50%;
+}
+
+.text, .text_field, .select, .password_field, .labelled_text {
+  text-align: right;  
+}
+
+.labelled_text {
+/*  line-height: 1.5em;*/
+}
+
+.check_box {
+/*  line-height: 1.5em;*/
+  padding-left: 50%;
+}
+
+.page_buttons {
+  @include column(6, true);  
+}
+
+.row {
+  @include clearfix;  
+}
+
+label {
+/*  color: $header;*/
+}

@@ -15,7 +15,7 @@
   <%= render :partial => "layouts/javascripts" %>
   <%= hoptoad_javascript_notifier %>
 </head>
-<body>
+<body class="bp">
   <nav>
     <h1><%= link_to RacingAssociation.current.short_name, "/" %></h1>
     <%= link_to "Schedule", schedule_path, :class => "schedule" %><%= link_to "Results", results_path, :class => "results" %>
