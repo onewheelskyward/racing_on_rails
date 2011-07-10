@@ -1,72 +1,41 @@
-$blueprint-liquid-grid-columns: 6;
-$blueprint-liquid-grid-width: 15.668%;
+@import "partials/variables";
+@import "partials/imports";
 
-$input-width: 50%;
+$near-black: rgb(30, 30, 30);
+$dark-gray: rgb(90, 90, 90);
+$gray: rgb(109, 109, 109);
+$light-gray: rgb(190, 190, 190);
+$lighter-gray: rgb(204, 204, 204);
+$lightest-gray: rgb(230, 230, 230);
+$near-white: rgb(250, 250, 250);
+$green-yellow: rgb(208, 250, 48);
 
-@import "blueprint/reset";
-@import "blueprint/liquid";
-@import "blueprint/form";
+$background-color-light: $light-gray;
+$blueprint-background-color: white;
+$blueprint-border-color: $lighter-gray;
 
-$background-light: #BEBEBE;
-$content: white;
-$content-border: #cccccc;
-$background: white;
-$header: rgb(90, 90, 90);
-$highlight: #D0FA30;
-$nav: rgb(109, 109, 109);
-$nav-text: rgb(203, 203, 203);
-$table: rgb(250, 250, 250);
-$table-head: rgb(203, 203, 203);
-$table-head-text: $header;
-$table-odd-row: rgb(230, 230, 230);
-$table-top: #cccccc;
-$table-bottom: #cccccc;
-$text: rgb(30, 30, 30);
+$blueprint-table-header-backgound-color: $lighter-gray;
+$blueprint-table-header-color: $font-color;
+$blueprint-table-stripe-color: $lightest-gray;
+$table-bottom: $lighter-gray;
+$table-top: $lighter-gray;
+$table: $near-white;
 
-$text-size: 0.8125em;
-$text-size-big: 1em;
-$text-size-bigger: 1.2em;
-$text-size-biggest: 1.6em;
+$content: $blueprint-background-color;
+$font-color: $near-black;
+$header-color: $dark-gray;
 
-form {
-  @include blueprint-inline-form;
-  @include blueprint-form-sizes(50%);
-  line-height: 1em;
-}
+$highlight-color: $green-yellow;
+$loud-color: black;
+$quiet-color: $dark-gray;
+
+$link-active-color: $font-color;
+$link-color: $font-color;
+$link-focus-color: $font-color;
+$link-hover-color: $font-color;
+$link-visited-color: $font-color;
+
+$nav-font-color: $lighter-gray;
+$nav: $gray;
 
 @import "partials/base";
-
-.container {
-  width: 99%
-}
-
-.select .input, .text .input, .labelled_text .input {
-  display: inline-block;
-  text-align: left;
-  width: 50%;
-}
-
-.text, .text_field, .select, .password_field, .labelled_text {
-  text-align: right;  
-}
-
-.labelled_text {
-/*  line-height: 1.5em;*/
-}
-
-.check_box {
-/*  line-height: 1.5em;*/
-  padding-left: 50%;
-}
-
-.page_buttons {
-  @include column(6, true);  
-}
-
-.row {
-  @include clearfix;  
-}
-
-label {
-/*  color: $header;*/
-}

@@ -39,14 +39,14 @@
       <%= f.labelled_text_field :work_phone %>
       <%= f.labelled_text_field :cell_fax %>
       <%= f.labelled_text_field :emergency_contact %>
-      <%= f.labelled_text_field :emergency_contact_phone %>
+      <%= f.labelled_text_field :emergency_contact_phone, "Emerg. Contact Phone" %>
       <%= f.labelled_check_box :wants_mail, "It's OK to send me mail" %>
       <%= f.labelled_check_box :wants_email, "It's OK to email me" %>
     </div>
 
     <div class="address">
       <%= f.labelled_text_field :street %>
-      <div class="text">
+      <div class="text_field">
         <%= f.label :city, "City, State ZIP" %>
         <div class="input">
           <%= f.text_field :city, :class => "city" %> <%= f.text_field :state, :class => "state" %> <%= f.text_field :zip, :class => "zip" %>
@@ -107,15 +107,16 @@
 
   </div>
 
-  <div class="page_buttons">
-    <div class="updatedon">
+  <div class="row with_buttons">
+    <div class="info_for_buttons">
       <%= render :partial => "people/created_updated" %>
     </div>
     
-    <div>
+    <div class="buttons">
       <%= link_to "Results", person_results_path(@person) %>
       <%= submit_tag "Save", :id => "save" %>
     </div>
   </div>
 <% end -%>
+
 </div>

@@ -16,10 +16,10 @@ module ApplicationHelper
   end
   
   # Defaults to text length of 20
-  def truncate_from_end(text)
-    return text if text.blank? || text.size <= 20
+  def truncate_from_end(text, length = 20)
+    return text if text.blank? || text.size <= length
     
-    "...#{text[-20, 20]}"
+    "...#{text[-length, length]}"
   end
   
   # Add to_excel to strip out CSV-invalid characters

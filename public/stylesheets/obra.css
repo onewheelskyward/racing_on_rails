@@ -1,24 +1,16 @@
 /*
-Syntax error: Undefined mixin 'blueprint-liquid-grid'.
-        on line 206 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss, in `blueprint-liquid-grid'
-        from line 206 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss
+Syntax error: Undefined mixin 'blueprint'.
+        on line 1 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss, in `blueprint'
+        from line 1 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss
         from line 27 of /Users/sw/devel/compass/app/stylesheets/obra.scss
 
+1: /Users/sw/devel/compass/app/stylesheets/obra.scss
+
 Backtrace:
-/Users/sw/devel/compass/app/stylesheets/partials/_base.scss:206:in `blueprint-liquid-grid'
-/Users/sw/devel/compass/app/stylesheets/partials/_base.scss:206
+/Users/sw/devel/compass/app/stylesheets/partials/_base.scss:1:in `blueprint'
+/Users/sw/devel/compass/app/stylesheets/partials/_base.scss:1
 /Users/sw/devel/compass/app/stylesheets/obra.scss:27
 /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:169:in `visit_mixin'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `visit'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:18:in `visit'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `map'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:230:in `visit_rule'
 /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `visit'
 /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:18:in `visit'
 /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:145:in `block in visit_import'
@@ -87,4 +79,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'blueprint-liquid-grid'.\A         on line 206 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss, in `blueprint-liquid-grid'\A         from line 206 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss\A         from line 27 of /Users/sw/devel/compass/app/stylesheets/obra.scss"; }
+  content: "Syntax error: Undefined mixin 'blueprint'.\A         on line 1 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss, in `blueprint'\A         from line 1 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss\A         from line 27 of /Users/sw/devel/compass/app/stylesheets/obra.scss\A \A 1: /Users/sw/devel/compass/app/stylesheets/obra.scss"; }

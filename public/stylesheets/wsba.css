@@ -1,26 +1,16 @@
 /*
-Syntax error: Undefined variable: "$text-size".
-        on line 5 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss
+Syntax error: Undefined mixin 'blueprint'.
+        on line 1 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss, in `blueprint'
+        from line 1 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss
         from line 20 of /Users/sw/devel/compass/app/stylesheets/wsba.scss
 
 1: /Users/sw/devel/compass/app/stylesheets/wsba.scss
 
 Backtrace:
-/Users/sw/devel/compass/app/stylesheets/partials/_base.scss:5
+/Users/sw/devel/compass/app/stylesheets/partials/_base.scss:1:in `blueprint'
+/Users/sw/devel/compass/app/stylesheets/partials/_base.scss:1
 /Users/sw/devel/compass/app/stylesheets/wsba.scss:20
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/script/variable.rb:45:in `_perform'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/script/node.rb:40:in `perform'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:215:in `visit_prop'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `visit'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:18:in `visit'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `map'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:230:in `visit_rule'
+/usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:169:in `visit_mixin'
 /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/base.rb:37:in `visit'
 /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:18:in `visit'
 /usr/local/rvm/gems/ruby-1.9.2-p180@rails_3/gems/sass-3.1.4/lib/sass/tree/visitors/perform.rb:145:in `block in visit_import'
@@ -89,4 +79,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$text-size\".\A         on line 5 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss\A         from line 20 of /Users/sw/devel/compass/app/stylesheets/wsba.scss\A \A 1: /Users/sw/devel/compass/app/stylesheets/wsba.scss"; }
+  content: "Syntax error: Undefined mixin 'blueprint'.\A         on line 1 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss, in `blueprint'\A         from line 1 of /Users/sw/devel/compass/app/stylesheets/partials/_base.scss\A         from line 20 of /Users/sw/devel/compass/app/stylesheets/wsba.scss\A \A 1: /Users/sw/devel/compass/app/stylesheets/wsba.scss"; }

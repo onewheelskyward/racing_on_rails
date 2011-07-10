@@ -1,0 +1,83 @@
+form {
+  @include blueprint-inline-form;
+  @include blueprint-form-sizes(67%);
+  line-height: 16px;
+}
+
+label {
+  color: $dark-gray;
+  font-size: 1em;
+  display: inline-block;
+  line-height: 16px;
+  margin-top: 7px;
+  padding-top: 5px;
+  max-width: 30%;
+  vertical-align: top;
+  white-space: normal;
+}
+
+.text_field {
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.text_field input {
+  font-size: 1em;
+  line-height: 16px;
+  vertical-align: top;
+}
+
+.select .input, .text_field .input, .labelled_text .input {
+  display: inline-block;
+  font-size: 1em;
+  line-height: 16px;
+  margin-left: 1px;
+  margin-right: 1px;
+  margin-top: 7px;
+  max-width: 67%;
+  padding-left: 0px;
+  padding-right: 10px;
+  padding-top: 5px;
+  text-align: left;
+  vertical-align: top;
+  width: 67%;
+}
+
+.text_field .input {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+.select .input select {
+margin: 0 0;
+}
+
+.text, .text_field, .select, .password_field, .labelled_text {
+  text-align: right;  
+}
+
+.check_box {
+  text-align: right;
+}
+
+.check_box label {
+  font-weight: normal;
+  margin-left: 1px;
+  margin-right: 1px;
+  padding-left: 0px;
+  padding-right: 10px;
+  text-align: left;
+  max-width: 67%;
+  width: 67%;
+}
+
+.check_box input {
+}
+
+.page_buttons {
+  @include column(6, true);  
+}
+
+.row {
+  @include clearfix;  
+}
