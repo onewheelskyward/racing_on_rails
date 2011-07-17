@@ -66,7 +66,7 @@ module RacingOnRails
       if options[:editable] == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", :class => 'text_area')} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{<div class="textarea">#{label(method, "#{text || method.to_s.titleize}", :class => 'text_area')}<div class="input">#{text_area(method, options)}</div></div>}.html_safe
+        %Q{<div class="textarea">#{label(method, "#{text || method.to_s.titleize}#{text_area(method, options).html_safe}".html_safe, :class => 'text_area')}</div>}.html_safe
       end
     end
     
