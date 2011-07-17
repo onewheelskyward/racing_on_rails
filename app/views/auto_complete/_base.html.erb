@@ -1,9 +1,10 @@
-<%= f.label "#{attribute}_id", label_text %>
-<%= f.hidden_field "#{attribute}_id" -%>
+<div class="text_field">
+  <%= f.label "#{attribute}_id", label_text %>
+  <input type="text" id="<%= attribute %>_auto_complete" name="<%= model %>[<%= attribute %>_name]" value="<%= value %>" autocomplete="off" />
+  <%= f.hidden_field "#{attribute}_id" -%>
 
-<input type="text" id="<%= attribute %>_auto_complete" name="<%= model %>[<%= attribute %>_name]" value="<%= value %>" autocomplete="off" />
-
-<%
-  @auto_complete_fields = @auto_complete_fields || []
-  @auto_complete_fields << { :model => model, :attribute => attribute, :path => path }
-%>
+  <%
+    @auto_complete_fields = @auto_complete_fields || []
+    @auto_complete_fields << { :model => model, :attribute => attribute, :path => path }
+  %>
+</div>

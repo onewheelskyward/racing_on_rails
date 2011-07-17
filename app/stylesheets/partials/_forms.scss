@@ -10,24 +10,25 @@ label {
   display: inline-block;
   line-height: 16px;
   margin-top: 7px;
+  padding-right: 5px;
   padding-top: 5px;
   max-width: 30%;
   vertical-align: top;
   white-space: normal;
 }
 
-.text_field {
+.text_field, .textarea {
   vertical-align: top;
   white-space: nowrap;
 }
 
-.text_field input {
+.text_field input, .textarea textarea {
   font-size: 1em;
   line-height: 16px;
   vertical-align: top;
 }
 
-.select .input, .text_field .input, .labelled_text .input {
+.select .input, .text_field .input, .labelled_text .input, .textarea .input {
   display: inline-block;
   font-size: 1em;
   line-height: 16px;
@@ -43,16 +44,16 @@ label {
   width: 67%;
 }
 
-.text_field .input {
+.text_field .input, .textarea .input {
   margin-top: 0px;
   padding-top: 0px;
 }
 
 .select .input select {
-margin: 0 0;
+  margin: 0 0;
 }
 
-.text, .text_field, .select, .password_field, .labelled_text {
+.text, .text_field, .select, .password_field, .labelled_text, .textarea {
   text-align: right;  
 }
 
@@ -64,6 +65,7 @@ margin: 0 0;
   font-weight: normal;
   margin-left: 1px;
   margin-right: 1px;
+  margin-top: 0px;
   padding-left: 0px;
   padding-right: 10px;
   text-align: left;
@@ -72,6 +74,24 @@ margin: 0 0;
 }
 
 .check_box input {
+  margin-right: 5px;
+}
+
+.textarea .input {
+  border: 1px solid #BBB;
+  padding: 5px;
+}
+
+.textarea label {
+  margin-top: 0px;
+}
+
+form .textarea textarea {
+  border: 0;
+  margin: 0px;
+  padding: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .page_buttons {
@@ -79,7 +99,11 @@ margin: 0 0;
 }
 
 .row {
-  @include clearfix;  
+  @include clearfix;
+} 
+
+.row + .row {
+  margin-top: 2em;
 }
 
 button, input[type="submit"] {
@@ -104,7 +128,7 @@ button, input[type="submit"] {
   -o-box-shadow: inset 0 1px 0 0 adjust-lightness($button-background-color, -7);
   box-shadow: inset 0 1px 0 0 adjust-lightness($button-background-color, -7);
   color: $button-color;
-  font: bold 1em "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  font: normal 1em "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
   text-align: center;
   text-shadow: 0 -1px 0 adjust-lightness($button-background-color, -3);
   padding-bottom: 0.33em;
@@ -144,4 +168,9 @@ button:active, input[type="submit"]:active {
   -ms-box-shadow: inset 0 0 8px 4px adjust-lightness($highlight-color, -25), 0 1px 0 0 adjust-lightness($highlight-color, 20);
   -o-box-shadow: inset 0 0 8px 4px adjust-lightness($highlight-color, -25), 0 1px 0 0 adjust-lightness($highlight-color, 20);
   box-shadow: inset 0 0 8px 4px adjust-lightness($highlight-color, -25), 0 1px 0 0 adjust-lightness($highlight-color, 20);
+}
+
+.info_for_buttons, .info_for_buttons a {
+  color: $quiet-color;
+  font-style: italic;
 }

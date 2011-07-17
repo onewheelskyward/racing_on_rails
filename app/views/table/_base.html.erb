@@ -1,4 +1,4 @@
-<table class="styled<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %>>
+<table class="striped<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %>>
 <%= body -%>
   <%- if body.blank? || collection.try(:empty?) -%>
   <tr>

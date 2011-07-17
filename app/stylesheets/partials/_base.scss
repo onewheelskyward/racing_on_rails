@@ -20,8 +20,9 @@ body nav a, body a, a {
   text-decoration: none;
 }
 
-body a:hover, a:hover {
+body nav a:hover, body a:hover, a:hover {
   background-color: $highlight-color;
+  color: $font-color;
   text-decoration: underline;
 }
 
@@ -67,7 +68,8 @@ nav a:last-child, footer a:last-child {
   border-right: none;
 }
 
-body nav a:visited, body footer a:visited {
+body nav a:visited, body footer a:visited,
+body nav a:link, body footer a:link {
   color: $nav-font-color;
 }
 
@@ -101,7 +103,8 @@ h3 {
   font-size: $font-size-bigger;
   font-weight: bold;
   line-height: 133%;
-  padding-top: 2em;
+  margin-bottom: 0;
+  padding-top: 1em;
   text-align: center;
 }
 
@@ -116,28 +119,24 @@ th, td {
   padding-top: 0.1em;
 }
 
-table.styled {
+table.striped {
   background-color: $table;
   border-top: solid 2px $table-top;
   border-bottom: solid 2px $table-bottom;
   width: 100%;
 }
 
-table.styled th, table.styled td {
+table.striped th, table.striped td {
   padding: 0.4em;
 }
 
-table.styled th {
+table.striped th {
   background-color: $blueprint-table-header-backgound-color;
   color: $blueprint-table-header-color;
   font-weight: bold;
 }
 
-table.styled tr:nth-child(odd) {
-  background-color: $blueprint-table-stripe-color;
-}
-
-h3 + table.styled {
+h3 + table.striped {
   margin-top: 0.4em;
 }
 
@@ -148,6 +147,7 @@ h3 + table.styled {
 
 .event_races table {
   display: inline-table;
+  width: auto;
 }
 
 .notes {
@@ -217,20 +217,20 @@ h3 + table.styled {
   @include clearfix;
 }
 
-.person .names, .person .contact {
+.left_column {
   @include column(3);
 }
 
-.person .membership, .person .address, .person .login {
+.right_column {
   @include column(3, true);
 }
 
-.person .numbers, .person .categories, .person .account_permissions {
+.left_column_narrow, .middle_column_narrow {
   @include column(2);
 }
 
-.person .account_permissions {
-  @include column(2, true);  
+.right_column_narrow {
+  @include column(2, true);
 }
 
 .info_for_buttons {
@@ -252,6 +252,19 @@ h3 + table.styled {
 
 #person_zip {
   width: 12%;
+}
+
+.login .options p {
+  margin-bottom: 0.4em;
+}
+
+.login .row.with_buttons {
+  margin-top: 0.2em;
+}
+
+.login .buttons {
+  @include column(3);
+  text-align: right;
 }
 
 @import "partials/grid";

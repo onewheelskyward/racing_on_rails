@@ -1,7 +1,5 @@
-<%= table :caption => "#{RacingAssociation.current.effective_year} Numbers", 
-         :id => "numbers",
-         :insert_header => true, 
-         :columns => 2 do %>
+<h3><%= "#{RacingAssociation.current.effective_year} Numbers" %></h3>
+<%= table :id => "numbers" do %>
   <% if RacingAssociation.current.show_license %>
   <tr>
     <td><%= RacingAssociation.current.short_name %> License/Membership #</td>

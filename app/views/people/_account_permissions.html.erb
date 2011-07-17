@@ -1,4 +1,5 @@
-<%= table :caption => "Account Permissions", :id => "accounts", :collection => account_permissions do %>
+<h3>Account Permissions</h3>
+<%= table :id => "accounts", :collection => account_permissions do %>
   <tr>
     <th>Person</th>
     <% if current_person == person -%>

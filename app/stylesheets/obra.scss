@@ -1,36 +1,44 @@
-@import "blueprint/reset";
+@import "partials/variables";
+@import "partials/imports";
+@import "partials/defaults";
 
-/*$background: rgb(240, 240, 240);*/
-$background: white;
-$background-light: #E0E0E0;
-$content: #ffffff;
-$content-border: black;
-$header: #999999;
-$highlight: rgb(255, 222, 20);
-$nav: rgb(30, 30, 30);
-$nav-text: #e0e0e0;
-$content-outline: rgb(255, 222, 20);
+$light-gray: #E0E0E0;
+$orange: rgb(255, 222, 20);
+
+$blueprint-border-color: black;
+
+$blueprint-table-header-backgound-color: $orange;
+$blueprint-table-header-color: black;
+$blueprint-table-stripe-color: #ffffbd;
+$table-bottom: $orange;
+$table-top: $orange;
 $table: #ff9;
-$table-head: rgb(255, 222, 20);
-$table-head-text: black;
-$table-odd-row: #ffffbd;
-$table-top: rgb(255, 222, 20);
-$table-bottom: rgb(255, 222, 20);
-$text: black;
 
-$text-size: 0.8125em;
-$text-size-big: 1em;
-$text-size-bigger: 1.2em;
-$text-size-biggest: 1.6em;
+$font-color: $near-black;
+$header-color: $dark-gray;
 
+$highlight-color: $orange;
+$loud-color: black;
+$quiet-color: $dark-gray;
+
+$link-active-color: $font-color;
+$link-color: $font-color;
+$link-focus-color: $font-color;
+$link-hover-color: $font-color;
+$link-visited-color: $font-color;
+
+$nav-font-color: #e0e0e0;
+$nav: rgb(30, 30, 30);
+
+$button-background-color: $near-white;
+$button-color: $font-color;
 
 @import "partials/base";
 
-h1, nav h1 a {
-  color: $highlight;
+.content {
+  border: none;
 }
 
-.content {
-/*  border: 2px solid $content-border;*/
-  border: none;
+h1, nav h1 a {
+  color: $highlight-color;
 }

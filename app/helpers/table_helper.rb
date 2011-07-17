@@ -8,7 +8,6 @@ module TableHelper
   # * id. CSS ID
   # * style_class or class. CSS style class
   # * collection. Table contents. Only used to show "None"
-  # * columns. Default 1. If insert_header is true, insert +columns+ <th />
   def table(options = {}, &block)
     # TODO Use merge or something
     options[:caption] = nil unless options[:caption]
@@ -18,7 +17,6 @@ module TableHelper
     options[:style_class] = options[:class]
     options.delete(:class)
     options[:collection] = options[:collection]
-    options[:columns] = options[:columns] || 1
     block_to_partial "table/base", options, &block
   end
 

@@ -1,3 +1,4 @@
+<h3>Races</h3>
 <% nav_caption = %Q{
   <div>Races</div>
   <div class="right">
@@ -6,7 +7,7 @@
      { :class => "image" }) if @event.has_results_including_children? }
   </div>
 }.html_safe %>
-<%= table :caption => nav_caption, :class => "event_nav clear span-3", :insert_header => true, :columns => 4 do %>
+<%= table :class => "event_nav" do %>
   <%= render @event.races %>
   <% unless @event.new_record? || @event.races.any? %>
   <tr>

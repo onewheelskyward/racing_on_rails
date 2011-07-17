@@ -54,7 +54,7 @@ GEM
     childprocess (0.1.9)
       ffi (~> 1.0.6)
     chunky_png (1.2.0)
-    compass (0.11.4)
+    compass (0.11.5)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
@@ -71,7 +71,7 @@ GEM
       builder
     i18n (0.5.0)
     json_pure (1.5.3)
-    kgio (2.5.0)
+    kgio (2.6.0)
     mail (2.2.19)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -121,7 +121,7 @@ GEM
     rdoc (3.8)
     rubyzip (0.9.4)
     sass (3.1.4)
-    selenium-webdriver (2.0.0)
+    selenium-webdriver (2.0.1)
       childprocess (>= 0.1.9)
       ffi (>= 1.0.7)
       json_pure

@@ -1,6 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!doctype html>
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>
@@ -10,34 +12,32 @@
       <%= RacingAssociation.current.name %>
       <%- end %>
     </title>
-    <%= hoptoad_javascript_notifier %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0;">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= csrf_meta_tag %>
+
     <%= render :partial => "layouts/stylesheets" %>
     <%= render :partial => "layouts/javascripts" %>
+    <%= hoptoad_javascript_notifier %>
   </head>
 
   <body>
-  <div class="shadow_2">
-    <div class="shadow_1">
-      <div class="frame" id="frame">
-        <div class="nav" id="top">
-          <h1><%= link_to RacingAssociation.current.name, '/' %></h1>
-          <div class="breadcrumb"><%= link_to RacingAssociation.current.short_name, '/' %></div>
-        </div>
-        <div class="content container">
-        <%= render :partial => "shared/tabs" %>
-        <%= render :partial => "shared/flash_messages" %>
-<%= yield %>
-        </div>
-        <div class="nav" id="bottom">
-          <div class="breadcrumb">
-            <%= link_to RacingAssociation.current.short_name, '/' %> | 
-      <%= link_to "Logout", person_session_path, :method => :delete, :id => "account_link" %>
-      </div>
-        </div>
-      </div>
+    <nav>
+      <h1><%= link_to RacingAssociation.current.short_name, "/" %></h1>
+      <%= link_to "Schedule", schedule_path, :class => "schedule" %><%= link_to "Results", results_path, :class => "results" %>
+    </nav>
+
+    <div class="content container">
+      <%= render :partial => "shared/tabs" %>
+      <%= render :partial => "shared/flash_messages" %>
+  <%= yield %>
     </div>
-  </div>
-  <%= render :partial => "shared/auto_complete" %>
+
+    <footer>
+      <%= link_to RacingAssociation.current.short_name, '/' %><%= link_to "Logout", person_session_path, :method => :delete, :id => "account_link" %>
+    </footer>
   </body>
 </html>
 

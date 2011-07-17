@@ -1,4 +1,5 @@
-<%= table :caption => "Aliases", :class => "box-2 last aliases", :insert_header => true, :columns => 2 do %>
+<h3>Aliases</h3>
+<%= table :class => "aliases" do %>
   <%- for name_alias in @person.aliases -%>
   <tr id="alias_<%= name_alias.id %>">
     <td><%= name_alias.name %></td>

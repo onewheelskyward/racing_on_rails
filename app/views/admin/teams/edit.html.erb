@@ -9,76 +9,83 @@
 
 <h2><%= @team.name %></h2>
 
-<div class="column_grid_container">
+<div class="teams">
   <%= form_for [:admin, @team] do |f| -%>
-    <div class="span-3">
-      <%= f.labelled_text_field :name, nil, :class => @team.new_record? ? "wants_focus" : "" %>
-      <%= f.labelled_text_field :contact_name %>
-      <%= f.labelled_text_field :contact_email %>
-      <%= f.labelled_text_field :contact_phone %>
-      <%= f.labelled_text_field :website %>
-      <%= f.labelled_check_box :member, "Member" %>
-      <%= f.labelled_check_box :show_on_public_page, "Show on public teams page" %>
-    </div>
-    <div class="span-3 last">
-      <%= f.labelled_text_area :sponsors %>
+    <div class="row">
+      <div class="left_column">
+        <%= f.labelled_text_field :name, nil, :class => @team.new_record? ? "wants_focus" : "" %>
+        <%= f.labelled_text_field :contact_name %>
+        <%= f.labelled_text_field :contact_email %>
+        <%= f.labelled_text_field :contact_phone %>
+        <%= f.labelled_text_field :website %>
+        <%= f.labelled_check_box :member, "Member" %>
+        <%= f.labelled_check_box :show_on_public_page, "Show on public teams page" %>
+      </div>
+      <div class="right_column">
+        <%= f.labelled_text_area :sponsors %>
+      </div>
     </div>
 
-    <hr class="space" />
-
-    <div class="clear span-6 last">
-      <%= table :caption => "People", :class => "box-2 clear", :insert_header => true do %>
-        <%- @team.people.sort { |x, y| x.last_name <=> y.last_name || x.first_name <=> y.first_name }.each do |person| -%>
-        <tr>
-          <td><%= link_to person.name, edit_admin_person_path(person) %></td>
-        </tr>
-        <%- end -%>
-      <% end -%>
-  
-      <%= table :caption => "Aliases", :class => "box-2", :insert_header => true, :columns => 2 do %>
-        <%- @team.aliases.sort_by {|a| a.name}.each do |name_alias| -%>
-        <tr id="alias_<%= name_alias.id %>">
-          <td><%= name_alias.name %></td>
-          <td>
-            <%= link_to(image_tag("/images/icons/delete.png"), 
-                 :url => { :action => "destroy_alias", :id => @team.id, :alias_id => name_alias.id},
-                 :remote => true,
-                 :html => { :class => "image" }) %>
-          </td>
-        </tr>
-        <%- end -%>
-      <% end -%>
-
-      <%= table :caption => "Historical Names", :class => "box-2 last", :insert_header => true, :columns => 3 do %>
-        <%- @team.names.sort_by(&:year).reverse.each do |name| -%>
-        <tr id="name_<%= name.id %>">
-          <td><%= name.name %></td>
-          <td><%= name.year %></td>
-          <td>
-            <%= link_to(image_tag("/images/icons/delete.png"), 
-                 :url => { :action => "destroy_name", :id => @team.id, :name_id => name.id},
-                 :remote => true
-                 ) %>
-          </td>
-        </tr>
-        <%- end -%>
-      <% end -%>
+    <div class="row">
+      <div class="left_column_narrow">
+        <h3>People</h3>
+        <%= table do %>
+          <%- @team.people.sort { |x, y| x.last_name <=> y.last_name || x.first_name <=> y.first_name }.each do |person| -%>
+          <tr>
+            <td><%= link_to person.name, edit_admin_person_path(person) %></td>
+          </tr>
+          <%- end -%>
+        <% end -%>
+      </div>
+      <div class="middle_column_narrow">
+        <h3>Aliases</h3>
+        <%= table do %>
+          <%- @team.aliases.sort_by {|a| a.name}.each do |name_alias| -%>
+          <tr id="alias_<%= name_alias.id %>">
+            <td><%= name_alias.name %></td>
+            <td>
+              <%= link_to(image_tag("/images/icons/delete.png"), 
+                   :url => { :action => "destroy_alias", :id => @team.id, :alias_id => name_alias.id},
+                   :remote => true,
+                   :html => { :class => "image" }) %>
+            </td>
+          </tr>
+          <%- end -%>
+        <% end -%>
+      </div>
+      <div class="right_column_narrow">
+        <h3>Historical Names</h3>
+        <%= table do %>
+          <%- @team.names.sort_by(&:year).reverse.each do |name| -%>
+          <tr id="name_<%= name.id %>">
+            <td><%= name.name %></td>
+            <td><%= name.year %></td>
+            <td>
+              <%= link_to(image_tag("/images/icons/delete.png"), 
+                   :url => { :action => "destroy_name", :id => @team.id, :name_id => name.id},
+                   :remote => true
+                   ) %>
+            </td>
+          </tr>
+          <%- end -%>
+        <% end -%>
+      </div>
     </div>
-    
-    <div class="page_buttons clear span-6 last">
-      <div class="updatedon span-2">
+
+    <div class="row with_buttons">
+      <div class="info_for_buttons quiet">
         <span class="created_at">
           <% if @team.created_at %>Created <%= time_ago_in_words(@team.created_at, true) + " ago" %><% end %>
           <% if @team.created_by %>by <%= truncate_from_end(@team.created_by.name) %><% end %>
         </span>
         <% if @team.updated_at %>Updated <%= time_ago_in_words(@team.updated_at, true) + " ago" %><% end %>
       </div>
-      <div class="right span-3 last">
+
+      <div class="buttons">
         <%= link_to("Results", team_path(@team), :class => 'obvious') unless @team.new_record? %>  
         <%= link_to("Delete", admin_team_path(@team), :method => :delete, :class => 'obvious', :id => 'delete') unless @team.new_record? %>
         <%= submit_tag "Save", :id => "save" %>
       </div>
     </div>
-
   <% end -%>
 </div>

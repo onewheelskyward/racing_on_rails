@@ -167,20 +167,20 @@ h3 {
 }
 
 /* line 95, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
-table.styled {
+table.striped {
   background-color: #ffff99;
   border-bottom: solid 2px #ffde14;
   width: 100%;
 }
 
 /* line 101, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
-table.styled th {
+table.striped th {
   background-color: #ffde14;
   font-weight: bold;
 }
 
 /* line 106, /Users/sw/devel/ror_rails_3/app/stylesheets/partials/_base.scss */
-table.styled tr:nth-child(odd) {
+table.striped tr:nth-child(odd) {
   background-color: #ffffbd;
 }
 

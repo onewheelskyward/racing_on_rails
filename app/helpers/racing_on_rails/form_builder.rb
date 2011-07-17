@@ -22,6 +22,19 @@ module RacingOnRails
       end
     end
 
+    def labelled_date_select(method, options = {})
+      label_options = options.delete(:label) || {}
+      text = label_options.delete(:text) if label_options
+      _options = {
+        :order => [:month, :day, :year], 
+        :start_year => 1900,
+        :end_year => Date.today.year, 
+        :include_blank => true        
+      }
+      _options.merge!(options)
+      %Q{<div class="select">#{label(method, "#{text || method.to_s.titleize}", label_options)}<div class="input">#{date_select(method, _options)}</div></div>}.html_safe
+    end
+    
     # List from Countries::COUNTRIES
     def labelled_country_select(method, options = {})
       labelled_select method, RacingAssociation.current.priority_country_options + Countries::COUNTRIES, options.merge(:label => { :text => "Country" })
@@ -38,7 +51,7 @@ module RacingOnRails
       if check_box_options[:editable] == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{<div class="check_box">#{label(method, "#{check_box(method, check_box_options)}#{text}".html_safe || method.to_s.titleize)}</div>}.html_safe
+        %Q{<div class="check_box">#{label(method, "#{check_box(method, check_box_options)}#{text || method.to_s.titleize}".html_safe || method.to_s.titleize)}</div>}.html_safe
       end
     end
     
@@ -53,7 +66,7 @@ module RacingOnRails
       if options[:editable] == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", :class => 'text_area')} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{#{label(method, "#{text || method.to_s.titleize}", :class => 'text_area')}#{text_area(method, options)}}.html_safe
+        %Q{<div class="textarea">#{label(method, "#{text || method.to_s.titleize}", :class => 'text_area')}<div class="input">#{text_area(method, options)}</div></div>}.html_safe
       end
     end
     

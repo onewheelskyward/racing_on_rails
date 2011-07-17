@@ -16,131 +16,133 @@
 
 <h2><%= @person.name %></h2>
 
-<div class="column_grid_container">
-<%= form_for [:admin, @person]  do |f| -%>
-  <%= hidden_field_tag("event_id", @event.id) if @event %>
-  <div class="span-3">
-    <%= f.labelled_text_field :first_name, nil, :class => @person.new_record? ? "wants_focus" : "" %>
-    <%= f.labelled_text_field :last_name %>
-    <%= f.labelled_text_field :team_name %>
-    <%= f.labelled_text_field :status %>
-  </div>
-  <div class="span-3 last">
-    <%= f.label :date_of_birth, "Date of Birth" %>
-    <%= date_select 'person', 'date_of_birth', 
-        :order => [:month, :day, :year], 
-        :start_year => 1900, :end_year => Date.today.year, 
-        :include_blank => true %>
-    <br/>
+<div class="person">
+  <%= form_for [:admin, @person]  do |f| -%>
+    <%= hidden_field_tag("event_id", @event.id) if @event %>
+    <div class="row">
+      <div class="left_column">
+        <%= f.labelled_text_field :first_name, nil, :class => @person.new_record? ? "wants_focus" : "" %>
+        <%= f.labelled_text_field :last_name %>
+        <%= f.labelled_text_field :team_name %>
+        <%= f.labelled_text_field :status %>
+      </div>
+      <div class="right_column">
+        <%= f.labelled_date_select :date_of_birth %>
 
-    <%= f.labelled_text(:racing_age, "#{@person.racing_age} #{'(Master)' if @person.master? } #{'(Junior)' if @person.junior? }") %>
-    <%= f.labelled_text :cyclocross_racing_age,  @person.cyclocross_racing_age, "CX Racing Age" %>
+        <%= f.labelled_text(:racing_age, "#{@person.racing_age} #{'(Master)' if @person.master? } #{'(Junior)' if @person.junior? }") %>
+        <%= f.labelled_text :cyclocross_racing_age,  @person.cyclocross_racing_age, "CX Racing Age" %>
 
-    <%= f.label :gender %>
-    <%= f.select(:gender, ['', 'F', 'M']) %><br/>
-  </div>
-
-  <div class="span-3">
-    <%= f.labelled_text_field :email %>
-    <%= f.labelled_text_field :home_phone %>
-    <%= f.labelled_text_field :work_phone %>
-    <%= f.labelled_text_field :cell_fax %>
-    <%= f.labelled_text_field :emergency_contact %>
-    <%= f.labelled_text_field :emergency_contact_phone, "Emerg Contact Phone" %>
-    <%= f.labelled_check_box :wants_mail, "Wants mail?" %>
-    <%= f.labelled_check_box :wants_email, "Wants email?" %>
-  </div>
-  <div class="span-3 last">
-    <%= f.labelled_text_field :street %>
-    <%= f.label :city, "City, State ZIP" %>
-    <%= f.text_field :city, :class => "city" %> <%= f.text_field :state, :class => "state" %> <%= f.text_field :zip, :class => "zip" %>
-    <%= f.labelled_text_field :occupation %>
-
-    <%= f.labelled_check_box :volunteer_interest, "Volunteer Interest" %>
-    <%= f.labelled_check_box :official_interest, "Official Interest" %>
-    <%= f.labelled_check_box :race_promotion_interest, "Race Promotion Interest" %>
-    <%= f.labelled_check_box :team_interest, "Team Interest" %>
-
-    <%= f.labelled_text_field :login, nil, :autocomplete => "off" %>
-    <%= f.labelled_password_field :password, nil, :autocomplete => "off" %>
-    <%= f.labelled_password_field :password_confirmation, "Confirm Password", :autocomplete => "off" %>
-    <% if @person.last_login_at -%>
-    <%= f.labelled_text :last_login_at, 
-                        link_to(@person.last_login_at.to_s(:long_and_friendly_date_and_time), 
-                          {},
-                          { :title => "OK/Fail: #{@person.login_count}/#{@person.failed_login_count}\nCurrent: #{@person.current_login_at.to_s(:long_and_friendly_date_and_time)} from #{@person.current_login_ip}\nLast: #{@person.last_login_at.to_s(:long_and_friendly_date_and_time)} from #{@person.last_login_ip}" }
-                        ) -%>
-    <% else -%>
-    <%= f.labelled_text :last_login_at, "Never" -%>
-    <% end -%>    
-  </div>
-
-  <hr class="space" />
-
-  <div class="span-3">
-    <%= f.label :member_from, "Member From" %>
-    <%= date_select 'person', 'member_from', 
-        :order => [:month, :day, :year],
-        :start_year => 1999, :end_year => Date.today.year + 1, 
-        :include_blank => true %>
-    <%= f.label :member_to, "To" %>
-    <%= date_select 'person', 'member_to', 
-        :order => [:month, :day, :year],
-        :end_year => Date.today.year + 1, 
-        :include_blank => true %><br/>
-  
-    <%= f.labelled_text(:member, "Current", nil, :class => "current") if @person.member? -%>
-    <%= f.labelled_text(:usa_cycling, "Current (#{@person.license})", nil, :class => "current") if @person.member_usac_to && @person.member_usac_to >= Date.today -%>
-    <%= f.labelled_text(:member, "Renewed", nil, :class => "renewed") if @person.renewed? -%>
-    <%= f.labelled_text(:member, "Not current", nil, :class => "not_current") if !@person.member? && !@person.renewed? -%>
-    <%= f.labelled_check_box(:ccx_only, "Cyclocross only?") if RacingAssociation.current.cx_memberships? %>
-
-    <%= f.labelled_check_box :membership_card, "Has Card?" %>
-    <%= f.labelled_check_box :print_card, 
-                             "Print card? #{(link_to('Print one card now', card_admin_person_path(@person, :format => "pdf"), 
-                             {:class => 'obvious'}))}".html_safe unless @person.new_record? %>
-
-    <%= f.labelled_text :card_printed_at, @person.card_printed_at ? @person.card_printed_at.to_s(:long_ordinal) : "Never" %>
-    <%= f.labelled_check_box :official %>
-  </div>
-
-  <div class="span-3 last">
-    <%= f.labelled_text_area :notes %>
-  </div>
-
-  <hr class="space" />
-
-  <div class="clear span-6 last">
-    <div id="numbers_wrapper"><%= render :partial => 'numbers', :locals => {:year => @year, :years => @years, :person => @person, :race_numbers => @race_numbers} %></div>
-    <%= render :partial => 'categories', :locals => { :person => @person } %>
-    <%= render :partial => 'aliases_table', :locals => { :person => @person } %>
-  </div>
-
-  <hr class="space" />
-
-  <div class="clear span-6 last">
-    <%= render :partial => "people/account_permissions", 
-                :locals => { :person => @person, 
-                             :account_permissions => @person.account_permissions, 
-                             :return_to => @person.new_record? ? nil : edit_admin_person_path(@person)
-                           }
-    %>
-    <%= render(:partial => "people/events", :locals => { :person => @person, :events => @person.events.all( :conditions => [ 
-       "parent_id is null and date between ? and ?", RacingAssociation.current.now.beginning_of_year, RacingAssociation.current.now.end_of_year 
-     ]).sort_by(&:date).reverse }) unless @person.events.empty? %>
-  </div>
-
-  <div class="page_buttons span-6 last">
-    <div class="updatedon span-2">
-      <%= render(:partial => "people/created_updated") unless @person.new_record? %>
+        <%= f.labelled_select :gender, [ "", "F", "M" ] %>
+      </div>
     </div>
-    <div class="right span-4 last">
-      <%= link_to("Move Results", admin_person_results_path(@person)) unless @person.new_record? %>  
-      <%= link_to("Delete", admin_person_path(@person), :method => :delete, :class => 'obvious', :id => 'delete') unless @person.new_record? %>
-      <%= submit_tag "Save", :id => "save" %>
+
+    <div class="row">
+      <div class="left_column">
+        <%= f.labelled_text_field :email %>
+        <%= f.labelled_text_field :home_phone %>
+        <%= f.labelled_text_field :work_phone %>
+        <%= f.labelled_text_field :cell_fax %>
+        <%= f.labelled_text_field :emergency_contact %>
+        <%= f.labelled_text_field :emergency_contact_phone, "Emerg Contact Phone" %>
+        <%= f.labelled_check_box :wants_mail, "Wants mail?" %>
+        <%= f.labelled_check_box :wants_email, "Wants email?" %>
+      </div>
+      <div class="right_column">
+        <%= f.labelled_text_field :street %>
+        <div class="text_field">
+          <%= f.label :city, "City, State ZIP" %>
+          <div class="input">
+            <%= f.text_field :city, :class => "city" %> <%= f.text_field :state, :class => "state" %> <%= f.text_field :zip, :class => "zip" %>
+          </div>
+        </div>
+        <%= f.labelled_text_field :occupation %>
+
+        <h3>Interests</h3>
+        <%= f.labelled_check_box :volunteer_interest, "Volunteer" %>
+        <%= f.labelled_check_box :official_interest, "Officiating" %>
+        <%= f.labelled_check_box :race_promotion_interest, "Race promotion" %>
+        <%= f.labelled_check_box :team_interest, "Team" %>
+
+        <%= f.labelled_text_field :login, nil, :autocomplete => "off" %>
+        <%= f.labelled_password_field :password, nil, :autocomplete => "off" %>
+        <%= f.labelled_password_field :password_confirmation, "Confirm Password", :autocomplete => "off" %>
+        <% if @person.last_login_at -%>
+        <%= f.labelled_text :last_login_at, 
+                            link_to(@person.last_login_at.to_s(:long_and_friendly_date_and_time), 
+                              {},
+                              { :title => "OK/Fail: #{@person.login_count}/#{@person.failed_login_count}\nCurrent: #{@person.current_login_at.to_s(:long_and_friendly_date_and_time)} from #{@person.current_login_ip}\nLast: #{@person.last_login_at.to_s(:long_and_friendly_date_and_time)} from #{@person.last_login_ip}" }
+                            ) -%>
+        <% else -%>
+        <%= f.labelled_text :last_login_at, "Never" -%>
+        <% end -%>    
+      </div>
     </div>
-  </div>
-<% end -%>
+
+    <div class="row">
+      <div class="left_column">
+        <%= f.labelled_date_select :member_from, :start_year => 1999, :end_year => RacingAssociation.current.effective_year %>
+        <%= f.labelled_date_select :member_to, :start_year => 1999, :end_year => RacingAssociation.current.effective_year %>
+
+        <%= f.labelled_text(:member, "Current", nil, :class => "current") if @person.member? -%>
+        <%= f.labelled_text(:usa_cycling, "Current (#{@person.license})", nil, :class => "current") if @person.member_usac_to && @person.member_usac_to >= Date.today -%>
+        <%= f.labelled_text(:member, "Renewed", nil, :class => "renewed") if @person.renewed? -%>
+        <%= f.labelled_text(:member, "Not current", nil, :class => "not_current") if !@person.member? && !@person.renewed? -%>
+        <%= f.labelled_check_box(:ccx_only, "Cyclocross only?") if RacingAssociation.current.cx_memberships? %>
+
+        <%= f.labelled_check_box :membership_card, "Has Card?" %>
+        <%= f.labelled_check_box :print_card, 
+                                 "Print card? #{(link_to('Print one card now', card_admin_person_path(@person, :format => "pdf"), 
+                                 {:class => 'obvious'}))}".html_safe unless @person.new_record? %>
+
+        <%= f.labelled_text :card_printed_at, @person.card_printed_at ? @person.card_printed_at.to_s(:long_ordinal) : "Never" %>
+        <%= f.labelled_check_box :official %>
+      </div>
+
+      <div class="right_column">
+        <%= f.labelled_text_area :notes %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="left_column_narrow">
+        <%= render :partial => "numbers", :locals => {:year => @year, :years => @years, :person => @person, :race_numbers => @race_numbers} %>
+      </div>
+      <div class="middle_column_narrow">
+        <%= render :partial => "categories", :locals => { :person => @person } %>
+      </div>
+      <div class="right_column_narrow">
+        <%= render :partial => "aliases_table", :locals => { :person => @person } %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="left_column">
+        <%= render :partial => "people/account_permissions", 
+                    :locals => { :person => @person, 
+                                 :account_permissions => @person.account_permissions, 
+                                 :return_to => @person.new_record? ? nil : edit_admin_person_path(@person)
+                               }
+        %>
+      </div>
+      <div class="right_column">
+        <%= render(:partial => "people/events", :locals => { :person => @person, :events => @person.events.all( :conditions => [ 
+           "parent_id is null and date between ? and ?", RacingAssociation.current.now.beginning_of_year, RacingAssociation.current.now.end_of_year 
+         ]).sort_by(&:date).reverse }) unless @person.events.empty? %>
+      </div>
+    </div>
+
+    <div class="row with_buttons">
+      <div class="info_for_buttons quiet">
+        <%= render(:partial => "people/created_updated") unless @person.new_record? %>
+      </div>
+
+      <div class="buttons">
+        <%= link_to("Move Results", admin_person_results_path(@person)) unless @person.new_record? %>  
+        <%= link_to("Delete", admin_person_path(@person), :method => :delete, :class => 'obvious', :id => 'delete') unless @person.new_record? %>
+        <%= submit_tag "Save", :id => "save" %>
+      </div>
+    </div>
+  <% end -%>
 </div>
 
 <% content_for :javascript_include_tag do -%>
