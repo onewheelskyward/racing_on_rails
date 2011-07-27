@@ -1,6 +1,6 @@
 form {
   @include blueprint-inline-form;
-  @include blueprint-form-sizes(67%);
+  @include blueprint-form-sizes(66%);
   line-height: 16px;
 }
 
@@ -25,6 +25,7 @@ label {
 .text_field input, .textarea textarea {
   font-size: 1em;
   line-height: 16px;
+  margin-right: 4px;
   vertical-align: top;
 }
 
@@ -35,13 +36,17 @@ label {
   margin-left: 1px;
   margin-right: 1px;
   margin-top: 7px;
-  max-width: 67%;
+  max-width: 66%;
   padding-left: 0px;
   padding-right: 10px;
   padding-top: 5px;
   text-align: left;
   vertical-align: top;
-  width: 67%;
+  width: 66%;
+}
+
+.labelled_link {
+  padding-right: 6px;
 }
 
 .text_field .input, .textarea .input {
@@ -53,12 +58,17 @@ label {
   margin: 0 0;
 }
 
-.text, .text_field, .select, .password_field, .labelled_text, .textarea {
+.text, .text_field, .select, .password_field, .labelled_text, .labelled_link, .textarea, .labelled_button {
   text-align: right;  
 }
 
 .check_box {
+  padding-top: 0.8em;
   text-align: right;
+}
+
+.check_box + .check_box {
+  padding-top: 0.2em;
 }
 
 .check_box label {
@@ -69,8 +79,8 @@ label {
   padding-left: 0px;
   padding-right: 10px;
   text-align: left;
-  max-width: 67%;
-  width: 67%;
+  max-width: 66%;
+  width: 66%;
 }
 
 .check_box input {
@@ -105,6 +115,14 @@ form .textarea textarea {
   margin-top: 2em;
 }
 
+body .labelled_button a:hover {
+  background: none;
+}
+
+fieldset {
+  margin-top: 1em;
+}
+
 button, input[type="submit"] {
   background-color: $button-background-color;
   background-image: -webkit-gradient(linear, left top, left bottom, from(adjust-lightness($button-background-color, 6)), to(adjust-lightness($button-background-color, -11)));
@@ -129,7 +147,7 @@ button, input[type="submit"] {
   color: $button-color;
   font: normal 1em "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
   text-align: center;
-  text-shadow: 0 -1px 0 adjust-lightness($button-background-color, -3);
+  text-shadow: 0 -1px 0 adjust-lightness($button-background-color, 12);
   padding-bottom: 0.33em;
   padding-left: 1em;
   padding-right: 1em;
