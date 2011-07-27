@@ -37,8 +37,16 @@ $button-color: $font-color;
 
 .content {
   border: none;
+  margin-top: 0;
 }
 
-h1, nav h1 a {
+nav h1 a, body nav h1 a:visited, body nav h1 a:link {
   color: $highlight-color;
+}
+
+body nav a:hover, 
+body nav h1 a:hover,
+body footer a:hover, 
+body footer h1 a:hover {
+  color: black;
 }
