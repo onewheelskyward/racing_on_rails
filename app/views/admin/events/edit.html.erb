@@ -21,9 +21,9 @@
 
         <% if administrator? %>
         <% unless @event.new_record? -%>
-        <div class="labelled_text">
+        <div class="labelled_button">
           <div class="input">
-            <%= link_to "Duplicate", new_admin_event_path(:event => @event.attributes), :class => "obvious", :id => "duplicate_event" %>
+            <%= link_to new_admin_event_path(:event => @event.attributes), :id => "duplicate_event" do %><button type="button">Duplicate</button><% end -%>
           </div>
         </div>
         <% end -%>
@@ -93,22 +93,20 @@
       <div class="row">
         <%= auto_complete f, :event, :promoter, people_path(:format => :json) %>
       </div>
-       
-      <div class="row" id="promoter_links">
+
+      <div class="labelled_link" id="promoter_links">
         <%= link_to_function("Edit", nil, :class => "obvious", :id => "edit_promoter_link") do |page|
           page << "window.location.href = 'http://#{RacingAssociation.current.rails_host}/admin/people/' + $('#event_promoter_id').val() + '/edit?event_id=#{@event.id}'; return false;"
         end %>
       </div>
       <% end -%>
       
-      <div class="row">
-        <fieldset>
-          <legend>Contact Information</legend>
-          <p>If different than promoter's personal contact information</p>
-          <%= f.labelled_text_field :phone %>
-          <%= f.labelled_text_field :email %>
-        </fieldset>
-      </div>
+      <fieldset>
+        <legend>Contact Information</legend>
+        <p>If different than promoter's personal contact information</p>
+        <%= f.labelled_text_field :phone %>
+        <%= f.labelled_text_field :email %>
+      </fieldset>
       
       <div class="row">
         <%= auto_complete(f, :event, :team, admin_teams_path(:format => :json), "Sponsoring Team") if administrator? %>

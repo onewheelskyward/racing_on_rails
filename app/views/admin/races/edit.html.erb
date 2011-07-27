@@ -4,9 +4,9 @@
 
 <h2><%= link_to_events(@race) %><%= @race.name %></h2>
 
-<div class="column_grid_container">
+<div class="race row">
   <%= form_for [:admin, @race] do |f| -%>
-    <div class="span-3">
+    <div class="left_column">
       <%= f.hidden_field :event_id %>
       <%= f.labelled_text_field :category_name, nil, :class => @race.new_record? ? "wants_focus" : "" %>
 
@@ -21,24 +21,26 @@
       <%- end %>
     </div>
 
-    <div class="span-3 last">
+    <div class="right_column">
       <%= f.labelled_text_field :notes, nil, :editable => administrator? %>
       <%= f.labelled_text_field :field_size, "Field Size (#{@race.results.size})", :editable => administrator? %>
       <%= f.labelled_text_field :distance, nil, :editable => administrator? %>
       <%= f.labelled_text_field :laps, nil, :editable => administrator? %>
     </div>
 
-    <div class="span-6 page_buttons last">
-       <div class="updatedon span-3"><%= "Updated: #{time_ago_in_words(@race.updated_at, true)} ago" if @race.updated_at.present? %>&nbsp;</div>
-      <div class="right span-3 last">
-        <%= submit_tag "Save", :id => "save" %>
+    <div class="row with_buttons">
+       <div class="info_for_buttons quiet">
+         <%= "Updated: #{time_ago_in_words(@race.updated_at, true)} ago" if @race.updated_at.present? %>&nbsp;
+       </div>
+       <div class="buttons">
+         <%= submit_tag "Save", :id => "save" %>
       </div>
     </div>
   <% end -%>    
 </div>
 
 <% if administrator? %>
-<div class="container">
+<div class="row">
   <%= render :partial => "results", :locals => { :race => @race } %>
 </div>
 

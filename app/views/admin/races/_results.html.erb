@@ -1,9 +1,10 @@
-<%= table :caption => "Results", :class => "results top_margin last", :id => :results do %>
+<h3>Results</h3>
+<%= table :class => "results", :id => :results do %>
   <tr>
     <% race.result_columns_or_default_for_editing.each do |column| -%>
     <th><%= result_header column %></th>
     <% end -%>
-    <th class="actions span-2 last"></th>
+    <th class="actions"></th>
   </tr>
   <%= render :partial => "result", :collection => race.results.sort %>
   <%= render :partial => "result", :collection => [race.results.build] %>

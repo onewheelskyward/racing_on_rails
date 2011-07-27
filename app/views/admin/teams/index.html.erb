@@ -2,7 +2,7 @@
 
 <%= render :partial => "shared/search", :locals => { :name => @name } %>
 
-<%= table :class => "teams top_margin clear", :id => :teams do %>
+<%= table :class => "teams", :id => :teams do %>
   <tr>
     <th class="icon"/>
     <th class="name">Name</th>
@@ -22,7 +22,7 @@
   <% end %>
 <% end -%>
 
-<div class="buttons container">
+<div class="buttons">
   <%= link_to(image_tag('/images/icons/group_add.png'), { :action => 'new' }, { :class => "image" }) %>
 </div>
 
