@@ -1,5 +1,6 @@
 @include blueprint;
 
+$font-size-small: 0.75em;
 $font-size: 0.8125em;
 $font-size-big: 1em;
 $font-size-bigger: 1.2em;
@@ -8,7 +9,7 @@ $font-size-biggest: 1.6em;
 body {
   background-color: $blueprint-background-color;
   color: $font-color;
-  font-family: "Lucida Grande", "Lucida Sans Unicode", FreeSans;  
+  font-family: "Lucida Grande", "Lucida Sans Unicode", FreeSans, Helvetica;  
   font-size: $font-size;
   line-height: 133%;
   margin-bottom: 1em;
@@ -159,6 +160,14 @@ h3 + table.striped {
   text-align: center;
 }
 
+form input#event_city {
+  width: 78%;
+}
+
+form input#event_state {
+  width: 15%;
+}
+
 .place {
   text-align: right;
 }
@@ -200,6 +209,7 @@ h3 + table.striped {
 
 .calendar .day .number {
   font-weight: bold;
+  text-align: right;
 }
 
 .calendar .day.other_month {
@@ -210,6 +220,15 @@ h3 + table.striped {
   color: $nav;
   font-weight: normal;
   font-style: italic;
+}
+
+.calendar .event {
+  font-size: $font-size-small;
+  line-height: 1.5em;
+}
+
+.calendar .event {
+  margin-bottom: 1em;
 }
 
 .person {
@@ -265,6 +284,46 @@ h3 + table.striped {
 .login .buttons {
   @include column(3);
   text-align: right;
+}
+
+.home .portrait .photo {
+  @include prepend(1);
+  @include column(2);
+}
+
+.home .portrait .results {
+  @include column(3, true);
+}
+
+.home .portrait .caption {
+  @include column(3, true);
+  color: gray;
+}
+
+.home .portrait .caption img {
+  width: 80px;
+}
+
+.home .portrait .caption a {
+  color: gray;
+}
+
+.home .news {
+  @include column(6, true);
+}
+
+.home .photo {
+/*  padding-right: 4px;*/
+}
+
+.home .photo img {
+  width: 100%;
+  border: 2px solid black;
+}
+
+.date {
+  text-align: right;
+  whitespace: nowrap;
 }
 
 @import "partials/grid";
