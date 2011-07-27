@@ -19,11 +19,9 @@ gem "hoptoad_notifier"
 
 group :development do
   gem "capistrano"
-end
-
-group :development do
   gem "compass"
   gem "rb-fsevent"
+  gem "timecop"
 end
 
 group :test do
