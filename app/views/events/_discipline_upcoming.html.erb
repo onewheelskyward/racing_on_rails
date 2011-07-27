@@ -1,7 +1,9 @@
-<%- discipline.upcoming_events.sort_by(&:date).each do |event| -%>
+<tr>
+  <th colspan="2"><%= caption %></th>
+</tr><%- discipline.upcoming_events.sort_by(&:date).each do |event| -%>
 <tr>
   <td class="date"><%= event.date_range_s %></td>
-  <td class="info">
+  <td class="event_info">
     <%= public_link_to_flyer event %>
     <%= link_to(image_tag("icons/star_green.png"), "http://www.obra.org/beginner_friendly.html", :class => "image beginner_friendly", :title => "Beginner friendly event") if event.beginner_friendly? %>
   </td>
@@ -17,7 +19,7 @@
 <%- discipline.upcoming_weekly_series.sort { |a, b| a.earliest_day_of_week(dates) <=> b.earliest_day_of_week(dates) || a.date <=> b.date }.each do |event| -%>
 <tr>
   <td class="date"><%= event.days_of_week_as_string(dates) -%></td>
-  <td class="info">
+  <td class="event_info">
     <%- if event.flyer.blank? -%>
       <%= event.full_name %> <small>(<%= event.start_date.strftime("%m/%d") %> - <%= event.end_date.strftime("%m/%d") -%>)</small>
     <%- else -%>

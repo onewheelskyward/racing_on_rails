@@ -1,12 +1,225 @@
+<div class="home">
+  <!-- <div class="row landscape">
+    <div class="photo"><img src="http://www.obra.org/images/photos/jr_champs_2011.jpg"></div>
+    <div class="caption">
+      Newly-crowned Junior OBRA Champions show off their new jerseys after the Silverton Road Race. Photo courtesy of William Warburton.
+    </div>
+  </div> -->
 
-<div class="column_grid_container">
-  <img src="http://www.obra.org/images/photos/jr_champs_2011.jpg" alt="" style="width: 100%;">
-  <p>Newly-crowned Junior OBRA Champions show off their new jerseys after the Silverton Road Race. Photo courtesy of William Warburton.</p>
+  <div class="row portrait">
+    <div class="photo">
+      <img src="http://www.obra.org/images/photos/sue_butler_HDO.jpg" alt="">
+    </div>
+    <div class="caption">
+      <img src="http://www.obra.org/images/photos/barry_wicks.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/adam_craig.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/corey_stayton.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/barry_wicks.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/adam_craig.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/corey_stayton.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/barry_wicks.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/adam_craig.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/corey_stayton.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/barry_wicks.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/adam_craig.jpg" alt="">
+      <img src="http://www.obra.org/images/photos/corey_stayton.jpg" alt="">
+      <hr/>
+      <a href="http://obra.org/people/41394/2011">Sue Butler's</a> victory in the <a href="/events/18414/results">High Desert Criterium</a> helped secure her overall win in the <a href="/events/18413/results">High Desert Omnium</a>.  Photo courtesy of Matthew Lasala, <a href="http://www.lasalaimages.com/">Lasala Images</a>.
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="left_column">
+      <h2>Results</h2>
+      <%= table do %>
+        <% @recent_results.each do |result| -%>
+        <tr>
+          <td class="date"><%= result.date.to_s(:short_with_week_day) %></td>
+          <td><%= result.full_name %></td>
+        </tr>
+        <% end -%>
+      <% end -%>
 
-  <div class="span-3 top_margin">
-    <%= render_page "home/recent_results" %>
+      <h2>News</h2>
+      <table class="striped"> 
+        <tr>
+          <td class="date">
+            2/1/11
+          </td>
+          <td>
+            Teams - please review the list of <a href="http://www.obra.org/teams/rides.html" class="obvious">club rides</a> and email updates to <a href="mailto:webmaster@obra.org" class="obvious">webmaster@obra.org</a>. 
+          </td>
+        </tr>  
+        <tr>
+          <td class="date">
+            2/1/11
+          </td>
+          <td>
+            OBRA is still on Twitter! <a href="http://twitter.com/ORBicycleRacing" class="obvious">http://twitter.com/ORBicycleRacing</a> 
+          </td>
+        </tr>   
+      </table>    
+      <h2>Mailing Lists</h2>
+      <table class="striped"> 
+        <tr>
+            <td>
+              <a href='/'>OBRA Chat</a>
+            </td>
+          </tr>  
+          <tr>  
+            <td>
+              <a href='/'>OBRA Race</a>
+            </td>
+          </tr>  
+          <tr>  
+            <td>
+              <a href='/'>Juniors</a>
+            </td>
+          </tr>  
+          <tr>  
+            <td>
+              <a href='/'>Officials</a>
+            </td>
+          </tr>  
+          <tr>  
+            <td>
+              <a href='/'>Promoters</a>
+            </td>
+          </tr>  
+          <tr>  
+            <td>
+              <a href='/'>Women</a>
+            </td>
+          </tr>  
+        </table>    
+    </div>
+    <div class="right_column">
+      <%= upcoming_events_table @upcoming_events %>
+    </div>
   </div>
-  <div class="span-3 last top_margin">
-    <%= upcoming_events_table @upcoming_events %>
+
+  <div class="row">
+  <a href="http://www.pactimo.com/" class="ad" onclick="javascript: pageTracker._trackPageview('/outgoing/pactimo.com');"><img alt="Pactimo_new" height="155" src="http://www.obra.org/images/ads/pactimo_new.gif" width="240" /></a>
+
+  <a href="http://www.rolfprima.com/" class="ad" onclick="javascript: pageTracker._trackPageview('/outgoing/rolfprima.com/');"><img alt="Rolf_prima" height="155" src="http://www.obra.org/images/ads/rolf_prima.gif" width="240" /></a>
+
+
+  <a href="http://www.bicycleattorney.com/" class="ad" onclick="javascript: pageTracker._trackPageview('/outgoing/bicycleattorney.com');"><img alt="Mike_colbach" height="155" src="http://www.obra.org/images/ads/mike_colbach.gif" width="240" /></a>
+
+  <a href="http://www.upperechelonfitness.com/" class="ad" onclick="javascript: pageTracker._trackPageview('/outgoing/upperechelonfitness.com');"><img alt="Upper_echelon" height="155" src="http://www.obra.org/images/ads/upper_echelon.gif" width="240" /></a>
+
   </div>
+
+  <div class="row">
+    <h1>Oregon Bicycle Racing Association</h1>
+    <div class="left_column_narrow">
+     	<h3>Contact Info</h3>
+     	<a href="http://www.obra.org/contact.html">Contact OBRA</a>
+     	<br>
+     	<a href="http://www.obra.org/board_of_directors.html">Board of Directors</a>
+     	<br>
+     	<a href="http://obra.org/mailing_lists">Email List</a>
+     	<br>
+     	<a href="http://www.obra.org/media/">Media Information</a>
+     	<br>
+     	<a href="http://www.obra.org/coaches.html">Coaches</a>
+     	<br>
+     	<a href="http://app.obra.org/teams">Teams</a>
+     	<br>
+       <a href="https://obra.org/store">OBRA Store</a>
+       <br>
+
+     	<h3>Competitions</h3>
+     	<a href="http://obra.org/bar">Best All-around Rider</a> (BAR)
+     	<br>
+     	<a href="http://www.obra.org/flyers/2011/cat_4_womens_series.html">Category 4 Womens Series</a>
+     	<br>
+     	<a href="http://www.obra.org/flyers/2011/comotion_tandem_race_series.html">Co-Motion Tandem Race Series</a>
+     	<br>
+
+     	<a href="http://www.crosscrusade.com">Cross Crusade Series</a>
+     	<br>
+     	<a href="http://obra.org/ironman">Ironman</a>
+     	<br>
+
+     	<a href="http://obra.org/oregon_cup">Oregon Cup</a>
+     	<br> 
+
+     	<a href="http://www.obra.org/junior_cyclocross_series/">Oregon Junior Cyclocross Series</a>
+     	<br>
+
+      <a href="http://www.mudslingerevents.com/2011-oregon-xc-mtb-series/">Oregon XC Series</a>
+     	<br>
+    </div>
+    <div class="middle_column_narrow">
+     	<h3><a href="http://www.obra.org/forms/#racer">Racer Info</a></h3>
+     	<a href="http://www.obra.org/pdfs/membership_app.pdf">Membership Application</a>: 
+     	<a href="http://www.obra.org/pdfs/membership_app.pdf">PDF</a>, 
+     	<a href="http://obra.org/membership/new">Online</a>
+     	<br>
+     	<a href="https://obra.org/products/4/line_items/create">Team Membership Application</a>: 
+     	<a href="http://www.obra.org/pdfs/club_membership_app.pdf">PDF</a>, 
+     	<a href="https://obra.org/products/4/line_items/create">Online</a>
+     	<br>
+     	<a href="http://www.obra.org/pdfs/waiver.pdf">Race Release</a>
+       <br>
+       <a href="https://obra.org/store">OBRA Store (numbers, jerseys, dues &amp; more)</a>
+     	<br>
+     	Rules: <a href="http://www.obra.org/pdfs/2011rules.pdf">Racing</a>, <a href="http://www.obra.org/pdfs/2011adminrules.pdf">Administrative</a>, <a href="http://www.obra.org/upgrade_rules.html">Upgrade</a>
+     	<br>
+     	<a href="http://www.obra.org/forms/">More...</a>
+
+    	<h3><a href="http://www.obra.org/forms/#promoter">Promoter Info</a></h3>
+    	<a href="http://www.obra.org/pdfs/insurance_app.pdf">Insurance Application</a>
+    	<br>
+    	<a href="http://www.obra.org/pdfs/agreement_letter.pdf">Letter of Agreement</a>
+    	<br>
+    	<a href="http://www.obra.org/forms/equipment_request.xls">Equipment Request Form</a>
+    	<br>
+    	<a href="http://obra.org/online_registration">Online Registration</a>
+        <br>
+        <a href="http://www.obra.org/forms/">More...</a>
+    	<br>
+    </div>
+    <div class="right_column_narrow">
+      	<h3><a href="http://app.obra.org/track">Alpenrose Velodrome</a></h3>
+      	<a href="http://www.obra.org/track/history/">History</a>
+      	<br>
+      	<a href="http://www.obra.org/track/information/">Information</a>
+      	<br>
+      	<a href="http://www.obra.org/track/records/">Records</a>
+      	<br>
+      	<a href="http://app.obra.org/track/schedule">Schedule</a>
+
+      	<h3><a href="http://www.obra.org/links.html">Links</a></h3>
+      	<a href="http://www.obra.org/links.html#racing_orgs">Other Racing Organizations and Calendars</a>
+      	<br>
+      	<a href="http://www.obra.org/links.html#news_info">News and Information</a>
+      	<br>
+      	<a href="http://www.obra.org/links.html#photos">Photographs</a>
+      	<br>
+      	<a href="http://www.obra.org/links.html">More...</a>
+      </div>  
+    </div>
+  </div>
+
+  <div class="row">
+    <a href="http://www.easystreet.com/" class="image"><img align="top" alt="Hosted_by_easystreet" height="80" src="http://www.obra.org/images/logos/hosted_by_easystreet.gif" width="80" /></a>
+    <a href="http://www.fiac.us/" class="image"><img align="align" alt="Fiac" height="64" src="http://www.obra.org/images/logos/fiac.gif" style="padding-left: 10px; padding-right: 12px; padding-bottom: 8px;" width="250" /></a>
+    <a href="http://www.bta4bikes.org/" class="image"><img align="top" alt="Bta_supporter" height="90" src="http://www.obra.org/images/logos/BTA_supporter.gif" width="75" /></a>
+  </div>
+
+  <div class="row">
+    <script type="text/javascript"><!--
+    google_ad_client = "ca-pub-7337194090649295";
+    /* homepage_belownews468 */
+    google_ad_slot = "1356573042";
+    google_ad_width = 468;
+    google_ad_height = 60;
+    //-->
+    </script>
+    <script type="text/javascript"
+    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+  </div>  
 </div>

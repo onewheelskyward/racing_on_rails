@@ -4,9 +4,10 @@
 
 <%= render :partial => 'disciplines' %>
 
-<%= table :caption => "#{@year}&nbsp;Results".html_safe do %>
+<h2><%= @year %> Results</h2>
+<%= table do %>
   <%- for event in @events.sort {|x, y| y.date <=> x.date} -%>
-  <tr class="<%= cycle('even', 'odd') %>">
+  <tr>
     <td class="right"><%= event.short_date %></td>
     <td><%= link_to event.name, event_results_path(event) %></td>
   </tr>

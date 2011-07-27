@@ -1,5 +1,5 @@
-<h3><%= caption %></h3>
-<%= table :class => "no_top_margin", :id => "upcoming_events" do %>
+<h2>Schedule</h2>
+<%= table :id => "upcoming_events" do %>
   <%- if upcoming_events.empty? -%>
   <tr><td>No upcoming events in the next <%= pluralize(upcoming_events.weeks, "week") %> </td></tr>
   <%- end -%>
