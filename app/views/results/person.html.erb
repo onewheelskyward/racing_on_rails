@@ -21,7 +21,7 @@
 <% end -%>
 
 <% @competition_results.sort {|x, y| y.event.end_date <=> x.event.end_date }.each do |result| %>
-<h3><%= link_to("#{result.place.to_i.ordinalize} &mdash; #{result.race_full_name}".html_safe, event_results_path(result.event)) %></h3>
+<h3><%= link_to("#{result.place.to_i.ordinalize} &mdash; #{result.race_full_name}".html_safe, event_results_path(result.event)).html_safe %></h3>
 <%= table do %>
   <tr>
     <th>&nbsp;</th>

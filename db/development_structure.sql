@@ -596,7 +596,6 @@ CREATE TABLE `racing_associations` (
   `default_discipline` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Road',
   `default_sanctioned_by` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'scott.willson@gmail.com',
-  `exception_recipients` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `exempt_team_categories` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `membership_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'scott.willson@gmail.com',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Cascadia Bicycle Racing Association',
@@ -1006,6 +1005,8 @@ INSERT INTO schema_migrations (version) VALUES ('20110329233050');
 INSERT INTO schema_migrations (version) VALUES ('20110521233707');
 
 INSERT INTO schema_migrations (version) VALUES ('20110618232719');
+
+INSERT INTO schema_migrations (version) VALUES ('20110806162623');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

@@ -16,6 +16,7 @@
 
 <h2><%= @person.name %></h2>
 
+<<<<<<< HEAD
 <div class="person">
   <%= form_for [:admin, @person]  do |f| -%>
     <%= hidden_field_tag("event_id", @event.id) if @event %>
@@ -30,7 +31,9 @@
         <%= f.labelled_date_select :date_of_birth %>
 
         <%= f.labelled_text(:racing_age, "#{@person.racing_age} #{'(Master)' if @person.master? } #{'(Junior)' if @person.junior? }") %>
+        <% if RacingAssociation.current.default_sanctioned_by == "USA Cycling" -%>
         <%= f.labelled_text :cyclocross_racing_age,  @person.cyclocross_racing_age, "CX Racing Age" %>
+        <% end -%>
 
         <%= f.labelled_select :gender, [ "", "F", "M" ] %>
       </div>

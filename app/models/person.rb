@@ -96,14 +96,15 @@ class Person < ActiveRecord::Base
   end
   
   # Considers aliases
-  def Person.find_all_by_name_like(name, limit = 100)
+  def Person.find_all_by_name_like(name, limit = RacingAssociation.current.search_results_limit, page = 1)
     return [] if name.blank?
     
     name_like = "%#{name.strip}%"
-    Person.all(
+    Person.paginate(
       :conditions => ["trim(concat_ws(' ', first_name, last_name)) like ? or aliases.name like ?", name_like, name_like],
       :include => :aliases,
       :limit => limit,
+      :page => page,
       :order => 'last_name, first_name'
     )
   end
@@ -253,6 +254,16 @@ class Person < ActiveRecord::Base
     people
   end
   
+  def people_name_sounds_like
+    return [] if name.blank?
+    
+    Person.find(
+      :all, 
+      :conditions => ["id != ? and soundex(trim(concat_ws(' ', first_name, last_name))) = soundex(?)", id, name.strip]
+    ) +
+    Person.all(:conditions => { :first_name => last_name, :last_name => first_name })
+  end
+
   # Workaround Rails date param-parsing. Also convert :team attribute to Team.
   # Not sure this is needed.
   def attributes=(attributes)
@@ -290,7 +301,11 @@ class Person < ActiveRecord::Base
   end
   
   def email_with_name
-    "#{name} <#{email}>"
+    if name.present?
+      "#{name} <#{email}>"
+    else
+      email
+    end
   end
 
   def name_or_login
@@ -664,14 +679,14 @@ class Person < ActiveRecord::Base
 
   # Is Person a current member of the bike racing association?
   def member?(date = RacingAssociation.current.today)
-    member_to.present? && member_from.present? && (member_from.to_date <= date.to_date && member_to.to_date >= date.to_date)
+    member_to.present? && member_from.present? && member_from.to_date <= date.to_date && member_to.to_date >= date.to_date
   end
 
   # Is/was Person a current member of the bike racing association at any point during +date+'s year?
   def member_in_year?(date = RacingAssociation.current.today)
     year = date.year
-    member_to && member_from && (member_from.year <= year && member_to.year >= year)
-    member_to.present? && member_from.present? && (member_from.year <= year && member_to.year >= year)
+    member_to && member_from && member_from.year <= year && member_to.year >= year
+    member_to.present? && member_from.present? && member_from.year <= year && member_to.year >= year
   end
   
   def member
@@ -755,10 +770,6 @@ class Person < ActiveRecord::Base
     self.print_card = true
     self.license_type = license_type
     save!
-  end
-
-  def print_card?
-    self.print_card
   end
   
   def created_from_result?

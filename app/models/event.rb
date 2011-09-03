@@ -88,6 +88,8 @@ class Event < ActiveRecord::Base
   }
   scope :today_and_future, lambda { { :conditions => [ "date >= ?", Time.zone.today ]}}
   
+  scope :not_child, { :conditions => "parent_id is null" }
+
   attr_reader :new_promoter_name
   attr_reader :new_team_name
 
@@ -510,6 +512,10 @@ class Event < ActiveRecord::Base
     "#{name} (#{short_date})"
   end
 
+  def full_name_with_date
+    "#{full_name} (#{short_date.try :strip})"
+  end
+
   # Try to intelligently combined parent name and child name for schedule pages
   def full_name
     if parent.nil?
@@ -522,7 +528,6 @@ class Event < ActiveRecord::Base
       "#{parent.full_name}: #{name}"
     end
   end
-
 
   # Always return false
   def missing_parent?
@@ -571,6 +576,15 @@ class Event < ActiveRecord::Base
     node, nodes = self, []
     nodes << node = node.parent while node.parent
     nodes
+  end
+
+  # All children and children childrens
+  def descendants
+    _descendants = children(true)
+    children.each do |child|
+      _descendants = _descendants + child.descendants
+    end
+    _descendants
   end
 
   def parent_is_not_self

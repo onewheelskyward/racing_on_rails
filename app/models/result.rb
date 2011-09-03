@@ -213,6 +213,14 @@ class Result < ActiveRecord::Base
       end
     end
   end
+
+  def custom_attributes=(hash)
+    if hash
+      symbolized_hash = Hash.new
+      hash.each { |key, value| symbolized_hash[key.to_s.to_sym] = value}
+    end
+    self[:custom_attributes] = symbolized_hash
+  end
   
   # Destroy People that only exist because they were created by importing results
   def destroy_people
@@ -663,7 +671,7 @@ class Result < ActiveRecord::Base
   end
   
   def method_missing(sym, *args, &block)
-    # Performance fix for results page. :to_ary would be called and trigger a load of race to get custom_attrib
+    # Performance fix for results page. :to_ary would be called and trigger a load of race to get custom_attributes
     # May want to denormalize custom_attributes in Result.
     if sym == :to_ary
       return super

@@ -40,7 +40,7 @@ class WebDriverTestCase < ActiveSupport::TestCase
     super
   end
   
-  # Set up custom Firefox profile. Recreate empty downloads directory. Default webserver to localhost:3000.
+  # Set up custom browser profile. Recreate empty downloads directory. Default webserver to localhost:3000.
   def driver
     unless MiniTest::Unit.driver
       FileUtils.rm_rf MiniTest::Unit.results_path
@@ -49,6 +49,13 @@ class WebDriverTestCase < ActiveSupport::TestCase
         f.puts "<html>"
         f.puts "<body>"
       end
+
+      # Firefox
+      # webdriver_profile = Selenium::WebDriver::Firefox::Profile.new
+      # webdriver_profile["browser.download.dir"] = DOWNLOAD_DIRECTORY
+      # webdriver_profile["browser.download.folderList"] = "2"
+      # webdriver_profile["browser.helperApps.neverAsk.saveToDisk"] = "application/vnd.ms-excel,application/pdf"
+      # MiniTest::Unit.driver = Selenium::WebDriver.for(:firefox, :profile => webdriver_profile)
       
       FileUtils.rm_rf "#{Rails.root}/tmp/chrome-profile"
       FileUtils.mkdir_p "#{Rails.root}/tmp/chrome-profile"
@@ -63,7 +70,7 @@ class WebDriverTestCase < ActiveSupport::TestCase
   end
   
   def open(url, expect_error_page = false)
-    driver.get "http://localhost:3000" + url
+    driver.get "http://localhost:8080" + url
     if expect_error_page
       assert_errors
     else
@@ -111,6 +118,7 @@ class WebDriverTestCase < ActiveSupport::TestCase
     type " ", "person_session_password", true
     type "secret", "person_session_password", true
     click "login_button"
+    wait_for_no_element "login_button"
     assert_no_errors
   end
   
@@ -288,6 +296,14 @@ class WebDriverTestCase < ActiveSupport::TestCase
       end
     end
   end
+
+  def wait_for_no_ajax
+    Timeout::timeout(10) do
+      while driver.execute_script('return jQuery.active;') != 0
+        sleep 0.25
+      end
+    end
+  end
   
   def assert_value(value, element_finder)
     element = find_element(element_finder)
@@ -415,5 +431,9 @@ class WebDriverTestCase < ActiveSupport::TestCase
   
   def remove_download(filename)
     FileUtils.rm_f "#{DOWNLOAD_DIRECTORY}/#{filename}"
+  end
+  
+  def chrome?
+    driver.try(:browser) == :chrome
   end
 end

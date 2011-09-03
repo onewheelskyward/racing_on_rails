@@ -204,7 +204,7 @@ class PeopleTest < WebDriverTestCase
 
     open '/admin/people'
     assert_current_url(/\/admin\/people/)
-    
+
     type "tonkin", "name"
     type :return, { :name => "name" }, false
     sleep 1

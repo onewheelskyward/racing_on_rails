@@ -12,12 +12,12 @@ class Race < ActiveRecord::Base
   include Export::Races
 
   DEFAULT_RESULT_COLUMNS = %W{place number last_name first_name team_name points time}.freeze
-  # Prototype Result used for checking valid column names
-  RESULT = Result.new
   
   validates_presence_of :event, :category
 
   before_validation :find_associated_records
+  
+  before_save :symbolize_custom_columns
   
   belongs_to :category
   serialize :result_columns, Array
@@ -147,6 +147,10 @@ class Race < ActiveRecord::Base
   
   def custom_columns
     self[:custom_columns] ||= []
+  end
+  
+  def symbolize_custom_columns
+    self.custom_columns.map! { |col| col.to_s.to_sym }
   end
   
   # Ensure child team and people are not duplicates of existing records
