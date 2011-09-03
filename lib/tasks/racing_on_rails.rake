@@ -13,6 +13,22 @@ namespace :racing_on_rails do
     puts "Please open http://localhost:3000/ in your web browser"
     puts `ruby script/server`
   end
+
+  desc "Update cached Result columns from Events"
+  task :reset_results_cache => :environment do
+    raise("SKIP_OBSERVERS not set to true. Use: SKIP_OBSERVERS=true rake racing_on_rails:reset_results_cache") unless ENV["SKIP_OBSERVERS"] == "true"
+    count = 0
+    total = Result.count
+    Result.find_each do |result|
+      result.cache_non_event_attributes
+      result.cache_event_attributes
+      result.save!
+      count = count + 1
+      if count % 100 == 0
+        puts "#{count}/#{total}"
+      end
+    end
+  end
 end
 
 namespace :db do
