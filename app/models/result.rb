@@ -166,12 +166,10 @@ class Result < ActiveRecord::Base
 
   # Save associated Person
   def save_person
-    logger.debug "save_person race.date: #{race.date} #{person.try :new_record?} #{person.try :changed?} member_from: #{person.try :member_from} member_to: #{person.try :member_to}"
     if person && (person.new_record? || person.changed?)
       if person.new_record?
         person.created_by = event
       end
-      logger.debug "SAVE!"
       person.save!
     end
   end
