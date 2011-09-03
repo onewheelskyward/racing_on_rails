@@ -99,6 +99,10 @@ body h2, h2, h2 a {
   text-align: center;
 }
 
+.tabs + h2 {
+  margin-top: 1em;
+}
+
 h3 {
   color: $header-color;
   font-size: $font-size-bigger;
@@ -199,10 +203,10 @@ form input#event_state {
 } 
 
 .calendar .day {
-  height: 5em;
+  height: 6em;
   border: 1px solid white;
   background: $blueprint-table-stripe-color;
-  padding: 0.4em;
+  padding: 0.6em;
   vertical-align: top;
   width: 14%;
 }
@@ -223,7 +227,6 @@ form input#event_state {
 }
 
 .calendar .event {
-  font-size: $font-size-small;
   line-height: 1.5em;
 }
 
@@ -262,15 +265,15 @@ form input#event_state {
 }
 
 #person_city {
-  width: 22%;
+  width: 30%;
 }
 
 #person_state {
-  width: 6%;
+  width: 16%;
 }
 
 #person_zip {
-  width: 12%;
+  width: 24%;
 }
 
 .login .options p {
@@ -326,5 +329,9 @@ form input#event_state {
   whitespace: nowrap;
 }
 
+.total_points {
+  font-weight: bold;
+  text-align: right;  
+}
 @import "partials/grid";
 @import "partials/forms";

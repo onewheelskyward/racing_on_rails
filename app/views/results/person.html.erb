@@ -2,31 +2,32 @@
 
 <%= render_page "person_years", :locals => { :person => @person } %>
 
-<%= table :caption => @person.name, :class => "person_results", :id => "person_results", :collection => @event_results do %>
+<h2><%= @person.name %></h2>
+<%= table :class => "person_results", :id => "person_results", :collection => @event_results do %>
   <tr>
     <th>&nbsp;</th>
     <th>Race</th>
     <th>Category</th>
-    <th>Date</th>
+    <th class="date">Date</th>
   </tr>
   <% @event_results.sort { |x, y| y.event_end_date <=> x.event_end_date }.each do |result| -%>
   <tr class="<%= cycle("even", "odd") %>">
     <td class="place right"><%= result.place %></td>
     <td class="standings"><%= link_to(result.event_full_name, event_results_path(:event_id => result.event_id, :anchor => "race_#{result.race_id}")) %></td>
     <td class="category"><%= result.race_name %></td>
-    <td class="dates"><%= result.event_date_range_s %></td>
+    <td class="date"><%= result.event_date_range_s %></td>
   </tr>
   <%- end -%>
 <% end -%>
 
 <% @competition_results.sort {|x, y| y.event.end_date <=> x.event.end_date }.each do |result| %>
-<br/><br/>
-<%= table :caption => link_to("#{result.place.to_i.ordinalize} &mdash; #{result.race_full_name}", event_results_path(result.event)).html_safe do %>
+<h3><%= link_to("#{result.place.to_i.ordinalize} &mdash; #{result.race_full_name}".html_safe, event_results_path(result.event)) %></h3>
+<%= table do %>
   <tr>
     <th>&nbsp;</th>
     <th>Race</th>
     <th>Category</th>
-    <th>Date</th>
+    <th class="date">Date</th>
     <th class="right">Points</th>
   </tr>
   <% for score in result.scores.sort {|x, y| y.source_result.event_end_date <=> x.source_result.event_end_date } %>
@@ -40,7 +41,7 @@
                   event_person_results_path(:event_id => score.source_result.event_id, :person_id => @person.id, 
                   :anchor => "race_#{score.source_result.race_id}")) if score.source_result.competition_result? %></td>
     <td class="category"><%= score.source_result.race_name %></td>
-    <td class="dates"><%= score.source_result.event_date_range_s %></td>
+    <td class="date"><%= score.source_result.event_date_range_s %></td>
     <td class="right"><%= number_with_precision(score.points, :precision => 1) %></td>
   </tr>
   <% end %>
@@ -49,7 +50,7 @@
     <td></td>
     <td></td>
     <td></td>
-    <td class="total_points"><span class="total">TOTAL</span><%= number_with_precision(result.points, :precision => 1) %></td>
+    <td class="total_points"><span class="total">TOTAL</span>&nbsp;<%= number_with_precision(result.points, :precision => 1) %></td>
   </tr>
 <% end -%>
 <% end %>

@@ -1350,6 +1350,11 @@ body h2, h2, h2 a {
 }
 
 /* line 102, ../../app/stylesheets/partials/_base.scss */
+.tabs + h2 {
+  margin-top: 1em;
+}
+
+/* line 106, ../../app/stylesheets/partials/_base.scss */
 h3 {
   color: #5a5a5a;
   font-size: 1.2em;
@@ -1360,12 +1365,12 @@ h3 {
   text-align: center;
 }
 
-/* line 112, ../../app/stylesheets/partials/_base.scss */
+/* line 116, ../../app/stylesheets/partials/_base.scss */
 .right {
   text-align: right;
 }
 
-/* line 116, ../../app/stylesheets/partials/_base.scss */
+/* line 120, ../../app/stylesheets/partials/_base.scss */
 th, td {
   padding-bottom: 0.1em;
   padding-left: 0.4em;
@@ -1373,7 +1378,7 @@ th, td {
   padding-top: 0.1em;
 }
 
-/* line 123, ../../app/stylesheets/partials/_base.scss */
+/* line 127, ../../app/stylesheets/partials/_base.scss */
 table.striped {
   background-color: #ffff99;
   border-top: solid 2px #ffde14;
@@ -1381,63 +1386,63 @@ table.striped {
   width: 100%;
 }
 
-/* line 130, ../../app/stylesheets/partials/_base.scss */
+/* line 134, ../../app/stylesheets/partials/_base.scss */
 table.striped th, table.striped td {
   padding: 0.4em;
 }
 
-/* line 134, ../../app/stylesheets/partials/_base.scss */
+/* line 138, ../../app/stylesheets/partials/_base.scss */
 table.striped th {
   background-color: #ffde14;
   color: black;
   font-weight: bold;
 }
 
-/* line 140, ../../app/stylesheets/partials/_base.scss */
+/* line 144, ../../app/stylesheets/partials/_base.scss */
 h3 + table.striped {
   margin-top: 0.4em;
 }
 
-/* line 144, ../../app/stylesheets/partials/_base.scss */
+/* line 148, ../../app/stylesheets/partials/_base.scss */
 .event_races {
   padding-top: 1em;
   text-align: center;
 }
 
-/* line 149, ../../app/stylesheets/partials/_base.scss */
+/* line 153, ../../app/stylesheets/partials/_base.scss */
 .event_races table {
   display: inline-table;
   width: auto;
 }
 
-/* line 154, ../../app/stylesheets/partials/_base.scss */
+/* line 158, ../../app/stylesheets/partials/_base.scss */
 .notes {
   padding-top: 1em;
 }
 
-/* line 158, ../../app/stylesheets/partials/_base.scss */
+/* line 162, ../../app/stylesheets/partials/_base.scss */
 .notes, .notes a, .updatedon {
   color: #1e1e1e;
   text-align: center;
 }
 
-/* line 163, ../../app/stylesheets/partials/_base.scss */
+/* line 167, ../../app/stylesheets/partials/_base.scss */
 form input#event_city {
   width: 78%;
 }
 
-/* line 167, ../../app/stylesheets/partials/_base.scss */
+/* line 171, ../../app/stylesheets/partials/_base.scss */
 form input#event_state {
   width: 15%;
 }
 
-/* line 171, ../../app/stylesheets/partials/_base.scss */
+/* line 175, ../../app/stylesheets/partials/_base.scss */
 .place {
   text-align: right;
 }
 
 /* tabs */
-/* line 176, ../../app/stylesheets/partials/_base.scss */
+/* line 180, ../../app/stylesheets/partials/_base.scss */
 .tabs {
   padding-bottom: 0.4em;
   padding-left: 0.4em;
@@ -1448,64 +1453,63 @@ form input#event_state {
   whitespace: nowrap;
 }
 
-/* line 186, ../../app/stylesheets/partials/_base.scss */
+/* line 190, ../../app/stylesheets/partials/_base.scss */
 .tabs a {
   border-left: 1px solid #bebebe;
   padding-left: 0.6em;
   padding-right: 0.6em;
 }
 
-/* line 192, ../../app/stylesheets/partials/_base.scss */
+/* line 196, ../../app/stylesheets/partials/_base.scss */
 .tabs a:first-child {
   border-left: none;
 }
 
 /* calendar */
-/* line 197, ../../app/stylesheets/partials/_base.scss */
+/* line 201, ../../app/stylesheets/partials/_base.scss */
 .calendar th {
   text-align: center;
 }
 
-/* line 201, ../../app/stylesheets/partials/_base.scss */
+/* line 205, ../../app/stylesheets/partials/_base.scss */
 .calendar .day {
-  height: 5em;
+  height: 6em;
   border: 1px solid white;
   background: #ffffbd;
-  padding: 0.4em;
+  padding: 0.6em;
   vertical-align: top;
   width: 14%;
 }
 
-/* line 210, ../../app/stylesheets/partials/_base.scss */
+/* line 214, ../../app/stylesheets/partials/_base.scss */
 .calendar .day .number {
   font-weight: bold;
   text-align: right;
 }
 
-/* line 215, ../../app/stylesheets/partials/_base.scss */
+/* line 219, ../../app/stylesheets/partials/_base.scss */
 .calendar .day.other_month {
   background: #ffff99;
 }
 
-/* line 219, ../../app/stylesheets/partials/_base.scss */
+/* line 223, ../../app/stylesheets/partials/_base.scss */
 .calendar .day.other_month .number {
   color: #1e1e1e;
   font-weight: normal;
   font-style: italic;
 }
 
-/* line 225, ../../app/stylesheets/partials/_base.scss */
+/* line 229, ../../app/stylesheets/partials/_base.scss */
 .calendar .event {
-  font-size: 0.75em;
   line-height: 1.5em;
 }
 
-/* line 230, ../../app/stylesheets/partials/_base.scss */
+/* line 233, ../../app/stylesheets/partials/_base.scss */
 .calendar .event {
   margin-bottom: 1em;
 }
 
-/* line 234, ../../app/stylesheets/partials/_base.scss */
+/* line 237, ../../app/stylesheets/partials/_base.scss */
 .person {
   overflow: hidden;
   *zoom: 1;
@@ -1713,7 +1717,7 @@ form input#event_state {
   margin-bottom: 0;
 }
 
-/* line 239, ../../app/stylesheets/partials/_base.scss */
+/* line 242, ../../app/stylesheets/partials/_base.scss */
 .left_column {
   display: inline;
   float: left;
@@ -1722,7 +1726,7 @@ form input#event_state {
   margin-right: 2.449%;
 }
 
-/* line 243, ../../app/stylesheets/partials/_base.scss */
+/* line 246, ../../app/stylesheets/partials/_base.scss */
 .right_column {
   display: inline;
   float: left;
@@ -1731,7 +1735,7 @@ form input#event_state {
   margin-right: 0;
 }
 
-/* line 247, ../../app/stylesheets/partials/_base.scss */
+/* line 250, ../../app/stylesheets/partials/_base.scss */
 .left_column_narrow, .middle_column_narrow {
   display: inline;
   float: left;
@@ -1740,7 +1744,7 @@ form input#event_state {
   margin-right: 2.449%;
 }
 
-/* line 251, ../../app/stylesheets/partials/_base.scss */
+/* line 254, ../../app/stylesheets/partials/_base.scss */
 .right_column_narrow {
   display: inline;
   float: left;
@@ -1749,7 +1753,7 @@ form input#event_state {
   margin-right: 0;
 }
 
-/* line 255, ../../app/stylesheets/partials/_base.scss */
+/* line 258, ../../app/stylesheets/partials/_base.scss */
 .info_for_buttons {
   display: inline;
   float: left;
@@ -1758,7 +1762,7 @@ form input#event_state {
   margin-right: 2.449%;
 }
 
-/* line 259, ../../app/stylesheets/partials/_base.scss */
+/* line 262, ../../app/stylesheets/partials/_base.scss */
 .buttons {
   display: inline;
   float: left;
@@ -1768,32 +1772,32 @@ form input#event_state {
   text-align: right;
 }
 
-/* line 264, ../../app/stylesheets/partials/_base.scss */
+/* line 267, ../../app/stylesheets/partials/_base.scss */
 #person_city {
-  width: 22%;
+  width: 30%;
 }
 
-/* line 268, ../../app/stylesheets/partials/_base.scss */
+/* line 271, ../../app/stylesheets/partials/_base.scss */
 #person_state {
-  width: 6%;
+  width: 16%;
 }
 
-/* line 272, ../../app/stylesheets/partials/_base.scss */
+/* line 275, ../../app/stylesheets/partials/_base.scss */
 #person_zip {
-  width: 12%;
+  width: 24%;
 }
 
-/* line 276, ../../app/stylesheets/partials/_base.scss */
+/* line 279, ../../app/stylesheets/partials/_base.scss */
 .login .options p {
   margin-bottom: 0.4em;
 }
 
-/* line 280, ../../app/stylesheets/partials/_base.scss */
+/* line 283, ../../app/stylesheets/partials/_base.scss */
 .login .row.with_buttons {
   margin-top: 0.2em;
 }
 
-/* line 284, ../../app/stylesheets/partials/_base.scss */
+/* line 287, ../../app/stylesheets/partials/_base.scss */
 .login .buttons {
   display: inline;
   float: left;
@@ -1803,7 +1807,7 @@ form input#event_state {
   text-align: right;
 }
 
-/* line 289, ../../app/stylesheets/partials/_base.scss */
+/* line 292, ../../app/stylesheets/partials/_base.scss */
 .home .portrait .photo {
   padding-left: 17.075%;
   display: inline;
@@ -1813,7 +1817,7 @@ form input#event_state {
   margin-right: 2.449%;
 }
 
-/* line 294, ../../app/stylesheets/partials/_base.scss */
+/* line 297, ../../app/stylesheets/partials/_base.scss */
 .home .portrait .results {
   display: inline;
   float: left;
@@ -1822,7 +1826,7 @@ form input#event_state {
   margin-right: 0;
 }
 
-/* line 298, ../../app/stylesheets/partials/_base.scss */
+/* line 301, ../../app/stylesheets/partials/_base.scss */
 .home .portrait .caption {
   display: inline;
   float: left;
@@ -1832,17 +1836,17 @@ form input#event_state {
   color: gray;
 }
 
-/* line 303, ../../app/stylesheets/partials/_base.scss */
+/* line 306, ../../app/stylesheets/partials/_base.scss */
 .home .portrait .caption img {
   width: 80px;
 }
 
-/* line 307, ../../app/stylesheets/partials/_base.scss */
+/* line 310, ../../app/stylesheets/partials/_base.scss */
 .home .portrait .caption a {
   color: gray;
 }
 
-/* line 311, ../../app/stylesheets/partials/_base.scss */
+/* line 314, ../../app/stylesheets/partials/_base.scss */
 .home .news {
   display: inline;
   float: left;
@@ -1851,21 +1855,27 @@ form input#event_state {
   margin-right: 0;
 }
 
-/* line 315, ../../app/stylesheets/partials/_base.scss */
+/* line 318, ../../app/stylesheets/partials/_base.scss */
 .home .photo {
   /*  padding-right: 4px;*/
 }
 
-/* line 319, ../../app/stylesheets/partials/_base.scss */
+/* line 322, ../../app/stylesheets/partials/_base.scss */
 .home .photo img {
   width: 100%;
   border: 2px solid black;
 }
 
-/* line 324, ../../app/stylesheets/partials/_base.scss */
+/* line 327, ../../app/stylesheets/partials/_base.scss */
 .date {
   text-align: right;
   whitespace: nowrap;
+}
+
+/* line 332, ../../app/stylesheets/partials/_base.scss */
+.total_points {
+  font-weight: bold;
+  text-align: right;
 }
 
 /* line 1, ../../app/stylesheets/partials/_grid.scss */
@@ -1884,7 +1894,7 @@ form p {
 }
 /* line 44, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p290@rails_3/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_form.scss */
 form input.text, form input.title, form input[type=email], form input[type=text], form input[type=password] {
-  width: 66%;
+  width: 60%;
 }
 /* line 46, ../../../../../../usr/local/rvm/gems/ruby-1.9.2-p290@rails_3/gems/compass-0.11.5/frameworks/blueprint/stylesheets/blueprint/_form.scss */
 form textarea {
@@ -1901,18 +1911,19 @@ label {
   margin-top: 7px;
   padding-right: 5px;
   padding-top: 5px;
-  max-width: 30%;
+  width: 36%;
+  max-width: 36%;
   vertical-align: top;
   white-space: normal;
 }
 
-/* line 20, ../../app/stylesheets/partials/_forms.scss */
+/* line 21, ../../app/stylesheets/partials/_forms.scss */
 .text_field, .textarea {
   vertical-align: top;
   white-space: nowrap;
 }
 
-/* line 25, ../../app/stylesheets/partials/_forms.scss */
+/* line 26, ../../app/stylesheets/partials/_forms.scss */
 .text_field input, .textarea textarea {
   font-size: 1em;
   line-height: 16px;
@@ -1920,7 +1931,7 @@ label {
   vertical-align: top;
 }
 
-/* line 32, ../../app/stylesheets/partials/_forms.scss */
+/* line 33, ../../app/stylesheets/partials/_forms.scss */
 .select .input, .text_field .input, .labelled_text .input, .textarea .input {
   display: inline-block;
   font-size: 1em;
@@ -1928,48 +1939,48 @@ label {
   margin-left: 1px;
   margin-right: 1px;
   margin-top: 7px;
-  max-width: 66%;
+  max-width: 60%;
   padding-left: 0px;
   padding-right: 10px;
   padding-top: 5px;
   text-align: left;
   vertical-align: top;
-  width: 66%;
+  width: 60%;
 }
 
-/* line 48, ../../app/stylesheets/partials/_forms.scss */
+/* line 49, ../../app/stylesheets/partials/_forms.scss */
 .labelled_link {
   padding-right: 6px;
 }
 
-/* line 52, ../../app/stylesheets/partials/_forms.scss */
+/* line 53, ../../app/stylesheets/partials/_forms.scss */
 .text_field .input, .textarea .input {
   margin-top: 0px;
   padding-top: 0px;
 }
 
-/* line 57, ../../app/stylesheets/partials/_forms.scss */
+/* line 58, ../../app/stylesheets/partials/_forms.scss */
 .select .input select {
   margin: 0 0;
 }
 
-/* line 61, ../../app/stylesheets/partials/_forms.scss */
+/* line 62, ../../app/stylesheets/partials/_forms.scss */
 .text, .text_field, .select, .password_field, .labelled_text, .labelled_link, .textarea, .labelled_button {
   text-align: right;
 }
 
-/* line 65, ../../app/stylesheets/partials/_forms.scss */
+/* line 66, ../../app/stylesheets/partials/_forms.scss */
 .check_box {
   padding-top: 0.8em;
   text-align: right;
 }
 
-/* line 70, ../../app/stylesheets/partials/_forms.scss */
+/* line 71, ../../app/stylesheets/partials/_forms.scss */
 .check_box + .check_box {
   padding-top: 0.2em;
 }
 
-/* line 74, ../../app/stylesheets/partials/_forms.scss */
+/* line 75, ../../app/stylesheets/partials/_forms.scss */
 .check_box label {
   font-weight: normal;
   margin-left: 1px;
@@ -1978,22 +1989,22 @@ label {
   padding-left: 0px;
   padding-right: 10px;
   text-align: left;
-  max-width: 66%;
-  width: 66%;
+  max-width: 60%;
+  width: 60%;
 }
 
-/* line 86, ../../app/stylesheets/partials/_forms.scss */
+/* line 87, ../../app/stylesheets/partials/_forms.scss */
 .check_box input {
   margin-right: 5px;
 }
 
-/* line 90, ../../app/stylesheets/partials/_forms.scss */
+/* line 91, ../../app/stylesheets/partials/_forms.scss */
 .textarea .input {
   border: 1px solid #BBB;
   padding: 5px;
 }
 
-/* line 95, ../../app/stylesheets/partials/_forms.scss */
+/* line 96, ../../app/stylesheets/partials/_forms.scss */
 .textarea label {
   display: block;
   padding-right: 12px;
@@ -2001,13 +2012,13 @@ label {
   max-width: 100%;
 }
 
-/* line 101, ../../app/stylesheets/partials/_forms.scss */
+/* line 102, ../../app/stylesheets/partials/_forms.scss */
 form .textarea textarea {
   height: 8em;
   width: 100%;
 }
 
-/* line 106, ../../app/stylesheets/partials/_forms.scss */
+/* line 107, ../../app/stylesheets/partials/_forms.scss */
 .page_buttons {
   display: inline;
   float: left;
@@ -2016,28 +2027,28 @@ form .textarea textarea {
   margin-right: 0;
 }
 
-/* line 110, ../../app/stylesheets/partials/_forms.scss */
+/* line 111, ../../app/stylesheets/partials/_forms.scss */
 .row {
   overflow: hidden;
   *zoom: 1;
 }
 
-/* line 114, ../../app/stylesheets/partials/_forms.scss */
+/* line 115, ../../app/stylesheets/partials/_forms.scss */
 .row + .row {
   margin-top: 2em;
 }
 
-/* line 118, ../../app/stylesheets/partials/_forms.scss */
+/* line 119, ../../app/stylesheets/partials/_forms.scss */
 body .labelled_button a:hover {
   background: none;
 }
 
-/* line 122, ../../app/stylesheets/partials/_forms.scss */
+/* line 123, ../../app/stylesheets/partials/_forms.scss */
 fieldset {
   margin-top: 1em;
 }
 
-/* line 126, ../../app/stylesheets/partials/_forms.scss */
+/* line 127, ../../app/stylesheets/partials/_forms.scss */
 button, input[type="submit"] {
   background-color: #fafafa;
   background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#dedede));
@@ -2069,7 +2080,7 @@ button, input[type="submit"] {
   padding-top: 0.3em;
 }
 
-/* line 157, ../../app/stylesheets/partials/_forms.scss */
+/* line 158, ../../app/stylesheets/partials/_forms.scss */
 button:hover, input[type="submit"]:hover {
   background-color: #ffde14;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#ffe233), to(#f4d200));
@@ -2093,7 +2104,7 @@ button:hover, input[type="submit"]:hover {
   cursor: pointer;
 }
 
-/* line 180, ../../app/stylesheets/partials/_forms.scss */
+/* line 181, ../../app/stylesheets/partials/_forms.scss */
 button:active, input[type="submit"]:active {
   border: 1px solid #ad9500;
   border-bottom: 1px solid #947f00;
@@ -2104,7 +2115,7 @@ button:active, input[type="submit"]:active {
   box-shadow: inset 0 0 8px 4px #947f00, 0 1px 0 0 #ffec7a;
 }
 
-/* line 190, ../../app/stylesheets/partials/_forms.scss */
+/* line 191, ../../app/stylesheets/partials/_forms.scss */
 .info_for_buttons, .info_for_buttons a {
   color: #5a5a5a;
   font-style: italic;
