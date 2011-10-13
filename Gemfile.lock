@@ -63,6 +63,11 @@ GEM
       ffi (~> 1.0.6)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    factory_girl (2.1.2)
+      activesupport
+    factory_girl_rails (1.2.0)
+      factory_girl (~> 2.1.0)
+      railties (>= 3.0.0)
     fastercsv (1.5.4)
     ffi (1.0.9)
     highline (1.6.2)
@@ -148,6 +153,7 @@ DEPENDENCIES
   authlogic
   capistrano
   erubis
+  factory_girl_rails
   fastercsv
   hoptoad_notifier
   minitest

@@ -8,6 +8,9 @@ class Discipline < ActiveRecord::Base
   
   NONE = Discipline.new(:name => "", :id => nil).freeze unless defined?(NONE)
   @@all_aliases = nil
+  @@names = nil
+  
+  scope :numbers, where(:numbers => true)
   
   # Look up Discipline by name or alias. Caches Disciplines in memory
   def Discipline.[](name)
@@ -28,11 +31,6 @@ class Discipline < ActiveRecord::Base
   def Discipline.find_via_alias(name)
     Discipline[name]
   end
-  
-  # All Disciplines that are used for numbers. Configured in the database.
-  def Discipline.find_for_numbers
-    Discipline.all( :conditions => 'numbers=true')
-  end
 
   def Discipline.load_aliases
     @@all_aliases = {}
@@ -50,26 +48,22 @@ class Discipline < ActiveRecord::Base
   # Clear out cached @@aliases
   def Discipline.reset
     @@all_aliases = nil
+    @@names = nil
   end
   
-  def Discipline.find_all_names
-    [''] + Discipline.all.collect {|discipline| discipline.name}
+  def Discipline.names
+    @@names ||= Discipline.all.map(&:name)
   end
   
   def names
     case name
     when "Road"
-      [nil, "", 'Circuit', "Criterium", "Road", "Time Trial", "Singlespeed", "Tour"]
+      [ nil, "", 'Circuit', "Criterium", "Road", "Time Trial", "Singlespeed", "Tour" ]
     when "Mountain Bike"
-      ['Downhill', 'Mountain Bike', 'Super D', "Short Track"]
+      [ 'Downhill', 'Mountain Bike', 'Super D', "Short Track" ]
     else
-      [name]
+      [ name ]
     end
-  end
-
-  # Deprecated. Should use standard Discipline names.
-  def pretty_name
-    name.gsub('_', " ").gsub(/\b\w/) {|s| s.upcase }
   end
 
   def to_param

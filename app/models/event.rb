@@ -43,6 +43,8 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :name, :date
   validate :parent_is_not_self
+  
+  validate :inclusion_of_discipline
 
   belongs_to :parent, :foreign_key => "parent_id", :class_name => "Event"
   has_many :children,
@@ -445,7 +447,13 @@ class Event < ActiveRecord::Base
   end
 
   def discipline_id
-    Discipline[discipline].id if Discipline[discipline]
+    Discipline[discipline].try :id
+  end
+  
+  def inclusion_of_discipline
+    if discipline.present? && Discipline.names.present? && !Discipline.names.include?(discipline)
+      errors.add :discipline, "'#{discipline}' is not in #{Discipline.names.join(", ")}"
+    end
   end
   
   def promoter_name
