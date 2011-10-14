@@ -43,7 +43,11 @@ class Competition < Event
   has_many :source_events, :through => :competition_event_memberships, :source => :event
   
   def self.find_for_year(year = RacingAssociation.current.year)
-    self.where("date between ? and ?", Date.new(year).beginning_of_year, Date.new(year).end_of_year).first
+    self.where("date between ? and ?", Time.zone.local(year).beginning_of_year, Time.zone.local(year).end_of_year).first
+  end
+  
+  def self.find_for_year!(year = RacingAssociation.current.year)
+    self.find_for_year(year) || raise(ActiveRecord::RecordNotFound)
   end
   
   def self.find_or_create_for_year(year = RacingAssociation.current.year)

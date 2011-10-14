@@ -70,4 +70,8 @@ class CompetitionTest < ActiveSupport::TestCase
     competition.source_events << FactoryGirl.create(:event)
     assert_equal(2, competition.source_events.count, 'Events')
   end
+  
+  def test_find_for_year
+    raise
+  end
 end
