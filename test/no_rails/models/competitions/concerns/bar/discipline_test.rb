@@ -1,12 +1,12 @@
-require File.expand_path("../../../../no_rails_test_case", __FILE__)
-require File.expand_path("../../../../../../app/models/competitions/bar/discipline", __FILE__)
+require File.expand_path("../../../../../no_rails_test_case", __FILE__)
+require File.expand_path("../../../../../../../app/models/competitions/concerns/bar/discipline", __FILE__)
 
 # :stopdoc:
 # Used to only award bonus points for races of five or less, but now all races get equal points
-class Bar::DisciplineTest < NoRailsTestCase
+class Concerns::Bar::DisciplineTest < NoRailsTestCase
   def setup
     @bar = Object.new
-    @bar.extend Bar::Discipline
+    @bar.extend Concerns::Bar::Discipline
   end
 
   def test_discipline_for_road_race
