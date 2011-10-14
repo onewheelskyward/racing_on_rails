@@ -1,8 +1,8 @@
-require File.expand_path("../../no_rails_test_case", __FILE__)
+require File.expand_path("../../test_case", __FILE__)
 require File.expand_path("../../../../lib/ages", __FILE__)
 
 # :stopdoc:
-class AgesTest < NoRailsTestCase
+class AgesTest < Ruby::TestCase
   class Stub
     include Ages
     attr_accessor :ages_begin, :ages_end

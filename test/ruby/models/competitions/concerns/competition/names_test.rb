@@ -1,10 +1,10 @@
-require File.expand_path("../../../../no_rails_test_case", __FILE__)
-require File.expand_path("../../../../../../app/models/competitions/competition/name", __FILE__)
+require File.expand_path("../../../../../test_case", __FILE__)
+require File.expand_path("../../../../../../../app/models/competitions/concerns/competition/names", __FILE__)
 
 # :stopdoc:
-class Competition::NameTest < NoRailsTestCase
+class Concerns::Competition::NamesTest < Ruby::TestCase
   class TestCompetition
-    include Competition::Name
+    include Concerns::Competition::Names
     
     def name=(value)
       @name = value

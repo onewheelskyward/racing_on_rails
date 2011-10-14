@@ -2,10 +2,10 @@ module Concerns
   module Cat4WomensRaceSeries
     module Points
       def point_schedule
-        if association_points_schedule.present?
-          association_points_schedule
+        if association_point_schedule.present?
+          @point_schedule ||= association_point_schedule
         else
-          [ 0, 100, 95, 90, 85, 80, 75, 72, 70, 68, 66, 64, 62, 60, 58, 56 ]
+          @point_schedule ||= [ 0, 100, 95, 90, 85, 80, 75, 72, 70, 68, 66, 64, 62, 60, 58, 56 ]
         end
       end
 

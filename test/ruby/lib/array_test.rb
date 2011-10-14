@@ -1,8 +1,8 @@
-require File.expand_path("../../no_rails_test_case", __FILE__)
+require File.expand_path("../../test_case", __FILE__)
 require File.expand_path("../../../../lib/array", __FILE__)
 
 # :stopdoc:
-class ArrayTest < NoRailsTestCase
+class ArrayTest < Ruby::TestCase
   def test_each_row_with_index
     assert_equal([[], 0], [].each_row_with_index {|row, index|}, 'rows with index')
     assert_equal([[[1]], 0], [1].each_row_with_index {|row, index|}, 'rows with index')
