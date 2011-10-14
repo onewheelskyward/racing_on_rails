@@ -14,7 +14,8 @@ class OregonCupTest < ActiveSupport::TestCase
     # 1. Alice       75
     # 2. Molly      15
     
-    senior_men_p_1_2 = FactoryGirl.create(:category, :name => "Senior Men Pro 1/2")
+    senior_men = FactoryGirl.create(:category, :name => "Senior Men")
+    senior_men_p_1_2 = FactoryGirl.create(:category, :name => "Senior Men Pro 1/2", :parent => senior_men)
     senior_women = FactoryGirl.create(:category, :name => "Senior Women")
     # Set BAR point bonus -- it should be ignored
     kings_valley_2004 = FactoryGirl.create(:event, :date => Date.new(2004))
@@ -29,11 +30,13 @@ class OregonCupTest < ActiveSupport::TestCase
     kings_valley_pro_1_2.results.create!(:person => molly, :place => 20)
     kings_valley_pro_1_2.results.create!(:person => matson, :place => 21)
 
-    race = kings_valley_2004.races.create!(:category => senior_women)
+    race = kings_valley_2004.races.create!(:category => senior_women, :notes => "For Oregon Cup", :bar_points => 0)
     race.results.create!(:person => alice, :place => 2)
+    # Ignore Cat 4 result
+    women_4 = FactoryGirl.create(:category, :name => "Women 4")
+    race.results.create!(:place => 3, :person => Person.create!(:name => "Heather G", :member_from => Date.new(2004)), :category => women_4)
     race.results.create!(:person => molly, :place => 15)
 
-    FactoryGirl.create(:category, :name => "Senior Men")
     source_category = FactoryGirl.create(:category, :name => "Senior Women 1/2/3")
 
     # Sometimes women categories are picked separately. Ignore them.
@@ -41,11 +44,6 @@ class OregonCupTest < ActiveSupport::TestCase
     senior_women.children << separate_category
     separate_child_event = kings_valley_2004.children.create!(:bar_points => 1)
     separate_child_event.races.create!(:category => separate_category).results.create!(:place => "1", :person => molly)
-    womens_race = kings_valley_2004.races.create!(:notes => "For Oregon Cup", :bar_points => 0)
-
-    # Ignore Cat 4 result
-    women_4 = FactoryGirl.create(:category, :name => "Women 4")
-    womens_race.results.create!(:place => 3, :person => Person.create!(:name => "Heather G", :member_from => Date.new(2004)), :category => women_4)
 
     or_cup = OregonCup.create(:date => Date.new(2004))
     banana_belt_1 = FactoryGirl.create(:series_event)
@@ -107,9 +105,13 @@ class OregonCupTest < ActiveSupport::TestCase
     event = series.children.create!(:name => "Banana Belt 1", :date => Date.new(2010, 3, 1))
     oregon_cup_women = Event.new(:name => "Oregon Cup Women", :notes => "Oregon Cup")
     event.children << oregon_cup_women
+    senior_women = FactoryGirl.create(:category, :name => "Senior Women")
     or_cup = OregonCup.create!(:date => Date.new(2010))
     or_cup.source_events << event
     
+    alice = FactoryGirl.create(:person)
+    molly = FactoryGirl.create(:person)
+
     women_1_2_race = event.races.create!(:category => Category.find_or_create_by_name("Women 1/2"))
     women_1_2_race.results.create!(:place => 1, :person => alice)
     women_1_2_race.results.create!(:place => 2, :person => molly)
@@ -124,67 +126,8 @@ class OregonCupTest < ActiveSupport::TestCase
     OregonCup.calculate!(2010)
     
     or_cup = OregonCup.find_for_year(2010)
-    womens_race = or_cup.races.detect { |r| r.category == categories(:senior_women) }
+    womens_race = or_cup.races.detect { |r| r.category == senior_women }
     assert_equal 1, womens_race.results.size, "OR Cup womens race"
     assert_equal alice, womens_race.results.first.person, "Result person"
-  end
-  
-  def test_latest_event_with_results
-    or_cup = OregonCup.new
-    assert_nil(or_cup.latest_event_with_results, 'Should have no event with results')
-    
-    # Previous year
-    or_cup = OregonCup.create!(:date => Date.new(2004))
-    or_cup.source_events << events(:banana_belt_1)
-    or_cup.source_events << events(:kings_valley)
-
-    or_cup = OregonCup.create!
-    assert_nil(or_cup.latest_event_with_results, 'Should have no event with result')
-    
-    event = SingleDayEvent.create!
-    race = event.races.create!(:category => categories(:sr_p_1_2))
-    race.results.create!(:place => '1', :person => tonkin)
-    or_cup = OregonCup.create!
-    or_cup.source_events << event
-    or_cup.source_events << SingleDayEvent.create!
-    or_cup.source_events << SingleDayEvent.create!
-
-    or_cup.reload
-    assert_not_nil(or_cup.latest_event_with_results, 'Should have event with results')
-    assert_equal(event, or_cup.latest_event_with_results, 'Latest OR Cup event with result')
-  end
-  
-  def test_next_event
-    or_cup = OregonCup.new
-    assert(!or_cup.more_events?, 'More events')
-    assert_nil(or_cup.next_event, 'Should have no next event')
-    
-    # Previous year
-    or_cup = OregonCup.create!(:date => Date.new(2004))
-    or_cup.source_events << events(:banana_belt_1)
-    or_cup.source_events << events(:kings_valley)
-    or_cup.save!
-
-    or_cup = OregonCup.new
-    assert(!or_cup.more_events?, 'More events')
-    assert_nil(or_cup.next_event, 'Should have no next_event')
-    
-    or_cup = OregonCup.create!
-    event = SingleDayEvent.new(:date => Date.today - 21)
-    or_cup.source_events << event
-    or_cup.reload
-    assert(!or_cup.more_events?, 'More events')
-    assert_nil(or_cup.next_event, 'Should have no next_event')
-
-    event_2 = SingleDayEvent.new(:date => Date.today + 3)
-    event_3 = SingleDayEvent.new(:date => Date.today + 30)
-    or_cup.source_events << event_2
-    or_cup.source_events << event_3
-    or_cup.save!
-
-    or_cup.reload
-    assert(or_cup.more_events?, 'More events')
-    assert_not_nil(or_cup.next_event, 'Should have next_event')
-    assert_equal(event_2, or_cup.next_event, 'Next OR Cup event')
   end
 end
