@@ -1,16 +1,14 @@
-require File.expand_path("../../../../no_rails_test_case", __FILE__)
-require File.expand_path("../../../../../../app/models/competitions/cat4_womens_race_series/points", __FILE__)
-require 'active_support'
-require 'active_support/core_ext/object/blank'
+require File.expand_path("../../../../../test_case", __FILE__)
+require File.expand_path("../../../../../../../app/models/competitions/concerns/cat4_womens_race_series/points", __FILE__)
 
 # :stopdoc:
 # Used to only award bonus points for races of five or less, but now all races get equal points
-class Cat4WomensRaceSeries::PointsTest < NoRailsTestCase
+class Concerns::Cat4WomensRaceSeries::PointsTest < Ruby::TestCase
   def test_points_for_with_participation_points
     source_event = stub("SingleDayEvent", :id => 1)
-    series = stub("Cat4WomensRaceSeries", :source_events => [ source_event ], :association_points_schedule => nil)
+    series = stub("Cat4WomensRaceSeries", :source_events => [ source_event ], :association_point_schedule => nil)
     series.stubs(:participation_points? => true)
-    series.extend Cat4WomensRaceSeries::Points
+    series.extend ::Concerns::Cat4WomensRaceSeries::Points
 
     result = stub("result", :place => "1", :event_id => 1, :race => stub("race", :event => source_event))
     assert_equal 100, series.points_for(result), "points for result"
@@ -39,9 +37,9 @@ class Cat4WomensRaceSeries::PointsTest < NoRailsTestCase
   
   def test_points_for
     source_event = stub("SingleDayEvent", :id => 1)
-    series = stub("Cat4WomensRaceSeries", :source_events => [ source_event ], :association_points_schedule => nil)
+    series = stub("Cat4WomensRaceSeries", :source_events => [ source_event ], :association_point_schedule => nil)
     series.stubs(:participation_points? => false)
-    series.extend Cat4WomensRaceSeries::Points
+    series.extend ::Concerns::Cat4WomensRaceSeries::Points
 
     result = stub("result", :place => "1", :event_id => 1, :race => stub("race", :event => source_event))
     assert_equal 100, series.points_for(result), "points for result"
@@ -70,9 +68,9 @@ class Cat4WomensRaceSeries::PointsTest < NoRailsTestCase
   
   def test_points_for_non_source_event
     source_event = stub("SingleDayEvent", :id => 1)
-    series = stub("Cat4WomensRaceSeries", :source_events => [ source_event ], :association_points_schedule => nil)
+    series = stub("Cat4WomensRaceSeries", :source_events => [ source_event ], :association_point_schedule => nil)
     series.stubs(:participation_points? => true)
-    series.extend Cat4WomensRaceSeries::Points
+    series.extend ::Concerns::Cat4WomensRaceSeries::Points
 
     non_source_event = stub("SingleDayEvent", :id => 2, :parent_id => nil)
     
@@ -85,9 +83,9 @@ class Cat4WomensRaceSeries::PointsTest < NoRailsTestCase
   
   def test_points_for_non_source_event_no_participation_points
     source_event = stub("SingleDayEvent", :id => 1)
-    series = stub("Cat4WomensRaceSeries", :source_events => [ source_event ], :association_points_schedule => nil)
+    series = stub("Cat4WomensRaceSeries", :source_events => [ source_event ], :association_point_schedule => nil)
     series.stubs(:participation_points? => false)
-    series.extend Cat4WomensRaceSeries::Points
+    series.extend ::Concerns::Cat4WomensRaceSeries::Points
 
     non_source_event = stub("SingleDayEvent", :id => 2, :parent_id => nil)
     

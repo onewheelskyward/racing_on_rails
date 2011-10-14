@@ -1,10 +1,14 @@
-require File.expand_path("../../../../no_rails_test_case", __FILE__)
-require File.expand_path("../../../../../../app/models/competitions/competition/points", __FILE__)
+require File.expand_path("../../../../../test_case", __FILE__)
+require File.expand_path("../../../../../../../app/models/competitions/concerns/competition/points", __FILE__)
 
 # :stopdoc:
-class Competition::PointsTest < NoRailsTestCase
+class Concerns::Competition::PointsTest < Ruby::TestCase
+  class TestCompetition
+    include ::Concerns::Competition::Points
+  end
+  
   def test_points_for
-    competition = stub("Competition").extend(Competition::Points)
+    competition = TestCompetition.new
     competition.stubs(:points_factor).returns(1)
     competition.stubs(:team_size_from_result).returns(1)
     competition.point_schedule = [ 0, 20, 10, 5, 4, 3, 2, 1 ]
@@ -46,7 +50,7 @@ class Competition::PointsTest < NoRailsTestCase
   end
 
   def test_points_for_place_members_only
-    competition = stub("Competition").extend(Competition::Points)
+    competition = TestCompetition.new
     competition.stubs(:team_size_from_result).returns(1)
     competition.stubs(:place_members_only?).returns(true)
     competition.stubs(:points_factor).returns(1)
@@ -66,7 +70,7 @@ class Competition::PointsTest < NoRailsTestCase
   end
   
   def test_points_for_team_event
-    competition = stub("Competition").extend(Competition::Points)
+    competition = TestCompetition.new
     competition.point_schedule = [ 0, 20, 10, 5, 4, 3, 2, 1 ]
     competition.stubs(:points_factor).returns(1)
     source_event = stub("SingleDayEvent", :id => 1, :bar_points => 3)
@@ -83,7 +87,7 @@ class Competition::PointsTest < NoRailsTestCase
   end
   
   def test_consider_points_factor
-    competition = stub("Competition").extend(Competition::Points)
+    competition = TestCompetition.new
     competition.point_schedule = [ 0, 20, 10, 5, 4, 3, 2, 1 ]
     competition.stubs(:points_factor).returns(2)
     source_event = stub("SingleDayEvent", :id => 1)
@@ -100,7 +104,7 @@ class Competition::PointsTest < NoRailsTestCase
   end
   
   def test_do_not_consider_points_factor
-    competition = stub("Competition").extend(Competition::Points)
+    competition = TestCompetition.new
     competition.point_schedule = [ 0, 20, 10, 5, 4, 3, 2, 1 ]
     competition.stubs(:consider_points_factor?).returns(false)
     competition.stubs(:points_factor).returns(2)

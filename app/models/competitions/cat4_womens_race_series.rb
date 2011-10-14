@@ -28,7 +28,7 @@ class Cat4WomensRaceSeries < Competition
     RacingAssociation.current.award_cat4_participation_points?
   end
   
-  def association_points_schedule
+  def association_point_schedule
     RacingAssociation.current.cat4_womens_race_series_points
   end
 

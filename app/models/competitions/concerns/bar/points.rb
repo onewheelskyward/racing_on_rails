@@ -5,7 +5,7 @@ module Concerns
 
       module InstanceMethods
         def point_schedule
-          [ 0, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]
+          @point_schedule ||= [ 0, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]
         end
 
         # Apply points from point_schedule, and adjust for field size

@@ -4,6 +4,14 @@ module Concerns
       extend ActiveSupport::Concern
 
       module InstanceMethods
+        def point_schedule
+          @point_schedule ||= []
+        end
+        
+        def point_schedule=(value)
+          @point_schedule = value
+        end
+        
         # Apply points from point_schedule, and split across team
         def points_for(source_result, team_size = nil)
           if place_members_only?
@@ -55,10 +63,6 @@ module Concerns
 
         def default_bar_points
           0
-        end
-
-        def point_schedule
-          []
         end
 
         # Use the recorded place with all finishers? Or only place with just Assoication member finishers?
