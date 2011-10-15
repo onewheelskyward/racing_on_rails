@@ -1,24 +1,11 @@
 # WSBA rider rankings. Members get points for top-10 finishes in any event
 class RiderRankings < Competition
+  include Concerns::RiderRankings::Points
+
   def friendly_name
     'Rider Rankings'
   end
 
-  def point_schedule
-    [ 0, 100, 70, 50, 40, 36, 32, 28, 24, 20, 16 ]
-  end
-
-  # Apply points from point_schedule, and adjust for team size
-  def points_for(source_result)
-    team_size = Result.count(:conditions => ["race_id =? and place = ?", source_result.race.id, source_result.place])
-    points = point_schedule[source_result.members_only_place.to_i].to_f
-    if points
-      points / team_size
-    else
-      0
-    end
-  end
-  
   def place_members_only?
     true
   end
