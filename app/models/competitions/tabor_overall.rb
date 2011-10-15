@@ -15,32 +15,16 @@ class TaborOverall < Overall
     races.create! :category => Category.find_or_create_by_name("Category 3 Men")
     races.create! :category => Category.find_or_create_by_name("Senior Men")
   end
+
+  def maximum_events
+    5
+  end
   
-  # By default, does nothing. Useful to apply rule like:
-  # * Any results after the first four only get 50-point bonus
-  # * Drop lowest-scoring result
-  def after_create_competition_results_for(race)
-    race.results.each do |result|
-      if result.scores.size > 5
-        result.scores.sort! { |x, y| y.points <=> x.points }
-        lowest_score = result.scores.last
-        result.scores.destroy(lowest_score)
-        # Rails destroys Score in database, but doesn't update the current association
-        result.scores(true)
-      end
-    end
+  def double_points_for_last_event?
+    true
   end
   
   def point_schedule
     [ 0, 100, 70, 50, 40, 36, 32, 28, 24, 20, 16, 15, 14, 13, 12, 11 ]
-  end
-  
-  # Apply points from point_schedule, and split across team
-  def points_for(source_result, team_size = nil)
-    points = point_schedule[source_result.place.to_i].to_f
-    if source_result.last_event?
-      points = points * 2
-    end
-    points
   end
 end

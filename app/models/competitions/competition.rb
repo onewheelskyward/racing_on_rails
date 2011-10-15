@@ -163,6 +163,28 @@ class Competition < Event
   # * Any results after the first four only get 50-point bonus
   # * Drop lowest-scoring result
   def after_create_competition_results_for(race)
+    if maximum_events
+      race.results.each do |result|
+        # Don't bother sorting scores unless we need to drop some
+        if result.scores.size > maximum_events
+          result.scores.sort! { |x, y| y.points <=> x.points }
+          lowest_scores = result.scores[maximum_events, 2]
+          lowest_scores.each do |lowest_score|
+            result.scores.destroy(lowest_score)
+          end
+          # Rails destroys Score in database, but doesn't update the current association
+          result.scores(true)
+        end
+
+        if preliminary?(result)
+          result.preliminary = true       
+        end    
+      end
+    end
+  end
+  
+  def maximum_events
+    nil
   end
   
   def break_ties?

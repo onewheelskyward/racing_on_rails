@@ -14,13 +14,15 @@ module Concerns
         
         # Apply points from point_schedule, and split across team
         def points_for(source_result, team_size = nil)
+          points = 0
+          
           if place_members_only?
-            points = point_schedule[source_result.members_only_place.to_i].to_f
+            points = point_schedule[source_result.members_only_place.to_i].to_f || 0
           else
-            points = point_schedule[source_result.place.to_i].to_f
+            points = point_schedule[source_result.place.to_i].to_f || 0
           end
 
-          if points
+          if points > 0
             factor = 1
             if consider_points_factor?
               factor = points_factor(source_result)
@@ -28,13 +30,17 @@ module Concerns
 
             if consider_team_size?
               team_size = team_size || team_size_from_result(source_result)
-              points * factor / team_size.to_f
+              points = points * factor / team_size.to_f
             else
-              points * factor
+              points = points * factor
             end
-          else
-            0
+            
+            if double_points_for_last_event? && source_result.last_event?
+              points = points * 2
+            end
           end
+          
+          points
         end
 
         # multiplier from the CompetitionEventsMembership if it exists
@@ -59,6 +65,10 @@ module Concerns
 
         def consider_points_factor?
           true
+        end
+        
+        def double_points_for_last_event?
+          false
         end
 
         def default_bar_points
