@@ -134,6 +134,10 @@ class Overall < Competition
   def members_only?
     false 
   end
+
+  def default_bar_points
+    1
+  end
   
   def minimum_events
     nil
