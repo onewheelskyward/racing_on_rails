@@ -25,7 +25,6 @@ class MtbBarTest < ActiveSupport::TestCase
     race.results.create!(:person => chris_woods, :place => 14)
 
     Bar.calculate!(2001)
-    p Bar.new.point_schedule
     mtb_bar = Bar.find_by_year_and_discipline(2001, "Mountain Bike")
     assert_not_nil(mtb_bar, "2001 MTB BAR after calculate!")
     junior_men_mtb_bar = mtb_bar.races.detect {|b| b.name == "Junior Men" }
