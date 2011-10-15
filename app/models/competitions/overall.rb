@@ -152,7 +152,7 @@ class Overall < Competition
     !raced_minimum_events?(result.person, result.race)
   end
 
-  def valid_dates
-    true
+  def all_year?
+    false
   end
 end

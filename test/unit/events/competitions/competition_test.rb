@@ -72,6 +72,12 @@ class CompetitionTest < ActiveSupport::TestCase
   end
   
   def test_find_for_year
-    raise
+    assert_equal nil, TestCompetition.find_for_year, "find with nothing in DB"
+    
+    competition = TestCompetition.create!
+    assert_equal competition, TestCompetition.find_for_year, "find in DB"
+    
+    competition = TestCompetition.create!(:date => Date.new(2005))
+    assert_equal competition, TestCompetition.find_for_year, "find in DB with multiple events"
   end
 end
