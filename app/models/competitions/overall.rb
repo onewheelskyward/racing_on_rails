@@ -107,28 +107,6 @@ class Overall < Competition
 
     end
   end
-
-  # By default, does nothing. Useful to apply rule like:
-  # * Any results after the first four only get 50-point bonus
-  # * Drop lowest-scoring result
-  def after_create_competition_results_for(race)
-    race.results.each do |result|
-      # Don't bother sorting scores unless we need to drop some
-      if result.scores.size > 6
-        result.scores.sort! { |x, y| y.points <=> x.points }
-        lowest_scores = result.scores[6, 2]
-        lowest_scores.each do |lowest_score|
-          result.scores.destroy(lowest_score)
-        end
-        # Rails destroys Score in database, but doesn't update the current association
-        result.scores(true)
-      end
-    
-      if preliminary?(result)
-        result.preliminary = true       
-      end    
-    end
-  end
   
   # Only members can score points?
   def members_only?
@@ -141,6 +119,10 @@ class Overall < Competition
   
   def minimum_events
     nil
+  end
+  
+  def maximum_events
+    6
   end
   
   def raced_minimum_events?(person, race)

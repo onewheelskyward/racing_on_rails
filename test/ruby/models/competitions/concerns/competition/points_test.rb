@@ -83,7 +83,7 @@ class Concerns::Competition::PointsTest < Ruby::TestCase
       :race => stub("race", :event => source_event)
     )
     points = competition.points_for(result, 2)
-    assert_equal 2.5, points, "Points for first place with team of one and no multiplier"
+    assert_equal 2.5, points, "Points for first place with team of two and no multiplier"
   end
   
   def test_consider_points_factor
