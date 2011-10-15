@@ -349,18 +349,18 @@ class Admin::ResultsControllerTest < ActionController::TestCase
     assert_template('admin/results/_person')
   end
   
-  def test_move_result
+  def test_move
     weaver = people(:weaver)
     tonkin = people(:tonkin)
     result = results(:tonkin_kings_valley)
 
-    assert(tonkin.results.include?(result))
-    assert(!weaver.results.include?(result))
+    assert tonkin.results.include?(result)
+    assert !weaver.results.include?(result)
     
-    post(:move_result, :person_id => "person_#{weaver.id}", :id => "result_#{result.id}")
+    post :move, :person_id => weaver.id, :result_id => result.id, :format => "js"
     
-    assert(!tonkin.results(true).include?(result))
-    assert(weaver.results(true).include?(result))
-    assert_response(:success)
+    assert !tonkin.results(true).include?(result)
+    assert weaver.results(true).include?(result)
+    assert_response :success
   end
 end
