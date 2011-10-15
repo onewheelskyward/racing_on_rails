@@ -190,12 +190,13 @@ class ActiveSupport::TestCase
   # helps with place_members_only calculation, so there are no gaps
   def fill_in_missing_results
     Result.all.group_by(&:race).each do |race, results|
-       all_results=results.collect(&:place) #get an array of just places for this race       
-       results.sort!{|a,b| a.place.to_i <=> b.place.to_i} #important to get last place in last
-       need_results=[]
-       (1..results.last.place.to_i).reverse_each {|res|
+       all_results = results.collect(&:place)
+       # important to get last place in last
+       results.sort! { |a,b| a.place.to_i <=> b.place.to_i }
+       need_results = []
+       (1..results.last.place.to_i).reverse_each { |res|
          unless all_results.include?(res.to_s)
-          #we need a result, there is a gap here
+           # we need a result, there is a gap here
            race.results.create!(:place => res)
          end         
        }

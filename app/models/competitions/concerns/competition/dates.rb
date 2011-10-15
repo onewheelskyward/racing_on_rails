@@ -12,6 +12,16 @@ module Concerns
           Time.zone.now.beginning_of_year
         end
 
+        def date
+          if source_events.any?
+            source_events.sort.first.date
+          elsif parent
+            parent.start_date
+          else
+            self[:date]
+          end
+        end
+
         # Same as +date+. Should always be January 1st
         def start_date
           date
@@ -19,7 +29,13 @@ module Concerns
 
         # Last day of year for +date+
         def end_date
-          Time.zone.local(year).end_of_year
+          if source_events.any?
+            source_events.sort.last.date
+          elsif parent
+            parent.end_date
+          else
+            Time.zone.local(year).end_of_year
+          end
         end
 
         def date_range_long_s
@@ -36,13 +52,11 @@ module Concerns
 
         # Assert start and end dates are first and last days of the year
         def valid_dates
-          if source_events.empty?
-            if !start_date || start_date.month != 1 || start_date.day != 1
-              errors.add "start_date", "Start date must be January 1st"
-            end
-            if !end_date || end_date.month != 12 || end_date.day != 31
-              errors.add "end_date", "End date must be December 31st"
-            end
+          if !start_date || start_date.month != 1 || start_date.day != 1
+            errors.add "start_date", "Start date must be January 1st"
+          end
+          if !end_date || end_date.month != 12 || end_date.day != 31
+            errors.add "end_date", "End date must be December 31st"
           end
         end
       end
