@@ -6,7 +6,7 @@ module Concerns
         cats = [ race.category ] + race.category.descendants
 
         if race.category.name == "Masters Men"
-          masters_men_4_5 = Category.find_by_name("Masters Men 4/5")
+          masters_men_4_5 = ::Category.find_by_name("Masters Men 4/5")
           if masters_men_4_5
             cats.delete masters_men_4_5
             cats = cats - masters_men_4_5.descendants
@@ -14,7 +14,7 @@ module Concerns
         end
 
         if race.category.name == "Masters Women"
-          masters_women_4 = Category.find_by_name("Masters Women 4")
+          masters_women_4 = ::Category.find_by_name("Masters Women 4")
           if masters_women_4
             cats.delete masters_women_4
             cats = cats - masters_women_4.descendants

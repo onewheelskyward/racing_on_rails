@@ -165,28 +165,6 @@ class Overall < Competition
     !parent.completed? && 
     !raced_minimum_events?(result.person, result.race)
   end
-  
-  def date
-    if source_events.any?
-      source_events.sort.first.date
-    else
-      parent.start_date
-    end
-  end
-
-  # Same as +date+
-  def start_date
-    date
-  end
-  
-  # Last day of year for +date+
-  def end_date
-    if source_events.any?
-      source_events.sort.last.date
-    else
-      parent.end_date
-    end
-  end
 
   def valid_dates
     true
