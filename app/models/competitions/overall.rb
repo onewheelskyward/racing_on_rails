@@ -114,7 +114,7 @@ class Overall < Competition
   end
 
   def default_bar_points
-    1
+    0
   end
   
   def minimum_events

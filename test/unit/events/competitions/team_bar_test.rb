@@ -1,98 +1,23 @@
-# There is duplication between BAR tests, but refactring the tests should wait until the Competition refactoring is complete
-
 require File.expand_path("../../../../test_helper", __FILE__)
 
 # :stopdoc:
 class TeamBarTest < ActiveSupport::TestCase
-  def test_calculate_tandem
-    tandem = Category.find_or_create_by_name("Tandem")
-    crit_discipline = disciplines(:criterium)
-    crit_discipline.bar_categories << tandem
-    crit_discipline.save!
-    crit_discipline.reload
-    assert(crit_discipline.bar_categories.include?(tandem), 'Criterium Discipline should include Tandem category')
-    swan_island = SingleDayEvent.create(
-      :name => "Swan Island",
-      :discipline => "Criterium",
-      :date => Date.new(2004, 5, 17),
-    )
-    swan_island_tandem = swan_island.races.create(:category => tandem)
-    first_people = Person.new(:first_name => 'Scott/Cheryl', :last_name => 'Willson/Willson', :member_from => Date.new(2004, 1, 1))
-    gentle_lovers = gentle_lovers
-    swan_island_tandem.results.create(
-      :place => 12,
-      :person => first_people,
-      :team => gentle_lovers
-    )
-    # Existing people
-    second_people = Person.create(:first_name => 'Tim/John', :last_name => 'Johnson/Verhul', :member_from => Date.new(2004, 1, 1))
-    second_people_team = Team.create(:name => 'Kona/Northampton Cycling Club')
-    swan_island_tandem.results.create(
-      :place => 2,
-      :person => second_people,
-      :team => second_people_team
-    )
+  def test_extract_teams_from
+    bar = TeamBar.new
 
-    Bar.calculate!(2004)
-    TeamBar.calculate!(2004)
-    bar = TeamBar.first(:conditions => ['date = ?', Date.new(2004, 1, 1)])
-    assert_not_nil(bar, "2004 TeamBar after calculate!")
-    team_bar_race = bar.races.first
-    
-    gentle_lovers_team_result = team_bar_race.results.detect do |result|
-      result.team == gentle_lovers
-    end
-    swan_island_tandem_bar_result = gentle_lovers_team_result.scores.detect do |score|
-      score.source_result.race == swan_island_tandem
-    end
-    assert_not_nil(swan_island_tandem_bar_result, 'Tandem results should count in Team BAR')
-    assert_equal(4, swan_island_tandem_bar_result.points, 'Gentle Lovers Tandem BAR points')
+    source_result = Result.new
+    assert_equal [], bar.extract_teams_from(source_result), "no teams"
 
-    kona_team_result = team_bar_race.results.detect do |result|
-      result.team == kona
-    end
-    swan_island_tandem_bar_result = kona_team_result.scores.detect do |score|
-      score.source_result.race == swan_island_tandem
-    end
-    assert_not_nil(swan_island_tandem_bar_result, 'Tandem results should count in Team BAR')
-    assert_equal(7, swan_island_tandem_bar_result.points, 'Kona Tandem BAR points')
+    source_result = FactoryGirl.create(:result)
+    assert_equal [ source_result.team ], bar.extract_teams_from(source_result), "team"
 
-    ncc_team_result = team_bar_race.results.detect do |result|
-      result.team.name == 'Northampton Cycling Club'
-    end
-    assert_nil(ncc_team_result, 'No tandem BAR result for NCC because it is not an OBRA member')
-  end
-
-  def test_pick_best_juniors_for_overall
-    expert_junior_men = expert_junior_men
-    junior_men = junior_men
-    sport_junior_men = sport_junior_men
-
-    # Masters too
-    marin_knobular = SingleDayEvent.create(:name => 'Marin Knobular', :date => Date.new(2001, 9, 7), :discipline => 'Mountain Bike')
-    race = marin_knobular.races.create(:category => expert_junior_men)
-    kc = Person.create(:name => 'KC Mautner', :member_from => Date.new(2001, 1, 1))
-    vanilla = vanilla
-    race.results.create(:person => kc, :place => 4, :team => vanilla)
-    chris_woods = Person.create(:name => 'Chris Woods', :member_from => Date.new(2001, 1, 1))
-    gentle_lovers = gentle_lovers
-    race.results.create(:person => chris_woods, :place => 12, :team => gentle_lovers)
-    
-    lemurian = SingleDayEvent.create(:name => 'Lemurian', :date => Date.new(2001, 9, 14), :discipline => 'Mountain Bike')
-    race = lemurian.races.create(:category => sport_junior_men)
-    race.results.create(:person => chris_woods, :place => 14, :team => gentle_lovers)
-    
-    Bar.calculate!(2001)
-    TeamBar.calculate!(2001)
-    bar = TeamBar.first(:conditions => ['date = ?', Date.new(2001, 1, 1)])
-    team_bar = bar.races.first
-    
-    team_bar.results.sort!
-    assert_equal(2, team_bar.results.size, 'Team BAR results')
-    assert_equal(vanilla, team_bar.results.first.team, 'Team BAR first result')
-    assert_equal(12, team_bar.results.first.points, 'Team BAR first points')
-    assert_equal(gentle_lovers, team_bar.results.last.team, 'Team BAR last result')
-    assert_equal(6, team_bar.results.last.points, 'Team BAR last points')
+    team_1 = FactoryGirl.create(:team, :name => "Gentle Lovers")
+    team_2 = FactoryGirl.create(:team, :name => "Vanilla")
+    team = FactoryGirl.create(:team, :name => "Gentle Lovers/Vanilla")
+    category = FactoryGirl.create(:category, :name => "Tandem")
+    race = FactoryGirl.create(:race, :category => category)
+    source_result = FactoryGirl.create(:result, :team => team, :race => race)
+    assert_equal [ team_1, team_2 ], bar.extract_teams_from(source_result).sort_by(&:name), "teams"
   end
   
   def test_calculate
@@ -251,19 +176,27 @@ class TeamBarTest < ActiveSupport::TestCase
       :team => kona
     )
   
-    results_baseline_count = Result.count
+    event = FactoryGirl.create(:event, :date => Date.new(2004), :name => "Banana Belt")
+    race = event.races.create!(:category => sr_p_1_2)
+    race.results.create!(:place => "1", :person => tonkin, :team => kona)
+    race.results.create!(:place => "3", :person => matson, :team => kona)
+
+    event = FactoryGirl.create(:event, :date => Date.new(2004), :name => "Kings Valley")
+    race = event.races.create!(:category => senior_women)
+    race.results.create!(:place => "2", :person => alice, :team => gentle_lovers)
+    race.results.create!(:place => "15", :person => molly, :team => vanilla)
+
     assert_equal(0, TeamBar.count, "TeamBar before calculate!")
-    original_results_count = Result.count
     Bar.calculate!(2004)
-    TeamBar.calculate!(2004)
+    assert_difference "Result.count", 3 do
+      TeamBar.calculate!(2004)
+    end
     assert_equal(1, TeamBar.count, "TeamBar events after calculate!")
     bar = TeamBar.first(:conditions => ['date = ?', Date.new(2004, 1, 1)])
-    bar.inspect_debug
     assert_not_nil(bar, "2004 TeamBar after calculate!")
     assert_equal(Date.new(2004, 1, 1), bar.date, "2004 TeamBar date")
     assert_equal("2004 Team BAR", bar.name, "2004 Team Bar name")
     assert_equal_dates(Date.today, bar.updated_at, "BAR last updated")
-    assert_equal(original_results_count + 18, Result.count, "Total count of results in DB")
     
     assert_equal(1, bar.races.size, 'Should have only one Team BAR race')
     team_race = bar.races.first

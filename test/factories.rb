@@ -59,6 +59,7 @@ FactoryGirl.define do
     sequence :place
     race
     person
+    team
     
     factory :time_trial_result do
       time 1800

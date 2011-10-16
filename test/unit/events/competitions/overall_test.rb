@@ -206,7 +206,7 @@ class OverallTest < ActiveSupport::TestCase
     assert_equal(1, men_a_overall_race.results.first.scores.size, "Should ignore age-graded BAR")
   end
 
-  test "should not count for bar nor ironman" do
+  test "should count for bar, nor ironman" do
     series = Series.create!(:name => "Cascade Cross Series")
     men_a = Category.find_or_create_by_name("Men A")
     series.children.create!(:date => Date.new(2008)).races.create!(:category => men_a).results.create!(:place => "4", :person => FactoryGirl.create(:person))

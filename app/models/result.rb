@@ -284,7 +284,7 @@ class Result < ActiveRecord::Base
     if race_id
       @team_size ||= Result.count(:conditions => ["race_id =? and place = ?", race_id, place])
     else
-      1
+      @team_size ||= 1
     end
   end
 
