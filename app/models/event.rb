@@ -180,7 +180,7 @@ class Event < ActiveRecord::Base
     
   # Defaults state to RacingAssociation.current.state, date to today, name to New Event mm-dd-yyyy
   # NumberIssuer: RacingAssociation.current.short_name
-  # Child events use their parent's values unless explicity override. And you cannot override
+  # Child events use their parent's values unless explicity overriden. And you cannot override
   # parent values by passing in blank or nil attributes to initialize, as there is
   # no way to differentiate missing values from nils or blanks.
   def set_defaults

@@ -3,17 +3,18 @@ require File.expand_path("../../../test_helper", __FILE__)
 # :stopdoc:
 class EventTest < ActiveSupport::TestCase
   def test_validate_discipline
-    Factory(:discipline)
+    FactoryGirl.build(:discipline)
     event = FactoryGirl.build(:event, :discipline => "Foo")
     assert !event.valid?, "Event with bogus Discipline should not be valid"
     assert event.errors[:discipline]
   end
 
   def test_find_years
-    Timecop.freeze Date.new(2012, 11) do
-      years = Event.find_all_years
-      assert_equal_enumerables [ 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002 ], years, "Should find all years with events"
-    end
+    FactoryGirl.create(:event, :date => Date.new(2007))
+    FactoryGirl.create(:event, :date => Date.new(2008))
+    FactoryGirl.create(:event, :date => Date.new(2009))
+    years = Event.find_all_years
+    assert_equal_enumerables [ 2009, 2008, 2007 ], years, "Should find all years with events"
   end
   
   def test_defaults
@@ -32,56 +33,81 @@ class EventTest < ActiveSupport::TestCase
     assert_equal true, event.notification?, "event notification?"
   end
   
+  def test_default_number_issuer
+    event = SingleDayEvent.create!(:name => 'Unsanctioned')
+    event.reload
+    assert_equal(RacingAssociation.current.default_sanctioned_by, event.sanctioned_by, 'sanctioned_by')
+    assert_equal(number_issuers(:association), event.number_issuer(true), 'number_issuer')
+  end
+  
   def test_find_all_with_results
+    event = FactoryGirl.create(:result).event
     weekly_series, events = Event.find_all_with_results
     assert_equal([], weekly_series, "weekly_series")
-    expected = []
-    unless RacingAssociation.current.show_only_association_sanctioned_races_on_calendar
-      expected << events(:usa_cycling_event_with_results)
-    end
-    assert_equal(expected, events, "events")
+    assert_equal([ event ], events, "events")
   end
   
   def test_find_all_with_results_with_year
+    event_with_results = FactoryGirl.create(:event, :date => Date.new(2003))
+    race = FactoryGirl.create(:race, :event => event_with_results)
+    FactoryGirl.create(:result, :race => race)
+
+    # Event and race + event with no results
+    FactoryGirl.create(:event, :date => Date.new(2003))
+    FactoryGirl.create(:race)
+    
     weekly_series, events = Event.find_all_with_results(2003)
-    assert_equal([events(:kings_valley)], events, "events")
+    assert_equal([ event_with_results ], events, "events")
     assert_equal([], weekly_series, "weekly_series")
 
+    event_with_results = FactoryGirl.create(:event, :date => Date.new(2004))
+    race = FactoryGirl.create(:race, :event => event_with_results)
+    FactoryGirl.create(:result, :race => race)
+    
+    weekly_series_with_results = FactoryGirl.create(:weekly_series, :date => Date.new(2004))
+    series_event = weekly_series_with_results.children.create!
+    race = FactoryGirl.create(:race, :event => series_event)
+    FactoryGirl.create(:result, :race => race)
+    
     weekly_series, events = Event.find_all_with_results(2004)
-    assert_equal_events([events(:banana_belt_series), events(:kings_valley_2004)], events, "events")
-    assert_equal([], weekly_series, "weekly_series")
+    assert_equal_events([ event_with_results ], events, "events")
+    assert_equal([ weekly_series_with_results], weekly_series, "weekly_series")
 
-    pir_1 = events(:pir)
-    pir_1.races.create!(:category => categories(:senior_men)).results.create!
     weekly_series, events = Event.find_all_with_results(2005)
     assert_equal([], events, "events")
-    assert_equal([events(:pir_series)], weekly_series, "weekly_series")
+    assert_equal([], weekly_series, "weekly_series")
   end
   
   def test_find_all_with_results_with_discipline
+    FactoryGirl.create(:discipline, :name => "Road")
+    FactoryGirl.create(:discipline, :name => "Circuit")
+    FactoryGirl.create(:discipline, :name => "Criterium")
+    
+    event_with_results = FactoryGirl.create(:event, :date => Date.new(2003))
+    race = FactoryGirl.create(:race, :event => event_with_results)
+    FactoryGirl.create(:result, :race => race)
+
     weekly_series, events = Event.find_all_with_results(2003, Discipline["Road"])
-    assert_equal([events(:kings_valley)], events, "events")
+    assert_equal([ event_with_results ], events, "events")
     assert_equal([], weekly_series, "weekly_series")
 
     weekly_series, events = Event.find_all_with_results(2003, Discipline["Criterium"])
     assert_equal([], events, "events")
     assert_equal([], weekly_series, "weekly_series")
     
-    circuit_race = SingleDayEvent.create!(:discipline => "Circuit")
-    circuit_race.races.create!(:category => categories(:senior_men)).results.create!
+    circuit_race = FactoryGirl.create(:event, :discipline => "Circuit")
+    category = FactoryGirl.create(:category)
+    circuit_race.races.create!(:category => category).results.create!
     
-    track_event = SingleDayEvent.create!(:discipline => "Track")
-    track_event.races.create!(:category => categories(:senior_men)).results.create!
+    track_event = FactoryGirl.create(:event, :discipline => "Track")
+    track_event.races.create!(:category => category).results.create!
     
     track_series = WeeklySeries.create!(:discipline => "Track")
     track_series_event = track_series.children.create!
-    track_series_event.races.create!(:category => categories(:senior_men)).results.create!
+    track_series_event.races.create!(:category => category).results.create!
     
     weekly_series, events = Event.find_all_with_results(Date.today.year, Discipline["Road"])
     expected = []
-    unless RacingAssociation.current.show_only_association_sanctioned_races_on_calendar
-      expected << events(:usa_cycling_event_with_results)
-    end
     expected << circuit_race
     expected.sort!
     events.sort!
@@ -97,7 +123,7 @@ class EventTest < ActiveSupport::TestCase
     series = WeeklySeries.create!
     series_event = series.children.create!
     child_event = series_event.children.create!
-    child_event.races.create!(:category => categories(:senior_men)).results.create!
+    child_event.races.create!(:category => FactoryGirl.create(:category)).results.create!
     
     assert(child_event.is_a?(Event), "Child event should be an Event")
     assert(!child_event.is_a?(SingleDayEvent), "Child event should not be an SingleDayEvent")
@@ -105,78 +131,45 @@ class EventTest < ActiveSupport::TestCase
     weekly_series, events = Event.find_all_with_results
     assert_equal([series], weekly_series, "weekly_series")
   end
-    
-  def test_new_add_promoter
-    event = SingleDayEvent.new
-    candi = people(:administrator)
-    event.promoter = candi
-    assert_equal(candi, event.promoter, "New event promoter before save")
-    event.save!
-    assert_equal(candi, event.promoter, "New event promoter after save")
-    event.reload
-    assert_equal(candi, event.promoter, "New event promoter after reload")
-
-    # Only email and phone
-    event = SingleDayEvent.new
-    nate_hobson = people(:nate_hobson)
-    assert(nate_hobson.errors.empty?, "Errors: #{nate_hobson.errors.full_messages.join(', ')}")
-    event.promoter = nate_hobson
-    assert_equal(nate_hobson, event.promoter, "New event promoter before save")
-    event.save!
-    assert(nate_hobson.errors.empty?, "Errors: #{nate_hobson.errors.full_messages.join(', ')}")
-    assert(event.errors.empty?, "Errors: #{event.errors.full_messages.join(', ')}")
-    assert_equal(nate_hobson, event.promoter, "New event promoter after save")
-    event.reload
-    assert_equal(nate_hobson, event.promoter, "New event promoter after reload")
-
-    event = SingleDayEvent.new
-    nate_hobson = people(:nate_hobson)
-    event.promoter = nate_hobson
-    assert_equal(nate_hobson, event.promoter, "New event promoter before save")
-    event.save!
-    assert_equal(nate_hobson, event.promoter, "New event promoter after save")
-    event.reload
-    assert_equal(nate_hobson, event.promoter, "New event promoter after reload")
-  end
-  
-  def test_set_promoter
-    event = SingleDayEvent.new
-    promoter = Person.new(:name => 'Toni Kic')
-    event.promoter = promoter
-    assert_not_nil(event.promoter, 'event.promoter')
-    assert_equal('Toni Kic', event.promoter.name, 'event.promoter.name')
-  end
   
   def test_set_promoter_by_name_no_id
+    promoter = FactoryGirl.create(:person, :name => "Brad Ross")
     event = SingleDayEvent.create!(:promoter_name => "Brad Ross")
-    assert_equal people(:promoter), event.promoter, "Should set promoter from name, even without promoter_id"
+    assert_equal promoter, event.promoter, "Should set promoter from name, even without promoter_id"
   end
 
   def test_set_promoter_by_name_with_id
-    event = SingleDayEvent.create!(:promoter_name => "Brad Ross", :promoter_id => people(:promoter).id)
-    assert_equal people(:promoter), event.promoter, "Should set promoter from name and/or promoter_id"
+    promoter = FactoryGirl.create(:person, :name => "Brad Ross")
+    event = SingleDayEvent.create!(:promoter_name => "Brad Ross", :promoter_id => promoter.id)
+    assert_equal promoter, event.promoter, "Should set promoter from name and/or promoter_id"
   end
 
   def test_set_promoter_by_name_and_ignore_bogus_id
+    promoter = FactoryGirl.create(:person, :name => "Brad Ross")
     event = SingleDayEvent.create!(:promoter_name => "Brad Ross", :promoter_id => "1281928")
-    assert_equal people(:promoter), event.promoter, "Should set promoter from name and ignore bogus promoter_id"
+    assert_equal promoter, event.promoter, "Should set promoter from name and ignore bogus promoter_id"
   end
 
   def test_set_promoter_by_name_and_ignore_wrong_id
-    event = SingleDayEvent.create!(:promoter_name => "Brad Ross", :promoter_id => people(:administrator).id)
+    promoter = FactoryGirl.create(:person, :name => "Brad Ross")
+    person = FactoryGirl.create(:person)
+    
+    event = SingleDayEvent.create!(:promoter_name => "Brad Ross", :promoter_id => person.id)
     assert_equal people(:promoter), event.promoter, "Should set promoter from name, even another person's promoter_id"
   end
 
   def test_choose_promoter_by_id_with_multiple_same_names
+    promoter = FactoryGirl.create(:person, :name => "Brad Ross")
     brad_ross_2 = Person.create!(:name => "Brad Ross")
     event = SingleDayEvent.create!(:promoter_name => "Brad Ross", :promoter_id => brad_ross_2.id)
     assert_equal brad_ross_2, event.promoter, "Should use promoter_id to choose between duplicates"
   end
 
   def test_non_unique_promoter_wrong_id
+    promoter = FactoryGirl.create(:person, :name => "Brad Ross")
     brad_ross_2 = Person.create!(:name => "Brad Ross")
     event = SingleDayEvent.create!(:promoter_name => "Brad Ross", :promoter_id => "12378129")
-    assert [people(:promoter), brad_ross_2].include?(event.promoter), "Should choose a Person from duplicates, even without a matching promoter_id"
+    assert [promoter, brad_ross_2].include?(event.promoter), "Should choose a Person from duplicates, even without a matching promoter_id"
   end
 
   def test_new_promoter_wrong_id
@@ -194,38 +187,47 @@ class EventTest < ActiveSupport::TestCase
   end
   
   def test_set_promoter_by_alias
+    promoter = FactoryGirl.create(:person, :name => "Molly Cameron")
+    promoter.aliases.create(:name => "Mollie Cameron")
     event = SingleDayEvent.create!(:promoter_name => "Mollie Cameron")
     assert_equal people(:molly), event.promoter, "Should set promoter from alias"
   end
   
   def test_remove_promoter
+    promoter = FactoryGirl.create(:person, :name => "Mollie Cameron")
     event = SingleDayEvent.create!(:promoter_name => "Mollie Cameron")
     event.update_attributes(:promoter_name => "")
     assert_nil event.promoter, "Blank promoter name should remove promoter"
   end
 
   def test_set_team_by_name_no_id
+    team = FactoryGirl.create(:team, :name => "Vanilla")
     event = SingleDayEvent.create!(:team_name => "Vanilla")
-    assert_equal teams(:vanilla), event.team, "Should set team from name, even without team_id"
+    assert_equal team, event.team, "Should set team from name, even without team_id"
   end
 
   def test_set_team_by_name_with_id
-    event = SingleDayEvent.create!(:team_name => "Vanilla", :team_id => teams(:vanilla).id)
-    assert_equal teams(:vanilla), event.team, "Should set team from name and/or team_id"
+    team = FactoryGirl.create(:team, :name => "Vanilla")
+    event = SingleDayEvent.create!(:team_name => "Vanilla", :team_id => team.id)
+    assert_equal team, event.team, "Should set team from name and/or team_id"
   end
 
   def test_set_team_by_name_and_ignore_bogus_id
+    team = FactoryGirl.create(:team, :name => "Vanilla")
     event = SingleDayEvent.create!(:team_name => "Vanilla", :team_id => "1281928")
-    assert_equal teams(:vanilla), event.team, "Should set team from name and ignore bogus team_id"
+    assert_equal team, event.team, "Should set team from name and ignore bogus team_id"
   end
 
   def test_set_team_by_name_and_ignore_wrong_id
-    event = SingleDayEvent.create!(:team_name => "Vanilla", :team_id => teams(:gentle_lovers).id)
-    assert_equal teams(:vanilla), event.team, "Should set team from name, even another person's team_id"
+    team = FactoryGirl.create(:team, :name => "Vanilla")
+    another_team = FactoryGirl.create(:team)
+    event = SingleDayEvent.create!(:team_name => "Vanilla", :team_id => another_team.id)
+    assert_equal team, event.team, "Should set team from name, even another person's team_id"
   end
 
   def test_new_team_wrong_id
-    event = SingleDayEvent.create!(:team_name => "Katusha", :team_id => teams(:gentle_lovers).id)
+    team = FactoryGirl.create(:team, :name => "Vanilla")
+    event = SingleDayEvent.create!(:team_name => "Katusha", :team_id => team.id)
     new_team = Team.find_by_name("Katusha")
     assert_not_nil new_team, "Should create new team"
     assert_equal new_team, event.team, "Should use create new team and ignore bad team_id"
@@ -239,6 +241,8 @@ class EventTest < ActiveSupport::TestCase
   end
   
   def test_set_team_by_alias
+    team = FactoryGirl.create(:team, :name => "Vanilla")
+    team.aliases.create!(:name => "Vanilla Bicycles")
     event = SingleDayEvent.create!(:team_name => "Vanilla Bicycles")
     assert_equal teams(:vanilla), event.team, "Should set team from alias"
   end
@@ -249,179 +253,22 @@ class EventTest < ActiveSupport::TestCase
     assert_nil event.team, "Blank team name should remove team"
   end
 
-  def test_timestamps
-    hood_river_crit = SingleDayEvent.new(:name => "Hood River")
-    hood_river_crit.save!
-    hood_river_crit.reload
-    assert_not_nil(hood_river_crit.created_at, "initial hood_river_crit.created_at")
-    assert_not_nil(hood_river_crit.updated_at, "initial hood_river_crit.updated_at")
-    assert_in_delta(hood_river_crit.created_at, hood_river_crit.updated_at, 1, "initial hood_river_crit.updated_at and created_at")
-    sleep(1)
-    hood_river_crit.flyer = "http://foo_bar.org/"
-    hood_river_crit.save!
-    hood_river_crit.reload
-    assert(
-      hood_river_crit.created_at != hood_river_crit.updated_at, 
-      "hood_river_crit.updated_at '#{hood_river_crit.updated_at}' and created_at '#{hood_river_crit.created_at}' different after update"
-    )
-  end
-  
-  def test_validation
-    tabor_cr = events(:tabor_cr)
-    tabor_cr.name = nil
-    assert_raises(ActiveRecord::RecordInvalid) {tabor_cr.save!}
-  end
-  
-  def test_destroy
-    event = Event.create!
-    event.destroy
-    assert !Event.exists?(event.id), "event should be deleted"
-
-    event = Event.create!
-    event.races.create! :category => categories(:cat_3)
-    event.destroy
-    assert !Event.exists?(event.id), "event should be deleted"
-
-    event = SingleDayEvent.create!
-    event.races.create! :category => categories(:cat_3)
-    event.destroy
-    assert !Event.exists?(event.id), "event should be deleted"
-  end
-  
   def test_destroy_races
-    kings_valley = events(:kings_valley)
+    kings_valley = FactoryGirl.create(:event)
+    kings_valley.races.create!(FactoryGirl.create(:category))
+    kings_valley.races.create!(FactoryGirl.create(:category))
+    kings_valley.races.create!
+    
     assert(!kings_valley.races.empty?, "Should have races")
     kings_valley.destroy_races
     assert(kings_valley.races.empty?, "Should not have races")
   end
   
-  def test_destroy_all
-    SingleDayEvent.destroy_all
-    Event.destroy_all
-  end
-  
   def test_no_delete_with_results
-    kings_valley = events(:kings_valley)
-    assert(!kings_valley.destroy, 'Should not be destroyed')
-    assert(!kings_valley.errors.empty?, 'Should have errors')
-    assert_not_nil(Event.find(kings_valley.id), "Kings Valley should not be deleted")
-  end
-
-  def test_short_date
-    event = Event.new
-
-    event.date = Date.new(2006, 9, 9)
-    assert_equal(' 9/9 ', event.short_date, 'Short date')    
-
-    event.date = Date.new(2006, 9, 10)
-    assert_equal(' 9/10', event.short_date, 'Short date')    
-
-    event.date = Date.new(2006, 10, 9)
-    assert_equal('10/9 ', event.short_date, 'Short date')    
-
-    event.date = Date.new(2006, 10, 10)
-    assert_equal('10/10', event.short_date, 'Short date')    
-  end
-  
-  def test_date_range_s_long
-    mt_hood = events(:mt_hood)
-    assert_equal("07/11/2005-07/12/2005", mt_hood.date_range_s(:long), "date_range_s(long)")
-    last_day = mt_hood.children.last
-    last_day.date = Date.new(2005, 8, 1)
-    last_day.save!
-    mt_hood = Event.find(mt_hood.id)
-    assert_equal("07/11/2005-08/01/2005", mt_hood.date_range_s(:long), "date_range_s(long)")
-
-    kings_valley = events(:kings_valley)
-    assert_equal("12/31/2003", kings_valley.date_range_s(:long), "date_range_s(long)")
-  end
-
-  def test_cancelled
-    pir_july_2 = events(:pir)
-    assert(!pir_july_2.cancelled, 'cancelled')
-    
-    pir_july_2.cancelled = true
-    pir_july_2.save!
-    assert(pir_july_2.cancelled, 'cancelled')
-  end
-  
-  def test_notes
-    event = SingleDayEvent.create(:name => 'New Event')
-    assert_equal('', event.notes, 'New notes')
-    event.notes = 'My notes'
-    event.save!
-    event.reload
-    assert_equal('My notes', event.notes)
-  end
-  
-  def test_number_issuer
-    kings_valley = events(:kings_valley_2004)
-    assert_equal(number_issuers(:association), kings_valley.number_issuer, '2004 Kings Valley NumberIssuer')
-  end
-  
-  def test_default_number_issuer
-    event = SingleDayEvent.create!(:name => 'Unsanctioned')
-    event.reload
-    assert_equal(RacingAssociation.current.default_sanctioned_by, event.sanctioned_by, 'sanctioned_by')
-    assert_equal(number_issuers(:association), event.number_issuer(true), 'number_issuer')
-  end
-  
-  def test_flyer
-    event = SingleDayEvent.new
-    assert_equal(nil, event.flyer, 'Blank event flyer')
-    
-    event.flyer = 'http://veloshop.org/pir.html'
-    assert_equal('http://veloshop.org/pir.html', event.flyer, 'Other site flyer')
-    
-    event.flyer = '/events/pir.html'
-    assert_equal("/events/pir.html", event.flyer, 'Absolute root flyer')
-    
-    event.flyer = '../../events/pir.html'
-    assert_equal('../../events/pir.html', event.flyer, 'Relative root flyer')
-  end
-  
-  def test_sort
-    jan_event = SingleDayEvent.new(:date => Date.new(1998, 1, 4))
-    march_event = MultiDayEvent.new(:date => Date.new(1998, 3, 2))
-    nov_event = Series.new(:date => Date.new(1998, 11, 20))
-    events = [jan_event, march_event, nov_event]
-    
-    assert_equal_enumerables([jan_event, march_event, nov_event], events.sort, 'Unsaved events should be sorted by date')
-    march_event.date = Date.new(1999)
-    assert_equal_enumerables([jan_event, nov_event, march_event], events.sort, 'Unsaved events should be sorted by date')
-    
-    events.each {|e| e.save!}
-    assert_equal_enumerables([jan_event, nov_event, march_event], events.sort, 'Saved events should be sorted by date')
-    march_event.date = Date.new(1998, 3, 2)
-    assert_equal_enumerables([jan_event, march_event, nov_event], events.sort, 'Saved events should be sorted by date')
-  end
-  
-  def test_equality
-    event_1 = SingleDayEvent.create!
-    event_2 = SingleDayEvent.create!
-    event_1_copy = SingleDayEvent.find(event_1.id)
-    
-    assert_equal event_1, event_1, "event_1 == event_1"
-    assert_equal event_2, event_2, "event_2 == event_2"
-    assert event_1 != event_2, "event_1 != event_2"
-    assert event_2 != event_1, "event_2 != event_1"
-    assert_equal event_1, event_1_copy, "event_1 == event_1_copy"
-    assert event_1_copy != event_2, "event_1_copy != event_2"
-    assert event_2 != event_1_copy, "event_2 != event_1_copy"
-  end
-  
-  def test_set
-    event_1 = SingleDayEvent.create!
-    event_2 = SingleDayEvent.create!
-    set = Set.new
-    set << event_1
-    set << event_2
-    set << event_1
-    set << event_2
-    set << event_1
-    set << event_2
-    
-    assert_same_elements [ event_1, event_2 ], set.to_a, "Set equality"
+    event = FactoryGirl.create(:result).event
+    assert(!event.destroy, 'Should not be destroyed')
+    assert(!event.errors.empty?, 'Should have errors')
+    assert(Event.exists?(event.id), "Kings Valley should not be deleted")
   end
   
   def test_multi_day_event_children_with_no_parent
@@ -536,26 +383,6 @@ class EventTest < ActiveSupport::TestCase
     assert_equal("", event.location, "No city, state location")
   end
 
-  def test_notes
-    event = SingleDayEvent.create(:name => 'New Event')
-    assert_equal('', event.notes, 'New notes')
-    event.notes = 'My notes'
-    event.save!
-    event.reload
-    assert_equal('My notes', event.notes)
-  end
-
-  def test_bar_points
-    event = events(:banana_belt_3)
-    assert_equal(1, event.bar_points, 'BAR points')
-    event.save!
-    event.reload
-    assert_equal(1, event.bar_points, 'BAR points')
-
-    event = SingleDayEvent.create!
-    assert_equal(1, event.bar_points, 'BAR points')
-  end
-
   def test_races_with_results
     bb3 = events(:banana_belt_3)
     assert(bb3.races_with_results.empty?, 'No races')
@@ -574,57 +401,6 @@ class EventTest < ActiveSupport::TestCase
     women_4 = categories(:women_4)
     bb3.races.create!(:category => women_4)
     assert_equal([race_2, race_1], bb3.races_with_results, 'Two races with results')
-  end
-
-  def test_full_name
-    event = SingleDayEvent.create!(:name => 'Reheers', :discipline => 'Mountain Bike')
-    assert_equal('Reheers', event.full_name, 'full_name')
-    
-    series = Series.create!(:name => 'Bend TT Series')
-    series_event = series.children.create!(:name => 'Bend TT Series', :date => Date.new(2009, 4, 19))
-    assert_equal('Bend TT Series', series_event.full_name, 'full_name when series name is same as event')
-
-    stage_race = events(:mt_hood)
-    stage = stage_race.children.create!(:name => stage_race.name)
-    assert_equal('Mt. Hood Classic', stage.full_name, 'stage race stage full_name')
-
-    stage_race = events(:mt_hood)
-    stage = stage_race.children.create!(:name => stage_race.name)
-    event = stage.children.create!(:name => 'Cooper Spur Road Race')
-    assert_equal('Mt. Hood Classic: Cooper Spur Road Race', event.full_name, 'stage race event full_name')
-
-    stage_race = MultiDayEvent.create!(:name => 'Cascade Classic')
-    stage = stage_race.children.create!(:name => 'Cascade Classic')
-    event = stage.children.create!(:name => 'Cascade Classic - Cascade Lakes Road Race')
-    assert_equal('Cascade Classic - Cascade Lakes Road Race', event.full_name, 'stage race results full_name')
-
-    stage_race = MultiDayEvent.create!(:name => 'Frozen Flatlands Omnium')
-    event = stage_race.children.create!(:name => 'Frozen Flatlands Time Trial')
-    assert_equal('Frozen Flatlands Omnium: Frozen Flatlands Time Trial', event.full_name, 'stage race results full_name')
-  end
-  
-  def test_full_name_with_date
-    event = SingleDayEvent.create!(:name => 'Reheers', :discipline => 'Mountain Bike', :date => Date.new(2010, 1, 2))
-    assert_equal('Reheers (1/2)', event.full_name_with_date, 'full_name')
-    
-    series = Series.create!(:name => 'Bend TT Series', :date => Date.new(2009, 4, 19))
-    series_event = series.children.create!(:name => 'Bend TT Series', :date => Date.new(2009, 4, 19))
-    assert_equal('Bend TT Series (4/19)', series_event.full_name_with_date, 'full_name when series name is same as event')
-
-    stage_race = events(:mt_hood)
-    stage = stage_race.children.create!(:name => stage_race.name, :date => Date.new(2009, 4, 19))
-    assert_equal('Mt. Hood Classic (4/19)', stage.full_name_with_date, 'stage race stage full_name')
-
-    stage_race = events(:mt_hood)
-    stage = stage_race.children.create!(:name => stage_race.name, :date => Date.new(2009, 4, 19))
-    event = stage.children.create!(:name => 'Cooper Spur Road Race')
-    assert_equal('Mt. Hood Classic: Cooper Spur Road Race (4/19)', event.full_name_with_date, 'stage race event full_name')
-  end
-  
-  def test_team_name
-    assert_equal(nil, Event.new.team_name, "team_name")
-    assert_equal("", Event.new(:team => Team.new(:name => "")).team_name, "team_name")
-    assert_equal("Vanilla", Event.new(:team => Team.new(:name => "Vanilla")).team_name, "team_name")
   end
 
   def test_updated_at
@@ -686,60 +462,51 @@ class EventTest < ActiveSupport::TestCase
     assert_equal(0, event.children_with_results.size, "events_with_results: child with no results")
     assert_equal(0, event.children_and_child_competitions_with_results.size, "children_and_child_competitions_with_results: child with no results")
 
-    event.children.create!.races.create!(:category => categories(:cat_4_women)).results.create!
+    category = FactoryGirl.create(:category)
+    event.children.create!.races.create!(:category => category).results.create!
     assert_equal(1, event.children_with_results.size, "cached: events_with_results: 1 children with results")
     assert_equal(1, event.children_with_results(true).size, "refresh cache: events_with_results: 1 children with results")
     assert_equal(1, event.children_and_child_competitions_with_results(true).size, "refresh cache: children_and_child_competitions_with_results: 1 children with results")
 
-    event.children.create!.races.create!(:category => categories(:cat_4_women)).results.create!
+    event.children.create!.races.create!(:category => category).results.create!
     assert_equal(2, event.children_with_results(true).size, "refresh cache: events_with_results: 2 children with results")
     assert_equal(2, event.children_and_child_competitions_with_results(true).size, "refresh cache: children_and_child_competitions_with_results: 2 children with results")
   end
   
   def test_children_with_results_only_child_events
-    series = WeeklySeries.create!
-    series_event = series.children.create!
+    series_event = FactoryGirl.create(:series_event)
     child_event = series_event.children.create!
-    child_event.races.create!(:category => categories(:senior_men)).results.create!
+    FactoryGirl.create(:result, :race => FactoryGirl.create(:race, :event => child_event))
+    series = series_event.parent
 
-    series.reload
-
-    assert_equal(1, series.children_with_results.size, "Should have child with results")
+    assert_equal(1, series.children_with_results(true).size, "Should have child with results")
     assert_equal(series_event, series.children_with_results.first, "Should have child with results")
     assert_equal(1, series_event.children_with_results.size, "Should have child with results")
     assert_equal(child_event, series_event.children_with_results.first, "Should have child with results")
   end
   
   def test_has_results_including_children
-    series = WeeklySeries.create!
-    series_event = series.children.create!
+    series_event = FactoryGirl.create(:weekly_series_event)
     child_event = series_event.children.create!
-    child_event.races.create!(:category => categories(:senior_men)).results.create!
+    FactoryGirl.create(:result, :race => FactoryGirl.create(:race, :event => child_event))
+    series = series_event.parent
 
-    series.reload
-
-    assert(series.has_results_including_children?, "Series has_results_including_children?")
+    assert(series.has_results_including_children?(true), "Series has_results_including_children?")
     assert(series_event.has_results_including_children?, "Series Event has_results_including_children?")
     assert(child_event.has_results_including_children?, "Series Event child has_results_including_children?")
-  end
-  
-  def test_postponed
-    event = events(:banana_belt_3)
-    assert !event.postponed?, "postponed?"
-    event.postponed = true
-    event.save!
-    assert event.postponed?, "postponed?"
   end
   
   def test_single_day_event_categories
     event = SingleDayEvent.create!
     assert_equal [], event.categories, "categories for event with no races"
     
-    event.races.create!(:category => categories(:senior_men))
-    assert_same_elements [ categories(:senior_men) ], event.categories, "categories for event with one race"
+    category_1 = FactoryGirl.create(:category)
+    event.races.create!(:category => category_1)
+    assert_same_elements [ category_1 ], event.categories, "categories for event with one race"
     
-    event.races.create!(:category => categories(:senior_women))
-    assert_same_elements [ categories(:senior_men), categories(:senior_women) ], event.categories, "categories for event with two races"
+    category_2 = FactoryGirl.create(:category)
+    event.races.create!(:category => category_2)
+    assert_same_elements [ category_1, category_2 ], event.categories, "categories for event with two races"
   end
   
   def test_multiday_event_categories
@@ -747,37 +514,49 @@ class EventTest < ActiveSupport::TestCase
     assert_equal [], parent.categories, "categories for event with no races"
     
     event = parent.children.create!(:name => "child")
-    event.races.create!(:category => categories(:senior_men))
-    assert_same_elements [ categories(:senior_men) ], parent.categories, "categories from child"
+    category_1 = FactoryGirl.create(:category)
+    event.races.create!(:category => category_1)
+    assert_same_elements [ category_1 ], parent.categories, "categories from child"
     
-    event.races.create!(:category => categories(:senior_women))
-    parent.races.create!(:category => categories(:senior_men))
-    parent.races.create!(:category => categories(:men_4_5))
+    category_2 = FactoryGirl.create(:category)
+    category_3 = FactoryGirl.create(:category)
+    category_4 = FactoryGirl.create(:category)
+    event.races.create!(:category => category_2)
+    parent.races.create!(:category => category_3)
+    parent.races.create!(:category => category_4)
     assert_same_elements(
-      [ categories(:senior_men), categories(:senior_men), categories(:men_4_5), categories(:senior_women) ], 
+      [ category_1, category_2, category_3, category_4 ], 
       parent.categories, 
       "categories for event with two races"
     )
   end
 
   def test_editable_by
-    assert_equal [], Event.editable_by(people(:alice)), "Alice can't edit any events"
-    assert_same_elements [ events(:banana_belt_series), events(:banana_belt_1), events(:banana_belt_2), events(:banana_belt_3),
-                           events(:mt_hood), events(:mt_hood_1), events(:mt_hood_2), events(:series_parent), events(:lost_series_child) ], 
-      Event.editable_by(people(:promoter)), 
-      "Promoter can edit his events"
-      
-    assert_equal_enumerables Event.all, Event.editable_by(people(:administrator)), "Administrator can edit all events"
+    event_1 = FactoryGirl.create(:event)
+    event_2 = FactoryGirl.create(:event)
+
+    racer = FactoryGirl.create(:person)
+    assert_equal [], Event.editable_by(racer), "Random person can't edit any events"
+
+    assert_equal [ event_1 ], Event.editable_by(event_1.promoter), "Promoter can edit own events"
+    assert_equal [ event_2 ], Event.editable_by(event_2.promoter), "Promoter can edit own events"
+
+    administrator = FactoryGirl.create(:administrator)
+    assert_equal_enumerables Event.all, Event.editable_by(administrator), "Administrator can edit all events"
   end
   
   def test_today_and_future
-    assert Event.today_and_future.include?(events(:lost_series_child)), "today_and_future scope should include Lost Series child event"
-    assert Event.today_and_future.include?(events(:future_national_federation_event)), "today_and_future scope should include future event"
-    assert !Event.today_and_future.include?(events(:banana_belt_3)), "today_and_future scope should not include Banana Belt event"
+    past_event = FactoryGirl.create(:event, :date => 1.day.ago)
+    today_event = FactoryGirl.create(:event)
+    future_event = FactoryGirl.create(:event, :date => 1.day.from_now)
+
+    assert Event.today_and_future.include?(today_event), "today_and_future scope should include event from today"
+    assert Event.today_and_future.include?(future_event), "today_and_future scope should include future event"
+    assert !Event.today_and_future.include?(past_event), "today_and_future scope should not include past event"
   end
 
   def test_propagate_races
-    events(:kings_valley).propagate_races
+    FactoryGirl.create(:event).propagate_races
   end
 
   private
