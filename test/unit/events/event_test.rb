@@ -14,7 +14,7 @@ class EventTest < ActiveSupport::TestCase
     FactoryGirl.create(:event, :date => Date.new(2008))
     FactoryGirl.create(:event, :date => Date.new(2009))
     years = Event.find_all_years
-    assert_equal_enumerables [ 2009, 2008, 2007 ], years, "Should find all years with events"
+    assert_equal_enumerables [ 2011, 2010, 2009, 2008, 2007 ], years, "Should find all years with events"
   end
   
   def test_defaults
@@ -82,6 +82,7 @@ class EventTest < ActiveSupport::TestCase
     FactoryGirl.create(:discipline, :name => "Road")
     FactoryGirl.create(:discipline, :name => "Circuit")
     FactoryGirl.create(:discipline, :name => "Criterium")
+    FactoryGirl.create(:discipline, :name => "Track")
     
     event_with_results = FactoryGirl.create(:event, :date => Date.new(2003))
     race = FactoryGirl.create(:race, :event => event_with_results)
@@ -255,9 +256,9 @@ class EventTest < ActiveSupport::TestCase
 
   def test_destroy_races
     kings_valley = FactoryGirl.create(:event)
-    kings_valley.races.create!(FactoryGirl.create(:category))
-    kings_valley.races.create!(FactoryGirl.create(:category))
-    kings_valley.races.create!
+    kings_valley.races.create!(:category => FactoryGirl.create(:category))
+    kings_valley.races.create!(:category => FactoryGirl.create(:category))
+    kings_valley.races.create!(:category => FactoryGirl.create(:category))
     
     assert(!kings_valley.races.empty?, "Should have races")
     kings_valley.destroy_races
@@ -275,19 +276,22 @@ class EventTest < ActiveSupport::TestCase
     event = SingleDayEvent.create!(:name => 'PIR')
     assert(!event.multi_day_event_children_with_no_parent?)
     assert(event.multi_day_event_children_with_no_parent.empty?)
-    
-    assert(!events(:kings_valley_2004).multi_day_event_children_with_no_parent?)
-    assert(events(:kings_valley_2004).multi_day_event_children_with_no_parent.empty?)
+   
+    event = FactoryGirl.create(:event) 
+    assert(!event.multi_day_event_children_with_no_parent?)
+    assert(event.multi_day_event_children_with_no_parent.empty?)
     
     MultiDayEvent.create!(:name => 'PIR', :date => Date.new(RacingAssociation.current.year, 9, 12))
     event = SingleDayEvent.create!(:name => 'PIR', :date => Date.new(RacingAssociation.current.year, 9, 12))
     assert(!(event.multi_day_event_children_with_no_parent?))
     assert(event.multi_day_event_children_with_no_parent.empty?)
-      
-    assert(!events(:banana_belt_series).multi_day_event_children_with_no_parent?)
-    assert(!events(:banana_belt_1).multi_day_event_children_with_no_parent?)
-    assert(!events(:banana_belt_2).multi_day_event_children_with_no_parent?)
-    assert(!events(:banana_belt_3).multi_day_event_children_with_no_parent?)
+     
+    series = FactoryGirl.create(:series)
+    3.times { series.children.create! }
+    assert(!series.multi_day_event_children_with_no_parent?)
+    assert(!series.children[0].multi_day_event_children_with_no_parent?)
+    assert(!series.children[1].multi_day_event_children_with_no_parent?)
+    assert(!series.children[2].multi_day_event_children_with_no_parent?)
       
     pir_1 = SingleDayEvent.create!(:name => 'PIR', :date => Date.new(RacingAssociation.current.year + 1, 9, 5))
     assert(!pir_1.multi_day_event_children_with_no_parent?)
@@ -309,14 +313,15 @@ class EventTest < ActiveSupport::TestCase
     assert(!(pir_2.multi_day_event_children_with_no_parent.empty?))
     assert(!(pir_3.multi_day_event_children_with_no_parent.empty?))
     
-    assert(!events(:mt_hood).multi_day_event_children_with_no_parent?)
-    assert(!events(:mt_hood_1).multi_day_event_children_with_no_parent?)
-    assert(!events(:mt_hood_2).multi_day_event_children_with_no_parent?)
+    mt_hood = FactoryGirl.create(:stage_race, :name => "Mt. Hood Classic")
+    assert(!mt_hood.multi_day_event_children_with_no_parent?)
+    assert(!mt_hood.children[0].multi_day_event_children_with_no_parent?)
+    assert(!mt_hood.children[1].multi_day_event_children_with_no_parent?)
   
-    mt_hood_3 = SingleDayEvent.create(:name => 'Mt. Hood Classic', :date => Date.new(RacingAssociation.current.year - 2, 7, 13))
-    assert(!events(:mt_hood).multi_day_event_children_with_no_parent?)
-    assert(!events(:mt_hood_1).multi_day_event_children_with_no_parent?)
-    assert(!events(:mt_hood_2).multi_day_event_children_with_no_parent?)
+    mt_hood_3 = SingleDayEvent.create(:name => 'Mt. Hood Classic')
+    assert(!mt_hood.multi_day_event_children_with_no_parent?)
+    assert(!mt_hood.children[0].multi_day_event_children_with_no_parent?)
+    assert(!mt_hood.children[1].multi_day_event_children_with_no_parent?)
     assert(!(mt_hood_3.multi_day_event_children_with_no_parent?))
     assert(mt_hood_3.multi_day_event_children_with_no_parent.empty?)
   end
@@ -325,31 +330,33 @@ class EventTest < ActiveSupport::TestCase
     event = SingleDayEvent.create!(:name => 'PIR')
     assert_no_orphans(event)
     
-    assert_no_orphans(events(:kings_valley_2004))
-    
     SingleDayEvent.create!(:name => 'PIR', :date => Date.new(Date.today.year, 9, 12))
     event = MultiDayEvent.create!(:name => 'PIR')
     assert_orphans(2, event)
-  
-    assert_no_orphans(events(:banana_belt_series))
-    assert_no_orphans(events(:banana_belt_1))
-    assert_no_orphans(events(:banana_belt_2))
-    assert_no_orphans(events(:banana_belt_3))
+ 
+    banana_belt_series = FactoryGirl.create(:series)
+    banana_belt_series.children.create!
+    assert_no_orphans(banana_belt_series)
+    assert_no_orphans(banana_belt_series.children.first)
   
     pir_1 = SingleDayEvent.create!(:name => 'PIR', :date => Date.new(2009, 9, 5))
     assert_no_orphans(pir_1)
     pir_2 = SingleDayEvent.create!(:name => 'PIR', :date => Date.new(2010, 9, 12))
     assert_no_orphans(pir_1)
     assert_no_orphans(pir_2)
-    
-    assert_no_orphans(events(:mt_hood))
-    assert_no_orphans(events(:mt_hood_1))
-    assert_no_orphans(events(:mt_hood_2))
-  
-    mt_hood_3 = SingleDayEvent.create(:name => 'Mt. Hood Classic', :date => Date.new(2005, 7, 13))
-    assert_no_orphans(events(:mt_hood))
-    assert_no_orphans(events(:mt_hood_1))
-    assert_no_orphans(events(:mt_hood_2))
+   
+    stage_rage = FactoryGirl.create(:multi_day_event)
+    stage_1 = stage_race.children.create!
+    stage_2 = stage_race.children.create!
+    assert_no_orphans(stage_race)
+    assert_no_orphans(stage_1)
+    assert_no_orphans(stage_2)
+ 
+    # Different year, same name 
+    mt_hood_3 = SingleDayEvent.create(:name => stage_race.name, :date => Date.new(2005, 7, 13))
+    assert_no_orphans(stage_race)
+    assert_no_orphans(stage_1)
+    assert_no_orphans(stage_2)
     assert_no_orphans(mt_hood_3)
   end
   
@@ -357,16 +364,16 @@ class EventTest < ActiveSupport::TestCase
     assert(!Event.new.has_results?, "New Event should not have results")
     
     event = SingleDayEvent.create!
-    race = event.races.create!(:category => categories(:senior_men))
+    race = event.races.create!(:category => FactoryGirl.create(:category))
     assert(!event.has_results?, "Event with race, but no results should not have results")
     
-    race.results.create!(:place => 200, :person => people(:matson))
+    race.results.create!(:place => 200, :person => FactoryGirl.create(:person))
     assert(event.has_results?(true), "Event with one result should have results")
   end
   
   def test_inspect
     event = SingleDayEvent.create!
-    event.races.create!(:category => categories(:senior_men)).results.create!(:place => 1)
+    event.races.create!(:category => FactoryGirl.create(:category)).results.create!(:place => 1)
     event.inspect
   end
   
@@ -384,45 +391,49 @@ class EventTest < ActiveSupport::TestCase
   end
 
   def test_races_with_results
-    bb3 = events(:banana_belt_3)
+    bb3 = FactoryGirl.create(:event)
     assert(bb3.races_with_results.empty?, 'No races')
     
-    sr_p_1_2 = categories(:sr_p_1_2)
+    sr_p_1_2 = FactoryGirl.create(:category)
     bb3.races.create!(:category => sr_p_1_2)
     assert(bb3.races_with_results.empty?, 'No results')
     
-    senior_women = categories(:senior_women)
+    senior_women = FactoryGirl.create(:category)
     race_1 = bb3.races.create!(:category => senior_women)
     race_1.results.create!
     assert_equal([race_1], bb3.races_with_results, 'One results')
     
     race_2 = bb3.races.create!(:category => sr_p_1_2)
     race_2.results.create!
-    women_4 = categories(:women_4)
+    women_4 = FactoryGirl.create(:category)
     bb3.races.create!(:category => women_4)
     assert_equal([race_2, race_1], bb3.races_with_results, 'Two races with results')
   end
 
   def test_updated_at
-    event = SingleDayEvent.create!
-    assert_not_nil event.updated_at, "updated_at after create"
-    
-    updated_at = event.updated_at
-    event.save!
-    assert_equal updated_at, event.updated_at, "Save! with no changes should not update updated_at"
+    Timecop.freeze(4.days.ago) do
+      event = SingleDayEvent.create!
+      assert_not_nil event.updated_at, "updated_at after create"
+      updated_at = event.updated_at
+    end
 
-    sleep 1
-    event.children.create!
-    event.reload
-    assert event.updated_at > updated_at, "Updated at should change after adding a child event"
+    Timecop.freeze(3.days.ago) do
+      event.save!
+      assert_equal updated_at, event.updated_at, "Save! with no changes should not update updated_at"
+    end
 
-    sleep 1
-    updated_at = event.updated_at
-    event.races.create!(:category => categories(:senior_men))
-    event.reload
-    assert event.updated_at > updated_at, "Updated at should change after adding a race"
-    
-    updated_at = event.updated_at
+    Timecop.freeze(2.days.ago) do
+      event.children.create!
+      event.reload
+      assert event.updated_at > updated_at, "Updated at should change after adding a child event"
+    end
+
+    Timecop.freeze(1.day.ago) do
+      updated_at = event.updated_at
+      event.races.create!(:category => FactoryGirl.create(:category))
+      event.reload
+      assert event.updated_at > updated_at, "Updated at should change after adding a race"
+    end
   end
   
   def test_competition_and_event_associations
