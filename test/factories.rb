@@ -29,11 +29,16 @@ FactoryGirl.define do
   
   factory :event, :class => "SingleDayEvent" do
     promoter :factory => :person
+    factory :multi_day_event, :class => "MultiDayEvent"
     factory :series, :class => "Series"
     factory :weekly_series, :class => "WeeklySeries"
     
     factory :series_event do
       parent :factory => :series
+    end
+
+    factory :stage_race do
+      children { |e| [ e.association(:event),  e.association(:event), e.association(:event) ] }
     end
     
     factory :weekly_series_event do
