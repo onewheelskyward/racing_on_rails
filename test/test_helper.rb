@@ -171,7 +171,7 @@ class ActiveSupport::TestCase
 
   def print_all_events
     Event.all( :order => :date).each {|event|
-      p "#{event.date} #{event.name} #{event.id} #{event.parent_id} #{event.class} #{event.sanctioned_by} #{event.discipline}"
+      p "#{event.date} #{event.name} id: #{event.id} parent: #{event.parent_id} #{event.class} #{event.sanctioned_by} #{event.discipline}"
     }
   end
   

@@ -37,7 +37,7 @@ FactoryGirl.define do
       parent :factory => :series
     end
 
-    factory :stage_race do
+    factory :stage_race, :class => "MultiDayEvent" do |parent|
       children { |e| [ e.association(:event),  e.association(:event), e.association(:event) ] }
     end
     
