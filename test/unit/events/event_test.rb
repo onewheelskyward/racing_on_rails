@@ -3,8 +3,8 @@ require File.expand_path("../../../test_helper", __FILE__)
 # :stopdoc:
 class EventTest < ActiveSupport::TestCase
   def test_validate_discipline
-    FactoryGirl.build(:discipline)
-    event = FactoryGirl.build(:event, :discipline => "Foo")
+    FactoryGirl.create(:discipline, :name => "Road")
+    event = Event.new(:discipline => "Foo")
     assert !event.valid?, "Event with bogus Discipline should not be valid"
     assert event.errors[:discipline]
   end
@@ -156,7 +156,7 @@ class EventTest < ActiveSupport::TestCase
     person = FactoryGirl.create(:person)
     
     event = SingleDayEvent.create!(:promoter_name => "Brad Ross", :promoter_id => person.id)
-    assert_equal people(:promoter), event.promoter, "Should set promoter from name, even another person's promoter_id"
+    assert_equal promoter, event.promoter, "Should set promoter from name, even another person's promoter_id"
   end
 
   def test_choose_promoter_by_id_with_multiple_same_names
@@ -174,7 +174,7 @@ class EventTest < ActiveSupport::TestCase
   end
 
   def test_new_promoter_wrong_id
-    event = SingleDayEvent.create!(:promoter_name => "Marie Le Blanc", :promoter_id => people(:administrator).id)
+    event = SingleDayEvent.create!(:promoter_name => "Marie Le Blanc", :promoter_id => FactoryGirl.create(:person).id)
     new_promoter = Person.find_by_name("Marie Le Blanc")
     assert_not_nil new_promoter, "Should create new promoter"
     assert_equal new_promoter, event.promoter, "Should use create new promoter and ignore bad promoter_id"
@@ -191,7 +191,7 @@ class EventTest < ActiveSupport::TestCase
     promoter = FactoryGirl.create(:person, :name => "Molly Cameron")
     promoter.aliases.create(:name => "Mollie Cameron")
     event = SingleDayEvent.create!(:promoter_name => "Mollie Cameron")
-    assert_equal people(:molly), event.promoter, "Should set promoter from alias"
+    assert_equal promoter, event.promoter, "Should set promoter from alias"
   end
   
   def test_remove_promoter
@@ -245,7 +245,7 @@ class EventTest < ActiveSupport::TestCase
     team = FactoryGirl.create(:team, :name => "Vanilla")
     team.aliases.create!(:name => "Vanilla Bicycles")
     event = SingleDayEvent.create!(:team_name => "Vanilla Bicycles")
-    assert_equal teams(:vanilla), event.team, "Should set team from alias"
+    assert_equal team, event.team, "Should set team from alias"
   end
   
   def test_remove_team
@@ -276,7 +276,7 @@ class EventTest < ActiveSupport::TestCase
     event = SingleDayEvent.create!(:name => 'PIR')
     assert(!event.multi_day_event_children_with_no_parent?)
     assert(event.multi_day_event_children_with_no_parent.empty?)
-   
+       
     event = FactoryGirl.create(:event) 
     assert(!event.multi_day_event_children_with_no_parent?)
     assert(event.multi_day_event_children_with_no_parent.empty?)
@@ -301,7 +301,7 @@ class EventTest < ActiveSupport::TestCase
     assert(!pir_2.multi_day_event_children_with_no_parent?)
     assert(pir_1.multi_day_event_children_with_no_parent.empty?)
     assert(pir_2.multi_day_event_children_with_no_parent.empty?)
-
+    
     pir_3 = SingleDayEvent.create!(:name => 'PIR', :date => Date.new(RacingAssociation.current.year + 2, 9, 17))
     # Need to completely reset state
     pir_1 = SingleDayEvent.find(pir_1.id)
@@ -322,8 +322,9 @@ class EventTest < ActiveSupport::TestCase
     assert(!mt_hood.multi_day_event_children_with_no_parent?)
     assert(!mt_hood.children[0].multi_day_event_children_with_no_parent?)
     assert(!mt_hood.children[1].multi_day_event_children_with_no_parent?)
-    assert(!(mt_hood_3.multi_day_event_children_with_no_parent?))
-    assert(mt_hood_3.multi_day_event_children_with_no_parent.empty?)
+
+    assert(!mt_hood_3.multi_day_event_children_with_no_parent?)
+    assert !mt_hood_3.multi_day_event_children_with_no_parent.present?
   end
 
   def test_missing_children
@@ -345,7 +346,7 @@ class EventTest < ActiveSupport::TestCase
     assert_no_orphans(pir_1)
     assert_no_orphans(pir_2)
    
-    stage_rage = FactoryGirl.create(:multi_day_event)
+    stage_race = FactoryGirl.create(:multi_day_event)
     stage_1 = stage_race.children.create!
     stage_2 = stage_race.children.create!
     assert_no_orphans(stage_race)
@@ -411,6 +412,9 @@ class EventTest < ActiveSupport::TestCase
   end
 
   def test_updated_at
+    event = nil
+    updated_at = nil
+    
     Timecop.freeze(4.days.ago) do
       event = SingleDayEvent.create!
       assert_not_nil event.updated_at, "updated_at after create"
@@ -557,13 +561,13 @@ class EventTest < ActiveSupport::TestCase
   end
   
   def test_today_and_future
-    past_event = FactoryGirl.create(:event, :date => 1.day.ago)
+    past_event = FactoryGirl.create(:event, :date => 1.day.ago.to_date)
     today_event = FactoryGirl.create(:event)
-    future_event = FactoryGirl.create(:event, :date => 1.day.from_now)
+    future_event = FactoryGirl.create(:event, :date => 1.day.from_now.to_date)
 
     assert Event.today_and_future.include?(today_event), "today_and_future scope should include event from today"
     assert Event.today_and_future.include?(future_event), "today_and_future scope should include future event"
-    assert !Event.today_and_future.include?(past_event), "today_and_future scope should not include past event"
+    assert !Event.today_and_future.include?(past_event), "today_and_future scope should not include past event with date of #{past_event.date}"
   end
 
   def test_propagate_races
