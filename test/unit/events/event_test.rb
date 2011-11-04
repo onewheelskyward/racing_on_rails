@@ -18,6 +18,7 @@ class EventTest < ActiveSupport::TestCase
   end
   
   def test_defaults
+    number_issuer = NumberIssuer.create!(:name => RacingAssociation.current.short_name)
     event = SingleDayEvent.new
     assert_equal(Date.today, event.date, "New event should have today's date")
     formatted_date = Date.today.strftime("%m-%d-%Y")
@@ -27,17 +28,13 @@ class EventTest < ActiveSupport::TestCase
     assert_equal(RacingAssociation.current.default_sanctioned_by, event.sanctioned_by, "New event sanctioned_by default")
     number_issuer = NumberIssuer.find_by_name(RacingAssociation.current.short_name)
     assert_equal(number_issuer, event.number_issuer, "New event number_issuer default")
+    assert_equal(RacingAssociation.current.default_sanctioned_by, event.sanctioned_by, 'sanctioned_by')
+    assert_equal(number_issuer, event.number_issuer(true), 'number_issuer')
+
     assert_equal true, event.notification?, "event notification?"
     event.save!
     event.reload
     assert_equal true, event.notification?, "event notification?"
-  end
-  
-  def test_default_number_issuer
-    event = SingleDayEvent.create!(:name => 'Unsanctioned')
-    event.reload
-    assert_equal(RacingAssociation.current.default_sanctioned_by, event.sanctioned_by, 'sanctioned_by')
-    assert_equal(number_issuers(:association), event.number_issuer(true), 'number_issuer')
   end
   
   def test_find_all_with_results

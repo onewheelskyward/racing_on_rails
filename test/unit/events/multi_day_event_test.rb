@@ -2,17 +2,11 @@ require File.expand_path("../../../test_helper", __FILE__)
 
 # :stopdoc:
 class MultiDayEventTest < ActiveSupport::TestCase
-  def test_timestamps
-    short_track_series = MultiDayEvent.new(:name => "Short Track MTB")
-    short_track_series.save!
-    short_track_series.reload
-    assert_not_nil(short_track_series.created_at, "initial short_track_series.created_at")
-    assert_not_nil(short_track_series.updated_at, "initial short_track_series.updated_at")
-    assert(short_track_series.updated_at - short_track_series.created_at < 10, "initial short_track_series.updated_at and created_at")
-  end
-
   def test_start_end_dates
-    series = events(:pir_series)
+    series = Series.create!
+    series.children.create! :date => Date.new(2005, 7, 5)
+    series.children.create! :date => Date.new(2005, 7, 12)
+    
     assert_equal_dates("2005-07-05", series.start_date, "PIR series start date")
     assert_equal_dates("2005-07-12", series.end_date, "PIR series end date")
 
@@ -152,13 +146,15 @@ class MultiDayEventTest < ActiveSupport::TestCase
   end
   
   def test_destroy
-    mt_hood = events(:mt_hood)
+    mt_hood = FactoryGirl.create(:stage_race)
     mt_hood.destroy
     assert(!Event.exists?(mt_hood.id), "Mt. Hood Stage Race should be deleted")
   end
   
   def test_date_range_s
-    mt_hood = events(:mt_hood)
+    mt_hood = MultiDayEvent.create!
+    mt_hood.children.create!(:date => Date.new(2005, 7, 11))
+    mt_hood.children.create!(:date => Date.new(2005, 7, 12))
     assert_equal('7/11-12', mt_hood.date_range_s, 'Date range')
     last_day = mt_hood.children.last
     last_day.date = Date.new(2005, 8, 1)
@@ -441,7 +437,7 @@ class MultiDayEventTest < ActiveSupport::TestCase
   end
 
   def test_full_name
-    stage_race = events(:mt_hood)
+    stage_race = FactoryGirl.create(:stage_race, :name => "Mt. Hood Classic")
     assert_equal('Mt. Hood Classic', stage_race.name, 'stage_race full_name')
   end
   
@@ -597,9 +593,18 @@ class MultiDayEventTest < ActiveSupport::TestCase
   end
   
   def test_guess_type
-    assert_equal(MultiDayEvent, MultiDayEvent.guess_type([events(:mt_hood_1), events(:mt_hood_2)]), 'MultiDayEvent')
-    assert_equal(Series, MultiDayEvent.guess_type([events(:banana_belt_1), events(:banana_belt_2), events(:banana_belt_3)]), 'Series')
-    assert_equal(WeeklySeries, MultiDayEvent.guess_type([events(:pir), events(:pir_2)]), 'WeeklySeries')
+    mt_hood_1 = FactoryGirl.build(:event, :date => Date.new(2007, 7, 11))
+    mt_hood_2 = FactoryGirl.build(:event, :date => Date.new(2007, 7, 12))
+    assert_equal(MultiDayEvent, MultiDayEvent.guess_type([ mt_hood_1, mt_hood_2 ]), 'MultiDayEvent')
+    
+    banana_belt_1 = FactoryGirl.build(:event, :date => Date.new(2004, 1, 4))
+    banana_belt_2 = FactoryGirl.build(:event, :date => Date.new(2004, 1, 11))
+    banana_belt_3 = FactoryGirl.build(:event, :date => Date.new(2004, 1, 18))
+    assert_equal(Series, MultiDayEvent.guess_type([ banana_belt_1, banana_belt_2, banana_belt_3 ]), 'Series')
+    
+    pir = FactoryGirl.build(:event, :date => Date.new(2005, 7, 5))
+    pir_2 = FactoryGirl.build(:event, :date => Date.new(2005, 7, 12))
+    assert_equal(WeeklySeries, MultiDayEvent.guess_type([ pir, pir_2 ]), 'WeeklySeries')
   end
   
   def children_with_results
@@ -634,10 +639,11 @@ class MultiDayEventTest < ActiveSupport::TestCase
     parent_event.children.create!
     assert(!parent_event.completed?(true), "Event with all children with no results should not be completed")
     
-    parent_event.children.first.races.create!(:category => categories(:cat_4_women)).results.create!
+    cat_4_women = FactoryGirl.create(:category)
+    parent_event.children.first.races.create!(:category => cat_4_women).results.create!
     assert(!parent_event.completed?(true), "Event with only one child with results should not be completed")
     
-    parent_event.children.each { |event| event.races.create!(:category => categories(:cat_4_women)).results.create! }
+    parent_event.children.each { |event| event.races.create!(:category => cat_4_women).results.create! }
     assert(parent_event.completed?(true), "Event with all children with results should be completed")
   end
   
@@ -653,27 +659,33 @@ class MultiDayEventTest < ActiveSupport::TestCase
   end
   
   def test_propagate_races
-    series = events(:banana_belt_series)
-    series.races.create!(:category => categories(:sr_p_1_2))
-    series.races.create!(:category => categories(:senior_women))
+    series = FactoryGirl.create(:series)
+    banana_belt_1 = series.children.create!
+    banana_belt_2 = series.children.create!
+    banana_belt_3 = series.children.create!
+    
+    sr_p_1_2 = FactoryGirl.create(:category)
+    senior_women = FactoryGirl.create(:category)
+    series.races.create!(:category => sr_p_1_2)
+    series.races.create!(:category => senior_women)
 
-    assert_equal 1, events(:banana_belt_1).races.size, "banana_belt_1 races"
-    assert_equal categories(:sr_p_1_2), events(:banana_belt_1).races.first.category, "banana_belt_1 race category"
-    assert_equal 0, events(:banana_belt_2).races.size, "banana_belt_2 races"
-    assert_equal 0, events(:banana_belt_3).races.size, "banana_belt_3 races"
+    assert_equal 1, banana_belt_1.races.size, "banana_belt_1 races"
+    assert_equal sr_p_1_2, banana_belt_1.races.first.category, "banana_belt_1 race category"
+    assert_equal 0, banana_belt_2.races.size, "banana_belt_2 races"
+    assert_equal 0, banana_belt_3.races.size, "banana_belt_3 races"
     
     series.propagate_races
     
-    assert_equal 2, events(:banana_belt_1).races.size, "banana_belt_1 races"
-    assert events(:banana_belt_1).races.any? { |r| r.category == categories(:sr_p_1_2)}, "banana_belt_1 race category"
-    assert events(:banana_belt_1).races.any? { |r| r.category == categories(:senior_women)}, "banana_belt_1 race category"
+    assert_equal 2, banana_belt_1.races.size, "banana_belt_1 races"
+    assert banana_belt_1.races.any? { |r| r.category == sr_p_1_2 }, "banana_belt_1 race category"
+    assert banana_belt_1.races.any? { |r| r.category == senior_women }, "banana_belt_1 race category"
 
-    assert_equal 2, events(:banana_belt_2).races(true).size, "banana_belt_2 races"
-    assert events(:banana_belt_2).races.any? { |r| r.category == categories(:sr_p_1_2)}, "banana_belt_2 race category"
-    assert events(:banana_belt_2).races.any? { |r| r.category == categories(:senior_women)}, "banana_belt_2 race category"
+    assert_equal 2, banana_belt_2.races(true).size, "banana_belt_2 races"
+    assert banana_belt_2.races.any? { |r| r.category == sr_p_1_2 }, "banana_belt_2 race category"
+    assert banana_belt_2.races.any? { |r| r.category == senior_women }, "banana_belt_2 race category"
 
     assert_equal 2, events(:banana_belt_3).races(true).size, "banana_belt_3 races"
-    assert events(:banana_belt_3).races.any? { |r| r.category == categories(:sr_p_1_2)}, "banana_belt_3 race category"
-    assert events(:banana_belt_3).races.any? { |r| r.category == categories(:senior_women)}, "banana_belt_3 race category"
+    assert banana_belt_3.races.any? { |r| r.category == sr_p_1_2 }, "banana_belt_3 race category"
+    assert banana_belt_3.races.any? { |r| r.category == senior_women }, "banana_belt_3 race category"
   end
 end
