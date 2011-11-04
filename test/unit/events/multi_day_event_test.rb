@@ -173,12 +173,15 @@ class MultiDayEventTest < ActiveSupport::TestCase
     single_event_1.email = "info@elkhornclassic.com"
     single_event_1.flyer = "http://google.com"
     single_event_1.phone = "718 671-1999"
-    single_event_1.promoter = people(:promoter)
+    promoter = FactoryGirl.create(:person)
+    single_event_1.promoter = promoter
     single_event_1.sanctioned_by = "FIAC"
     single_event_1.state = "NY"
     single_event_1.prize_list = 3000
-    single_event_1.team_id = teams(:gentle_lovers).id
-    single_event_1.velodrome_id = velodromes(:alpenrose).id
+    gentle_lovers = FactoryGirl.create(:team)
+    single_event_1.team_id = gentle_lovers.id
+    alpenrose = FactoryGirl.create(:velodrome)
+    single_event_1.velodrome_id = alpenrose.id
     single_event_1.save!
     
     single_event_2 = SingleDayEvent.new(:date => Date.new(2007, 6, 26))
@@ -188,13 +191,13 @@ class MultiDayEventTest < ActiveSupport::TestCase
     single_event_2.discipline = "Track"
     single_event_2.email = "info@elkhornclassic.com"
     single_event_2.flyer = "http://google.com"
-    single_event_2.promoter = people(:promoter)
+    single_event_2.promoter = promoter
     single_event_2.phone = "718 671-1999"
     single_event_2.sanctioned_by = "FIAC"
     single_event_2.state = "NY"
     single_event_2.prize_list = 3000
-    single_event_2.team_id = teams(:gentle_lovers).id
-    single_event_2.velodrome_id = velodromes(:alpenrose).id
+    single_event_2.team_id = gentle_lovers.id
+    single_event_2.velodrome_id = alpenrose.id
     single_event_2.save!
     
     multi_day_event = MultiDayEvent.create_from_children([single_event_1, single_event_2])
@@ -211,12 +214,12 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert_equal("http://google.com", results["flyer"], "SingleDayEvent flyer")
     assert_equal(0, results["flyer_approved"], "SingleDayEvent flyer")
     assert_equal("718 671-1999", results["phone"], "SingleDayEvent phone")
-    assert_equal(people(:promoter).id, results["promoter_id"].to_i, "SingleDayEvent promoter_id")
+    assert_equal(promoter.id, results["promoter_id"].to_i, "SingleDayEvent promoter_id")
     assert_equal("FIAC", results["sanctioned_by"], "SingleDayEvent sanctioned_by")
     assert_equal("NY", results["state"], "SingleDayEvent state")
     assert_equal("3000", results["prize_list"], "SingleDayEvent prize_list")
-    assert_equal(teams(:gentle_lovers).id, results["team_id"], "SingleDayEvent team")
-    assert_equal(velodromes(:alpenrose).id, results["velodrome_id"], "SingleDayEvent velodrome")
+    assert_equal(gentle_lovers.id, results["team_id"], "SingleDayEvent team")
+    assert_equal(alpenrose.id, results["velodrome_id"], "SingleDayEvent velodrome")
     assert_equal(multi_day_event.id, results["parent_id"].to_i, "SingleDayEvent parent ID")
     assert_equal 0, results["beginner_friendly"], "parent beginner_friendly"
 
@@ -230,12 +233,12 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert_equal("http://google.com", results["flyer"], "SingleDayEvent flyer")
     assert_equal(0, results["flyer_approved"], "SingleDayEvent flyer")
     assert_equal("718 671-1999", results["phone"], "SingleDayEvent phone")
-    assert_equal(people(:promoter).id, results["promoter_id"].to_i, "SingleDayEvent promoter_id")
+    assert_equal(promoter.id, results["promoter_id"].to_i, "SingleDayEvent promoter_id")
     assert_equal("FIAC", results["sanctioned_by"], "SingleDayEvent sanctioned_by")
     assert_equal("NY", results["state"], "SingleDayEvent state")
     assert_equal("3000", results["prize_list"], "SingleDayEvent prize_list")
-    assert_equal(teams(:gentle_lovers).id, results["team_id"], "SingleDayEvent team")
-    assert_equal(velodromes(:alpenrose).id, results["velodrome_id"], "SingleDayEvent velodrome")
+    assert_equal(gentle_lovers.id, results["team_id"], "SingleDayEvent team")
+    assert_equal(alpenrose.id, results["velodrome_id"], "SingleDayEvent velodrome")
     assert_equal(multi_day_event.id, results["parent_id"].to_i, "SingleDayEvent parent ID")
     assert_equal 0, results["beginner_friendly"], "event beginner_friendly"
 
@@ -249,12 +252,12 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert_equal("http://google.com", results["flyer"], "MultiDayEvent flyer")
     assert_equal(0, results["flyer_approved"], "MultiDayEvent flyer")
     assert_equal("718 671-1999", results["phone"], "MultiDayEvent phone")
-    assert_equal(people(:promoter).id, results["promoter_id"].to_i, "MultiDayEvent promoter_id")
+    assert_equal(promoter.id, results["promoter_id"].to_i, "MultiDayEvent promoter_id")
     assert_equal("FIAC", results["sanctioned_by"], "MultiDayEvent sanctioned_by")
     assert_equal("NY", results["state"], "MultiDayEvent state")
     assert_equal("3000", results["prize_list"], "MultiDayEvent prize_list")
-    assert_equal(teams(:gentle_lovers).id, results["team_id"], "MultiDayEvent team")
-    assert_equal(velodromes(:alpenrose).id, results["velodrome_id"], "MultiDayEvent velodrome")
+    assert_equal(gentle_lovers.id, results["team_id"], "MultiDayEvent team")
+    assert_equal(alpenrose.id, results["velodrome_id"], "MultiDayEvent velodrome")
 
     # change only name, all children should change
     multi_day_event.name = "FIAC Stage Race Championship"
@@ -280,14 +283,16 @@ class MultiDayEventTest < ActiveSupport::TestCase
     multi_day_event.email = "scott.willson@gmail.com"
     multi_day_event.flyer = nil
     multi_day_event.flyer_approved = true
-    candi_murray = people(:administrator)
+    candi_murray = FactoryGirl.create(:person)
     multi_day_event.promoter = candi_murray
     multi_day_event.phone = "911"
     multi_day_event.sanctioned_by = "UCI"
     assert_not_nil(multi_day_event.promoter, "event.promoter")
     multi_day_event.prize_list = 4000
-    multi_day_event.team_id = teams(:vanilla).to_param
-    multi_day_event.velodrome_id = velodromes(:trexlertown).to_param
+    vanilla = FactoryGirl.create(:team)
+    multi_day_event.team_id = vanilla.to_param
+    trexlertown = FactoryGirl.create(:velodrome)
+    multi_day_event.velodrome_id = trexlertown.to_param
     multi_day_event.beginner_friendly = true
     multi_day_event.save!
 
@@ -300,13 +305,13 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert_equal("scott.willson@gmail.com", results["email"], "SingleDayEvent email")
     assert_equal(nil, results["flyer"], "SingleDayEvent flyer")
     assert_equal(1, results["flyer_approved"], "SingleDayEvent flyer")
-    assert_equal(people(:administrator).id, results["promoter_id"].to_i, "SingleDayEvent promoter_id")
+    assert_equal(candi_murray.id, results["promoter_id"].to_i, "SingleDayEvent promoter_id")
     assert_equal("911", results["phone"], "SingleDayEvent phone")
     assert_equal("UCI", results["sanctioned_by"], "SingleDayEvent sanctioned_by")
     assert_equal("ID", results["state"], "SingleDayEvent state")
     assert_equal("4000", results["prize_list"], "SingleDayEvent prize_list")
-    assert_equal(teams(:vanilla).id, results["team_id"], "SingleDayEvent team")
-    assert_equal(velodromes(:trexlertown).id, results["velodrome_id"], "SingleDayEvent velodrome")
+    assert_equal(vanilla.id, results["team_id"], "SingleDayEvent team")
+    assert_equal(trexlertown.id, results["velodrome_id"], "SingleDayEvent velodrome")
     assert_equal 1, results["beginner_friendly"], "SingleDayEvent beginner_friendly"
 
     results = Event.connection.select_one("select * from events where id=#{single_event_2.id}")
@@ -317,11 +322,11 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert_equal("Mountain Bike", results["discipline"], "SingleDayEvent discipline")
     assert_equal(nil, results["flyer"], "SingleDayEvent flyer")
     assert_equal(1, results["flyer_approved"], "SingleDayEvent flyer")
-    assert_equal(people(:administrator).id, results["promoter_id"].to_i, "SingleDayEvent promoter_id")
+    assert_equal(candi_murray.id, results["promoter_id"].to_i, "SingleDayEvent promoter_id")
     assert_equal("UCI", results["sanctioned_by"], "SingleDayEvent sanctioned_by")
     assert_equal("ID", results["state"], "SingleDayEvent state")
     assert_equal("4000", results["prize_list"], "SingleDayEvent prize_list")
-    assert_equal(velodromes(:trexlertown).id, results["velodrome_id"], "SingleDayEvent velodrome")
+    assert_equal(trexlertown.id, results["velodrome_id"], "SingleDayEvent velodrome")
     assert_equal 1, results["beginner_friendly"], "SingleDayEvent beginner_friendly"
 
     results = Event.connection.select_one("select * from events where id=#{multi_day_event.id}")
@@ -332,11 +337,11 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert_equal("Mountain Bike", results["discipline"], "MultiDayEvent discipline")
     assert_equal(nil, results["flyer"], "MultiDayEvent flyer")
     assert_equal(1, results["flyer_approved"], "MultiDayEvent flyer")
-    assert_equal(people(:administrator).id, results["promoter_id"].to_i, "MultiDayEvent promoter_id")
+    assert_equal(candi_murray.id, results["promoter_id"].to_i, "MultiDayEvent promoter_id")
     assert_equal("UCI", results["sanctioned_by"], "MultiDayEvent sanctioned_by")
     assert_equal("ID", results["state"], "MultiDayEvent state")
     assert_equal("4000", results["prize_list"], "MultiDayEvent prize_list")
-    assert_equal(velodromes(:trexlertown).id, results["velodrome_id"], "MultiDayEvent velodrome")
+    assert_equal(trexlertown.id, results["velodrome_id"], "MultiDayEvent velodrome")
     assert_equal 1, results["beginner_friendly"], "parent beginner_friendly"
 
     # parent, children all different
@@ -361,7 +366,7 @@ class MultiDayEventTest < ActiveSupport::TestCase
     multi_day_event.discipline = "Road"
     multi_day_event.flyer = "http://www.myseasons.com/"
     multi_day_event.sanctioned_by = "FFL"
-    brad_ross = people(:promoter)
+    brad_ross = FactoryGirl.create(:person)
     multi_day_event.promoter = brad_ross
     multi_day_event.save!
 
@@ -383,7 +388,7 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert_equal("Cazenovia", results["city"], "MultiDayEvent city")
     assert_equal("Road", results["discipline"], "MultiDayEvent discipline")
     assert_equal("http://www.myseasons.com/", results["flyer"], "MultiDayEvent flyer")
-    assert_equal(people(:promoter).id, results["promoter_id"].to_i, "MultiDayEvent promoter_id")
+    assert_equal(brad_ross.id, results["promoter_id"].to_i, "MultiDayEvent promoter_id")
     assert_equal("FFL", results["sanctioned_by"], "MultiDayEvent sanctioned_by")
     assert_equal("CT", results["state"], "MultiDayEvent state")
   end
@@ -586,10 +591,13 @@ class MultiDayEventTest < ActiveSupport::TestCase
   end
   
   def test_missing_parent
-    assert(!events(:series_parent).missing_parent?, 'missing_parent?')
-    assert_nil(events(:series_parent).missing_parent, 'missing_parent')
-    assert(!events(:mt_hood).missing_parent?, 'missing_parent?')
-    assert_nil(events(:mt_hood).missing_parent, 'missing_parent')
+    series_parent = Series.create!
+    assert(!series_parent.missing_parent?, 'missing_parent?')
+    assert_nil(series_parent.missing_parent, 'missing_parent')
+    
+    stage_race = FactoryGirl.create(:stage_race)
+    assert(!stage_race.missing_parent?, 'missing_parent?')
+    assert_nil(stage_race.missing_parent, 'missing_parent')
   end
   
   def test_guess_type
@@ -668,11 +676,7 @@ class MultiDayEventTest < ActiveSupport::TestCase
     senior_women = FactoryGirl.create(:category)
     series.races.create!(:category => sr_p_1_2)
     series.races.create!(:category => senior_women)
-
-    assert_equal 1, banana_belt_1.races.size, "banana_belt_1 races"
-    assert_equal sr_p_1_2, banana_belt_1.races.first.category, "banana_belt_1 race category"
-    assert_equal 0, banana_belt_2.races.size, "banana_belt_2 races"
-    assert_equal 0, banana_belt_3.races.size, "banana_belt_3 races"
+    banana_belt_1.races.create!(:category => sr_p_1_2)
     
     series.propagate_races
     
@@ -684,7 +688,7 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert banana_belt_2.races.any? { |r| r.category == sr_p_1_2 }, "banana_belt_2 race category"
     assert banana_belt_2.races.any? { |r| r.category == senior_women }, "banana_belt_2 race category"
 
-    assert_equal 2, events(:banana_belt_3).races(true).size, "banana_belt_3 races"
+    assert_equal 2, banana_belt_3.races(true).size, "banana_belt_3 races"
     assert banana_belt_3.races.any? { |r| r.category == sr_p_1_2 }, "banana_belt_3 race category"
     assert banana_belt_3.races.any? { |r| r.category == senior_women }, "banana_belt_3 race category"
   end

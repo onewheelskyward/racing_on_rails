@@ -100,4 +100,8 @@ FactoryGirl.define do
     member true
     sequence(:name) { |n| "Team #{n}" }
   end
+  
+  factory :velodrome do
+    sequence(:name) { |n| "Velodrome #{n}" }    
+  end
 end
