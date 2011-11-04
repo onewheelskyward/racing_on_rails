@@ -10,7 +10,8 @@ class WeeklySeriesTest < ActiveSupport::TestCase
     assert(!pir.new_record?, "PIR new?")
     assert_equal(0, pir.children.size, 'PIR events')
     assert_equal(1, pir.bar_points, "Weekly Series BAR points")
-    race = pir.races.create!(:category => categories(:senior_men))
+    category = FactoryGirl.create(:category)
+    race = pir.races.create!(:category => category)
     assert_equal(1, race.bar_points, "Weekly Series race BAR points")
 
     Date.new(2008, 4, 1).step(Date.new(2008, 10, 21), 7) { |date|
@@ -20,7 +21,7 @@ class WeeklySeriesTest < ActiveSupport::TestCase
       assert_equal(pir, individual_pir.parent, "PIR parent")
       assert_equal(date, individual_pir.date, 'New single day of PIR date')
       assert_equal(0, individual_pir.bar_points, "Weekly Series BAR points")
-      race = individual_pir.races.create!(:category => categories(:senior_men))
+      race = individual_pir.races.create!(:category => category)
       assert_equal(0, race.bar_points, "Weekly Series race BAR points")
     }
     pir.reload
@@ -96,16 +97,6 @@ class WeeklySeriesTest < ActiveSupport::TestCase
     
     weekly_series = WeeklySeries.create!(:date => Date.new(2006, 7, 4))
     assert_equal(2, weekly_series.day_of_week, "day_of_week with no children")
-  end
-  
-  def test_friendly_class_name
-    event = WeeklySeries.new
-    assert_equal("Weekly Series", event.friendly_class_name, "friendly_class_name")
-  end
-  
-  def test_missing_children
-    assert(!events(:pir_series).missing_children?, "PIR should have no missing children")
-    assert(events(:pir_series).missing_children.empty?, "PIR should have no missing children")
   end
   
   def test_flyer_settings_propogate_to_children
