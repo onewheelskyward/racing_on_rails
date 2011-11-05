@@ -50,6 +50,11 @@ FactoryGirl.define do
     end
   end
   
+  factory :mailing_list do
+    sequence(:name) { |n| "OBRA #{n}" }    
+    sequence(:short_name) { |n| "obra_#{n}" }    
+  end
+  
   factory :person do
     first_name "Ryan"
     sequence(:last_name) { |n| "Weaver#{n}" }
