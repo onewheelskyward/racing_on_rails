@@ -5,7 +5,7 @@ require File.expand_path("../../../test_helper", __FILE__)
 # :stopdoc:
 class MailingListMailerTest < ActionMailer::TestCase
   def test_post
-    post = mailing_lists(:obra_chat).posts.create!(
+    post = FactoryGirl.create(:mailing_list).posts.create!(
       :from_name => "Molly",
       :from_email_address => "molly@veloshop.com",
       :subject => "For Sale",
