@@ -51,8 +51,9 @@ FactoryGirl.define do
   end
   
   factory :mailing_list do
-    sequence(:name) { |n| "OBRA #{n}" }    
-    sequence(:short_name) { |n| "obra_#{n}" }    
+    sequence(:name) { |n| "obra_#{n}" }    
+    sequence(:friendly_name) { |n| "OBRA Chat #{n}" }
+    sequence(:subject_line_prefix) { |n| "OBRA Chat #{n}" }
   end
   
   factory :person do
