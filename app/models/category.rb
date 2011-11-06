@@ -40,10 +40,6 @@ class Category < ActiveRecord::Base
     name.gsub('Senior', 'Sr').gsub('Masters', 'Mst').gsub('Junior', 'Jr').gsub('Category', 'Cat').gsub('Beginner', 'Beg').gsub('Expert', 'Exp').gsub("Clydesdale", "Clyd")
   end
   
-  def self.count_by_friendly_param
-    Category.count(:conditions => ['friendly_param = ?', param])
-  end
-  
   def parent_is_not_self
     if parent_id && parent_id == id
       errors.add 'parent', 'Category cannot be its own parent'
