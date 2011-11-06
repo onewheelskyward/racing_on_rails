@@ -7,6 +7,12 @@ GIT
       ttfunk (~> 1.0.2)
 
 GIT
+  remote: git@github.com:scottwillson/ruby-ole.git
+  revision: fd35c279ee60601fe9ca2b089fbb25bc0b96b28e
+  specs:
+    ruby-ole (1.2.11.2)
+
+GIT
   remote: git@github.com:scottwillson/vestal_versions.git
   revision: 9db48e3842b433d326376ef7b0800ebef0b97559
   specs:
@@ -165,6 +171,7 @@ DEPENDENCIES
   rack (~> 1.2.3)
   rails (~> 3.0.0)
   rake (~> 0.8.0)
+  ruby-ole!
   selenium-webdriver
   tabular (> 0.0.5)
   timecop
