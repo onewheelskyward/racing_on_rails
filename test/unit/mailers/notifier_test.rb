@@ -2,7 +2,7 @@ require File.expand_path("../../../test_helper", __FILE__)
 
 class NotifierTest < ActionMailer::TestCase
   def test_password_reset_instructions
-    person = people(:member)
+    person = FactoryGirl.create(:person_with_login)
 
     email = Notifier.password_reset_instructions([person])
 
@@ -14,7 +14,7 @@ class NotifierTest < ActionMailer::TestCase
   end
 
   def test_password_reset_instructions_no_name
-    person = people(:member)
+    person = FactoryGirl.create(:person_with_login)
     person.update_attributes! :first_name => "", :last_name => ""
 
     email = Notifier.password_reset_instructions([person])
