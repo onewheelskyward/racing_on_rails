@@ -74,6 +74,7 @@ class MailingListMailerTest < ActionMailer::TestCase
   end
   
   def test_receive_invalid_byte_sequence
+    mailing_list = FactoryGirl.create(:mailing_list, :name => "obra", :friendly_name => "OBRA Chat", :subject_line_prefix => "OBRA Chat")
     MailingListMailer.receive(File.read("#{File.dirname(__FILE__)}/../../files/email/invalid_byte_sequence.eml"))
   end
 
@@ -132,37 +133,37 @@ class MailingListMailerTest < ActionMailer::TestCase
           assert_equal("Sat Jan 28 10:19:04 PST 2006", post_from_db.date.strftime("%a %b %d %I:%M:%S PST %Y"), "date")
           assert_equal(mailing_list, post_from_db.mailing_list, "mailing_list")
           expected_body = %Q{<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-      <html>
-      <head>
-        <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
-      </head>
-      <body bgcolor="#ffffff" text="#000000">
-      <h3>Race Results</h3>
-      <table border="1" cellpadding="2" cellspacing="2" width="100%">
-        <tbody>
-          <tr>
-            <td valign="top"><b>Place<br>
-            </b></td>
-            <td valign="top"><b>Person<br>
-            </b></td>
-          </tr>
-          <tr>
-            <td valign="top">1<br>
-            </td>
-            <td valign="top">Ian Leitheiser<br>
-            </td>
-          </tr>
-          <tr>
-            <td valign="top">2<br>
-            </td>
-            <td valign="top">Kevin Condron<br>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <br>
-      </body>
-      </html>}
+<html>
+<head>
+  <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
+</head>
+<body bgcolor="#ffffff" text="#000000">
+<h3>Race Results</h3>
+<table border="1" cellpadding="2" cellspacing="2" width="100%">
+  <tbody>
+    <tr>
+      <td valign="top"><b>Place<br>
+      </b></td>
+      <td valign="top"><b>Person<br>
+      </b></td>
+    </tr>
+    <tr>
+      <td valign="top">1<br>
+      </td>
+      <td valign="top">Ian Leitheiser<br>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">2<br>
+      </td>
+      <td valign="top">Kevin Condron<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</body>
+</html>}
           assert_equal(expected_body, post_from_db.body, "body")
     end
   end
