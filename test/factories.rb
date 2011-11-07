@@ -56,6 +56,15 @@ FactoryGirl.define do
     sequence(:subject_line_prefix) { |n| "OBRA Chat #{n}" }
   end
   
+  factory :page do
+    body "<p>This is a plain page</p>"
+    path "plain"
+    slug "plain"
+    title "Plain"
+    updated_at Date.new(2007)
+    created_at Date.new(2007)
+  end
+  
   factory :person do
     first_name "Ryan"
     sequence(:last_name) { |n| "Weaver#{n}" }
