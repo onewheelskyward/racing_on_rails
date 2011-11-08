@@ -20,6 +20,7 @@ FactoryGirl.define do
   factory :discipline do
     bar true
     sequence(:name) { |n| "Discipline #{n}" }
+    numbers true
   end
   
   factory :discipline_alias do
@@ -54,6 +55,10 @@ FactoryGirl.define do
     sequence(:name) { |n| "obra_#{n}" }    
     sequence(:friendly_name) { |n| "OBRA Chat #{n}" }
     sequence(:subject_line_prefix) { |n| "OBRA Chat #{n}" }
+  end
+  
+  factory :number_issuer do
+    name "CBRA"
   end
   
   factory :page do
