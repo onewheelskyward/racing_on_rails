@@ -14,7 +14,7 @@ module Concerns
           when 0
             nil
           when 1
-            Category.first(:conditions => ['friendly_param = ?', param])
+            ::Category.first(:conditions => ['friendly_param = ?', param])
           else
             raise Concerns::Category::AmbiguousParamException, "#{category_count} occurrences of #{param}"
           end

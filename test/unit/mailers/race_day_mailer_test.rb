@@ -5,6 +5,14 @@ class RaceDayMailerTest < ActionMailer::TestCase
   tests RaceDayMailer
 
   def test_members_export
+    FactoryGirl.create(:number_issuer)
+    FactoryGirl.create(:cyclocross_discipline)
+    FactoryGirl.create(:discipline, :name => "Downhill")
+    FactoryGirl.create(:discipline, :name => "Mountain Bike")
+    FactoryGirl.create(:discipline, :name => "Road")
+    FactoryGirl.create(:discipline, :name => "Singlespeed")
+    FactoryGirl.create(:discipline, :name => "Track")
+
     @expected.subject = "#{RacingAssociation.current.name} Members Export"
     @expected.from    = "scott.willson@gmail.com"
     @expected.to      = "dcowley@sportsbaseonline.com"
