@@ -9,7 +9,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_team
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
     weaver_jack_frost.team = nil
     weaver_jack_frost.save!
 
@@ -27,7 +27,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_team_to_existing
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
     weaver_jack_frost.team = nil
     weaver_jack_frost.save!
     
@@ -44,7 +44,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_team_to_new
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
     weaver_jack_frost.team = nil
     weaver_jack_frost.save!
 
@@ -61,7 +61,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_team_to_alias
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
     weaver_jack_frost.team = nil
     weaver_jack_frost.save!
 
@@ -79,7 +79,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_no_team
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
 
     team_name = ''
     
@@ -95,7 +95,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_existing_team
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
 
     team_name = 'Vanilla'
     
@@ -111,7 +111,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_new_team
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
 
     team_name = 'Astana'
     
@@ -127,7 +127,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_team_alias
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
 
     team_name = 'Gentile Lovers'
     
@@ -144,7 +144,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   
   def test_set_result_points
     assert(weaver.aliases(true).empty?)
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
     assert_equal(0, weaver_jack_frost.points, 'points')
 
     xhr :put,
@@ -159,7 +159,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_person
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
     weaver_jack_frost.person = nil
     weaver_jack_frost.save!
 
@@ -180,7 +180,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_person_to_existing
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
     weaver_jack_frost.person = nil
     weaver_jack_frost.save!
 
@@ -201,7 +201,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_person_to_alias
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
     weaver_jack_frost.person = nil
     weaver_jack_frost.save!
 
@@ -222,7 +222,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_no_person
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
 
     original_team_name = weaver_jack_frost.team_name
     
@@ -242,7 +242,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   
   def test_update_to_different_person
     assert_equal(1, tonkin.aliases.size)
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
 
     original_team_name = weaver_jack_frost.team_name
     
@@ -262,7 +262,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_alias
-    weaver_jack_frost = results(:weaver_jack_frost)
+    weaver_jack_frost = weaver_jack_frost
     original_team_name = weaver_jack_frost.team_name
     assert_equal(1, tonkin.aliases.size)
     
@@ -286,7 +286,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
     weaver = weaver
     assert_equal 0, weaver.aliases.size, "aliases"
     assert_equal 4, weaver.results.size, "results"
-    result = results(:weaver_jack_frost)
+    result = weaver_jack_frost
     
     xhr :put,
         :update_attribute,
@@ -352,7 +352,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   def test_move
     weaver = weaver
     tonkin = tonkin
-    result = results(:tonkin_kings_valley)
+    result = tonkin_kings_valley
 
     assert tonkin.results.include?(result)
     assert !weaver.results.include?(result)

@@ -21,7 +21,7 @@ class PublicPagesTest < ActionController::IntegrationTest
     assert_select "a", result.team_name
     assert_select "h2", result.team_name
     
-    result = results(:tonkin_banana_belt)
+    result = tonkin_banana_belt
     get "/events/#{result.event.to_param}"
     assert_response :success
     assert_select "a", result.last_name

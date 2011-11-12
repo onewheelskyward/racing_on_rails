@@ -15,8 +15,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_edit
-    banana_belt = events(:banana_belt_1)
-    banana_belt.velodrome = velodromes(:trexlertown)
+    banana_belt = banana_belt_1
+    banana_belt.velodrome = trexlertown
     banana_belt.save!
     
     get(:edit, :id => banana_belt.to_param)
@@ -42,7 +42,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_edit_parent
-    banana_belt = events(:banana_belt_series)
+    banana_belt = banana_belt_series
   
     get(:edit, :id => banana_belt.to_param)
     assert_response(:success)
@@ -52,7 +52,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_edit_no_results
-    mt_hood_1 = events(:mt_hood_1)
+    mt_hood_1 = mt_hood_1
   
     get(:edit, :id => mt_hood_1.to_param)
     assert_response(:success)
@@ -62,7 +62,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_edit_with_promoter
-    banana_belt = events(:banana_belt_1)
+    banana_belt = banana_belt_1
     opts = {:controller => "admin/events", :action => "edit", :id => banana_belt.to_param, :promoter_id => '2'}
     assert_recognizes(opts, "/admin/events/#{banana_belt.to_param}/edit", :promoter_id => '2')
     
@@ -78,7 +78,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   
   def test_edit_as_promoter
     login_as :promoter
-    get :edit, :id => events(:banana_belt_1).to_param
+    get :edit, :id => banana_belt_1.to_param
     assert_response :success
     assert_template "admin/events/edit"
     assert_select "#event_date_1i", :count => 0
@@ -86,12 +86,12 @@ class Admin::EventsControllerTest < ActionController::TestCase
   
   def test_promoter_can_only_edit_own_events
     login_as :promoter
-    get :edit, :id => events(:pir).to_param
+    get :edit, :id => pir.to_param
     assert_redirected_to unauthorized_path
   end
   
   def test_upload
-    mt_hood_1 = events(:mt_hood_1)
+    mt_hood_1 = mt_hood_1
     assert(mt_hood_1.races.empty?, 'Should have no races before import')
   
     post :upload, :id => mt_hood_1.to_param, 
@@ -105,7 +105,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   
   def test_upload_usac
     RacingAssociation.current.usac_results_format = true
-    mt_hood_1 = events(:mt_hood_1)
+    mt_hood_1 = mt_hood_1
     assert(mt_hood_1.races.empty?, 'Should have no races before import')
   
     post :upload, :id => mt_hood_1.to_param, 
@@ -118,7 +118,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_upload_lif
-    mt_hood_1 = events(:mt_hood_1)
+    mt_hood_1 = mt_hood_1
     assert(mt_hood_1.races.empty?, 'Should have no races before import')
   
     post :upload, :id => mt_hood_1.to_param, 
@@ -131,7 +131,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_upload_custom_columns
-    mt_hood_1 = events(:mt_hood_1)
+    mt_hood_1 = mt_hood_1
     assert(mt_hood_1.races.empty?, 'Should have no races before import')
     
     post :upload, :id => mt_hood_1.to_param, 
@@ -363,7 +363,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
     Person.create(:name => 'Greg Rodgers', :road_number => '404')
     Person.create(:name => 'Greg Rodgers', :road_number => '500')
     
-    mt_hood_1 = events(:mt_hood_1)
+    mt_hood_1 = mt_hood_1
     assert(mt_hood_1.races(true).empty?, 'Should have no races before import')
     
     file = fixture_file_upload("../files/results/dupe_people.xls", "application/vnd.ms-excel", :binary)
@@ -377,14 +377,14 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_destroy_event
-    jack_frost = events(:jack_frost)
+    jack_frost = jack_frost
     delete(:destroy, :id => jack_frost.id, :commit => 'Delete')
     assert_redirected_to(admin_events_path(:year => jack_frost.date.year))
     assert(!Event.exists?(jack_frost.id), "Jack Frost should have been destroyed")
   end
   
   def test_destroy_event_ajax
-    event = events(:banana_belt_1)
+    event = banana_belt_1
     event.destroy_races
     xhr(:delete, :destroy, :id => event.id, :commit => 'Delete')
     assert_response(:success)
@@ -392,7 +392,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_update_event
-    banana_belt = events(:banana_belt_1)
+    banana_belt = banana_belt_1
   
     assert_not_equal('Banana Belt One', banana_belt.name, 'name')
     assert_not_equal('Forest Grove', banana_belt.city, 'city')
@@ -453,7 +453,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_save_different_promoter
-    banana_belt = events(:banana_belt_1)
+    banana_belt = banana_belt_1
     assert_equal(promoter, banana_belt.promoter, 'Promoter before save')
     
     post(:update, 
@@ -473,7 +473,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   
   def test_update_single_day_to_multi_day
     for type in [MultiDayEvent, Series, WeeklySeries]
-      event = events(:banana_belt_1)
+      event = banana_belt_1
   
       post(:update, 
            "commit"=>"Save", 
@@ -514,7 +514,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_update_multi_day_to_single_day
-    event = events(:mt_hood)
+    event = mt_hood
     original_attributes = event.attributes.clone
   
     post(:update, 
@@ -531,8 +531,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
     assert_redirected_to edit_admin_event_path(event)
     assert(event.is_a?(SingleDayEvent), "Mt Hood should be a SingleDayEvent")
   
-    assert_nil(events(:mt_hood_1).parent(true), "Original child's parent")
-    assert_nil(events(:mt_hood_2).parent(true), "Original child's parent")
+    assert_nil(mt_hood_1.parent(true), "Original child's parent")
+    assert_nil(mt_hood_2.parent(true), "Original child's parent")
   
     assert_equal("Mt. Hood One Day", event.name, 'name')
     assert_equal(original_attributes["date"], event.date, 'date')
@@ -549,7 +549,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   
   # MultiDayEvent -> Series
   def test_update_multi_day_to_series
-    event = events(:mt_hood)
+    event = mt_hood
     original_attributes = event.attributes.clone
   
     post(:update, 
@@ -564,8 +564,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
     event = Event.find(event.id)
     assert(event.is_a?(Series), "Mt Hood should be a Series")
   
-    assert_equal(event, events(:mt_hood_1).parent(true), "Original child's parent")
-    assert_equal(event, events(:mt_hood_2).parent(true), "Original child's parent")
+    assert_equal(event, mt_hood_1.parent(true), "Original child's parent")
+    assert_equal(event, mt_hood_2.parent(true), "Original child's parent")
   
     assert_equal("Mt. Hood Series", event.name, 'name')
     assert_equal(original_attributes["date"], event.date, 'date')
@@ -582,7 +582,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   
   # MultiDayEvent -> WeeklySeries
   def test_update_multi_day_to_weekly_series
-    event = events(:mt_hood)
+    event = mt_hood
     original_attributes = event.attributes.clone
   
     post(:update, 
@@ -597,8 +597,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
     event = Event.find(event.id)
     assert(event.is_a?(WeeklySeries), "Mt Hood should be a WeeklySeries")
   
-    assert_equal(event, events(:mt_hood_1).parent(true), "Original child's parent")
-    assert_equal(event, events(:mt_hood_2).parent(true), "Original child's parent")
+    assert_equal(event, mt_hood_1.parent(true), "Original child's parent")
+    assert_equal(event, mt_hood_2.parent(true), "Original child's parent")
   
     assert_equal("Mt. Hood Series", event.name, 'name')
     assert_equal(original_attributes["date"], event.date, 'date')
@@ -614,7 +614,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_update_series_to_weekly_series
-    event = events(:banana_belt_series)
+    event = banana_belt_series
     original_attributes = event.attributes.clone
   
     post(:update, 
@@ -629,8 +629,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
     event = Event.find(event.id)
     assert(event.is_a?(WeeklySeries), "BB should be a WeeklySeries")
   
-    assert_equal(event, events(:banana_belt_1).parent(true), "Original child's parent")
-    assert_equal(event, events(:banana_belt_2).parent(true), "Original child's parent")
+    assert_equal(event, banana_belt_1.parent(true), "Original child's parent")
+    assert_equal(event, banana_belt_2.parent(true), "Original child's parent")
   
     assert_equal("BB Weekly Series", event.name, 'name')
     assert_equal(original_attributes["date"], event.date, 'date')
@@ -646,7 +646,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_update_weekly_series_to_single_day
-    event = events(:pir_series)
+    event = pir_series
     original_attributes = event.attributes.clone
   
     post(:update, 
@@ -661,8 +661,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
     event = Event.find(event.id)
     assert(event.is_a?(SingleDayEvent), "PIR should be a SingleDayEvent")
   
-    assert_nil(events(:pir).parent(true), "Original child's parent")
-    assert_nil(events(:pir_2).parent(true), "Original child's parent")
+    assert_nil(pir.parent(true), "Original child's parent")
+    assert_nil(pir_2.parent(true), "Original child's parent")
   
     assert_equal("PIR One Day", event.name, 'name')
     assert_equal(original_attributes["date"], event.date, 'date')
@@ -678,10 +678,10 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_set_parent
-    event = events(:lost_series_child)
+    event = lost_series_child
     assert_nil(event.parent)
     
-    parent = events(:series_parent)
+    parent = series_parent
     get(:set_parent, :parent_id => parent, :child_id => event)
     
     event.reload
@@ -690,7 +690,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_missing_parent
-    event = events(:lost_series_child)
+    event = lost_series_child
     assert(event.missing_parent?, "Event should be missing parent")
     get(:edit, :id => event.to_param)
     assert_response(:success)
@@ -698,7 +698,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_missing_children
-    event = events(:series_parent)
+    event = series_parent
     assert(event.missing_children?, "Event should be missing children")
     assert_not_nil(event.missing_children, "Event should be missing children")
     get(:edit, :id => event.to_param)
@@ -722,12 +722,12 @@ class Admin::EventsControllerTest < ActionController::TestCase
   
   def test_add_children
     Timecop.freeze(Date.new(RacingAssociation.current.year, 10, 3)) do
-      lost_series_child = events(:lost_series_child)
+      lost_series_child = lost_series_child
       start_date = RacingAssociation.current.today.next_month
       lost_series_child.date = start_date
       lost_series_child.save!
   
-      event = events(:series_parent)
+      event = series_parent
       get(:add_children, :parent_id => event.to_param)
       assert_redirected_to edit_admin_event_path(event)
       event.reload.children(true)
@@ -804,12 +804,12 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_edit_child_event
-    get(:edit, :id => events(:banana_belt_1).id)
+    get(:edit, :id => banana_belt_1.id)
     assert_response(:success)
   end
   
   def test_edit_combined_results
-    jack_frost = events(:jack_frost_2002)
+    jack_frost = jack_frost_2002
     jack_frost.bar_points = 2
     jack_frost.save!
     get(:edit, :id => jack_frost.combined_results.id)
@@ -817,14 +817,14 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_destroy_child_event
-    event = events(:banana_belt_1)
+    event = banana_belt_1
     event.destroy_races
     delete(:destroy, :id => event.to_param, :commit => 'Delete')
     assert(!Event.exists?(event.id), "Should have deleted Event")
   end
   
   def test_update_child_event
-    banana_belt = events(:banana_belt_1)
+    banana_belt = banana_belt_1
   
     assert_not_equal('Banana Belt One', banana_belt.name, 'name')
     assert_not_equal(2, banana_belt.bar_points, 'bar_points')
@@ -844,7 +844,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_update_nil_disciplines
-    banana_belt = events(:banana_belt_1)
+    banana_belt = banana_belt_1
     banana_belt.update_attribute(:discipline, nil)
     assert_nil(banana_belt[:discipline], 'discipline')
     assert_equal('Road', banana_belt.parent.discipline, 'Parent event discipline')
@@ -861,7 +861,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_update_discipline_same_as_parent_child_events
-    banana_belt = events(:banana_belt_1)
+    banana_belt = banana_belt_1
     assert_equal('Road', banana_belt[:discipline], 'discipline')
     assert_equal('Road', banana_belt.parent.discipline, 'Parent event discipline')
   
@@ -877,7 +877,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end  
   
   def test_update_existing_combined_results
-    source_event = events(:jack_frost_2002)
+    source_event = jack_frost_2002
     source_event.bar_points = 2
     source_event.save!
     event = source_event.combined_results
@@ -894,7 +894,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
   
   def test_destroy_races
-    jack_frost = events(:jack_frost_2002)
+    jack_frost = jack_frost_2002
     CombinedTimeTrialResults.create_or_destroy_for!(jack_frost)
     assert_not_nil(jack_frost.combined_results, "Event should have combined results before destroying races")
     assert_equal(2, jack_frost.races.count, "Races before destroy")

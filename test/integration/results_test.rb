@@ -5,7 +5,7 @@ class ResultsTest < ActionController::IntegrationTest
   def test_custom_columns
     goto_login_page_and_login_as :administrator
 
-    event = events(:banana_belt_1)
+    event = banana_belt_1
     get edit_admin_event_path(event)
     assert_response :success
 
