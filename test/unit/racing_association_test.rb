@@ -4,24 +4,6 @@ require File.expand_path("../../test_helper", __FILE__)
 # Check we can call these methods with errors.
 # Actual values are going to differ between sites.
 class RacingAssociationTest < ActiveSupport::TestCase
- def test_show_events_velodrome
-   RacingAssociation.current.show_events_velodrome?
- end
- 
-  def test_competitions
-    default_competitions = RacingAssociation.current.competitions
-    RacingAssociation.current.competitions.clear
-    RacingAssociation.current.competitions << :ironman
-    RacingAssociation.current.competitions << :ironman
-    begin
-      assert(RacingAssociation.current.competitions.include?(:ironman), "Racing association competitions should include Ironman")
-      assert(!RacingAssociation.current.competitions.include?(:bar), "Racing association competitions should not include Bar")
-      assert_equal(1, RacingAssociation.current.competitions.size, "Should only include one instance of Ironman competition")
-    ensure
-      RacingAssociation.current.competitions = default_competitions
-    end
-  end
-  
   def test_now
     assert Time.now + 10 >= RacingAssociation.current.now, "Default RacingAssociation.current.now should be close to Time.now"
 
