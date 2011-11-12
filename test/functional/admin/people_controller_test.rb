@@ -173,7 +173,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     erik_alias = Alias.find_by_name('Eric Tonkin')
     assert_not_nil(erik_alias, 'Alias')
 
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -214,7 +214,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_to_other_person_existing_alias
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -230,7 +230,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_to_other_person_existing_alias_and_duplicate_names
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     molly_with_different_road_number = Person.create!(:name => 'Molly Cameron', :road_number => '1009')
 
     assert_equal(0, Person.count(:conditions => ['first_name = ? and last_name = ?', 'Mollie', 'Cameron']), 'Mollies in database')
@@ -256,7 +256,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   def test_merge?
     molly = molly
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -272,7 +272,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   def test_merge
     molly = molly
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     old_id = tonkin.id
     assert Person.find_all_by_name("Erik Tonkin"), "Tonkin should be in database"
 
@@ -343,7 +343,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   def test_dupes_merge?
     molly = molly
     molly_with_different_road_number = Person.create(:name => 'Molly Cameron', :road_number => '987123')
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -363,7 +363,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     molly.ccx_number = '102'
     molly.save!
     molly_with_different_cross_number = Person.create(:name => 'Molly Cameron', :ccx_number => '810', :road_number => '1009')
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -385,7 +385,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   def test_dupes_merge_alias?
     molly = molly
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -400,7 +400,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   def test_dupe_merge
     molly = molly
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     tonkin_with_different_road_number = Person.create(:name => 'Erik Tonkin', :road_number => 'YYZ')
     assert(tonkin_with_different_road_number.valid?, "tonkin_with_different_road_number not valid: #{tonkin_with_different_road_number.errors.full_messages.join(', ')}")
     assert_equal(tonkin_with_different_road_number.new_record?, false, 'tonkin_with_different_road_number should be saved')
@@ -793,7 +793,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_one_print_card
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
 
     get(:card, :format => "pdf", :id => tonkin.to_param)
 
@@ -816,7 +816,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_print_cards
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     tonkin.print_card = true
     tonkin.ccx_category = "Clydesdale"
     tonkin.mtb_category = "Beginner"
@@ -854,7 +854,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_export_to_excel
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     tonkin.singlespeed_number = "409"
     tonkin.track_number = "765"
     tonkin.save!
