@@ -559,18 +559,16 @@ class Person < ActiveRecord::Base
   def number(discipline_param, reload = false, year = nil)
     return nil if discipline_param.nil?
 
-    year = year || RacingAssociation.current.year
+    year ||= RacingAssociation.current.year
     if discipline_param.is_a?(Discipline)
       discipline_param = discipline_param.to_param
     end
     number = race_numbers(reload).detect do |race_number|
-      race_number.year == year && race_number.discipline_id == RaceNumber.discipline_id(discipline_param) && race_number.number_issuer.name == RacingAssociation.current.short_name
+      race_number.year == year && 
+      race_number.discipline_id == RaceNumber.discipline_id(discipline_param) && 
+      race_number.number_issuer.name == RacingAssociation.current.short_name
     end
-    if number
-      number.value
-    else
-      nil
-    end
+    number.try :value
   end
   
   # Look for RaceNumber +year+ in +attributes+. Not sure if there's a simple and better way to do that.

@@ -4,26 +4,41 @@ require File.expand_path("../../../../../../app/models/concerns/event/comparison
 # :stopdoc:
 class Concerns::Event::ComparisonTest < Ruby::TestCase
   
+  class TestEvent
+    include Concerns::Event::Comparison
+    
+    attr_accessor :date, :id
+    
+    def initialize(attr)
+      self.date = attr[:date]
+      self.id = attr[:id]
+    end
+    
+    def new_record?
+      id.blank?
+    end
+  end
+  
   def test_sort
-    jan_event = SingleDayEvent.new(:date => Date.new(1998, 1, 4))
-    march_event = MultiDayEvent.new(:date => Date.new(1998, 3, 2))
-    nov_event = Series.new(:date => Date.new(1998, 11, 20))
+    jan_event = TestEvent.new(:date => Date.new(1998, 1, 4))
+    march_event = TestEvent.new(:date => Date.new(1998, 3, 2))
+    nov_event = TestEvent.new(:date => Date.new(1998, 11, 20))
     events = [jan_event, march_event, nov_event]
     
     assert_equal_enumerables([jan_event, march_event, nov_event], events.sort, 'Unsaved events should be sorted by date')
     march_event.date = Date.new(1999)
     assert_equal_enumerables([jan_event, nov_event, march_event], events.sort, 'Unsaved events should be sorted by date')
     
-    events.each {|e| e.save!}
+    events.each_with_index { |e, index| e.id = index }
     assert_equal_enumerables([jan_event, nov_event, march_event], events.sort, 'Saved events should be sorted by date')
     march_event.date = Date.new(1998, 3, 2)
     assert_equal_enumerables([jan_event, march_event, nov_event], events.sort, 'Saved events should be sorted by date')
   end
   
   def test_equality
-    event_1 = SingleDayEvent.create!
-    event_2 = SingleDayEvent.create!
-    event_1_copy = SingleDayEvent.find(event_1.id)
+    event_1 = TestEvent.new(:id => 1)
+    event_2 = TestEvent.new(:id => 2)
+    event_1_copy = TestEvent.new(:id => 1)
     
     assert_equal event_1, event_1, "event_1 == event_1"
     assert_equal event_2, event_2, "event_2 == event_2"
@@ -35,8 +50,8 @@ class Concerns::Event::ComparisonTest < Ruby::TestCase
   end
   
   def test_set
-    event_1 = SingleDayEvent.create!
-    event_2 = SingleDayEvent.create!
+    event_1 = TestEvent.new(:id => 1)
+    event_2 = TestEvent.new(:id => 2)
     set = Set.new
     set << event_1
     set << event_2

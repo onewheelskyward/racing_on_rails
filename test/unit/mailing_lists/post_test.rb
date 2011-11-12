@@ -8,15 +8,15 @@ class PostTest < ActiveSupport::TestCase
     post.from_email_address = "foo@bar.net"
     post.from_name = "Foo"
     post.body = "Test message"
-    post.mailing_list = mailing_lists(:obra_chat)
+    post.mailing_list = FactoryGirl.create(:mailing_list)
     post.date = Date.today
     post.save!
   end
   
   def test_remove_prefix
-    obra = mailing_lists(:obra_chat)
+    obra = FactoryGirl.create(:mailing_list)
     post = Post.new
-    post.subject = "[OBRA Chat] Foo"
+    post.subject = "[#{obra.friendly_name}] Foo"
     post.body = "Test message"
     post.mailing_list = obra
     post.from_email_address = "scout@foo.net"
@@ -28,7 +28,7 @@ class PostTest < ActiveSupport::TestCase
     assert_equal("Foo", post.subject, "Subject")
 
     post = Post.new
-    post.subject = "Re: [OBRA Chat] Foo"
+    post.subject = "Re: [#{obra.friendly_name}] Foo"
     post.body = "Test message"
     post.mailing_list = obra
     post.from_email_address = "scout@foo.net"

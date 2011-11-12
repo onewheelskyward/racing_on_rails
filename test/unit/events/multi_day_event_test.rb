@@ -163,6 +163,22 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert_equal('7/11-8/1', mt_hood.date_range_s, 'Date range')
   end
   
+
+  def test_date_range_s_long
+    mt_hood = TestEvent.new
+    mt_hood.date = Date.new(2005, 7, 11)
+    mt_hood.end_date = Date.new(2005, 7, 12)
+    assert_equal("07/11/2005-07/12/2005", mt_hood.date_range_s(:long), "date_range_s(long)")
+    last_day = mt_hood.children.last
+    last_day.date = Date.new(2005, 8, 1)
+    last_day.save!
+    mt_hood = Event.find(mt_hood.id)
+    assert_equal("07/11/2005-08/01/2005", mt_hood.date_range_s(:long), "date_range_s(long)")
+
+    kings_valley = events(:kings_valley)
+    assert_equal("12/31/2003", kings_valley.date_range_s(:long), "date_range_s(long)")
+  end
+
   def test_propogate_changes
     # parent, children same except for dates
     single_event_1 = SingleDayEvent.new(:date => Date.new(2007, 6, 19))
