@@ -1,9 +1,12 @@
-require File.expand_path("../../../../test_helper", __FILE__)
+require File.expand_path("../../../../test_case", __FILE__)
+require File.expand_path("../../../../../../lib/racing_on_rails/grid/grid", __FILE__)
+require File.expand_path("../../../../../../lib/racing_on_rails/grid/row", __FILE__)
+require File.expand_path("../../../../../../lib/racing_on_rails/grid/column", __FILE__)
 
 # :stopdoc:
 module RacingOnRails
   module Grid
-    class GridTest < ActiveSupport::TestCase
+    class GridTest < Ruby::TestCase
       def test_new
         RacingOnRails::Grid::Grid.new
       end
