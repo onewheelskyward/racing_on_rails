@@ -4,7 +4,7 @@ module Concerns
       extend ActiveSupport::Concern
 
       module ClassMethods
-        def self.friendly_class_name
+        def friendly_class_name
           name.underscore.humanize.titleize
         end
       end

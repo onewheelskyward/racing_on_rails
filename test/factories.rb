@@ -49,7 +49,12 @@ FactoryGirl.define do
     end
 
     factory :stage_race, :class => "MultiDayEvent" do |parent|
-      children { |e| [ e.association(:event),  e.association(:event), e.association(:event) ] }
+      date Time.zone.local(2005, 7, 11)
+      children { |e| [ 
+        e.association(:event, :date => Time.zone.local(2005, 7, 11), :parent_id => e.id),  
+        e.association(:event, :date => Time.zone.local(2005, 7, 12), :parent_id => e.id), 
+        e.association(:event, :date => Time.zone.local(2005, 7, 13), :parent_id => e.id) 
+      ] }
     end
     
     factory :weekly_series_event do
@@ -76,15 +81,15 @@ FactoryGirl.define do
     path "plain"
     slug "plain"
     title "Plain"
-    updated_at Date.new(2007)
-    created_at Date.new(2007)
+    updated_at Time.zone.local(2007)
+    created_at Time.zone.local(2007)
   end
   
   factory :person do
     first_name "Ryan"
     sequence(:last_name) { |n| "Weaver#{n}" }
-    member_from Date.new(2000).beginning_of_year
-    member_to   Time.zone.now.end_of_year
+    member_from Time.zone.local(2000).beginning_of_year.to_date
+    member_to   Time.zone.now.end_of_year.to_date
     
     factory :person_with_login do
       sequence(:login) { |n| "person#{n}@example.com" }
@@ -105,7 +110,7 @@ FactoryGirl.define do
       end
 
       factory :promoter do
-        events { |e| [ e.association(:event) ] }
+        events { |p| [ p.association(:event, :promoter_id => p.id) ] }
       end
     end
   end

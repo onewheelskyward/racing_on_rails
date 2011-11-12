@@ -178,7 +178,7 @@ class Person < ActiveRecord::Base
       LEFT OUTER JOIN race_numbers as ccx_numbers ON ccx_numbers.person_id = people.id 
                       and ccx_numbers.number_issuer_id = #{association_number_issuer_id} 
                       and ccx_numbers.year = #{date.year} 
-                      and ccx_numbers.discipline_id = #{Discipline[:ccx].id}
+                      and ccx_numbers.discipline_id = #{Discipline[:cyclocross].id}
       LEFT OUTER JOIN race_numbers as dh_numbers ON dh_numbers.person_id = people.id 
                       and dh_numbers.number_issuer_id = #{association_number_issuer_id} 
                       and dh_numbers.year = #{date.year} 
@@ -247,8 +247,6 @@ class Person < ActiveRecord::Base
   end
   
   def people_with_same_name
-    logger.debug "people_with_same_name #{self.name}"
-    logger.debug "#{self[:first_name]} #{self[:last_name]}"
     people = Person.find_all_by_name(self.name) | Alias.find_all_people_by_name(self.name)
     people.reject! { |person| person == self }
     people
@@ -353,7 +351,9 @@ class Person < ActiveRecord::Base
   # TODO Handle name, Jr.
   # This looks too complicated …
   def name=(value)
-    @old_name = name unless @old_name
+    if @old_name.blank?
+      @old_name = name
+    end
     if value.blank?
       self.first_name = ''
       self.last_name = ''
@@ -672,7 +672,7 @@ class Person < ActiveRecord::Base
   end
 
   def promoter?
-    Event.exists?([ "promoter_id = ?", self.id ])
+    Event.exists?([ "promoter_id = ?", id ]) unless new_record?
   end
 
   # Is Person a current member of the bike racing association?
@@ -985,15 +985,15 @@ class Person < ActiveRecord::Base
   
   def add_alias_for_old_name
     if !new_record? &&
-       !@old_name.blank? && 
-       !name.blank? && 
+       @old_name.present? && 
+       name.present? && 
        @old_name.casecmp(name) != 0 && 
        !Alias.exists?(['name = ? and person_id = ?', @old_name, id]) && 
        !Person.exists?(["trim(concat_ws(' ', first_name, last_name)) = ?", @old_name])
       
       new_alias = Alias.new(:name => @old_name, :person => self)
       unless new_alias.save
-        logger.error("Could not save alias #{new_alias}: #{new_alias.errors.full_messages.join(", ")}")
+        logger.error "Could not save alias #{new_alias}: #{new_alias.errors.full_messages.join(", ")}"
       end
       new_alias
     end
