@@ -154,7 +154,7 @@ class ActiveSupport::TestCase
   end
 
   def create_administrator_session
-    PersonSession.create(people(:administrator))
+    PersonSession.create(administrator)
   end
   
   def use_ssl

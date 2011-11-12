@@ -189,7 +189,7 @@ module Results
       assert_equal(scott_90.id, scott_400.id, "New people with different numbers should have same IDs")
 
       # Existing person, same name, different number
-      existing_weaver = people(:weaver)
+      existing_weaver = weaver
       new_weaver = event.races.last.results.first.person
       assert_equal(existing_weaver.name, new_weaver.name, "Weavers with different numbers should have same name")
       assert_equal(existing_weaver, new_weaver, "Weavers with different numbers should be same people")
@@ -201,7 +201,7 @@ module Results
       assert_not_equal(kurt, alan, "Person with different names, same numbers should be different people")
 
       # Existing person, different name, same number
-      existing_matson = people(:matson)
+      existing_matson = matson
       new_matson = event.races.first.results.first.person
       assert_not_equal(existing_matson, new_matson, "Person with different numbers should be different people")
     end
@@ -307,7 +307,7 @@ module Results
       cat_4_race = event.races.create! :category => Category.find_or_create_by_name("Cat 4")
       event.races.create! :category => Category.find_or_create_by_name("Cat 5")
     
-      pro_1_2_race.results.create! :place => 1, :person => people(:weaver)
+      pro_1_2_race.results.create! :place => 1, :person => weaver
     
       results_file = ResultsFile.new(File.new(File.expand_path("../../../files/results/small_event.xls", __FILE__)), event)
       results_file.import
@@ -401,10 +401,10 @@ module Results
     end
   
     def test_mtb
-      pro_semi_pro_men = categories(:pro_semi_pro_men)
+      pro_semi_pro_men = pro_semi_pro_men
       pro_semi_pro_men.children.create(:name => 'Pro Men')
       pro_semi_pro_men.children.create(:name => 'Expert Men')
-      pro_expert_women = categories(:pro_expert_women)
+      pro_expert_women = pro_expert_women
       pro_expert_women.children.create(:name => 'Pro/Expert Women')
     
       event = SingleDayEvent.create!(:discipline => 'Mountain Bike')

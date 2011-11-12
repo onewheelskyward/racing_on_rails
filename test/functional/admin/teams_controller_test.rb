@@ -17,7 +17,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   
   def test_not_logged_in_edit
     destroy_person_session
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     get(:edit, :id => vanilla.to_param)
     assert_redirected_to new_person_session_url(secure_redirect_options)
     assert_nil(@request.session["person"], "No person in session")
@@ -47,7 +47,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
     assert_response(:success)
     assert_template("admin/teams/index")
     assert_not_nil(assigns["teams"], "Should assign teams")
-    assert_equal([teams(:vanilla)], assigns['teams'], 'Search for nilla should find Vanilla')
+    assert_equal([vanilla], assigns['teams'], 'Search for nilla should find Vanilla')
   end
 
   def test_find
@@ -55,7 +55,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
     assert_response(:success)
     assert_template("admin/teams/index")
     assert_not_nil(assigns["teams"], "Should assign teams")
-    assert_equal([teams(:vanilla)], assigns['teams'], 'Search for van should find Vanilla')
+    assert_equal([vanilla], assigns['teams'], 'Search for van should find Vanilla')
     assert_not_nil(assigns["name"], "Should assign name")
     assert_equal('van', assigns['name'], "'name' assigns")
   end
@@ -63,7 +63,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   def test_find_json
     get :index, :name => 'van', :format => "json"
     assert_response :success
-    assert_equal [teams(:vanilla)], assigns['teams'], "Search for 'van' should find Vanilla"
+    assert_equal [vanilla], assigns['teams'], "Search for 'van' should find Vanilla"
     assert_equal "van", assigns["name"], "'name' assigns"
   end
   
@@ -101,7 +101,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_blank_name
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     assert_raise(ActiveRecord::RecordInvalid) do
       xhr :put, :update_attribute, 
           :id => vanilla.to_param,
@@ -117,7 +117,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
 
   def test_set_name
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     xhr :put, :update_attribute, 
         :id => vanilla.to_param,
         :name => "name",
@@ -132,7 +132,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_set_name_same_name
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     xhr :put, :update_attribute, 
         :id => vanilla.to_param,
         :name => "name",
@@ -146,7 +146,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_set_name_same_name_different_case
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     xhr :put, :update_attribute, 
         :id => vanilla.to_param,
         :name => "name",
@@ -160,7 +160,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_set_name_to_existing_name
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     xhr :put, :update_attribute, 
         :id => vanilla.to_param,
         :name => "name",
@@ -179,7 +179,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
     vanilla_alias = Alias.find_by_name('Vanilla')
     assert_nil(vanilla_alias, 'Alias')
     
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     xhr :put, :update_attribute, 
         :id => vanilla.to_param,
         :name => "name",
@@ -202,7 +202,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
     vanilla_alias = Alias.find_by_name('Vanilla')
     assert_nil(vanilla_alias, 'Alias')
     
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     xhr :put, :update_attribute, 
         :id => vanilla.to_param,
         :name => "name",
@@ -221,7 +221,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_set_name_to_other_team_existing_alias
-    kona = teams(:kona)
+    kona = kona
     xhr :put, :update_attribute, 
         :id => kona.to_param,
         :name => "name",
@@ -230,7 +230,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
     assert_template("admin/teams/merge_confirm")
     assert_not_nil(assigns["team"], "Should assign team")
     assert_equal(kona, assigns['team'], 'Team')
-    assert_equal([teams(:vanilla)], assigns['other_teams'], 'existing_teams')
+    assert_equal([vanilla], assigns['other_teams'], 'existing_teams')
     assert_not_nil(Team.find_by_name('Kona'), 'Kona still in database')
     assert_not_nil(Team.find_by_name('Vanilla'), 'Vanilla still in database')
     assert_nil(Team.find_by_name('Vanilla Bicycles'), 'Vanilla Bicycles not in database')
@@ -268,7 +268,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_destroy_team_with_results_should_not_cause_hard_errors
-    team = teams(:gentle_lovers)
+    team = gentle_lovers
     delete(:destroy, :id => team.id)
     assert(Team.exists?(team.id), 'Team should not have been destroyed')
     assert(!assigns(:team).errors.empty?, "Team should have error")
@@ -276,8 +276,8 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
 
   def test_merge?
-    vanilla = teams(:vanilla)
-    kona = teams(:kona)
+    vanilla = vanilla
+    kona = kona
     xhr :put, :update_attribute, 
         :id => kona.to_param,
         :name => "name",
@@ -290,8 +290,8 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_merge
-    vanilla = teams(:vanilla)
-    kona = teams(:kona)
+    vanilla = vanilla
+    kona = kona
     old_id = kona.id
     assert(Team.find_by_name('Kona'), 'Kona should be in database')
     
@@ -304,7 +304,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
 
   def test_toggle_member
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     assert_equal(true, vanilla.member, 'member before update')
     post(:toggle_member, :id => vanilla.to_param)
     assert_response(:success)
@@ -312,7 +312,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
     vanilla.reload
     assert_equal(false, vanilla.member, 'member after update')
 
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     post(:toggle_member, :id => vanilla.to_param)
     assert_response(:success)
     assert_template("shared/_member")
@@ -321,7 +321,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     get(:edit, :id => vanilla.to_param)
     assert_response(:success)
     assert_template("admin/teams/edit")
@@ -330,7 +330,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_destroy_name
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     vanilla.names.create!(:name => "Generic Team", :year => 1990)
     assert_equal(1, vanilla.names.count, "Vanilla names")
     name = vanilla.names.first
@@ -354,7 +354,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_update
-    team = teams(:vanilla)
+    team = vanilla
     post(:update, :id => team.to_param, :team => { :name => "Speedvagen", 
                                                    :website => "http://speedvagen.net",
                                                    :sponsors => %Q{<a href="http://stumptowncoffeeroasters">Stumptown</a>},
@@ -375,7 +375,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   end
   
   def test_invalid_update
-    team = teams(:vanilla)
+    team = vanilla
     post :update, :id => team.to_param, :team => { :name => "" }
     assert_response :success
     assert_not_nil assigns(:team), "@team"

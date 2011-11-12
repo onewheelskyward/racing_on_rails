@@ -16,7 +16,7 @@ class DeprecatedURLsTest < ActionController::IntegrationTest
   end
   
   def test_redirect_team_results
-    team = teams(:vanilla)
+    team = vanilla
     
     get "/teams/#{team.id}/results"
     assert_response :success

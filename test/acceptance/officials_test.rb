@@ -10,7 +10,7 @@ class OfficialsTest < WebDriverTestCase
     assert_no_element "export_link"
     
     login_as :administrator
-    member = people(:member)
+    member = member
     open "/admin/people/#{member.id}/edit"
     check "person_official"
     click "save"

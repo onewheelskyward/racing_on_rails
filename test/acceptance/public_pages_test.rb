@@ -41,7 +41,7 @@ class PublicPagesTest < WebDriverTestCase
     assert_table "person_results_table", 1, 1, "Kings Valley Road Race"
     assert_table "person_results_table", 1, 2, "Senior Women 1/2/3"
  
-    open "/people/#{people(:alice).to_param}/2002"
+    open "/people/#{alice.to_param}/2002"
     find_element(:link_text => "Jack Frost").click
     assert_page_source "Jack Frost"
     assert_page_source "January 17, 2002"

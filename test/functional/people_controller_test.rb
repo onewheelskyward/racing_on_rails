@@ -25,7 +25,7 @@ class PeopleControllerTest < ActionController::TestCase
   end
 
   def test_index_as_promoter
-    PersonSession.create(people(:promoter))
+    PersonSession.create(promoter)
     get(:index)
     assert_response(:success)
     assert_template("people/index")
@@ -40,7 +40,7 @@ class PeopleControllerTest < ActionController::TestCase
     get(:index, :name => "weav")
     assert_response(:success)
     assert_not_nil(assigns["people"], "Should assign people")
-    assert_equal([people(:weaver)], assigns['people'], 'Search for weav should find Weaver')
+    assert_equal([weaver], assigns['people'], 'Search for weav should find Weaver')
     assert_not_nil(assigns["name"], "Should assign name")
     assert_equal('weav', assigns['name'], "'name' assigns")
   end
@@ -86,70 +86,70 @@ class PeopleControllerTest < ActionController::TestCase
   def test_edit
     use_ssl
     login_as :member
-    get :edit, :id => people(:member).to_param
+    get :edit, :id => member.to_param
     assert_response :success
-    assert_equal people(:member), assigns(:person), "@person"
+    assert_equal member, assigns(:person), "@person"
     assert_select ".tabs", :count => 0
   end
 
   def test_edit_promoter
     use_ssl
     login_as :promoter
-    get :edit, :id => people(:promoter).to_param
+    get :edit, :id => promoter.to_param
     assert_response :success
-    assert_equal people(:promoter), assigns(:person), "@person"
+    assert_equal promoter, assigns(:person), "@person"
     assert_select ".tabs", :count => 1
   end
   
   def test_edit_as_editor
-    people(:molly).editors << people(:member)
+    molly.editors << member
     use_ssl
     login_as :member
-    get :edit, :id => people(:molly).to_param
+    get :edit, :id => molly.to_param
     assert_response :success
-    assert_equal people(:molly), assigns(:person), "@person"
+    assert_equal molly, assigns(:person), "@person"
     assert_select ".tabs", :count => 0
   end
 
   def test_edit_as_editor
-    people(:molly).editors << people(:member)
+    molly.editors << member
     use_ssl
     login_as :member
-    get :edit, :id => people(:molly).to_param
+    get :edit, :id => molly.to_param
     assert_response :success
-    assert_equal people(:molly), assigns(:person), "@person"
+    assert_equal molly, assigns(:person), "@person"
     assert_select ".tabs", :count => 0
   end
 
   def test_must_be_logged_in
     use_ssl
-    get :edit, :id => people(:member).to_param
+    get :edit, :id => member.to_param
     assert_redirected_to new_person_session_url(secure_redirect_options)
   end
 
   def test_cant_see_other_people_info
     use_ssl
     login_as :member
-    get :edit, :id => people(:weaver).to_param
+    get :edit, :id => weaver.to_param
     assert_redirected_to unauthorized_path
   end
 
   def test_admins_can_see_people_info
     use_ssl
     login_as :administrator
-    get :edit, :id => people(:member).to_param
+    get :edit, :id => member.to_param
     assert_response :success
-    assert_equal people(:member), assigns(:person), "@person"
+    assert_equal member, assigns(:person), "@person"
   end
   
   def test_update
     use_ssl
-    person = people(:member)
+    person = member
     login_as :member
     put :update, :id => person.to_param, :person => { :team_name => "Gentle Lovers" }
     assert_redirected_to edit_person_path(person)
     person = Person.find(person.id)
-    assert_equal teams(:gentle_lovers), person.reload.team, "Team should be updated"
+    assert_equal gentle_lovers, person.reload.team, "Team should be updated"
     assert_equal 1, person.versions.size, "versions"
     version = person.versions.last
     assert_equal person.name, version.user, "version user"
@@ -172,11 +172,11 @@ class PeopleControllerTest < ActionController::TestCase
     
     login_as editor
     
-    person = people(:member)
+    person = member
     put :update, :id => person.to_param, :person => { :team_name => "Gentle Lovers" }
     assert_redirected_to edit_person_path(person)
     person = Person.find(person.id)
-    assert_equal teams(:gentle_lovers), person.reload.team, "Team should be updated"
+    assert_equal gentle_lovers, person.reload.team, "Team should be updated"
     assert_equal 1, person.versions.size, "versions"
     version = person.versions.last
     assert_equal "my_login", version.user_name, "version user"
@@ -192,28 +192,28 @@ class PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_by_editor
-    people(:member).editors << people(:molly)
+    member.editors << molly
 
     use_ssl
-    person = people(:member)
+    person = member
     login_as :molly
     put :update, :id => person.to_param, :person => { :team_name => "Gentle Lovers" }
     assert_redirected_to edit_person_path(person)
-    assert_equal teams(:gentle_lovers), person.reload.team(true), "Team should be updated"
+    assert_equal gentle_lovers, person.reload.team(true), "Team should be updated"
   end
   
   def test_account
     use_ssl
     login_as :member
     get :account
-    assert_redirected_to edit_person_path(people(:member))
+    assert_redirected_to edit_person_path(member)
   end
   
   def test_account_with_person
     use_ssl
     login_as :member
-    get :account, :id => people(:member).to_param
-    assert_redirected_to edit_person_path(people(:member))
+    get :account, :id => member.to_param
+    assert_redirected_to edit_person_path(member)
   end
   
   def test_account_with_another_person
@@ -232,8 +232,8 @@ class PeopleControllerTest < ActionController::TestCase
   
   def test_account_with_person_not_logged_in
     use_ssl
-    get :account, :id => people(:member).to_param
-    assert_redirected_to edit_person_path(people(:member))
+    get :account, :id => member.to_param
+    assert_redirected_to edit_person_path(member)
   end
 
   def test_create_login
@@ -256,7 +256,7 @@ class PeopleControllerTest < ActionController::TestCase
   def test_create_login_with_token
     ActionMailer::Base.deliveries.clear
     
-    person = people(:past_member)
+    person = past_member
     person.reset_perishable_token!
     use_ssl
     post :create_login, 
@@ -447,7 +447,7 @@ class PeopleControllerTest < ActionController::TestCase
   end
   
   def test_new_login_with_token
-    person = people(:past_member)
+    person = past_member
     person.reset_perishable_token!
     use_ssl
     get :new_login, :id => person.perishable_token
@@ -456,7 +456,7 @@ class PeopleControllerTest < ActionController::TestCase
   end
   
   def test_new_login_with_token_logged_in
-    person = people(:past_member)
+    person = past_member
     person.reset_perishable_token!
     login_as person
     use_ssl
@@ -656,7 +656,7 @@ class PeopleControllerTest < ActionController::TestCase
     login_as :member
     use_ssl
     get :new_login
-    assert_redirected_to edit_person_path(people(:member))
+    assert_redirected_to edit_person_path(member)
     assert_not_nil flash[:notice], "flash[:notice]"
   end
 
@@ -709,14 +709,14 @@ class PeopleControllerTest < ActionController::TestCase
   end
 
   def test_show_as_xml
-    get :show, :id => people(:molly).id, :format => "xml"
+    get :show, :id => molly.id, :format => "xml"
     assert_response :success
     assert_select "first-name", "Molly"
     assert_select "last-name", "Cameron"
   end
 
   def test_show_as_json
-    get :show, :id => people(:molly).id, :format => "json"
+    get :show, :id => molly.id, :format => "json"
     assert_response :success
   end
 end

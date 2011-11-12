@@ -19,7 +19,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   def test_not_logged_in_edit
     destroy_person_session
-    weaver = people(:weaver)
+    weaver = weaver
     get(:edit, :id => weaver.to_param)
     assert_redirected_to new_person_session_url(secure_redirect_options)
     assert_nil(@request.session["person"], "No person in session")
@@ -40,7 +40,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_response :success
     assert_template("admin/people/index")
     assert_not_nil(assigns["people"], "Should assign people")
-    assert_equal([people(:weaver)], assigns['people'], 'Search for weav should find Weaver')
+    assert_equal([weaver], assigns['people'], 'Search for weav should find Weaver')
     assert_not_nil(assigns["name"], "Should assign name")
     assert_equal('weav', assigns['name'], "'name' assigns")
   end
@@ -50,7 +50,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_response :success
     assert_template("admin/people/index")
     assert_not_nil(assigns["people"], "Should assign people")
-    assert_equal([people(:tonkin)], assigns['people'], 'Search for 102 should find Tonkin')
+    assert_equal([tonkin], assigns['people'], 'Search for 102 should find Tonkin')
     assert_not_nil(assigns["name"], "Should assign name")
     assert_equal('102', assigns['name'], "'name' assigns")
   end
@@ -88,7 +88,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_blank_name
-    molly = people(:molly)
+    molly = molly
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -112,7 +112,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_update_name
-    molly = people(:molly)
+    molly = molly
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -125,7 +125,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_same_name
-    molly = people(:molly)
+    molly = molly
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -139,7 +139,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_same_name_different_case
-    molly = people(:molly)
+    molly = molly
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -154,7 +154,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   def test_update_to_existing_name
     # Should ask to merge
-    molly = people(:molly)
+    molly = molly
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -173,7 +173,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     erik_alias = Alias.find_by_name('Eric Tonkin')
     assert_not_nil(erik_alias, 'Alias')
 
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -196,7 +196,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     mollie_alias = Alias.find_by_name('Mollie Cameron')
     assert_not_nil(mollie_alias, 'Alias')
 
-    molly = people(:molly)
+    molly = molly
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -214,7 +214,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_to_other_person_existing_alias
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -223,14 +223,14 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_template("admin/people/merge_confirm")
     assert_not_nil(assigns["person"], "Should assign person")
     assert_equal(tonkin, assigns['person'], 'Person')
-    assert_equal([people(:molly)], assigns['other_people'], 'other_people')
+    assert_equal([molly], assigns['other_people'], 'other_people')
     assert(!Alias.find_all_people_by_name('Mollie Cameron').empty?, 'Mollie still in database')
     assert(!Person.find_all_by_name('Molly Cameron').empty?, 'Molly still in database')
     assert(!Person.find_all_by_name('Erik Tonkin').empty?, 'Erik Tonkin still in database')
   end
   
   def test_update_to_other_person_existing_alias_and_duplicate_names
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     molly_with_different_road_number = Person.create!(:name => 'Molly Cameron', :road_number => '1009')
 
     assert_equal(0, Person.count(:conditions => ['first_name = ? and last_name = ?', 'Mollie', 'Cameron']), 'Mollies in database')
@@ -255,8 +255,8 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_merge?
-    molly = people(:molly)
-    tonkin = people(:tonkin)
+    molly = molly
+    tonkin = tonkin
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -271,8 +271,8 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_merge
-    molly = people(:molly)
-    tonkin = people(:tonkin)
+    molly = molly
+    tonkin = tonkin
     old_id = tonkin.id
     assert Person.find_all_by_name("Erik Tonkin"), "Tonkin should be in database"
 
@@ -286,7 +286,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
 
   def test_update_team_name_to_new_team
     assert_nil(Team.find_by_name('Velo Slop'), 'New team Velo Slop should not be in database')
-    molly = people(:molly)
+    molly = molly
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "team_name",
@@ -298,7 +298,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_team_name_to_existing_team
-    molly = people(:molly)
+    molly = molly
     assert_equal(Team.find_by_name('Vanilla'), molly.team, 'Molly should be on Vanilla')
     xhr :put, :update_attribute, 
         :id => molly.to_param,
@@ -311,7 +311,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_update_team_name_to_blank
-    molly = people(:molly)
+    molly = molly
     assert_equal(Team.find_by_name('Vanilla'), molly.team, 'Molly should be on Vanilla')
     xhr :put, :update_attribute, 
         :id => molly.to_param,
@@ -324,7 +324,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
     
   def test_toggle_member
-    molly = people(:molly)
+    molly = molly
     assert_equal(true, molly.member, 'member before update')
     post(:toggle_member, :id => molly.to_param)
     assert_response :success
@@ -332,7 +332,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     molly.reload
     assert_equal(false, molly.member, 'member after update')
 
-    molly = people(:molly)
+    molly = molly
     post(:toggle_member, :id => molly.to_param)
     assert_response :success
     assert_template("shared/_member")
@@ -341,9 +341,9 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_dupes_merge?
-    molly = people(:molly)
+    molly = molly
     molly_with_different_road_number = Person.create(:name => 'Molly Cameron', :road_number => '987123')
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -359,11 +359,11 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_dupes_merge_one_has_road_number_one_has_cross_number?
-    molly = people(:molly)
+    molly = molly
     molly.ccx_number = '102'
     molly.save!
     molly_with_different_cross_number = Person.create(:name => 'Molly Cameron', :ccx_number => '810', :road_number => '1009')
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
         :name => "name",
@@ -384,8 +384,8 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_dupes_merge_alias?
-    molly = people(:molly)
-    tonkin = people(:tonkin)
+    molly = molly
+    tonkin = tonkin
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -399,8 +399,8 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_dupe_merge
-    molly = people(:molly)
-    tonkin = people(:tonkin)
+    molly = molly
+    tonkin = tonkin
     tonkin_with_different_road_number = Person.create(:name => 'Erik Tonkin', :road_number => 'YYZ')
     assert(tonkin_with_different_road_number.valid?, "tonkin_with_different_road_number not valid: #{tonkin_with_different_road_number.errors.full_messages.join(', ')}")
     assert_equal(tonkin_with_different_road_number.new_record?, false, 'tonkin_with_different_road_number should be saved')
@@ -425,7 +425,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    alice = people(:alice)
+    alice = alice
 
     get(:edit, :id => alice.to_param)
     assert_response :success
@@ -436,7 +436,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_edit_created_by_import_file
-    alice = people(:alice)
+    alice = alice
     alice.created_by = ImportFile.create!(:name => "some_very_long_import_file_name.xls")
     alice.save!
 
@@ -467,12 +467,12 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_redirected_to(edit_admin_person_path(knowlsons.first))
     assert_nil(knowlsons.first.member_from, 'member_from after update')
     assert_nil(knowlsons.first.member_to, 'member_to after update')
-    assert_equal(people(:administrator), knowlsons.first.created_by, "created by")
+    assert_equal(administrator, knowlsons.first.created_by, "created by")
     assert_equal("Candi Murray", knowlsons.first.created_by.name, "created by")
   end
 
   def test_update_new_number
-    molly = people(:molly)
+    molly = molly
     put(:update, {"commit"=>"Save", 
                    "number_year" => Date.today.year.to_s,
                    "number_issuer_id"=>[number_issuers(:association).to_param], "number_value"=>["AZY"], 
@@ -575,7 +575,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
     
   def test_update
-    molly = people(:molly)
+    molly = molly
     put(:update, {"commit"=>"Save", 
                    "number_year" => Date.today.year.to_s,
                    "number_issuer_id"=>number_issuers(:association).to_param, "number_value"=>[""], "discipline_id"=>disciplines(:cyclocross).to_param,
@@ -604,19 +604,19 @@ class Admin::PeopleControllerTest < ActionController::TestCase
 
     assert_equal 1, molly.versions.size, "versions"
     version = molly.versions.last
-    admin = people(:administrator)
+    admin = administrator
     assert_equal admin.name, version.user, "version user"
     changes = version.changes
     assert_equal 26, changes.size, "changes"
     change = changes["team_id"]
     assert_not_nil change, "Should have change for team ID"
-    assert_equal teams(:vanilla).id, change.first, "Team ID before"
+    assert_equal vanilla.id, change.first, "Team ID before"
     assert_equal nil, change.last, "Team ID after"
     assert_equal "Candi Murray", molly.last_updated_by, "updated_by"
   end
   
   def test_update_bad_member_from_date
-    person = people(:weaver)
+    person = weaver
     put(:update, "commit"=>"Save", "person"=>{
                  "member_from(1i)"=>"","member_from(2i)"=>"10", "member_from(3i)"=>"19",  
                  "member_to(3i)"=>"31", "date_of_birth(2i)"=>"1", "city"=>"Hood River", 
@@ -637,7 +637,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_number_year_changed
-    person = people(:molly)
+    person = molly
 
     post(:number_year_changed, 
          :id => person.to_param.to_s,
@@ -677,7 +677,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   def test_import
     existing_duplicate = Duplicate.new(:new_attributes => Person.new(:name => 'Erik Tonkin'))
-    existing_duplicate.people << people(:tonkin)
+    existing_duplicate.people << tonkin
     existing_duplicate.save!
     people_before_import = Person.count
   
@@ -697,7 +697,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   def test_import_next_year
     existing_duplicate = Duplicate.new(:new_attributes => Person.new(:name => 'Erik Tonkin'))
-    existing_duplicate.people << people(:tonkin)
+    existing_duplicate.people << tonkin
     existing_duplicate.save!
     people_before_import = Person.count
   
@@ -793,7 +793,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_one_print_card
-    tonkin = people(:tonkin)
+    tonkin = tonkin
 
     get(:card, :format => "pdf", :id => tonkin.to_param)
 
@@ -816,7 +816,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_print_cards
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     tonkin.print_card = true
     tonkin.ccx_category = "Clydesdale"
     tonkin.mtb_category = "Beginner"
@@ -854,14 +854,14 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_export_to_excel
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     tonkin.singlespeed_number = "409"
     tonkin.track_number = "765"
     tonkin.save!
     
     RaceNumber.create!(:person => tonkin, :discipline => Discipline[:singlespeed], :value => "410")
 
-    weaver = people(:weaver)
+    weaver = weaver
     RaceNumber.create!(:person => weaver, :discipline => Discipline[:road], :value => "888")
     RaceNumber.create!(:person => weaver, :discipline => Discipline[:road], :value => "999")
     assert_equal(4, weaver.race_numbers(true).size, "Weaver numbers")
@@ -917,7 +917,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
 
   def test_export_members_only_to_excel_promoter
     destroy_person_session
-    PersonSession.create(people(:promoter))
+    PersonSession.create(promoter)
     
     get :index, :format => 'xls', :include => 'members_only', :excel_layout => "scoring_sheet"
 
@@ -977,8 +977,8 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   # From PeopleController
   def test_edit_with_event
     kings_valley = events(:kings_valley)
-    get(:edit, :id => people(:promoter).to_param, :event_id => kings_valley.to_param.to_s)
-    assert_equal(people(:promoter), assigns['person'], "Should assign 'person'")
+    get(:edit, :id => promoter.to_param, :event_id => kings_valley.to_param.to_s)
+    assert_equal(promoter, assigns['person'], "Should assign 'person'")
     assert_equal(kings_valley, assigns['event'], "Should Kings Valley assign 'event'")
     assert_template("admin/people/edit")
   end
@@ -993,7 +993,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_save_new_single_day_existing_promoter_different_info_overwrite
-    candi_murray = people(:administrator)
+    candi_murray = administrator
     new_email = "scout@scout-promotions.net"
     new_phone = "123123"
 
@@ -1014,7 +1014,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_save_new_single_day_existing_promoter_no_name
-    nate_hobson = people(:nate_hobson)
+    nate_hobson = nate_hobson
     old_name = nate_hobson.name
     old_email = nate_hobson.email
     old_phone = nate_hobson.home_phone
@@ -1033,7 +1033,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_remember_event_id_on_update
-    promoter = people(:promoter)
+    promoter = promoter
 
     put(:update, :id => promoter.id, 
       "person" => {"name" => "Fred Whatley", "home_phone" => "(510) 410-2201", "email" => "fred@whatley.net"}, 

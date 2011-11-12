@@ -35,12 +35,12 @@ class Admin::ResultsControllerTest < ActionController::TestCase
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "team_name",
-        :value => teams(:vanilla).name
+        :value => vanilla.name
     assert_response(:success)
     assert_response(:success)
 
     weaver_jack_frost.reload
-    assert_equal(teams(:vanilla), weaver_jack_frost.team(true), 'team')
+    assert_equal(vanilla, weaver_jack_frost.team(true), 'team')
   end
   
   def test_update_no_team_to_new
@@ -57,7 +57,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
 
     weaver_jack_frost.reload
     assert_equal("Team Vanilla", weaver_jack_frost.team(true).name, "team name")
-    assert_not_equal(teams(:vanilla), weaver_jack_frost.team(true), "Should create new team")
+    assert_not_equal(vanilla, weaver_jack_frost.team(true), "Should create new team")
   end
   
   def test_update_no_team_to_alias
@@ -75,7 +75,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
     assert_response(:success)
 
     weaver_jack_frost.reload
-    assert_equal(teams(:gentle_lovers), weaver_jack_frost.team(true), 'team')
+    assert_equal(gentle_lovers, weaver_jack_frost.team(true), 'team')
   end
   
   def test_update_to_no_team
@@ -107,7 +107,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
     assert_response(:success)
 
     weaver_jack_frost.reload
-    assert_equal(teams(:vanilla), weaver_jack_frost.team(true), 'team')
+    assert_equal(vanilla, weaver_jack_frost.team(true), 'team')
   end
   
   def test_update_to_new_team
@@ -139,11 +139,11 @@ class Admin::ResultsControllerTest < ActionController::TestCase
     assert_response(:success)
 
     weaver_jack_frost.reload
-    assert_equal(teams(:gentle_lovers), weaver_jack_frost.team(true), 'team')
+    assert_equal(gentle_lovers, weaver_jack_frost.team(true), 'team')
   end
   
   def test_set_result_points
-    assert(people(:weaver).aliases(true).empty?)
+    assert(weaver.aliases(true).empty?)
     weaver_jack_frost = results(:weaver_jack_frost)
     assert_equal(0, weaver_jack_frost.points, 'points')
 
@@ -196,8 +196,8 @@ class Admin::ResultsControllerTest < ActionController::TestCase
     weaver_jack_frost.reload
     assert_equal("Erik Tonkin", weaver_jack_frost.name, 'name')
     assert_equal(original_team_name, weaver_jack_frost.team_name, 'team_name')
-    assert_equal(people(:tonkin), weaver_jack_frost.person(true), 'person')
-    assert_equal(1, people(:tonkin).aliases.size)
+    assert_equal(tonkin, weaver_jack_frost.person(true), 'person')
+    assert_equal(1, tonkin.aliases.size)
   end
   
   def test_update_no_person_to_alias
@@ -217,8 +217,8 @@ class Admin::ResultsControllerTest < ActionController::TestCase
     weaver_jack_frost.reload
     assert_equal('Erik Tonkin', weaver_jack_frost.name, 'name')
     assert_equal(original_team_name, weaver_jack_frost.team_name, 'team_name')
-    assert_equal(people(:tonkin), weaver_jack_frost.person(true), 'person')
-    assert_equal(1, people(:tonkin).aliases.size)
+    assert_equal(tonkin, weaver_jack_frost.person(true), 'person')
+    assert_equal(1, tonkin.aliases.size)
   end
   
   def test_update_to_no_person
@@ -241,7 +241,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_different_person
-    assert_equal(1, people(:tonkin).aliases.size)
+    assert_equal(1, tonkin.aliases.size)
     weaver_jack_frost = results(:weaver_jack_frost)
 
     original_team_name = weaver_jack_frost.team_name
@@ -257,14 +257,14 @@ class Admin::ResultsControllerTest < ActionController::TestCase
     assert_equal("Erik", weaver_jack_frost.first_name, 'first_name')
     assert_equal("Tonkin", weaver_jack_frost.last_name, 'last_name')
     assert_equal(original_team_name, weaver_jack_frost.team_name, 'team_name')
-    assert_equal(people(:tonkin), weaver_jack_frost.person(true), 'person')
-    assert_equal(1, people(:tonkin).aliases.size)
+    assert_equal(tonkin, weaver_jack_frost.person(true), 'person')
+    assert_equal(1, tonkin.aliases.size)
   end
   
   def test_update_to_alias
     weaver_jack_frost = results(:weaver_jack_frost)
     original_team_name = weaver_jack_frost.team_name
-    assert_equal(1, people(:tonkin).aliases.size)
+    assert_equal(1, tonkin.aliases.size)
     
     xhr :put,
         :update_attribute,
@@ -274,16 +274,16 @@ class Admin::ResultsControllerTest < ActionController::TestCase
     assert_response(:success)
     
     weaver_jack_frost.reload
-    assert_equal(people(:tonkin), weaver_jack_frost.person, "Result person")
+    assert_equal(tonkin, weaver_jack_frost.person, "Result person")
     assert_equal('Erik', weaver_jack_frost.first_name, 'first_name')
     assert_equal("Tonkin", weaver_jack_frost.last_name, 'last_name')
     assert_equal(original_team_name, weaver_jack_frost.team_name, 'team_name')
-    assert_equal(people(:tonkin), weaver_jack_frost.person(true), 'person')
-    assert_equal(1, people(:tonkin).aliases.size)
+    assert_equal(tonkin, weaver_jack_frost.person(true), 'person')
+    assert_equal(1, tonkin.aliases.size)
   end
   
   def test_update_to_new_person
-    weaver = people(:weaver)
+    weaver = weaver
     assert_equal 0, weaver.aliases.size, "aliases"
     assert_equal 4, weaver.results.size, "results"
     result = results(:weaver_jack_frost)
@@ -310,7 +310,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_person
-    weaver = people(:weaver)
+    weaver = weaver
 
     get(:index, :person_id => weaver.to_param.to_s)
     
@@ -320,28 +320,28 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_find_person
-    post(:find_person, :name => 'e', :ignore_id => people(:tonkin).id)    
+    post(:find_person, :name => 'e', :ignore_id => tonkin.id)    
     assert_response(:success)
     assert_template('admin/results/_people')
   end
   
   def test_find_person_one_result
-    weaver = people(:weaver)
+    weaver = weaver
 
-    post(:find_person, :name => weaver.name, :ignore_id => people(:tonkin).id)
+    post(:find_person, :name => weaver.name, :ignore_id => tonkin.id)
     
     assert_response(:success)
     assert_template('admin/results/_person')
   end
   
   def test_find_person_no_results
-    post(:find_person, :name => 'not a person in the database', :ignore_id => people(:tonkin).id)    
+    post(:find_person, :name => 'not a person in the database', :ignore_id => tonkin.id)    
     assert_response(:success)
     assert_template('admin/results/_people')
   end
   
   def test_results
-    weaver = people(:weaver)
+    weaver = weaver
 
     post(:results, :person_id => weaver.id)
     
@@ -350,8 +350,8 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_move
-    weaver = people(:weaver)
-    tonkin = people(:tonkin)
+    weaver = weaver
+    tonkin = tonkin
     result = results(:tonkin_kings_valley)
 
     assert tonkin.results.include?(result)

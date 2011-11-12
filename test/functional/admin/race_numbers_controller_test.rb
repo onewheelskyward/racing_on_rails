@@ -9,7 +9,7 @@ class Admin::RaceNumbersControllerTest < ActionController::TestCase
   end
   
   def test_new
-    person = people(:molly)
+    person = molly
     xhr :get, :new, :person_id => person.to_param
     assert_response :success
   end
