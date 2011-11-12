@@ -8,16 +8,16 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_index_with_person_id
-    get :index, :person_id => people(:promoter)
+    get :index, :person_id => promoter
     assert_response :success
     assert_select ".tabs", :count => 0
     assert_select "a[href=?]", /.*\/admin\/events.*/, :count => 0
   end
   
   def test_index_with_person_id_promoter
-    PersonSession.create(people(:promoter))
+    PersonSession.create(promoter)
     
-    get :index, :person_id => people(:promoter)
+    get :index, :person_id => promoter
     assert_response :success
     assert_select ".tabs"
     assert_select "a[href=?]", /.*\/admin\/events.*/, :count => 4

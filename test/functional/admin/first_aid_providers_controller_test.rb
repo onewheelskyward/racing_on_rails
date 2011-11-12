@@ -46,7 +46,7 @@ class Admin::FirstAidProvidersControllerTest < ActionController::TestCase
   end
   
   def test_official
-    person = people(:member)
+    person = member
     person.update_attribute :official, true
     login_as :member
     get :index

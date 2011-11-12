@@ -637,17 +637,17 @@ class MultiDayEventTest < ActiveSupport::TestCase
     assert_equal(0, event.children_with_results.size, "events_with_results: child with no results")
     assert_equal(0, event.children_and_child_competitions_with_results.size, "children_and_child_competitions_with_results: child with no results")
 
-    event.children.create!.races.create!(:category => categories(:cat_4_women)).results.create!
+    event.children.create!.races.create!(:category => cat_4_women).results.create!
     assert_equal(1, event.children_with_results.size, "cached: events_with_results: 1 children with results")
     assert_equal(1, event.children_with_results(true).size, "refresh cache: events_with_results: 1 children with results")
     assert_equal(1, event.children_and_child_competitions_with_results(true).size, "refresh cache: children_and_child_competitions_with_results: 1 children with results")
 
-    event.children.create!.races.create!(:category => categories(:cat_4_women)).results.create!
+    event.children.create!.races.create!(:category => cat_4_women).results.create!
     assert_equal(2, event.children_with_results(true).size, "refresh cache: events_with_results: 2 children with results")
     assert_equal(2, event.children_and_child_competitions_with_results(true).size, "refresh cache: children_and_child_competitions_with_results: 2 children with results")
     
     overall = event.create_overall
-    overall.races.create!(:category => categories(:cat_4_women)).results.create!
+    overall.races.create!(:category => cat_4_women).results.create!
     assert_equal(2, event.children_with_results(true).size, "refresh cache: events_with_results: 2 children with results + overall")
     assert_equal(3, event.children_and_child_competitions_with_results(true).size, "refresh cache: children_and_child_competitions_with_results: 2 children with results + overall")
   end

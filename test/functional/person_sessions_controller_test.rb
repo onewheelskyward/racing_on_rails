@@ -25,7 +25,7 @@ class PersonSessionsControllerTest < ActionController::TestCase
     post :create, :person_session => { :login => "bob.jones", :password => "secret" }
     assert_not_nil(assigns["person_session"], "@person_session")
     assert assigns["person_session"].errors.empty?, assigns["person_session"].errors.full_messages.join
-    assert_redirected_to edit_person_path(people(:member))
+    assert_redirected_to edit_person_path(member)
     assert_not_nil session[:person_credentials], "Should have :person_credentials in session"
     assert_not_nil cookies["person_credentials"], "person_credentials cookie"
   end
@@ -94,7 +94,7 @@ class PersonSessionsControllerTest < ActionController::TestCase
   
   def test_logout_no_ssl
     @request.env['HTTPS'] = nil
-    PersonSession.create(people(:administrator))
+    PersonSession.create(administrator)
 
     delete :destroy
     

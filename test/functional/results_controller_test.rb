@@ -108,68 +108,68 @@ class ResultsControllerTest < ActionController::TestCase
     
   def test_index_all_subclasses
     RacingAssociation.current.now = Time.local(2007, 5)
-    SingleDayEvent.create!(:name => 'In past', :date => Date.new(2006, 12, 31)).races.create!(:category => categories(:senior_men)).results.create!
-    SingleDayEvent.create!(:name => 'In future', :date => Date.new(2008, 1, 1)).races.create!(:category => categories(:senior_men)).results.create!
+    SingleDayEvent.create!(:name => 'In past', :date => Date.new(2006, 12, 31)).races.create!(:category => senior_men).results.create!
+    SingleDayEvent.create!(:name => 'In future', :date => Date.new(2008, 1, 1)).races.create!(:category => senior_men).results.create!
     SingleDayEvent.create!(:name => 'SingleDayEvent no races', :date => Date.new(2007, 4, 12))
     single_day_event = SingleDayEvent.create!(:name => 'SingleDayEvent', :date => Date.new(2007, 4, 15))
-    single_day_event.races.create!(:category => categories(:senior_men)).results.create!
+    single_day_event.races.create!(:category => senior_men).results.create!
     
-    MultiDayEvent.create!(:name => 'In past', :date => Date.new(2006, 12, 31)).races.create!(:category => categories(:senior_men)).results.create!
-    MultiDayEvent.create!(:name => 'In future', :date => Date.new(2008, 1, 1)).races.create!(:category => categories(:senior_men)).results.create!
+    MultiDayEvent.create!(:name => 'In past', :date => Date.new(2006, 12, 31)).races.create!(:category => senior_men).results.create!
+    MultiDayEvent.create!(:name => 'In future', :date => Date.new(2008, 1, 1)).races.create!(:category => senior_men).results.create!
     MultiDayEvent.create!(:name => 'MultiDayEvent no races', :date => Date.new(2007, 1, 12))
     
     multi_day_event_with_children = MultiDayEvent.create!(:name => 'MultiDayEvent with children, no races', :date => Date.new(2007, 5, 15))
     multi_day_event_with_children.children.create!(:date => Date.new(2007, 5, 15))
     
     multi_day_event_with_races = MultiDayEvent.create!(:name => 'MultiDayEvent with races, no children', :date => Date.new(2007, 6, 12))
-    multi_day_event_with_races.races.create!(:category => categories(:senior_men)).results.create!
+    multi_day_event_with_races.races.create!(:category => senior_men).results.create!
     
     multi_day_event_with_child_races = MultiDayEvent.create!(:name => 'MultiDayEvent with children races', :date => Date.new(2007, 6, 17))
     multi_day_event_with_child_races_child = multi_day_event_with_child_races.children.create!(:date => Date.new(2007, 6, 17))
-    multi_day_event_with_child_races_child.races.create!(:category => categories(:senior_men)).results.create!
+    multi_day_event_with_child_races_child.races.create!(:category => senior_men).results.create!
         
-    Series.create!(:name => 'In past', :date => Date.new(2006, 12, 31)).races.create!(:category => categories(:senior_men)).results.create!
-    Series.create!(:name => 'In future', :date => Date.new(2008, 1, 1)).races.create!(:category => categories(:senior_men)).results.create!
+    Series.create!(:name => 'In past', :date => Date.new(2006, 12, 31)).races.create!(:category => senior_men).results.create!
+    Series.create!(:name => 'In future', :date => Date.new(2008, 1, 1)).races.create!(:category => senior_men).results.create!
     Series.create!(:name => 'Series no races', :date => Date.new(2007, 1, 12))
     
     series_with_children = Series.create!(:name => 'Series with children, no races', :date => Date.new(2007, 2, 15))
     series_with_children.children.create!(:date => Date.new(2007, 2, 15))
     
     series_with_races = Series.create!(:name => 'Series with races, no children', :date => Date.new(2007, 3, 12))
-    series_with_races.races.create!(:category => categories(:senior_men)).results.create!
+    series_with_races.races.create!(:category => senior_men).results.create!
     
     series_with_child_races = Series.create!(:name => 'Series with children races', :date => Date.new(2007, 4, 17))
     series_with_child_races_child = series_with_child_races.children.create!(:date => Date.new(2007, 4, 17))
-    series_with_child_races_child.races.create!(:category => categories(:senior_men)).results.create!
-    series_with_child_races_child.races.create!(:category => categories(:senior_men)).results.create!
+    series_with_child_races_child.races.create!(:category => senior_men).results.create!
+    series_with_child_races_child.races.create!(:category => senior_men).results.create!
     
     series_with_races_and_child_races = Series.create!(:name => 'Series with races and  with children races', :date => Date.new(2007, 11, 1))
-    series_with_races_and_child_races.races.create!(:category => categories(:senior_men)).results.create!
+    series_with_races_and_child_races.races.create!(:category => senior_men).results.create!
     series_with_races_and_child_races_child = series_with_child_races.children.create!(:date => Date.new(2007, 11, 11))
-    series_with_races_and_child_races_child.races.create!(:category => categories(:senior_men)).results.create!
-    series_with_races_and_child_races_child.races.create!(:category => categories(:senior_men)).results.create!
+    series_with_races_and_child_races_child.races.create!(:category => senior_men).results.create!
+    series_with_races_and_child_races_child.races.create!(:category => senior_men).results.create!
     
-    WeeklySeries.create!(:name => 'In past', :date => Date.new(2006, 12, 31)).races.create!(:category => categories(:senior_men)).results.create!
-    WeeklySeries.create!(:name => 'In future', :date => Date.new(2008, 1, 1)).races.create!(:category => categories(:senior_men)).results.create!
+    WeeklySeries.create!(:name => 'In past', :date => Date.new(2006, 12, 31)).races.create!(:category => senior_men).results.create!
+    WeeklySeries.create!(:name => 'In future', :date => Date.new(2008, 1, 1)).races.create!(:category => senior_men).results.create!
     WeeklySeries.create!(:name => 'WeeklySeries no races', :date => Date.new(2007, 1, 12))
   
     weekly_series_with_children = WeeklySeries.create!(:name => 'WeeklySeries with children, no races', :date => Date.new(2007, 8, 2))
     weekly_series_with_children.children.create!(:date => Date.new(2007, 8, 2))
   
     weekly_series_with_races = WeeklySeries.create!(:name => 'WeeklySeries with races, no children', :date => Date.new(2007, 9, 22))
-    weekly_series_with_races.races.create!(:category => categories(:senior_men)).results.create!
+    weekly_series_with_races.races.create!(:category => senior_men).results.create!
   
     weekly_series_with_child_races = WeeklySeries.create!(:name => 'WeeklySeries with children races', :date => Date.new(2007, 3, 5))
     weekly_series_with_child_races_child = weekly_series_with_child_races.children.create!(:date => Date.new(2007, 3, 5))
-    weekly_series_with_child_races_child.races.create!(:category => categories(:senior_men)).results.create!
+    weekly_series_with_child_races_child.races.create!(:category => senior_men).results.create!
   
     weekly_series_with_races_and_child_races = WeeklySeries.create!(:name => 'WeeklySeries with races and children races', :date => Date.new(2007, 12, 2))
-    weekly_series_with_races_and_child_races.races.create!(:category => categories(:senior_men)).results.create!
+    weekly_series_with_races_and_child_races.races.create!(:category => senior_men).results.create!
     weekly_series_with_races_and_child_races_child = weekly_series_with_child_races.children.create!(:date => Date.new(2007, 12, 2))
-    weekly_series_with_races_and_child_races_child.races.create!(:category => categories(:senior_men)).results.create!
+    weekly_series_with_races_and_child_races_child.races.create!(:category => senior_men).results.create!
     
     usa_cycling_event_with_results = SingleDayEvent.create!(:date => Date.new(2007, 5), :sanctioned_by => "NCNCA")
-    usa_cycling_event_with_results.races.create!(:category => categories(:senior_men)).results.create!
+    usa_cycling_event_with_results.races.create!(:category => senior_men).results.create!
     
     get(:index, :year => "2007")
     assert_response(:success)
@@ -192,9 +192,9 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_person
-    weaver = people(:weaver)
+    weaver = weaver
     competition = RiderRankings.create!
-    competition_result = competition.races.create!(:category => categories(:senior_men)).results.create!
+    competition_result = competition.races.create!(:category => senior_men).results.create!
     Score.create!(:competition_result => competition_result, :source_result => results(:weaver_banana_belt), :points => 1)
     
     get :person, :person_id => weaver.to_param
@@ -205,8 +205,8 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_person_with_year
-    weaver = people(:weaver)
-    result = SingleDayEvent.create!(:date => Date.new(2008)).races.create!(:category => categories(:senior_men)).results.create!(:person => weaver, :place => "1")
+    weaver = weaver
+    result = SingleDayEvent.create!(:date => Date.new(2008)).races.create!(:category => senior_men).results.create!(:person => weaver, :place => "1")
     
     get :person, :person_id => weaver.to_param, :year => "2008"
     assert_response(:success)
@@ -296,17 +296,17 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_person_with_overall_results
-    person = people(:tonkin)
+    person = tonkin
     event = CrossCrusadeOverall.create!(:parent => Series.create!)
-    event.races.create!(:category => categories(:senior_men)).results.create!(:place => "1")
+    event.races.create!(:category => senior_men).results.create!(:place => "1")
     get :person, :person_id => person.to_param
     assert_response :success
   end
   
   def test_person_overall_results
-    person = people(:tonkin)
+    person = tonkin
     event = CrossCrusadeOverall.create!(:parent => Series.create!)
-    event.races.create!(:category => categories(:senior_men)).results.create!(:place => "1")
+    event.races.create!(:category => senior_men).results.create!(:place => "1")
     get(:person_event, :event_id => event.to_param, :person_id => person.to_param)
     assert_response :success
   end
@@ -350,13 +350,13 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_return_404_for_missing_team_event_bad_event
-    assert_raise(ActiveRecord::RecordNotFound) { get(:team_event, :event_id => 236127361273, :team_id => teams(:vanilla).to_param) }
+    assert_raise(ActiveRecord::RecordNotFound) { get(:team_event, :event_id => 236127361273, :team_id => vanilla.to_param) }
   end
   
   def test_return_404_for_missing_team_event_result
     event = CrossCrusadeTeamCompetition.create!(:parent => SingleDayEvent.create!(:name => "Cross Crusade"))
     assert_raise(ActiveRecord::RecordNotFound) {
-      get(:team_event, :event_id => event.to_param, :team_id => teams(:vanilla).to_param) 
+      get(:team_event, :event_id => event.to_param, :team_id => vanilla.to_param) 
     }
   end
   
@@ -368,7 +368,7 @@ class ResultsControllerTest < ActionController::TestCase
   
   def test_return_404_for_missing_person_event_bad_event
     assert_raise(ActiveRecord::RecordNotFound) { 
-      get(:person_event, :event_id => 236127361273, :person_id => people(:weaver).to_param) 
+      get(:person_event, :event_id => 236127361273, :person_id => weaver.to_param) 
     }
   end
   
@@ -392,7 +392,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_return_404_for_missing_team_event_bad_event
-    assert_raise(ActiveRecord::RecordNotFound) { get(:team_event, :event_id => 236127361273, :team_id => teams(:vanilla).to_param) }
+    assert_raise(ActiveRecord::RecordNotFound) { get(:team_event, :event_id => 236127361273, :team_id => vanilla.to_param) }
   end
   
   def test_return_404_for_missing_person_event
@@ -400,7 +400,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_return_404_for_missing_person_event_bad_event
-    assert_raise(ActiveRecord::RecordNotFound) { get(:person_event, :event_id => 236127361273, :person_id => people(:weaver).to_param) }
+    assert_raise(ActiveRecord::RecordNotFound) { get(:person_event, :event_id => 236127361273, :person_id => weaver.to_param) }
   end
 
   def test_index_as_xml
@@ -473,7 +473,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_show_unregistered_teams_in_results
-    team = teams(:gentle_lovers)
+    team = gentle_lovers
     team.member = false
     team.save!
     
@@ -488,8 +488,8 @@ class ResultsControllerTest < ActionController::TestCase
     RacingAssociation.current.save!
     
     event = SingleDayEvent.create!
-    race = event.races.create!(:category => categories(:senior_men))
-    race.results.create! :person => people(:tonkin), :team => teams(:kona)
+    race = event.races.create!(:category => senior_men)
+    race.results.create! :person => tonkin, :team => kona
     race.results.create! :person => Person.create!, :team => Team.create!(:name => "DFL")
     
     get :event, :event_id => events(:banana_belt_1).to_param
@@ -502,7 +502,7 @@ class ResultsControllerTest < ActionController::TestCase
     RacingAssociation.current.unregistered_teams_in_results = false
     RacingAssociation.current.save!
     
-    team = teams(:gentle_lovers)
+    team = gentle_lovers
     team.member = false
     team.save!
     

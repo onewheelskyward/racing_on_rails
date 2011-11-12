@@ -61,8 +61,8 @@ class Admin::Cat4WomensRaceSeriesControllerTest < ActionController::TestCase
   def test_create_result_for_existing_race_and_people
     women_cat_4 = Category.find_or_create_by_name("Women Cat 4")
     existing_race = events(:banana_belt_1).races.create!(:category => women_cat_4)
-    existing_race.results.create!(:place => "1", :person => people(:alice))
-    molly = people(:molly)
+    existing_race.results.create!(:place => "1", :person => alice)
+    molly = molly
     event = events(:banana_belt_1)
 
     post :create_result, { :result => { :place => "3", :number => molly.number(:road), :team_name => molly.team.name, 
@@ -102,7 +102,7 @@ class Admin::Cat4WomensRaceSeriesControllerTest < ActionController::TestCase
   end
   
   def test_create_result_for_existing_person
-    molly = people(:molly)
+    molly = molly
 
     post :create_result, { :result => { :place => "3", :number => molly.number(:road), :team_name => molly.team.name, 
                                         :first_name => molly.first_name, :last_name => molly.last_name },
@@ -142,8 +142,8 @@ class Admin::Cat4WomensRaceSeriesControllerTest < ActionController::TestCase
     women_cat_4 = Category.find_or_create_by_name("Women Cat 4")
     women_cat_4.children << sr_women_4
     existing_race = events(:banana_belt_1).races.create!(:category => sr_women_4)
-    existing_race.results.create!(:place => "1", :person => people(:alice))
-    molly = people(:molly)
+    existing_race.results.create!(:place => "1", :person => alice)
+    molly = molly
     event = events(:banana_belt_1)
 
     post :create_result, { :result => { :place => "3", :number => molly.number(:road), :team_name => molly.team.name, 

@@ -5,8 +5,8 @@ require File.expand_path("../../test_helper", __FILE__)
 # :stopdoc:
 class TeamTest < ActiveSupport::TestCase
   def test_find_by_name_or_alias_or_create
-    assert_equal(teams(:gentle_lovers), Team.find_by_name_or_alias_or_create('Gentle Lovers'), 'Gentle Lovers')
-    assert_equal(teams(:gentle_lovers), Team.find_by_name_or_alias_or_create('Gentile Lovers'), 'Gentle Lovers alias')
+    assert_equal(gentle_lovers, Team.find_by_name_or_alias_or_create('Gentle Lovers'), 'Gentle Lovers')
+    assert_equal(gentle_lovers, Team.find_by_name_or_alias_or_create('Gentile Lovers'), 'Gentle Lovers alias')
     assert_nil(Team.find_by_name_or_alias('Health Net'), 'Health Net should not exist')
     team = Team.find_by_name_or_alias_or_create('Health Net')
     assert_not_nil(team, 'Health Net')
@@ -14,8 +14,8 @@ class TeamTest < ActiveSupport::TestCase
   end
   
   def test_merge
-    team_to_keep = teams(:vanilla)
-    team_to_merge = teams(:gentle_lovers)
+    team_to_keep = vanilla
+    team_to_merge = gentle_lovers
     
     assert_not_nil(Team.find_by_name(team_to_keep.name), "#{team_to_keep.name} should be in DB")
     assert_equal(2, Result.find_all_by_team_id(team_to_keep.id).size, "Vanilla's results")
@@ -54,7 +54,7 @@ class TeamTest < ActiveSupport::TestCase
     team_to_keep_last_year = team_to_keep.names.create!(:name => "Team Oregon/River City Bicycles", :year => last_year)
     
     event = SingleDayEvent.create!
-    senior_men = categories(:senior_men)
+    senior_men = senior_men
     event.races.create!(:category => senior_men).results.create!(:place => "10", :team => team_to_keep)
 
     event = SingleDayEvent.create!(:date => Date.new(last_year))
@@ -128,7 +128,7 @@ class TeamTest < ActiveSupport::TestCase
   end
   
   def test_find_all_by_name_like
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     assert_same_elements [vanilla], Team.find_all_by_name_like("Vanilla"), "Vanilla"
     assert_same_elements [vanilla], Team.find_all_by_name_like("Vanilla Bicycles"), "Vanilla Bicycles"
     assert_same_elements [vanilla], Team.find_all_by_name_like("van"), "van"
@@ -163,7 +163,7 @@ class TeamTest < ActiveSupport::TestCase
     assert_not_nil(Alias.find_by_name('Vanilla Bicycles'), 'Vanilla Bicycles alias should exist')
     assert_nil(Team.find_by_name('Vanilla Bicycles'), 'Vanilla Bicycles should not exist')
 
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     vanilla.name = 'Vanilla Bicycles'
     vanilla.save!
     assert(vanilla.valid?, 'Renamed Vanilla should be valid')
@@ -175,7 +175,7 @@ class TeamTest < ActiveSupport::TestCase
   end
   
   def test_update_name_different_case
-    vanilla = teams(:vanilla)
+    vanilla = vanilla
     assert_equal('Vanilla', vanilla.name, 'Name before update')
     vanilla.name = 'vanilla'
     vanilla.save
@@ -225,11 +225,11 @@ class TeamTest < ActiveSupport::TestCase
   def test_create_new_name_if_there_are_results_from_previous_year
     team = Team.create!(:name => "Twin Peaks")
     event = SingleDayEvent.create!(:date => 1.years.ago)
-    old_result = event.races.create!(:category => categories(:senior_men)).results.create!(:team => team)
+    old_result = event.races.create!(:category => senior_men).results.create!(:team => team)
     assert_equal("Twin Peaks", old_result.team_name, "Team name on old result")
     
     event = SingleDayEvent.create!(:date => Date.today)
-    result = event.races.create!(:category => categories(:senior_men)).results.create!(:team => team)
+    result = event.races.create!(:category => senior_men).results.create!(:team => team)
     assert_equal("Twin Peaks", result.team_name, "Team name on new result")
     assert_equal("Twin Peaks", old_result.team_name, "Team name on old result")
     
@@ -247,23 +247,23 @@ class TeamTest < ActiveSupport::TestCase
     assert(!team.results_before_this_year?, "results_before_this_year? with no results")
     
     event = SingleDayEvent.create!(:date => Date.today)
-    result = event.races.create!(:category => categories(:senior_men)).results.create!(:team => team)
+    result = event.races.create!(:category => senior_men).results.create!(:team => team)
     assert(!team.results_before_this_year?, "results_before_this_year? with results in this year")
     
     result.destroy
     
     event = SingleDayEvent.create!(:date => 1.years.ago)
-    event.races.create!(:category => categories(:senior_men)).results.create!(:team => team)
+    event.races.create!(:category => senior_men).results.create!(:team => team)
     team.results_before_this_year?
     assert(team.results_before_this_year?, "results_before_this_year? with results only a year ago")
     
     event = SingleDayEvent.create!(:date => 2.years.ago)
-    event.races.create!(:category => categories(:senior_men)).results.create!(:team => team)
+    event.races.create!(:category => senior_men).results.create!(:team => team)
     team.results_before_this_year?
     assert(team.results_before_this_year?, "results_before_this_year? with several old results")
 
     event = SingleDayEvent.create!(:date => Date.today)
-    event.races.create!(:category => categories(:senior_men)).results.create!(:team => team)
+    event.races.create!(:category => senior_men).results.create!(:team => team)
     team.results_before_this_year?
     assert(team.results_before_this_year?, "results_before_this_year? with results in many years")
   end
@@ -271,7 +271,7 @@ class TeamTest < ActiveSupport::TestCase
   def test_rename_multiple_times
     team = Team.create!(:name => "Twin Peaks")    
     event = SingleDayEvent.create!(:date => 3.years.ago)
-    result = event.races.create!(:category => categories(:senior_men)).results.create!(:team => team)
+    result = event.races.create!(:category => senior_men).results.create!(:team => team)
     assert_equal(0, team.names(true).size, "names")
     
     team.name = "Tecate"
@@ -295,7 +295,7 @@ class TeamTest < ActiveSupport::TestCase
   end
 
   def test_name_date_or_year
-    team = teams(:vanilla)
+    team = vanilla
     team.names.create!(:name => "Sacha's Team", :year => 2001)
     assert_equal("Sacha's Team", team.name(Date.new(2001, 12, 31)), "name for 2001-12-31")
     assert_equal("Sacha's Team", team.name(Date.new(2001)), "name for 2001-01-01")
@@ -303,7 +303,7 @@ class TeamTest < ActiveSupport::TestCase
   end
 
   def test_multiple_names
-    team = teams(:vanilla)
+    team = vanilla
     team.names.create!(:name => "Mapei", :year => 2001)
     team.names.create!(:name => "Mapei-Clas", :year => 2002)
     team.names.create!(:name => "Quick Step", :year => 2003)
@@ -319,7 +319,7 @@ class TeamTest < ActiveSupport::TestCase
   end
  
   def test_rename_to_old_name
-    team = teams(:vanilla)
+    team = vanilla
     team.names.create!(:name => "Sacha's Team", :year => 2001)
     assert_equal(1, team.names.size, "Historical names")
     assert_equal("Sacha's Team", team.name(2001), "Historical name 2001")
@@ -335,7 +335,7 @@ class TeamTest < ActiveSupport::TestCase
     
     team_o_river_city = Team.create!(:name => "Team Oregon/River City")
     event = SingleDayEvent.create!(:date => 1.years.ago)
-    result = event.races.create!(:category => categories(:senior_men)).results.create!(:team => team_o_river_city)
+    result = event.races.create!(:category => senior_men).results.create!(:team => team_o_river_city)
     team_o_river_city.name = "Team Oregon"
     team_o_river_city.save!
     
@@ -374,7 +374,7 @@ class TeamTest < ActiveSupport::TestCase
   def test_renamed_teams_should_keep_aliases
     team = Team.create!(:name => "Twin Peaks/The Bike Nook")
     event = SingleDayEvent.create!(:date => 3.years.ago)
-    result = event.races.create!(:category => categories(:senior_men)).results.create!(:team => team)
+    result = event.races.create!(:category => senior_men).results.create!(:team => team)
     team.aliases.create!(:name => "Twin Peaks")
     assert_equal(0, team.names(true).size, "names")
     assert_equal(1, team.aliases(true).size, "Aliases")
