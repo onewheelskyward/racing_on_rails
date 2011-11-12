@@ -19,17 +19,20 @@ FactoryGirl.define do
   
   factory :discipline do
     bar true
-    sequence(:name) { |n| "Discipline #{n}" }
+    name "Road"
     numbers true
 
     factory :cyclocross_discipline do
       name "Cyclocross"
-      discipline_aliases { |da| [ da.association(:discipline_alias, :alias => "ccx"), da.association(:discipline_alias, :alias => "cx") ] }
+      after_create { |d| 
+        d.discipline_aliases.create!(:alias => "ccx")
+        d.discipline_aliases.create!(:alias => "cx")
+      }
     end
 
     factory :mtb_discipline do
       name "Mountain Bike"
-      discipline_aliases { |da| [ da.association(:discipline_alias, :alias => "mtb") ] }
+      after_create { |d| d.discipline_aliases.create!(:alias => "mtb") }
     end
   end
   
@@ -88,6 +91,7 @@ FactoryGirl.define do
   factory :person do
     first_name "Ryan"
     sequence(:last_name) { |n| "Weaver#{n}" }
+    name { "#{first_name} #{last_name}".strip }
     member_from Time.zone.local(2000).beginning_of_year.to_date
     member_to   Time.zone.now.end_of_year.to_date
     

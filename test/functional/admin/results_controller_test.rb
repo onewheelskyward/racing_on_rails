@@ -351,7 +351,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   
   def test_move
     weaver = weaver
-    tonkin = tonkin
+    tonkin = FactoryGirl.create(:person)
     result = tonkin_kings_valley
 
     assert tonkin.results.include?(result)

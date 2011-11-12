@@ -36,7 +36,7 @@ module Concerns
           case value
           when DateTime
             self[attribute] = value.hour * 3600 + value.min * 60 + value.sec
-          when Time
+          when ::Time
             self[attribute] = value.hour * 3600 + value.min * 60 + value.sec + (value.usec / 100.0)
           when Numeric, NilClass
             self[attribute] = value      
