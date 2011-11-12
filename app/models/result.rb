@@ -247,7 +247,7 @@ class Result < ActiveRecord::Base
   def calculate_points
     if !scores.empty? and competition_result?
       pts = 0
-      for score in scores
+      scores.each do |score|
         pts = pts + score.points
       end
       self.points = pts
