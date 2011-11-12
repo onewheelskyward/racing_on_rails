@@ -1,17 +1,19 @@
-require File.expand_path("../../../../test_helper", __FILE__)
-require 'tempfile'
+require File.expand_path("../../../../test_case", __FILE__)
+require File.expand_path("../../../../../../lib/racing_on_rails/grid/grid", __FILE__)
+require File.expand_path("../../../../../../lib/racing_on_rails/grid/grid_file", __FILE__)
+require "tempfile"
 
 # :stopdoc:
 module RacingOnRails
   module Grid
-    class GridFileTest < ActiveSupport::TestCase
+    class GridFileTest < Ruby::TestCase
 
       def test_new
-        assert_raise(ArgumentError) {GridFile.new(nil)}
+        assert_raises(ArgumentError) {GridFile.new(nil)}
       end
 
       def test_new_file
-        file = File.new("#{File.dirname(__FILE__)}/../../../../test/files/results/tabor.txt")
+        file = File.new("#{File.dirname(__FILE__)}/../../../../files/results/tabor.txt")
         grid_file = GridFile.new(file)
         assert_equal(35, grid_file.rows.size, "grid_file.rows.size")
         assert_equal("Dills", grid_file[20][3], "grid_file[20][3]")
