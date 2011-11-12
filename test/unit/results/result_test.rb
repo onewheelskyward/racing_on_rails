@@ -2,12 +2,6 @@ require File.expand_path("../../../test_helper", __FILE__)
 
 # :stopdoc:
 class ResultTest < ActiveSupport::TestCase
-  def setup
-    super
-    # Discipline class may have loaded earlier with no aliases in database
-    Discipline.load_aliases
-  end
-
   def test_person_first_last_name
     result = Result.new
     assert_equal(nil, result.first_name, "Person first name w/nil person")
@@ -19,11 +13,11 @@ class ResultTest < ActiveSupport::TestCase
     result = Result.new
     assert_equal(nil, result.name, "Person name w/nil person")
 
-    result = races(:banana_belt_pro_1_2).results.create!(:person => people(:weaver))
+    result = FactoryGirl.create(:result, :person => FactoryGirl.create(:preson, :name => "Ryan Weaver"))
     assert_equal("Ryan Weaver", result.name, "Person name")
 
     person = Person.new(:last_name => 'Willson')
-    result = races(:banana_belt_pro_1_2).results.create!(:person => person)
+    result = FactoryGirl.create(:result, :person => person)
     assert_equal("Willson", result.person.name, "Person name")
     assert_equal("Willson", result.name, "Person name")
     result.save!
@@ -40,7 +34,7 @@ class ResultTest < ActiveSupport::TestCase
     assert_equal("Clara", result.first_name, "Person first_name")
     assert_equal("Hughes", result.last_name, "Person last_name")
 
-    result = Result.new(:race => races(:banana_belt_pro_1_2))
+    result = FactoryGirl.create(:result)
     result.name = 'Walrod, Marjon'
     assert_equal("Walrod, Marjon", result.name, "Person name")
     assert_equal("Marjon", result.first_name, "Person first_name")
@@ -89,16 +83,6 @@ class ResultTest < ActiveSupport::TestCase
     assert_nil person_from_db.road_number, "Should not create racing association number from result"
   end
 
-  def test_new_with_nested_attributes
-    attributes = {:place => "22", :last_name => "Ulrich"}
-    result = Result.new(attributes)
-    assert_equal("Ulrich", result.person.last_name, "person.last_name")
-    attributes = {:place => "DNS", :last_name => "Vinokurov"}
-    result = Result.new(attributes)
-    assert_equal("Vinokurov", result.person.last_name, "person.last_name")
-    assert_equal("DNS", result.place, "place")
-  end
-
   def test_find_associated_records_2
     event = SingleDayEvent.create!(:name => "Tabor CR")
     category = Category.find_by_name("Senior Men Pro 1/2")
@@ -137,7 +121,7 @@ class ResultTest < ActiveSupport::TestCase
 
   def test_team_name
     attributes = {:place => "22", :team_name => "T-Mobile"}
-    result = races(:banana_belt_pro_1_2).results.build(attributes)
+    result = FactoryGirl.create(:race).results.build(attributes)
     assert_equal("T-Mobile", result.team_name, "person.team_name")
     assert_equal("T-Mobile", result.team.name, "person.team")
 
@@ -157,7 +141,7 @@ class ResultTest < ActiveSupport::TestCase
     result.category = Category.find_by_name("Senior Men Pro 1/2")
     assert_equal("Senior Men Pro 1/2", result.category.name, "category_name")
     assert_equal(nil, result.category_name, "category_name")
-    result.race = races(:banana_belt_pro_1_2)
+    result.race = FactoryGirl.create(:race)
     result.save!
     assert_equal("Senior Men Pro 1/2", result.category_name, "category_name")
 
@@ -173,8 +157,8 @@ class ResultTest < ActiveSupport::TestCase
   end
 
   def test_person_team
-    event = events(:kings_valley)
-    race = event.races.create!(:category => categories(:cx_a))
+    event = FactoryGirl.create(:event)
+    race = FactoryGirl.create(:race, :event => event)
     result = race.results.build(:place => '3', :number => '932')
     person = Person.new(:last_name => 'Kovach', :first_name => 'Barry')
     team = Team.new(:name => 'Sorella Forte ')
@@ -190,7 +174,7 @@ class ResultTest < ActiveSupport::TestCase
     assert_equal(sorella_forte, result.team, 'result team')
     assert_equal(nil, person.team, 'result team')
 
-    race = event.races.create!(:category => categories(:senior_women))
+    race = FactoryGirl.create(:race)
     result = race.results.build(:place => '3', :number => '932')
     result.person = person
     new_team = Team.new(:name => 'Bike Gallery')
@@ -206,7 +190,7 @@ class ResultTest < ActiveSupport::TestCase
     person_with_no_team = Person.create!(:last_name => 'Ollerenshaw', :first_name => 'Doug')
     result = race.results.build(:place => '3', :number => '932')
     result.person = person_with_no_team
-    vanilla = teams(:vanilla)
+    vanilla = FactoryGirl.create(:team)
     result.team = vanilla
 
     result.save!
@@ -215,9 +199,10 @@ class ResultTest < ActiveSupport::TestCase
   end
 
   def test_event
-    result = races(:kings_valley_pro_1_2_2004).results.create!(:place => 1, :first_name => 'Clara', :last_name => 'Willson', :number => '300')
+    event = FactoryGirl.create(:event)
+    result = FactoryGirl.create(:result, :event => event)
     result.reload
-    assert_equal(events(:kings_valley_2004), result.event, 'Result event')
+    assert_equal(event, result.event, 'Result event')
   end
   
   def test_set_time
@@ -405,7 +390,7 @@ class ResultTest < ActiveSupport::TestCase
 
   def test_find_by_alias
     Alias.create!(:team => teams(:kona), :name => 'Kona Les Gets')
-    Alias.create!(:person => people(:tonkin), :name => 'Erin Tonkin')
+    Alias.create!(:person => tonkin, :name => 'Erin Tonkin')
 
     # new, no aliases
     race = races(:kings_valley_pro_1_2_2004)
@@ -416,7 +401,7 @@ class ResultTest < ActiveSupport::TestCase
     # existing person, new team
     result = race.results.create!(:place => 1, :first_name => 'Erik', :last_name => 'Tonkin', :team_name => 'Bianchi', :number => '')
     result.save!
-    assert_equal(people(:tonkin).id, result.person.id, 'person id')
+    assert_equal(tonkin.id, result.person.id, 'person id')
     assert_equal('Erik Tonkin', result.name, 'person name')
     assert_equal('Bianchi', result.team_name, 'team name')
 
@@ -506,13 +491,13 @@ class ResultTest < ActiveSupport::TestCase
 
   def test_find_associated_records
     # Same name, number as existing person
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     results = races(:kings_valley_pro_1_2_2004).results
     result_1 = results.create!(:place => 1, :first_name => 'Erik', :last_name => 'Tonkin', :number => '104')
     assert_equal(tonkin, result_1.person, 'Person')
 
     # Same name, different number as existing person
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     results = races(:kings_valley_pro_1_2_2004).results
     result_2 = results.create!(:place => 1, :first_name => 'Erik', :last_name => 'Tonkin', :number => '4100')
     assert_equal(tonkin, result_2.person, 'Person')
@@ -520,7 +505,7 @@ class ResultTest < ActiveSupport::TestCase
 
     # Different name, same number as existing person
     # TODO Should be warning with possibility to create! alias
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     results = races(:kings_valley_pro_1_2_2004).results
     result_3 = results.create!(:place => 1, :first_name => 'Ron', :last_name => 'Tonkin', :number => '104')
     assert_not_equal(tonkin, result_3.person, 'Person')
@@ -534,7 +519,7 @@ class ResultTest < ActiveSupport::TestCase
     assert_equal(1, Person.find_all_by_first_name_and_last_name('Erik','Tonkin').size, 'Erik Tonkins in database')
 
     # CX: Same name, different number as existing person
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     tonkin.ccx_number = '555A'
     tonkin.save!
     kings_valley_2004 = events(:kings_valley_2004)
@@ -546,7 +531,7 @@ class ResultTest < ActiveSupport::TestCase
     # TODO assert wrong number warning
 
     # MTB: Same name as alias for existing person, different number as existing person
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     tonkin.xc_number = '70A'
     tonkin.save!
     kings_valley_2004 = events(:kings_valley_2004)
@@ -558,7 +543,7 @@ class ResultTest < ActiveSupport::TestCase
     # TODO assert wrong number warning
 
     # MTB: Same name as alias for existing person, same number as existing person
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     kings_valley_2004 = events(:kings_valley_2004)
     kings_valley_2004.discipline = 'Mountain Bike'
     kings_valley_2004.save!
@@ -568,7 +553,7 @@ class ResultTest < ActiveSupport::TestCase
   end
 
   def test_differentiate_people_by_license
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     tonkin.license = "12345"
     tonkin.save!
 
@@ -649,7 +634,7 @@ class ResultTest < ActiveSupport::TestCase
 
   def test_find_people
     # TODO Add warning that numbers don't match
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     race = races(:banana_belt_pro_1_2)
     event = events(:banana_belt_1)
 
@@ -781,19 +766,19 @@ class ResultTest < ActiveSupport::TestCase
   end
 
   def test_assign_results_to_existing_person_with_same_name_instead_of_creating_a_new_one
+    tonkin = FactoryGirl.create(:person, :name => "Erik Tonkin")
     new_tonkin = Person.create!(:name => "Erik Tonkin")
     assert_equal(2, Person.find_all_by_name("Erik Tonkin").size, "Should have 2 Tonkins")
     assert_equal(2, Person.find_all_by_name_or_alias(:first_name => "Erik", :last_name => "Tonkin").size, "Should have 2 Tonkins")
 
     # A very old result
-    SingleDayEvent.create!(:date => Date.new(1980)).races.create!(:category => categories(:cx_a)).results.create!(:person => new_tonkin)
+    category = FactoryGirl.create(:category)
+    SingleDayEvent.create!(:date => Date.new(1980)).races.create!(:category => category).results.create!(:person => new_tonkin)
 
-    kings_valley_2004 = events(:kings_valley_2004)
-    results = races(:kings_valley_pro_1_2_2004).results
-    result = results.create!(:place => 1, :first_name => 'Erik', :last_name => 'Tonkin')
+    result = FactoryGirl.create(:result, :place => 1, :first_name => 'Erik', :last_name => 'Tonkin')
 
     assert_equal(2, Person.find_all_by_name("Erik Tonkin").size, "Should not create! new Tonkin")
-    assert_equal(people(:tonkin), result.person, "Should use person with most recent result")
+    assert_equal(tonkin, result.person, "Should use person with most recent result")
   end
 
   def test_most_recent_person_if_no_results
@@ -801,7 +786,7 @@ class ResultTest < ActiveSupport::TestCase
     assert_equal(2, Person.find_all_by_name("Erik Tonkin").size, "Should have 2 Tonkins")
     assert_equal(2, Person.find_all_by_name_or_alias("Erik", "Tonkin").size, "Should have 2 Tonkins")
 
-    tonkin = people(:tonkin)
+    tonkin = tonkin
     tonkin.results.clear
     # Force magic updated_at column to past time
     Person.connection.execute("update people set updated_at = '2009-10-05 16:18:22' where id=#{tonkin.id}")
@@ -834,18 +819,18 @@ class ResultTest < ActiveSupport::TestCase
   def test_multiple_scores_for_same_race
     competition = Competition.create!(:name => 'KOM')
     competition_race = competition.races.create!(:category => categories(:cx_a))
-    competition_result = competition_race.results.create!(:person => people(:tonkin), :points => 5)
+    competition_result = competition_race.results.create!(:person => tonkin, :points => 5)
 
     event = events(:kings_valley)
     race = event.races.create!(:category => categories(:cx_a))
-    source_result = race.results.create!(:person => people(:tonkin))
+    source_result = race.results.create!(:person => tonkin)
 
     assert(competition_result.scores.create_if_best_result_for_race(:source_result => source_result, :points => 10))
 
-    source_result = races(:jack_frost_pro_1_2).results.build(:person => people(:tonkin))
+    source_result = races(:jack_frost_pro_1_2).results.build(:person => tonkin)
     assert(competition_result.scores.create_if_best_result_for_race(:source_result => source_result, :points => 10))
 
-    source_result = races(:jack_frost_pro_1_2).results.build(:person => people(:tonkin))
+    source_result = races(:jack_frost_pro_1_2).results.build(:person => tonkin)
     assert_nil(competition_result.scores.create_if_best_result_for_race(:source_result => source_result, :points => 10))
 
     # Need a lot more tests
@@ -861,7 +846,7 @@ class ResultTest < ActiveSupport::TestCase
   end
 
   def test_find_all_for_person
-    molly = people(:molly)
+    molly = molly
     results = Result.find_all_for(molly)
     assert_not_nil(results)
     assert_equal(3, results.size, 'Results')
@@ -1031,7 +1016,7 @@ class ResultTest < ActiveSupport::TestCase
     race = races(:banana_belt_pro_1_2)
     event = events(:banana_belt_1)
     result = race.results.build(:first_name => 'Ryan', :last_name => 'Weaver')
-    assert_same_elements([people(:weaver)], result.find_people(event).to_a, "blank license shouldn't match anything")
+    assert_same_elements([weaver], result.find_people(event).to_a, "blank license shouldn't match anything")
   end
   
   def test_competition_result
