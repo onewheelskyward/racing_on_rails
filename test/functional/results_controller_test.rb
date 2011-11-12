@@ -3,7 +3,7 @@ require File.expand_path("../../test_helper", __FILE__)
 # :stopdoc:
 class ResultsControllerTest < ActionController::TestCase
   def test_event
-    banana_belt_1 = events(:banana_belt_1)
+    banana_belt_1 = banana_belt_1
     get(:event, :event_id => banana_belt_1.to_param)
     assert_response(:success)
     assert_template("results/event")
@@ -42,7 +42,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_big_names
-    banana_belt_1 = events(:banana_belt_1)
+    banana_belt_1 = banana_belt_1
     big_team = Team.create!(:name => "T" * 60)
     big_person = Person.create!(:first_name => "f" * 60, :last_name => "L" * 60, :team => big_team)
     banana_belt_1.races.first.results.create!(:place => 20, :person => big_person, :team => big_team, :number => '')
@@ -55,7 +55,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_event_tt
-    jack_frost = events(:jack_frost)
+    jack_frost = jack_frost
     get :event, :event_id => jack_frost.to_param
     assert_response(:success)
     assert_template("results/event")
@@ -69,8 +69,8 @@ class ResultsControllerTest < ActionController::TestCase
     assert_not_nil(assigns["events"], "Should assign events")
     assert_not_nil(assigns["year"], "Should assign year")
     
-    assert(!assigns["events"].include?(events(:future_national_federation_event)), "Should only include association-sanctioned events")
-    assert(!assigns["events"].include?(events(:usa_cycling_event_with_results)), "Should only include association-sanctioned events")
+    assert(!assigns["events"].include?(future_national_federation_event), "Should only include association-sanctioned events")
+    assert(!assigns["events"].include?(usa_cycling_event_with_results), "Should only include association-sanctioned events")
   end
   
   def test_index_only_shows_sanctioned_events
@@ -80,10 +80,10 @@ class ResultsControllerTest < ActionController::TestCase
     assert_not_nil(assigns["events"], "Should assign events")
     assert_not_nil(assigns["year"], "Should assign year")
     
-    assert(!assigns["events"].include?(events(:future_national_federation_event)), "Should only include association-sanctioned events")
+    assert(!assigns["events"].include?(future_national_federation_event), "Should only include association-sanctioned events")
     assert_equal(
       RacingAssociation.current.show_only_association_sanctioned_races_on_calendar?, 
-      !assigns["events"].include?(events(:usa_cycling_event_with_results)), 
+      !assigns["events"].include?(usa_cycling_event_with_results), 
       "Honor RacingAssociation.current.show_only_association_sanctioned_races_on_calendar?"
     )
   end
@@ -195,7 +195,7 @@ class ResultsControllerTest < ActionController::TestCase
     weaver = weaver
     competition = RiderRankings.create!
     competition_result = competition.races.create!(:category => senior_men).results.create!
-    Score.create!(:competition_result => competition_result, :source_result => results(:weaver_banana_belt), :points => 1)
+    Score.create!(:competition_result => competition_result, :source_result => weaver_banana_belt, :points => 1)
     
     get :person, :person_id => weaver.to_param
     assert_response(:success)
@@ -219,7 +219,7 @@ class ResultsControllerTest < ActionController::TestCase
   def test_person_long_name
     big_team = Team.create!(:name => "T" * 60)
     big_person = Person.create!(:first_name => "f" * 60, :last_name => "L" * 60, :team => big_team)
-    events(:banana_belt_1).races.first.results.create!(:person => big_person, :team => big_team, :place => 2, :number => '99')
+    banana_belt_1.races.first.results.create!(:person => big_person, :team => big_team, :place => 2, :number => '99')
 
     get :person, :person_id => big_person.to_param
     assert_response(:success)
@@ -312,7 +312,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_column_headers_display_correctly
-    event = events(:banana_belt_1)
+    event = banana_belt_1
     race = event.races.first
     race.results.create!(:points_bonus => 8, :points_penalty => -2, :laps => 9)
     race.result_columns = Race::DEFAULT_RESULT_COLUMNS.dup
@@ -346,7 +346,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_return_404_for_missing_team_event
-    assert_raise(ActiveRecord::RecordNotFound) { get(:team_event, :event_id => events(:banana_belt_1).to_param, :team_id => 236127361273) }
+    assert_raise(ActiveRecord::RecordNotFound) { get(:team_event, :event_id => banana_belt_1.to_param, :team_id => 236127361273) }
   end
   
   def test_return_404_for_missing_team_event_bad_event
@@ -362,7 +362,7 @@ class ResultsControllerTest < ActionController::TestCase
   
   def test_missing_person_event_bad_person
     assert_raise(ActiveRecord::RecordNotFound) { 
-      get(:person_event, :event_id => events(:banana_belt_1).to_param, :person_id => 236127361273) 
+      get(:person_event, :event_id => banana_belt_1.to_param, :person_id => 236127361273) 
     }
   end
   
@@ -388,7 +388,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_return_404_for_missing_team_event
-    assert_raise(ActiveRecord::RecordNotFound) { get(:team_event, :event_id => events(:banana_belt_1).to_param, :team_id => 236127361273) }
+    assert_raise(ActiveRecord::RecordNotFound) { get(:team_event, :event_id => banana_belt_1.to_param, :team_id => 236127361273) }
   end
   
   def test_return_404_for_missing_team_event_bad_event
@@ -396,7 +396,7 @@ class ResultsControllerTest < ActionController::TestCase
   end
   
   def test_return_404_for_missing_person_event
-    assert_raise(ActiveRecord::RecordNotFound) { get(:person_event, :event_id => events(:banana_belt_1).to_param, :person_id => 236127361273) }
+    assert_raise(ActiveRecord::RecordNotFound) { get(:person_event, :event_id => banana_belt_1.to_param, :person_id => 236127361273) }
   end
   
   def test_return_404_for_missing_person_event_bad_event
@@ -477,7 +477,7 @@ class ResultsControllerTest < ActionController::TestCase
     team.member = false
     team.save!
     
-    get :event, :event_id => events(:banana_belt_1).to_param
+    get :event, :event_id => banana_belt_1.to_param
     assert_response :success
     assert @response.body["Kona"]
     assert @response.body["Gentle Lovers"]
@@ -492,7 +492,7 @@ class ResultsControllerTest < ActionController::TestCase
     race.results.create! :person => tonkin, :team => kona
     race.results.create! :person => Person.create!, :team => Team.create!(:name => "DFL")
     
-    get :event, :event_id => events(:banana_belt_1).to_param
+    get :event, :event_id => banana_belt_1.to_param
     assert_response :success
     assert @response.body["Kona"]
     assert !@response.body["DFL"]
@@ -506,7 +506,7 @@ class ResultsControllerTest < ActionController::TestCase
     team.member = false
     team.save!
     
-    get :event, :event_id => events(:banana_belt_1).to_param
+    get :event, :event_id => banana_belt_1.to_param
     assert_response :success
     assert @response.body["Kona"]
     assert @response.body["Gentle Lovers"]

@@ -12,7 +12,7 @@ class BarControllerTest < ActionController::TestCase
     big_team = Team.create(:name => "T" * 60)
     weaver = weaver
     weaver.team = big_team
-    events(:banana_belt_1).races.first.results.create :person => weaver, :team => big_team
+    banana_belt_1.races.first.results.create :person => weaver, :team => big_team
     weaver.first_name = "f" * 60
     weaver.last_name = "T" * 60
 

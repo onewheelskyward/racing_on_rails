@@ -476,7 +476,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     put(:update, {"commit"=>"Save", 
                    "number_year" => Date.today.year.to_s,
                    "number_issuer_id"=>[number_issuers(:association).to_param], "number_value"=>["AZY"], 
-                   "discipline_id" => [disciplines(:mountain_bike).id.to_s],
+                   "discipline_id" => [mountain_bike.id.to_s],
                    "number"=>{race_numbers(:molly_road_number).to_param =>{"value"=>"202"}},
                    "person"=>{"work_phone"=>"", "date_of_birth(2i)"=>"1", "occupation"=>"engineer", "city"=>"Wilsonville", 
                    "cell_fax"=>"", "zip"=>"97070", 
@@ -512,7 +512,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
         "team_name"=>"", "road_category"=>"", "xc_number"=>"", "street"=>"", "track_category"=>"", "home_phone"=>"", "dh_number"=>"", 
         "road_number"=>"", "first_name"=>"Jon", "ccx_number"=>"", "last_name"=>"Knowlson", "date_of_birth(1i)"=>"", "email"=>"", "state"=>""}, 
         "number_issuer_id"=>[number_issuers(:association).to_param, number_issuers(:association).to_param], "number_value"=>["8977", "BBB9"],
-        "discipline_id"=>[disciplines(:road).id.to_s, disciplines(:mountain_bike).id.to_s], 
+        "discipline_id"=>[road.id.to_s, mountain_bike.id.to_s], 
         :number_year => '2007', "official" => "0",
       "commit"=>"Save"})
     
@@ -578,7 +578,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     molly = molly
     put(:update, {"commit"=>"Save", 
                    "number_year" => Date.today.year.to_s,
-                   "number_issuer_id"=>number_issuers(:association).to_param, "number_value"=>[""], "discipline_id"=>disciplines(:cyclocross).to_param,
+                   "number_issuer_id"=>number_issuers(:association).to_param, "number_value"=>[""], "discipline_id"=>cyclocross.to_param,
                    "number"=>{race_numbers(:molly_road_number).to_param=>{"value"=>"222"}},
                    "person"=>{
                      "member_from(1i)"=>"2004", "member_from(2i)"=>"2", "member_from(3i)"=>"16", 
@@ -976,7 +976,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   # From PeopleController
   def test_edit_with_event
-    kings_valley = events(:kings_valley)
+    kings_valley = kings_valley
     get(:edit, :id => promoter.to_param, :event_id => kings_valley.to_param.to_s)
     assert_equal(promoter, assigns['person'], "Should assign 'person'")
     assert_equal(kings_valley, assigns['event'], "Should Kings Valley assign 'event'")
@@ -984,7 +984,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_new_with_event
-    kings_valley = events(:kings_valley)
+    kings_valley = kings_valley
     get(:new, :event_id => kings_valley.to_param)
     assert_not_nil(assigns['person'], "Should assign 'person'")
     assert(assigns['person'].new_record?, 'Promoter should be new record')
@@ -1038,23 +1038,23 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     put(:update, :id => promoter.id, 
       "person" => {"name" => "Fred Whatley", "home_phone" => "(510) 410-2201", "email" => "fred@whatley.net"}, 
       "commit" => "Save",
-      "event_id" => events(:jack_frost).id)
+      "event_id" => jack_frost.id)
     
     assert_nil(flash['warn'], "Should not have flash['warn'], but has: #{flash['warn']}")
     
     promoter.reload
     
-    assert_redirected_to(edit_admin_person_path(promoter, :event_id => events(:jack_frost)))
+    assert_redirected_to(edit_admin_person_path(promoter, :event_id => jack_frost))
   end
   
   def test_remember_event_id_on_create
     post(:create, "person" => {"name" => "Fred Whatley", "home_phone" => "(510) 410-2201", "email" => "fred@whatley.net"}, 
     "commit" => "Save",
-    "event_id" => events(:jack_frost).id)
+    "event_id" => jack_frost.id)
     
     assert_nil(flash['warn'], "Should not have flash['warn'], but has: #{flash['warn']}")
     
     promoter = Person.find_by_name('Fred Whatley')
-    assert_redirected_to(edit_admin_person_path(promoter, :event_id => events(:jack_frost)))
+    assert_redirected_to(edit_admin_person_path(promoter, :event_id => jack_frost))
   end
 end

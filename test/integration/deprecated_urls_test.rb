@@ -4,7 +4,7 @@ require File.expand_path("../../test_helper", __FILE__)
 # Replacements for deprecated URLs.
 class DeprecatedURLsTest < ActionController::IntegrationTest
   def test_event_results
-    event = events(:pir)
+    event = pir
 
     get "/events/#{event.id}/results"
     assert_response :success
