@@ -3,15 +3,13 @@ module Concerns
     module Comparison
       extend ActiveSupport::Concern
       
-      include Comparable
-      
       module InstanceMethods
-         # Highest points first. Break ties by highest placing
-         # OBRA rules:
-         # * The most first place finishes or, if still tied, the most second place finishes, etc., or if still tied;
-         # * The highest placing in the last race, or the race nearest the last race in which at least one of the tied riders placed.
-         #
-         # Fairly complicated and procedural, but in nearly all cases, it short-circuits after comparing points
+        # Highest points first. Break ties by highest placing
+        # OBRA rules:
+        # * The most first place finishes or, if still tied, the most second place finishes, etc., or if still tied;
+        # * The highest placing in the last race, or the race nearest the last race in which at least one of the tied riders placed.
+        #
+        # Fairly complicated and procedural, but in nearly all cases, it short-circuits after comparing points
         def compare_by_points(other, break_ties = true)
            diff = other.points <=> points
            return diff if diff != 0 || !break_ties
@@ -89,7 +87,9 @@ module Concerns
          # All numbered places first, then blanks, followed by DNF, DQ, and DNS
          def <=>(other)
            # Respect eql?
-           return 0 if id && id == other.try(:id)
+           if id.present? && (id == other.try(:id))
+             return 0 
+           end
 
            # Figure out the major position by place first, then break it down further if
            begin
@@ -98,7 +98,7 @@ module Concerns
 
              if place.to_i > 0
                place.to_i <=> other.place.to_i
-             elsif id
+             elsif id.present?
                id <=> other.id
              else
                0

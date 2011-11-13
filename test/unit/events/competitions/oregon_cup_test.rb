@@ -120,7 +120,7 @@ class OregonCupTest < ActiveSupport::TestCase
     women_3_race = event.races.create!(:category => cat_3_women)
     women_3_race.results.create!(:place => 1, :person => molly)
     
-    oregon_cup_women_race = event.races.create!(:category => Category.find_or_create_by_name("Senior Women"), :notes => "Oregon Cup")
+    oregon_cup_women_race = event.races.create!(:category => senior_women, :notes => "Oregon Cup")
     oregon_cup_women_race.results.create!(:place => 1, :person => alice)
     
     OregonCup.calculate!(2010)
