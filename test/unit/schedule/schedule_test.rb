@@ -49,16 +49,24 @@ class ScheduleTest < ActiveSupport::TestCase
   end
   
   def test_import_excel
+    FactoryGirl.create(:discipline)
+    FactoryGirl.create(:cyclocross_discipline)
+    FactoryGirl.create(:mtb_discipline)
+    FactoryGirl.create(:discipline, :name => "Track")
+    FactoryGirl.create(:discipline, :name => "Time Trial").discipline_aliases.create(:alias => "tt")
+
     event_before = SingleDayEvent.create(:name => 'Before Schedule Start', :date => Date.new(2006, 1, 19))
     event_on = SingleDayEvent.create(:name => 'On Schedule Start', :date => Date.new(2006, 1, 20))
     event_after = SingleDayEvent.create(:name => 'After Schedule Start', :date => Date.new(2006, 1, 21))
     
+    FactoryGirl.create_list(:event, 4)
+    
     before_import_after_schedule_start_date = Event.count(:conditions => "date >= '2006-01-20'")
     assert_equal(6, before_import_after_schedule_start_date, "events after 2006 count before import")
     before_import_all = Event.count
-    assert_equal(22, before_import_all, "All events count before import")
+    assert_equal(7, before_import_all, "All events count before import")
     
-    filename = File.expand_path(File.dirname(__FILE__) + "/../files/schedule/excel.xls")
+    filename = File.expand_path(File.dirname(__FILE__) + "/../../files/schedule/excel.xls")
     Schedule::Schedule.import(filename)
 
     expected = {
@@ -94,8 +102,8 @@ class ScheduleTest < ActiveSupport::TestCase
     assert_equal(76, expected.inject(0) { |sum, e| sum + e.last }, "New events")
     
     after_import_after_schedule_start_date = Event.count(:conditions => "date >= '2006-01-20'")
-    assert_equal(77, after_import_after_schedule_start_date, "2006 events count after import")
-    assert_equal(93, Event.count, "All events count after import")
+    assert_equal(76, after_import_after_schedule_start_date, "2006 events count after import")
+    assert_equal(77, Event.count, "All events count after import")
     
     assert(SingleDayEvent.exists?(event_before.id), 'Event before schedule start')
     assert(!SingleDayEvent.exists?(event_on.id), 'Event on schedule start')
@@ -174,8 +182,8 @@ class ScheduleTest < ActiveSupport::TestCase
     assert(!la_world_cup.parent.instance_of?(Series), "Fast LA World Cup should not be Series")
     assert(!la_world_cup.parent.instance_of?(WeeklySeries), "LA World Cup should not be WeeklySeries")
 
-    banana_belt_series = Series.find_by_name("Banana Belt Series")
-    assert(banana_belt_series.instance_of?(Series), "Banana Belt Series should be Series")
+    banana_belt_series = Series.find_by_name("Banana Belt Road Race Series")
+    assert(banana_belt_series.instance_of?(Series), "Banana Belt Series should be Series, but was #{banana_belt_series.class}")
     assert(!banana_belt_series.instance_of?(MultiDayEvent), "Fast Banana Belt Series should not be MultiDayEvent")
     assert(!banana_belt_series.instance_of?(WeeklySeries), "Banana Belt Series should not be WeeklySeries")
     
@@ -335,8 +343,10 @@ class ScheduleTest < ActiveSupport::TestCase
   end
   
   def test_import_mbra_tabbed
+    FactoryGirl.create(:discipline)
+    FactoryGirl.create(:discipline, :name => "Criterium")
     Team.create!(:id => 1200000, :name => "Bike Team")
-    filename = File.expand_path(File.dirname(__FILE__) + "/../files/schedule/tab-delimited.txt")
+    filename = File.expand_path(File.dirname(__FILE__) + "/../../files/schedule/tab-delimited.txt")
     Schedule::Schedule.import(filename)
 
     butte_hc = Event.find_by_name("Butte Hillclimb")
@@ -368,8 +378,10 @@ class ScheduleTest < ActiveSupport::TestCase
   end
   
   def test_import_mbra_csv
+    FactoryGirl.create(:discipline)
+    FactoryGirl.create(:discipline, :name => "Criterium")
     Team.create!(:id => 1200000, :name => "Bike Team")
-    filename = File.expand_path(File.dirname(__FILE__) + "/../files/schedule/comma-delimited.csv")
+    filename = File.expand_path(File.dirname(__FILE__) + "/../../files/schedule/comma-delimited.csv")
     Schedule::Schedule.import(filename)
 
     butte_hc = Event.find_by_name("Butte Hillclimb")
