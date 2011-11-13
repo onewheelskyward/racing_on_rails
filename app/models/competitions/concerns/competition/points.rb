@@ -52,7 +52,7 @@ module Concerns
         end
 
         def team_size_from_result(source_result)
-          Result.count(:conditions => ["race_id =? and place = ?", source_result.race_id, source_result.place])
+          ::Result.count(:conditions => ["race_id =? and place = ?", source_result.race_id, source_result.place])
         end
 
         def ascending_points?

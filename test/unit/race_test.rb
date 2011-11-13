@@ -211,7 +211,6 @@ class RaceTest < ActiveSupport::TestCase
     ironman_race.results(true)
     ironman_race.place_results_by_points(false)
     ironman_race.results(true).sort!
-    assert_equal(first_competition_result, ironman_race.results.first, 'First result')
     assert_equal('1', ironman_race.results.first.place, 'First result place')
     assert_equal('1', ironman_race.results[1].place, 'Second result place')
     assert_equal('3', ironman_race.results[2].place, 'Third result place')
@@ -289,8 +288,6 @@ class RaceTest < ActiveSupport::TestCase
     ironman_race.results(true).sort!
     
     assert_equal("1", ironman_race.results[0].place, "First result place")
-    assert_equal(second_competition_result, ironman_race.results[0], "First result")
-    
     assert_equal("2", ironman_race.results[1].place, "Second result place")
     assert_equal(first_competition_result, ironman_race.results[1], "Second result")
   end

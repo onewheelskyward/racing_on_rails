@@ -80,6 +80,7 @@ module Results
     end
   
     def test_import_excel
+      FactoryGirl.create(:discipline)
       current_members = Person.all( :conditions => ["member_to >= ?", RacingAssociation.current.now])
       event = SingleDayEvent.create!(:discipline => 'Road', :date => Date.new(2006, 1, 16))
       source_path = File.expand_path("../../../files/results/pir_2006_format.xls", __FILE__)
@@ -129,8 +130,8 @@ module Results
     end
 
     def test_import_time_trial_people_with_same_name
+      association = FactoryGirl.create(:number_issuer)
       bruce_109 = Person.create!(:first_name => 'Bruce', :last_name => 'Carter')
-      association = number_issuers(:association)
       bruce_109.race_numbers.create(:number_issuer => association, :discipline => Discipline[:road], :year => Date.today.year, :value => '109')
     
       bruce_1300 = Person.create!(:first_name => 'Bruce', :last_name => 'Carter')
@@ -216,6 +217,7 @@ module Results
     end
   
     def test_import_2006_v2
+      FactoryGirl.create(:discipline)
       expected_races = []
     
       paul_bourcier = Person.create!(:first_name => "Paul", :last_name => "Bourcier", :member => true)
@@ -306,7 +308,8 @@ module Results
       event.races.create! :category => Category.find_or_create_by_name("Cat 3")
       cat_4_race = event.races.create! :category => Category.find_or_create_by_name("Cat 4")
       event.races.create! :category => Category.find_or_create_by_name("Cat 5")
-    
+
+      weaver = FactoryGirl.create(:person)
       pro_1_2_race.results.create! :place => 1, :person => weaver
     
       results_file = ResultsFile.new(File.new(File.expand_path("../../../files/results/small_event.xls", __FILE__)), event)
@@ -395,13 +398,15 @@ module Results
   
     # File causes error -- just import to recreate
     def test_dh
+      FactoryGirl.create(:discipline, :name => "Downhill")
       event = SingleDayEvent.create(:discipline => 'Downhill')
       results_file = ResultsFile.new(File.new(File.expand_path("../../../files/results/dh.xls", __FILE__)), event)
       results_file.import
     end
   
     def test_mtb
-      pro_semi_pro_men = pro_semi_pro_men
+      FactoryGirl.create(:mtb_discipline)
+      pro_semi_pro_men = FactoryGirl.create(:category, :name => "Pro, Semi-Pro Men")
       pro_semi_pro_men.children.create(:name => 'Pro Men')
       pro_semi_pro_men.children.create(:name => 'Expert Men')
       pro_expert_women = pro_expert_women
@@ -415,6 +420,7 @@ module Results
     end
   
     def test_custom_columns
+      FactoryGirl.create(:discipline, :name => "Downhill")
       event = SingleDayEvent.create(:discipline => 'Downhill')
       results_file = ResultsFile.new(File.new(File.expand_path("../../../files/results/custom_columns.xls", __FILE__)), event)
       results_file.import
@@ -422,6 +428,7 @@ module Results
     end
 
     def test_times
+      FactoryGirl.create(:discipline, :name => "Track")
       event = SingleDayEvent.create(:discipline => 'Track')
       results_file = ResultsFile.new(File.new(File.expand_path("../../../files/results/times.xls", __FILE__)), event)
       results_file.import
@@ -634,6 +641,7 @@ module Results
     end
   
     def test_import_excel_usac_format
+      FactoryGirl.create(:discipline)
       RacingAssociation.current.usac_results_format = true
       event = SingleDayEvent.create!(:discipline => 'Road', :date => Date.new(2008, 5, 11))
       source_path = File.expand_path("../../../files/results/tt_usac.xls", __FILE__)
@@ -662,6 +670,7 @@ module Results
     end
 
     def get_expected_races_usac_format
+      FactoryGirl.create(:discipline)
       races = []
 
       race = Race.new(:category => Category.new(:name => "Master A Men"))
@@ -682,6 +691,7 @@ module Results
     end
 
     def test_race_notes
+      FactoryGirl.create(:discipline)
       event = SingleDayEvent.create!
       results_file = ResultsFile.new(File.new(File.expand_path("../../../files/results/tt.xls", __FILE__)), event)
       results_file.import
@@ -689,6 +699,7 @@ module Results
     end
     
     def test_race_notes_usac
+      FactoryGirl.create(:discipline)
       RacingAssociation.current.usac_results_format = true
       event = SingleDayEvent.create!
       results_file = ResultsFile.new(File.new(File.expand_path("../../../files/results/tt_usac.xls", __FILE__)), event)

@@ -2,7 +2,7 @@ module Concerns
   module Result
     module Comparison
       extend ActiveSupport::Concern
-
+      
       include Comparable
       
       module InstanceMethods
@@ -88,6 +88,9 @@ module Concerns
 
          # All numbered places first, then blanks, followed by DNF, DQ, and DNS
          def <=>(other)
+           # Respect eql?
+           return 0 if id && id == other.try(:id)
+
            # Figure out the major position by place first, then break it down further if
            begin
              major_difference = (major_place <=> other.major_place)
@@ -95,8 +98,8 @@ module Concerns
 
              if place.to_i > 0
                place.to_i <=> other.place.to_i
-             elsif self.id
-               self.id <=> other.id
+             elsif id
+               id <=> other.id
              else
                0
              end
