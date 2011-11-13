@@ -5,7 +5,7 @@ module Concerns
 
       module InstanceMethods
         def source_results(race)
-          Result.all(
+          ::Result.all(
                       :include => [:race, {:person => :team}, :team, {:race => [:event, :category]}],
                       :conditions => [%Q{events.type = 'Bar' 
                         and place between 1 and 300
