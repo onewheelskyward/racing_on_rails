@@ -43,12 +43,13 @@ class BrowserTest < ActiveSupport::TestCase
 
   def clean_database
     DatabaseCleaner.clean
+    Discipline.reset
   end
   
   def set_driver
-    if ENV["CAPYBARA_DRIVER"] == "selenium"
+    # if ENV["CAPYBARA_DRIVER"] == "selenium"
       Capybara.current_driver = :selenium
-    end
+    # end
   end
   
   def reset_capybara_driver
