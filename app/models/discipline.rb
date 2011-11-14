@@ -13,7 +13,7 @@ class Discipline < ActiveRecord::Base
   scope :numbers, where(:numbers => true)
   
   # Look up Discipline by name or alias. Caches Disciplines in memory
-  def Discipline.[](name)
+  def self.[](name)
     return nil unless name
     load_aliases unless @@all_aliases
     if name.is_a?(Symbol)
@@ -24,15 +24,15 @@ class Discipline < ActiveRecord::Base
     end
   end
 
-  def Discipline.find_all_bar
+  def self.find_all_bar
     Discipline.all( :conditions => ["bar = true"])
   end
 
-  def Discipline.find_via_alias(name)
+  def self.find_via_alias(name)
     Discipline[name]
   end
 
-  def Discipline.load_aliases
+  def self.load_aliases
     @@all_aliases = {}
     results = connection.select_all(
       "SELECT discipline_id, alias FROM discipline_aliases"
@@ -46,12 +46,12 @@ class Discipline < ActiveRecord::Base
   end
   
   # Clear out cached @@aliases
-  def Discipline.reset
+  def self.reset
     @@all_aliases = nil
     @@names = nil
   end
   
-  def Discipline.names
+  def self.names
     @@names ||= Discipline.all.map(&:name)
   end
   
