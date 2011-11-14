@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/browser_test")
 # :stopdoc:
 class PublicPagesTest < BrowserTest
   def test_popular_pages
-    FactoryGirl.create(:discipline)
+    FactoryGirl.create(:discipline, :name => "Road")
     FactoryGirl.create(:discipline, :name => "Track")
     FactoryGirl.create(:discipline, :name => "Time Trial")
 
@@ -102,12 +102,14 @@ class PublicPagesTest < BrowserTest
   end
   
   def test_people
+    FactoryGirl.create(:person, :name => "Alice Pennington")
     visit "/people"
     assert_page_has_no_content "Pennington"
     assert_page_has_no_content "Weaver"
-    
+
     fill_in "name", :with => "Penn"
-    assert_page_has_content "Pennington"
+    find_field("name").native.send_keys(:enter)
+    assert_page_has_content "Pennington"      
   end
   
   def test_bar
