@@ -131,6 +131,5 @@ class PublicPagesTest < BrowserTest
   
     click_link "Age Graded"
     page.has_css?("title", :text => /Age Graded/)
-    assert page.has_title?(/#{Date.today.year}/)
   end
 end
