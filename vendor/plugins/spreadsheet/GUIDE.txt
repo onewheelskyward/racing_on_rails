@@ -15,7 +15,7 @@ Encoding you want to deal with. The Default is UTF-8
 
 Let's open a workbook:
 
-  book = Spreadsheet.open '/path/to/an/excel-file.xls'
+  book = Spreadsheet.visit '/path/to/an/excel-file.xls'
 
 We can either access all the Worksheets in a Workbook...
 
@@ -127,7 +127,7 @@ Limitations:
 
 And here's how it works:
 
-  book = Spreadsheet.open '/path/to/an/excel-file.xls'
+  book = Spreadsheet.visit '/path/to/an/excel-file.xls'
   sheet = book.worksheet 0
   sheet.each do |row|
     row[0] *= 2

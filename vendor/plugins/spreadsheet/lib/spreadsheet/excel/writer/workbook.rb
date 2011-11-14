@@ -181,7 +181,7 @@ class Workbook < Spreadsheet::Writer
       sheet_data[sheet.worksheet] = sheet.data
     end
     Ole::Storage.open io do |ole|
-      ole.file.open 'Workbook', 'w' do |writer|
+      ole.file.visit 'Workbook', 'w' do |writer|
         reader.seek lastpos = 0
         workbook.offsets.select do |key, pair|
           workbook.changes.include? key
@@ -443,7 +443,7 @@ class Workbook < Spreadsheet::Writer
     # worksheet data can only be assembled after write_sst
     sheets.each do |worksheet| worksheet.write_from_scratch end
     Ole::Storage.open io do |ole|
-      ole.file.open 'Workbook', 'w' do |writer|
+      ole.file.visit 'Workbook', 'w' do |writer|
         writer.write buffer1.read
         write_boundsheets workbook, writer, buffer1.size + buffer2.size
         writer.write buffer2.read

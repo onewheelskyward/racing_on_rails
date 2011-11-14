@@ -1,19 +1,19 @@
-require "acceptance/webdriver_test_case"
+require File.expand_path(File.dirname(__FILE__) + "/../acceptance_test")
 
 # :stopdoc:
-class PagesTest < WebDriverTestCase
+class PagesTest < AcceptanceTest
   def test_pages
     # Check public page render OK with default static templates
-    open "/schedule"
-    assert_page_source(/Schedule|Calendar/)
+    visit "/schedule"
+    assert_page_has_content(/Schedule|Calendar/)
     
-    assert_not_in_page_source "This year is cancelled"
+    assert_page_has_no_content "This year is cancelled"
     assert_title(/Schedule|Calendar/)
 
     # Now change the page
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
 
-    open "/admin/pages"
+    visit "/admin/pages"
 
     click :xpath => "//a[@href='/admin/pages/new']"
 
@@ -22,23 +22,23 @@ class PagesTest < WebDriverTestCase
 
     click "save"
 
-    open "/schedule"
+    visit "/schedule"
     # Firefox honors the expires time, so the old page is still shown
-    assert_not_in_page_source "This year is cancelled"
+    assert_page_has_no_content "This year is cancelled"
 
     refresh
-    assert_page_source "This year is cancelled"
+    assert_page_has_content "This year is cancelled"
 
-    open "/admin/pages"
+    visit "/admin/pages"
 
     assert_table("pages_table", 2, 0, /^Schedule/)
 
     # Create new page
     # 404 first
-    open "/officials", true
-    assert_page_source "ActiveRecord::RecordNotFound"
+    visit "/officials", true
+    assert_page_has_content "ActiveRecord::RecordNotFound"
 
-    open "/admin/pages"
+    visit "/admin/pages"
 
     click :xpath => "//a[@href='/admin/pages/new']"
 
@@ -48,7 +48,7 @@ class PagesTest < WebDriverTestCase
 
     click "save"
 
-    open "/officials"
-    assert_page_source "411 911"
+    visit "/officials"
+    assert_page_has_content "411 911"
   end
 end

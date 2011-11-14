@@ -35,7 +35,7 @@ require 'spreadsheet/excel/reader'
 # == Example
 #  require 'spreadsheet'
 #
-#  book = Spreadsheet.open '/path/to/an/excel-file.xls'
+#  book = Spreadsheet.visit '/path/to/an/excel-file.xls'
 #  sheet = book.worksheet 0
 #  sheet.each do |row| puts row[0] end
 module Spreadsheet

@@ -1,26 +1,24 @@
-require "acceptance/webdriver_test_case"
+require File.expand_path(File.dirname(__FILE__) + "/acceptance_test")
 
 # :stopdoc:
-class OfficialsTest < WebDriverTestCase
+class OfficialsTest < AcceptanceTest
   def test_view_assignments
-    open "/admin/first_aid_providers"
-    assert_current_url %r{/person_session/new}
+    visit "/admin/first_aid_providers"
 
-    open "/people"
-    assert_no_element "export_link"
+    visit "/people"
+    assert page.has_no_selector? "export_link"
     
     login_as :administrator
     member = member
-    open "/admin/people/#{member.id}/edit"
+    visit "/admin/people/#{member.id}/edit"
     check "person_official"
     click "save"
     
     logout
     login_as :member
-    open "/admin/first_aid_providers"
-    assert_current_url %r{/admin/first_aid_providers}
+    visit "/admin/first_aid_providers"
 
-    open "/people"
+    visit "/people"
     remove_download "scoring_sheet.xls"
     click "export_link"
     wait_for_not_current_url(/\/admin\/people.xls\?excel_layout=scoring_sheet&include=members_only/)
