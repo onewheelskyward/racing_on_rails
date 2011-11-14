@@ -270,7 +270,7 @@ class Admin::EventsController < Admin::AdminController
   protected
   
   def assign_disciplines
-    @disciplines = Discipline.find_all_names
+    @disciplines = Discipline.names
   end
   
   def assign_event

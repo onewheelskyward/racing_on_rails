@@ -3,7 +3,8 @@ require "acceptance/webdriver_test_case"
 # :stopdoc:
 class CategoriesTest < WebDriverTestCase
   def test_edit
-    login_as :administrator
+    person = FactoryGirl.create(:administrator)
+    login_as person
 
     open "/admin/categories"
 

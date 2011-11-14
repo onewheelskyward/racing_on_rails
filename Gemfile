@@ -4,7 +4,7 @@ gem "rails", "~>3.0.0"
 
 gem "fastercsv", :platforms => :ruby_18
 gem "rack", "~>1.2.3"
-gem "rake", "~>0.8.0"
+gem "rake"
 gem "authlogic"
 gem "tabular", ">0.0.5"
 gem "mysql2", "<0.3.0"
@@ -24,14 +24,13 @@ end
 
 group :test do
   gem "ansi"
+  gem "capybara"
+  gem "database_cleaner"
   gem "factory_girl_rails"
+  gem "launchy"
   gem "mocha", :require => false
-  gem "minitest"
-  gem "timecop"
-end
-
-group :acceptance do
   gem "selenium-webdriver"
+  gem "timecop"
 end
 
 group :production do

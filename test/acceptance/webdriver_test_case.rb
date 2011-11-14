@@ -63,7 +63,7 @@ class WebDriverTestCase < ActiveSupport::TestCase
 
       FileUtils.rm_rf DOWNLOAD_DIRECTORY
       FileUtils.mkdir_p DOWNLOAD_DIRECTORY
-
+      
       MiniTest::Unit.driver = Selenium::WebDriver.for(:chrome, :switches => ["--user-data-dir=#{Rails.root}/tmp/chrome-profile"])
     end
     MiniTest::Unit.driver
@@ -112,9 +112,9 @@ class WebDriverTestCase < ActiveSupport::TestCase
   end
   
   # Go to login page and login
-  def login_as(person_symbol)
+  def login_as(person)
     open "/person_session/new"
-    type people(person_symbol).login, "person_session_login"
+    type person.login, "person_session_login"
     type " ", "person_session_password", true
     type "secret", "person_session_password", true
     click "login_button"

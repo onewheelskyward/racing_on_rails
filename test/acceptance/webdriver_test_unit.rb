@@ -2,6 +2,7 @@ require 'minitest/unit'
 
 module MiniTest
   class Unit
+
     def Unit.driver
       @@driver ||= nil
     end
