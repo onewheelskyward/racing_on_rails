@@ -1,7 +1,7 @@
-require "acceptance/webdriver_test_case"
+require File.expand_path(File.dirname(__FILE__) + "/acceptance_test")
 
 # :stopdoc:
-class PromotersTest < WebDriverTestCase
+class PromotersTest < AcceptanceTest
   def test_browse
     year = RacingAssociation.current.effective_year
     series = Series.create!(:name => "Cross Crusade", :promoter => Person.find_by_name("Brad Ross"), :date => Date.new(year, 10))
@@ -10,7 +10,7 @@ class PromotersTest < WebDriverTestCase
     login_as :promoter
     
     click "events_tab"
-    click :link_text => "Cross Crusade"
+    click_link "Cross Crusade"
     click "save"
     
     click "create_race"
@@ -26,7 +26,7 @@ class PromotersTest < WebDriverTestCase
     click "save"
 
     click "events_tab"
-    click :link_text => "Cross Crusade: Alpenrose"
+    click_link "Cross Crusade: Alpenrose"
     
     click "create_race"
     wait_for_element :css => "td.race"
@@ -48,7 +48,7 @@ class PromotersTest < WebDriverTestCase
     assert_no_errors
 
     click "events_tab"
-    click :link_text => "Cross Crusade"
+    click_link "Cross Crusade"
     click_ok_on_alert_dialog
     click "propagate_races"
   end

@@ -1,17 +1,17 @@
-require "acceptance/webdriver_test_case"
+require File.expand_path(File.dirname(__FILE__) + "/../acceptance_test")
 
 # :stopdoc:
-class TeamsTest < WebDriverTestCase
+class TeamsTest < AcceptanceTest
   def test_edit
-    open '/teams'
+    visit '/teams'
 
     gl_id = Team.find_by_name("Gentle Lovers").id
     click :css => "a[href='/teams/#{gl_id}']"
 
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
 
-    open "/admin/teams"
-    assert_page_source "Enter part of a team's name"
+    visit "/admin/teams"
+    assert_page_has_content "Enter part of a team's name"
     type "e", "name"
     submit "search_form"
 
@@ -41,19 +41,19 @@ class TeamsTest < WebDriverTestCase
     assert_not_checked "team_member_#{gl_id}"
 
     click :css => "a[href='/teams/#{dfl_id}']"
-    assert_page_source "Team dFL"
+    assert_page_has_content "Team dFL"
 
-    open '/admin/teams'
+    visit '/admin/teams'
     click "edit_#{vanilla_id}"
     wait_for_element "team_name"
-    assert_page_source "Vanilla"
+    assert_page_has_content "Vanilla"
 
     type "SpeedVagen", "team_name"
     click "save"
     sleep 1
     wait_for_value "SpeedVagen", "team_name"
 
-    open "/admin/teams"
+    visit "/admin/teams"
     wait_for_element "name"
     type "vagen", "name"
     submit "search_form"
@@ -78,9 +78,9 @@ class TeamsTest < WebDriverTestCase
   end
   
   def test_drag_and_drop
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
 
-    open "/admin/teams"
+    visit "/admin/teams"
     type "a", "name"
     submit "search_form"
     
@@ -91,7 +91,7 @@ class TeamsTest < WebDriverTestCase
     assert !Team.exists?(kona_id), "Kona should be merged"
     assert Team.exists?(vanilla_id), "Vanilla still exists after merge"
     
-    open "/admin/teams"
+    visit "/admin/teams"
     type "e", "name"
     submit "search_form"
 
@@ -102,9 +102,9 @@ class TeamsTest < WebDriverTestCase
   end
   
   def test_merge_confirm
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
 
-    open "/admin/teams"
+    visit "/admin/teams"
     type "e", "name"
     submit "search_form"
     

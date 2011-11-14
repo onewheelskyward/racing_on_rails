@@ -1,24 +1,23 @@
-require "acceptance/webdriver_test_case"
+require File.expand_path(File.dirname(__FILE__) + "/../acceptance_test")
 
 # :stopdoc:
-class EventsTest < WebDriverTestCase
+class EventsTest < AcceptanceTest
   def test_events
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
 
-    click :link_text => "New Event"
+    click_link "New Event"
 
-    wait_for_no_ajax
     type "Sausalito Criterium", "event_name"
     click "save"
     wait_for_page_source "Created Sausalito Criterium"
     
     if Date.today.month == 12
-      open "/admin/events?year=#{Date.today.year}"
+      visit "/admin/events?year=#{Date.today.year}"
     else
-      open "/admin/events"
+      visit "/admin/events"
     end
-    assert_page_source "Sausalito Criterium"
-    click :link_text => "Sausalito Criterium"
+    assert_page_has_content "Sausalito Criterium"
+    click_link "Sausalito Criterium"
 
     assert_value "", "event_promoter_id"
     assert_value "", "promoter_auto_complete"
@@ -28,9 +27,9 @@ class EventsTest < WebDriverTestCase
     assert_value(/\d+/, "event_promoter_id")
     assert_value "Tom Brown", "promoter_auto_complete"
 
-    open "/admin/events?year=#{Date.today.year}"
-    assert_page_source "Sausalito Criterium"
-    click :link_text => "Sausalito Criterium"
+    visit "/admin/events?year=#{Date.today.year}"
+    assert_page_has_content "Sausalito Criterium"
+    click_link "Sausalito Criterium"
     assert_value(/\d+/, "event_promoter_id")
     assert_value "Tom Brown", "promoter_auto_complete"
 
@@ -80,12 +79,12 @@ class EventsTest < WebDriverTestCase
     assert_value "(541) 212-9000", "event_phone"
     assert_value "event@google.com", "event_email"
 
-    open "/admin/people/#{candi.id}/edit"
+    visit "/admin/people/#{candi.id}/edit"
     assert_value "(503) 555-1212", "person_home_phone"
     assert_value "admin@example.com", "person_email"
 
-    open "/admin/events?year=#{Date.today.year}"
-    click :link_text => "Sausalito Criterium"
+    visit "/admin/events?year=#{Date.today.year}"
+    click_link "Sausalito Criterium"
 
     type "Gentle Lovers", "team_auto_complete"
     gl = Team.find_by_name('Gentle Lovers')
@@ -108,57 +107,59 @@ class EventsTest < WebDriverTestCase
     assert_value "", "event_team_id"
     assert_value "", "team_auto_complete"
 
-    click :link_text => "Delete"
+    click_link "Delete"
 
-    assert_page_source "Deleted Sausalito Criterium"
+    assert_page_has_content "Deleted Sausalito Criterium"
 
-    open "/admin/events?year=2004"
-    assert_not_in_page_source "Sausalito Criterium"
+    visit "/admin/events?year=2004"
+    assert_page_has_no_content "Sausalito Criterium"
 
-    open "/admin/events?year=2003"
+    visit "/admin/events?year=2003"
 
     wait_for_page_source "Import Schedule"
-    click :link_text => "Kings Valley Road Race"
+    click_link "Kings Valley Road Race"
     wait_for_page_source "Senior Men Pro 1/2"
-    assert_page_source "Senior Men 3"
+    assert_page_has_content "Senior Men 3"
 
     kings_valley = Event.find_by_name_and_date('Kings Valley Road Race', '2003-12-31')
     click "destroy_race_#{kings_valley.races.first.id}"
 
-    open "/admin/events?year=2003"
-    click :link_text => "Kings Valley Road Race"
+    visit "/admin/events?year=2003"
+    click_link "Kings Valley Road Race"
 
     click_ok_on_confirm_dialog
     click "destroy_races"
 
-    open "/admin/events?year=2003"
+    visit "/admin/events?year=2003"
 
-    click :link_text => "Kings Valley Road Race"
+    click_link "Kings Valley Road Race"
     wait_for_current_url %r{/admin/events/\d+/edit}
-    assert_not_in_page_source "Senior Men Pro 1/2"
-    assert_not_in_page_source "Senior Men 3"
+    assert_page_has_no_content "Senior Men Pro 1/2"
+    assert_page_has_no_content "Senior Men 3"
 
     click "new_event"
     wait_for_current_url(/\/events\/new/)
-    assert_page_source "Kings Valley Road Race"
+    assert_page_has_content "Kings Valley Road Race"
     assert_value kings_valley.id, "event_parent_id"
 
     type "Fancy New Child Event", "event_name"
     click "save"
     assert_value kings_valley.id, "event_parent_id"
 
-    open "/admin/events/#{kings_valley.id}/edit"
-    assert_page_source "Fancy New Child Event"
+    visit "/admin/events/#{kings_valley.id}/edit"
+    assert_page_has_content "Fancy New Child Event"
   end
   
   def test_lost_children
-    login_as :administrator
-
-    open "/admin/events/#{SingleDayEvent.find_by_name('Lost Series').id}/edit"
-    assert_page_source 'has no parent'
+    login_as FactoryGirl.create(:administrator)
+    FactoryGirl.create(:event, :name => "PIR")
+    event = FactoryGirl.create(:event, :name => "PIR")
+    
+    visit "/admin/events/#{event.id}/edit"
+    assert_page_has_content 'has no parent'
     click "set_parent"
-    assert_not_in_page_source 'error'
-    assert_not_in_page_source 'Unknown action'
-    assert_not_in_page_source 'has no parent'
+    assert_page_has_no_content 'error'
+    assert_page_has_no_content 'Unknown action'
+    assert_page_has_no_content 'has no parent'
   end
 end

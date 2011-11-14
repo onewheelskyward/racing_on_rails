@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
 require "capybara/rails"
 require "minitest/autorun"
 
-class BrowserTest < ActiveSupport::TestCase
+class AcceptanceTest < ActiveSupport::TestCase
   include Capybara::DSL
   
   # Selenium tests start the Rails server in a separate process. If test data is wrapped in a
@@ -39,6 +39,18 @@ class BrowserTest < ActiveSupport::TestCase
     else
       assert_equal expected.to_s, element.text, "Row #{row} column #{column} of table #{table_id}. Table:\n #{find_by_id(table_id).text}"
     end
+  end
+
+  # Go to login page and login
+  def login_as(person)
+    visit "/person_session/new"
+    fill_in "person_session_login", :with => person.login
+    fill_in "person_session_password", :with => "secret"
+    click_button "login_button"
+  end
+  
+  def logout
+    visit "/logout"
   end
 
   def clean_database

@@ -1,11 +1,11 @@
-require "acceptance/webdriver_test_case"
+require File.expand_path(File.dirname(__FILE__) + "/../acceptance_test")
 
 # :stopdoc:
-class VelodromesTest < WebDriverTestCase
+class VelodromesTest < AcceptanceTest
   def test_velodromes
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
 
-    open "/admin/velodromes"
+    visit "/admin/velodromes"
 
     assert_table("velodromes_table", 1, 1, /^Alpenrose Dairy/)
     assert_table("velodromes_table", 1, 2, /^http:\/\/www.obra.org\/track\//)

@@ -1,7 +1,7 @@
-require File.expand_path(File.dirname(__FILE__) + "/browser_test")
+require File.expand_path(File.dirname(__FILE__) + "/acceptance_test")
 
 # :stopdoc:
-class PublicPagesTest < BrowserTest
+class PublicPagesTest < AcceptanceTest
   def test_popular_pages
     FactoryGirl.create(:discipline, :name => "Road")
     FactoryGirl.create(:discipline, :name => "Track")

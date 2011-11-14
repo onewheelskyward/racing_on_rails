@@ -1,12 +1,12 @@
-require "acceptance/webdriver_test_case"
+require File.expand_path(File.dirname(__FILE__) + "/../acceptance_test")
 
 # :stopdoc:
-class PeopleTest < WebDriverTestCase
+class PeopleTest < AcceptanceTest
   def test_edit
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
     
-    open '/admin/people'
-    assert_page_source "Enter part of a person's name"
+    visit '/admin/people'
+    assert_page_has_content "Enter part of a person's name"
     type "a", "name"
     submit "search_form"
     
@@ -86,11 +86,11 @@ class PeopleTest < WebDriverTestCase
     wait_for_element "person_#{@molly_id}_table"
     assert_title(/Admin: Results: Molly Cameron$/)
     
-    open "/admin/people"
+    visit "/admin/people"
     click "#{@weaver_id}_results"
     assert_title(/Admin: Results: Ryan Weaver$/)
     
-    open "/admin/people"
+    visit "/admin/people"
     click "edit_#{@matson_id}"
     assert_title(/Admin: People: Mark Matson$/)
     type "411 911 1212", "person_home_phone"
@@ -98,38 +98,35 @@ class PeopleTest < WebDriverTestCase
     
     click :css => "a[href='/people/#{@matson_id}/versions']"
     
-    open '/admin/people'
+    visit '/admin/people'
     click "new_person"
     assert_title(/Admin: People: New Person/)
     
-    open "/admin/people/#{@matson.id}/edit"
-    assert_page_source "Mark Matson"
+    visit "/admin/people/#{@matson.id}/edit"
+    assert_page_has_content "Mark Matson"
     if Date.today.month < 12
       click "destroy_number_#{@matson.race_numbers.first.id}"
       wait_for_no_element :css => "input.number[value='340']"
       
       click "save"
     
-      assert_not_in_page_source "error"
-      assert_not_in_page_source "Unknown action"
-      assert_not_in_page_source "Couldn't find RaceNumber"
+      assert_page_has_no_content "error"
+      assert_page_has_no_content "Unknown action"
+      assert_page_has_no_content "Couldn't find RaceNumber"
     end
     
-    assert_current_url(/admin\/people\/#{@matson.id}\/edit/)
-    
-    open "/admin/people/#{Person.find_by_name("Non Results").id}/edit"
-    assert_page_source 'Non Results'
+    visit "/admin/people/#{Person.find_by_name("Non Results").id}/edit"
+    assert_page_has_content 'Non Results'
     click "delete"
-    assert_not_in_page_source 'error'
-    assert_not_in_page_source 'Unknown action'
-    assert_not_in_page_source 'has no parent'
+    assert_page_has_no_content 'error'
+    assert_page_has_no_content 'Unknown action'
+    assert_page_has_no_content 'has no parent'
     
-    assert_current_url(/\/admin\/people/)
     type "no results", "name"
     submit "search_form"
-    assert_not_in_page_source "Non Results"
+    assert_page_has_no_content "Non Results"
 
-    open "/admin/people"
+    visit "/admin/people"
     type "a", "name"
     submit "search_form"
     
@@ -140,9 +137,9 @@ class PeopleTest < WebDriverTestCase
   end
 
   def test_merge_confirm
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
 
-    open "/admin/people"
+    visit "/admin/people"
     type "a", "name"
     submit "search_form"
     
@@ -165,7 +162,7 @@ class PeopleTest < WebDriverTestCase
     assert Person.exists?(matson.id), "Should not have merged Matson"
     assert !molly.aliases(true).map(&:name).include?("Mark Matson"), "Should not add Matson alias"
 
-    open "/admin/people"
+    visit "/admin/people"
     submit "search_form"
     assert_table("people_table", 1, 1, /^Molly Cameron/)
     assert_table("people_table", 2, 1, /^Mark Matson/)
@@ -184,13 +181,13 @@ class PeopleTest < WebDriverTestCase
   end
 
   def test_export
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
 
-    open '/admin/people'
-    assert_element 'export_button'
-    assert_element 'include'
+    visit '/admin/people'
+    assert page.has_selector? 'export_button'
+    assert page.has_selector? 'include'
     assert_value 'members_only', 'include'
-    assert_element 'format'
+    assert page.has_selector? 'format'
     assert_value 'xls', 'format'
 
     remove_download "people_2011_1_1.xls"
@@ -199,20 +196,18 @@ class PeopleTest < WebDriverTestCase
     wait_for_download "people_2011_1_1.xls"
     assert_no_errors
 
-    open '/admin/teams'
-    assert_current_url(/\/admin\/teams/)
+    visit '/admin/teams'
 
-    open '/admin/people'
-    assert_current_url(/\/admin\/people/)
+    visit '/admin/people'
 
     type "tonkin", "name"
     type :return, { :name => "name" }, false
     sleep 1
-    assert_not_in_page_source 'error'
-    assert_page_source 'Erik Tonkin'
-    assert_page_source 'Kona'
+    assert_page_has_no_content 'error'
+    assert_page_has_content 'Erik Tonkin'
+    assert_page_has_content 'Kona'
     if Date.today.month < 12
-      assert_page_source '102'
+      assert_page_has_content '102'
     end
     assert_value 'tonkin', "name"
 
@@ -235,17 +230,17 @@ class PeopleTest < WebDriverTestCase
     type 'tonkin', 'name'
     type :return, { :name => "name" }, false
     wait_for_element "people_table"
-    assert_page_source 'Erik Tonkin'
-    assert_page_source 'Kona'
+    assert_page_has_content 'Erik Tonkin'
+    assert_page_has_content 'Kona'
     if Date.today.month < 12
-      assert_page_source '102'
+      assert_page_has_content '102'
     end
     assert_value 'tonkin', "name"
   end
   
   def test_import
-    login_as :administrator
-    open '/admin/people'
-    assert_element 'people_file'
+    login_as FactoryGirl.create(:administrator)
+    visit '/admin/people'
+    assert page.has_selector? 'people_file'
   end
 end

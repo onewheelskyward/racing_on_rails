@@ -1,21 +1,21 @@
-require "acceptance/webdriver_test_case"
+require File.expand_path(File.dirname(__FILE__) + "/../acceptance_test")
 
 # :stopdoc:
-class ResultsTest < WebDriverTestCase
+class ResultsTest < AcceptanceTest
   def test_results_editing
-    login_as :administrator
+    login_as FactoryGirl.create(:administrator)
 
     if Date.today.month == 12
-      open "/admin/events?year=#{Date.today.year}"
+      visit "/admin/events?year=#{Date.today.year}"
     else
-      open "/admin/events"
+      visit "/admin/events"
     end
     
     if Date.today.month == 1 && Date.today.day < 6
-      open "/admin/events?year=#{Date.today.year - 1}"
+      visit "/admin/events?year=#{Date.today.year - 1}"
     end
 
-    click :link_text => "Copperopolis Road Race"
+    click_link "Copperopolis Road Race"
     wait_for_current_url(/\/admin\/events\/\d+\/edit/)
 
     race = Event.find_by_name('Copperopolis Road Race').races.first
@@ -41,8 +41,8 @@ class ResultsTest < WebDriverTestCase
 
     refresh
     wait_for_element "results_table"
-    assert_not_in_page_source "Ryan Weaver"
-    assert_page_source "Megan Weaver"
+    assert_page_has_no_content "Ryan Weaver"
+    assert_page_has_content "Megan Weaver"
     
     weaver = Person.find_by_name("Ryan Weaver")
     megan = Person.find_by_name("Megan Weaver")
@@ -56,7 +56,7 @@ class ResultsTest < WebDriverTestCase
 
     refresh
     wait_for_element "results_table"
-    assert_page_source "River City"
+    assert_page_has_content "River City"
     
     if RacingAssociation.current.competitions.include? :bar
       assert_checked "result_#{result_id}_bar"
@@ -73,21 +73,21 @@ class ResultsTest < WebDriverTestCase
       assert_checked "result_#{result_id}_bar"
     end
     
-    assert_no_element :xpath => "//table[@id='results_table']//tr[4]"
+    assert page.has_no_selector? :xpath => "//table[@id='results_table']//tr[4]"
     click "result_#{result_id}_add"
     wait_for_element :xpath => "//table[@id='results_table']//tr[4]"
     click "result_#{result_id}_destroy"
     wait_for_no_element :xpath => "//table[@id='results_table']//tr[4]"
     refresh
     wait_for_element "results_table"
-    assert_not_in_page_source "Megan Weaver"
-    assert_page_source "DNF"
+    assert_page_has_no_content "Megan Weaver"
+    assert_page_has_content "DNF"
 
     click "result__add"
     wait_for_element :xpath => "//table[@id='results_table']//tr[4]"
     refresh
     wait_for_element "results_table"
-    assert_page_source "Field Size (2)"
+    assert_page_has_content "Field Size (2)"
 
     assert_value "", "race_laps"
     type "12", "race_laps"
