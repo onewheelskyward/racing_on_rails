@@ -32,12 +32,12 @@ class MailingListsTest < AcceptanceTest
     fill_in "post_from_name", :with => "Don"
     fill_in "post_body", :with => "This is a special private reply"
 
-    click_button "commit"
+    click_button "Send"
     assert_page_has_content "From email address can't be blank"
 
     fill_in "post_from_email_address", :with => "don@butlerpress.com"
 
-    click :name => "commit"
+    click_button "Send"
     assert_page_has_content "Sent private reply"
 
     visit "/posts/obra/new"
@@ -46,11 +46,11 @@ class MailingListsTest < AcceptanceTest
     fill_in "post_subject", :with => "New Message 2"
     fill_in "post_body", :with => "My post message body"
 
-    click_button "commit"
+    click_button "Post"
     assert_page_has_content "From name can't be blank"
 
     fill_in "post_from_name", :with => "Scott"
-    click_button "commit"
+    click_button "Post"
     assert_page_has_content "Your new post is now in the mailing queue"    
   end
 end
