@@ -29,7 +29,6 @@ class OfficialsTest < AcceptanceTest
     visit "/people"
     remove_download "scoring_sheet.xls"
     click_link "export_link"
-    # wait_for_not_current_url(/\/admin\/people.xls\?excel_layout=scoring_sheet&include=members_only/)
     wait_for_download "scoring_sheet.xls"
   end
 end
