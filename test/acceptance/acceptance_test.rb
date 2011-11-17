@@ -59,6 +59,10 @@ class AcceptanceTest < ActiveSupport::TestCase
       raise Timeout::Error, "Did not find '#{glob_pattern}' in #{DOWNLOAD_DIRECTORY} within seconds 10 seconds. Found: #{Dir.entries(DOWNLOAD_DIRECTORY).join(", ")}"
     end
   end
+  
+  def click_ok_on_alert_dialog
+    page.evaluate_script "window.alert = function(msg){return true;};"
+  end
 
   # Go to login page and login
   def login_as(person)
