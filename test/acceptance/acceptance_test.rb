@@ -27,13 +27,13 @@ class AcceptanceTest < ActiveSupport::TestCase
   
   def assert_page_has_content(text)
     unless page.has_content?(text)
-      fail "Expected '#{text}' in \n#{page.source}"
+      fail "Expected '#{text}' in page source"
     end
   end
   
   def assert_page_has_no_content(text)
     unless page.has_no_content?(text)
-      fail "Did not expect '#{text}' in \n#{page.source}"
+      fail "Did not expect '#{text}' in html"
     end
   end
   
@@ -62,6 +62,10 @@ class AcceptanceTest < ActiveSupport::TestCase
   
   def click_ok_on_alert_dialog
     page.evaluate_script "window.alert = function(msg){return true;};"
+  end
+
+  def click_ok_on_confirm_dialog
+    page.evaluate_script "window.confirm = function(msg){return true;};"
   end
 
   # Go to login page and login
