@@ -144,12 +144,12 @@ class EventsTest < AcceptanceTest
   
   def test_lost_children
     login_as FactoryGirl.create(:administrator)
-    FactoryGirl.create(:event, :name => "PIR")
+    FactoryGirl.create(:series, :name => "PIR")
     event = FactoryGirl.create(:event, :name => "PIR")
     
     visit "/admin/events/#{event.id}/edit"
     assert_page_has_content "has no parent"
-    click "set_parent"
+    click_link "set_parent"
     assert_page_has_no_content "error"
     assert_page_has_no_content "Unknown action"
     assert_page_has_no_content "has no parent"
