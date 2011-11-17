@@ -7,50 +7,52 @@ class FirstAidProvidersTest < AcceptanceTest
     if Date.today.month < 12
       login_as FactoryGirl.create(:administrator)
       promoter = FactoryGirl.create(:person, :name => "Brad Ross")
-      event_1 = FactoryGirl.create(:event, :promoter => promoter, :date => 2.days.from_now, :first_aid_provider => "Megan Weaver")
-      event_2 = FactoryGirl.create(:event, :date => 4.days.from_now)
-      event_3 = FactoryGirl.create(:event, :date => 3.days.ago)
+      event_1 = FactoryGirl.create(:event, :promoter => promoter, :date => 2.days.from_now, :first_aid_provider => "Megan Weaver", :name => "Copperopolis")
+      event_2 = FactoryGirl.create(:event, :date => 4.days.from_now, :name => "Giro di SF")
+      event_3 = FactoryGirl.create(:event, :date => 3.days.ago, :name => "San Ardo")
+      FactoryGirl.create(:event, :date => 2.weeks.from_now, :name => "Snelling")
+      FactoryGirl.create(:event, :date => 3.weeks.from_now, :name => "Berkeley Hills")
 
       visit "/admin/first_aid_providers"
 
-      assert_table "events_table", 1, 3, /^#{events_1.name}/
+      assert_table "events_table", 1, 3, /^Copperopolis/
       assert_table "events_table", 1, 4, /^Brad Ross/
-      assert_table "events_table", 2, 3, /^#{events_2.name}/
+      assert_table "events_table", 2, 3, /^Giro di SF/
 
       assert page.has_xpath?("//table[@id='events_table']//tr[2]//td[@class='name']//div[@class='record']//div[@class='editable']")
-      find(:xpath => "//table[@id='events_table']//tr[2]//td[@class='name']//div[@class='record']//div[@class='editable']").click
-      wait_for_element :css => "form.editor_field input"
-      type "Megan Weaver", :css => "form.editor_field input"
-      type :return, { :css => "form.editor_field input" }, false
-      wait_for_no_element :css => "form.editor_field input"
+      find(:xpath, "//table[@id='events_table']//tr[2]//td[@class='name']//div[@class='record']//div[@class='editable']").click
 
-      refresh
-      wait_for_element "events_table"
+      within "form.editor_field" do
+        fill_in "value", :with => "Megan Weaver"
+        find_field("value").native.send_keys(:enter)
+      end
+
+      visit "/admin/first_aid_providers"
       assert_table "events_table", 1, 0, /^Megan Weaver/
 
       if Date.today.month > 1
-        click "past_events"
-        assert_table "events_table", 1, 3, /^#{events_3.name}/
+        find("#past_events").click
+        assert_table "events_table", 1, 3, /^San Ardo/
 
-        click "past_events"
-        assert_page_has_no_content events_3.name
+        find("#past_events").click
+        assert_page_has_no_content event_3.name
       end
 
-      assert_table "events_table", 1, 3, /^#{events_2.name}/
-      assert_table "events_table", 2, 3, /^#{events_1.name}/
+      assert_table "events_table", 1, 3, /^Copperopolis/
+      assert_table "events_table", 2, 3, /^Giro di SF/
 
       # Table already sorted by date ascending, so click doesn't change order
-      click :xpath => "//th[@class='date']//a"
-      assert_table "events_table", 1, 3, /^#{events_2.name}/
-      assert_table "events_table", 2, 3, /^#{events_1.name}/
+      find(:xpath, "//th[@class='date']//a").click
+      assert_table "events_table", 1, 3, /^Copperopolis/
+      assert_table "events_table", 2, 3, /^Giro di SF/
 
-      click :xpath => "//th[@class='date']//a"
-      assert_table "events_table", 1, 3, /^#{events_1.name}/
-      assert_table "events_table", 2, 3, /^#{events_2.name}/
+      find(:xpath, "//th[@class='date']//a").click
+      assert_table "events_table", 1, 3, /^Berkeley Hills/
+      assert_table "events_table", 2, 3, /^Snelling/
 
-      click :xpath => "//th[@class='date']//a"
-      assert_table "events_table", 1, 3, /^#{events_2.name}/
-      assert_table "events_table", 2, 3, /^#{events_1.name}/    
+      find(:xpath, "//th[@class='date']//a").click
+      assert_table "events_table", 1, 3, /^Copperopolis/
+      assert_table "events_table", 2, 3, /^Giro di SF/
     end  
   end
 end
