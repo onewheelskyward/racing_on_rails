@@ -1,4 +1,4 @@
-require File.expand_path("../../test_helper", __FILE__)
+require File.expand_path("../../../test_helper", __FILE__)
 
 class NotifierTest < ActionMailer::TestCase
   def test_password_reset_instructions

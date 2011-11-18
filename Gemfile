@@ -16,6 +16,8 @@ gem "newrelic_rpm"
 gem "erubis"
 gem "will_paginate", "~> 3.0.beta"
 gem "hoptoad_notifier"
+gem "ruby-ole", :git => "git@github.com:scottwillson/ruby-ole.git"
+gem "spreadsheer", :git => "git@github.com:scottwillson/spreadsheet.git"
 
 group :development do
   gem "capistrano"
