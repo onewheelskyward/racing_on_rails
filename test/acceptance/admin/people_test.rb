@@ -57,10 +57,10 @@ class PeopleTest < AcceptanceTest
       assert_table "people_table", 6, 5, "437"
     end
     
-    has_checked_field? "person_member_#{molly.id}"
-    has_checked_field? "person_member_#{weaver.id}"
-    has_checked_field? "person_member_#{matson.id}"
-    has_checked_field? "person_member_#{alice.id}"
+    assert has_checked_field?("person_member_#{molly.id}")
+    assert has_checked_field?("person_member_#{weaver.id}")
+    assert has_checked_field?("person_member_#{matson.id}")
+    assert has_checked_field?("person_member_#{alice.id}")
     
     fill_in_inline "#person_#{alice.id}_name", :with => "A Penn"
     visit "/admin/people"
