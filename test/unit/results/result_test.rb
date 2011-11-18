@@ -1067,4 +1067,8 @@ class ResultTest < ActiveSupport::TestCase
     result = race.results.create!(:place => "1", :custom_attributes => { "20100929" => "A" })
     assert_equal "A", result.send(:"20100929"), "numerical column"
   end
+  
+  def test_team_size
+    fail
+  end
 end

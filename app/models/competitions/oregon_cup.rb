@@ -25,7 +25,7 @@ class OregonCup < Competition
             WHERE races.category_id is not null 
               and place between 1 and 20
               and categories.id in (#{category_ids_for(race)})
-              and (results.category_id is null or results.category_id in (#{category_ids_for(race)}))
+              and (results.category_id is null or results.category_id in (#{category_ids_for(race).join(", ")}))
               and (events.id in (#{event_ids}) or events.parent_id in (#{event_ids}))
          order by person_id
        }
@@ -56,10 +56,10 @@ class OregonCup < Competition
     ids = ids + race.category.descendants.map(&:id)
     if race.category == Category.find_or_create_by_name('Senior Women')
       cat_3_women = Category.find_or_create_by_name('Category 3 Women')
-      ids = ids + [cat_3_women.id]
+      ids << cat_3_women.id
       ids = ids + cat_3_women.descendants.map(&:id)
     end
-    ids.join(', ')
+    ids
   end
   
   def create_races

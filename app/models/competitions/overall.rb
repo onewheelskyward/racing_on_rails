@@ -4,7 +4,11 @@ class Overall < Competition
  validates_presence_of :parent
  after_create :add_source_events
  
-  def Overall.calculate!(year = Date.today.year)
+ def self.parent_name
+   self.name
+ end
+
+  def self.calculate!(year = Date.today.year)
     benchmark("#{name} calculate!", :level => :info) {
       transaction do
         parent = MultiDayEvent.first(
@@ -48,7 +52,7 @@ class Overall < Competition
       event.id
     end
     event_ids = event_ids.join(', ')
-    category_ids = category_ids_for(race)
+    category_ids = category_ids_for(race).join(', ')
     
     Result.find_by_sql(
       %Q{ SELECT results.* FROM results  
@@ -140,7 +144,7 @@ class Overall < Competition
     return false if parent.children.empty? || person.nil?
 
     event_ids = parent.children.collect(&:id).join(", ")
-    category_ids = category_ids_for(race)
+    category_ids = category_ids_for(race).join(", ")
 
     count = Result.count_by_sql(
       %Q{ SELECT count(*) FROM results  
@@ -182,5 +186,9 @@ class Overall < Competition
     else
       parent.end_date
     end
+  end
+
+  def valid_dates
+    true
   end
 end

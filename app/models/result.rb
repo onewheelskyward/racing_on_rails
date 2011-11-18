@@ -278,6 +278,15 @@ class Result < ActiveRecord::Base
       team_competition_result
     end
   end
+  
+  # TODO Cache this, too
+  def team_size
+    if race_id
+      @team_size ||= Result.count(:conditions => ["race_id =? and place = ?", race_id, place])
+    else
+      1
+    end
+  end
 
   # Not blank, DNF, DNS, DQ.
   def finished?
