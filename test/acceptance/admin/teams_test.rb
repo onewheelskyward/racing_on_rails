@@ -12,7 +12,7 @@ class TeamsTest < AcceptanceTest
 
     visit "/admin/teams"
     assert_page_has_content "Enter part of a team's name"
-    type "e", "name"
+    fill_in "name", :with => "e"
     submit "search_form"
 
     assert_text "", "warn"
@@ -48,14 +48,14 @@ class TeamsTest < AcceptanceTest
     wait_for_element "team_name"
     assert_page_has_content "Vanilla"
 
-    type "SpeedVagen", "team_name"
+    fill_in "team_name", :with => "SpeedVagen"
     click "save"
     sleep 1
     wait_for_value "SpeedVagen", "team_name"
 
     visit "/admin/teams"
     wait_for_element "name"
-    type "vagen", "name"
+    fill_in "name", :with => "vagen"
     submit "search_form"
 
     assert_table("teams_table", 1, 1, /^SpeedVagen/)
@@ -81,7 +81,7 @@ class TeamsTest < AcceptanceTest
     login_as FactoryGirl.create(:administrator)
 
     visit "/admin/teams"
-    type "a", "name"
+    fill_in "name", :with => "a"
     submit "search_form"
     
     kona_id = Team.find_by_name("Kona").id
@@ -92,7 +92,7 @@ class TeamsTest < AcceptanceTest
     assert Team.exists?(vanilla_id), "Vanilla still exists after merge"
     
     visit "/admin/teams"
-    type "e", "name"
+    fill_in "name", :with => "e"
     submit "search_form"
 
     assert_table("teams_table", 1, 1, /^Chocolate/)
@@ -105,7 +105,7 @@ class TeamsTest < AcceptanceTest
     login_as FactoryGirl.create(:administrator)
 
     visit "/admin/teams"
-    type "e", "name"
+    fill_in "name", :with => "e"
     submit "search_form"
     
     assert_table("teams_table", 1, 1, /^Chocolate/)

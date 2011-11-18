@@ -90,7 +90,7 @@ class ResultsTest < AcceptanceTest
     assert_page_has_content "Field Size (2)"
 
     assert_value "", "race_laps"
-    type "12", "race_laps"
+    fill_in "race_laps", :with => "12"
 
     click "save"
 

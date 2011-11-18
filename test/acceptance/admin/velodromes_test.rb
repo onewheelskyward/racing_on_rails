@@ -27,7 +27,7 @@ class VelodromesTest < AcceptanceTest
     assert_value "Valley Preferred Cycling Center", "velodrome_name"
     assert_value "http://example.com", "velodrome_website"
 
-    type "T-Town", "velodrome_name"
+    fill_in "velodrome_name", :with => "T-Town"
     click "save"
     wait_for_value "T-Town", "velodrome_name"
   end

@@ -7,7 +7,7 @@ class PeopleTest < AcceptanceTest
     
     visit '/admin/people'
     assert_page_has_content "Enter part of a person's name"
-    type "a", "name"
+    fill_in "name", :with => "a"
     submit "search_form"
     
     assert_text "", "warn"
@@ -93,7 +93,7 @@ class PeopleTest < AcceptanceTest
     visit "/admin/people"
     click "edit_#{@matson_id}"
     assert_title(/Admin: People: Mark Matson$/)
-    type "411 911 1212", "person_home_phone"
+    fill_in "person_home_phone", :with => "411 911 1212"
     click "save"
     
     click :css => "a[href='/people/#{@matson_id}/versions']"
@@ -122,12 +122,12 @@ class PeopleTest < AcceptanceTest
     assert_page_has_no_content 'Unknown action'
     assert_page_has_no_content 'has no parent'
     
-    type "no results", "name"
+    fill_in "name", :with => "no results"
     submit "search_form"
     assert_page_has_no_content "Non Results"
 
     visit "/admin/people"
-    type "a", "name"
+    fill_in "name", :with => "a"
     submit "search_form"
     
     drag_and_drop_on "person_#{@alice_id}", "person_#{@molly_id}"
@@ -140,7 +140,7 @@ class PeopleTest < AcceptanceTest
     login_as FactoryGirl.create(:administrator)
 
     visit "/admin/people"
-    type "a", "name"
+    fill_in "name", :with => "a"
     submit "search_form"
     
     assert_table("people_table", 1, 1, /^Molly Cameron/)
@@ -200,7 +200,7 @@ class PeopleTest < AcceptanceTest
 
     visit '/admin/people'
 
-    type "tonkin", "name"
+    fill_in "name", :with => "tonkin"
     type :return, { :name => "name" }, false
     sleep 1
     assert_page_has_no_content 'error'
@@ -227,7 +227,7 @@ class PeopleTest < AcceptanceTest
     wait_for_download "scoring_sheet.xls"
     assert_no_errors
 
-    type 'tonkin', 'name'
+    fill_in 'name', :with => 'tonkin'
     type :return, { :name => "name" }, false
     wait_for_element "people_table"
     assert_page_has_content 'Erik Tonkin'
