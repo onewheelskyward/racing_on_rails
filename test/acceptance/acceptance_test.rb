@@ -59,6 +59,28 @@ class AcceptanceTest < ActiveSupport::TestCase
       raise Timeout::Error, "Did not find '#{glob_pattern}' in #{DOWNLOAD_DIRECTORY} within seconds 10 seconds. Found: #{Dir.entries(DOWNLOAD_DIRECTORY).join(", ")}"
     end
   end
+
+  def wait_for_page_content(text)
+    raise ArgumentError if text.blank?
+
+    begin
+      Timeout::timeout(10) do
+        until page.has_content?(text)
+          sleep 0.25
+        end
+      end
+    rescue Timeout::Error => e
+      raise Timeout::Error, "'#{text}' did not appear in page source within 10 seconds"
+    end
+  end
+
+  def fill_in_inline(locator, options)
+    find(locator).click
+    within "form.editor_field" do
+      fill_in "value", options
+      find_field("value").native.send_keys(:enter)
+    end
+  end
   
   def click_ok_on_alert_dialog
     page.evaluate_script "window.alert = function(msg){return true;};"
