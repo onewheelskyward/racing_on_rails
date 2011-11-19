@@ -48,13 +48,11 @@ class ResultsTest < AcceptanceTest
       assert_equal true, result.reload.bar?, "bar?"
       assert has_checked_field?("result_#{result.id}_bar")
       uncheck("result_#{result.id}_bar")
-      sleep 1
       assert_equal false, result.reload.bar?, "bar?"
       visit "/admin/races/#{race.id}/edit"
       assert !has_checked_field?("result_#{result.id}_bar")
     
       check("result_#{result.id}_bar")
-      sleep 1
       assert_equal true, result.reload.bar?, "bar?"
       visit "/admin/races/#{race.id}/edit"
       assert has_checked_field?("result_#{result.id}_bar")

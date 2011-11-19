@@ -13,7 +13,7 @@ class TeamsTest < AcceptanceTest
     visit "/admin/teams"
     assert_page_has_content "Enter part of a team's name"
     fill_in "name", :with => "e"
-    submit "search_form"
+    find_field("name").native.send_keys(:enter)
 
     assert_text "", "warn"
     assert_text "", "notice"
@@ -56,7 +56,7 @@ class TeamsTest < AcceptanceTest
     visit "/admin/teams"
     wait_for_element "name"
     fill_in "name", :with => "vagen"
-    submit "search_form"
+    find_field("name").native.send_keys(:enter)
 
     assert_table("teams_table", 1, 1, /^SpeedVagen/)
     click "team_#{vanilla_id}_name"
@@ -82,7 +82,7 @@ class TeamsTest < AcceptanceTest
 
     visit "/admin/teams"
     fill_in "name", :with => "a"
-    submit "search_form"
+    find_field("name").native.send_keys(:enter)
     
     kona_id = Team.find_by_name("Kona").id
     vanilla_id = Team.find_by_name("Vanilla").id
@@ -93,7 +93,7 @@ class TeamsTest < AcceptanceTest
     
     visit "/admin/teams"
     fill_in "name", :with => "e"
-    submit "search_form"
+    find_field("name").native.send_keys(:enter)
 
     assert_table("teams_table", 1, 1, /^Chocolate/)
     assert_table("teams_table", 2, 1, /^Gentle Lovers/)
@@ -106,7 +106,7 @@ class TeamsTest < AcceptanceTest
 
     visit "/admin/teams"
     fill_in "name", :with => "e"
-    submit "search_form"
+    find_field("name").native.send_keys(:enter)
     
     assert_table("teams_table", 1, 1, /^Chocolate/)
     assert_table("teams_table", 2, 1, /^Gentle Lovers/)

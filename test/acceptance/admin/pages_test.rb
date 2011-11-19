@@ -23,9 +23,7 @@ class PagesTest < AcceptanceTest
     click_button "Save"
 
     visit "/schedule"
-    # Firefox honors the expires time, so the old page is still shown
-    assert_page_has_no_content "This year is cancelled"
-
+    
     visit "/schedule"
     assert_page_has_content "This year is cancelled"
 
