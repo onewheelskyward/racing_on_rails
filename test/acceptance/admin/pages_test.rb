@@ -23,8 +23,6 @@ class PagesTest < AcceptanceTest
     click_button "Save"
 
     visit "/schedule"
-    
-    visit "/schedule"
     assert_page_has_content "This year is cancelled"
 
     visit "/admin/pages"

@@ -19,9 +19,7 @@ class FirstAidProvidersTest < AcceptanceTest
       assert_table "events_table", 1, 4, /^Brad Ross/
       assert_table "events_table", 2, 3, /^Giro di SF/
 
-      assert page.has_xpath?("//table[@id='events_table']//tr[2]//td[@class='name']//div[@class='record']//div[@class='editable']")
       find(:xpath, "//table[@id='events_table']//tr[2]//td[@class='name']//div[@class='record']//div[@class='editable']").click
-
       within "form.editor_field" do
         fill_in "value", :with => "Megan Weaver"
         find_field("value").native.send_keys(:enter)

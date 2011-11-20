@@ -29,6 +29,7 @@ class PublicPagesTest < AcceptanceTest
     assert_page_has_content("Results")
 
     visit "/schedule"
+    page.driver.browser.navigate.refresh
     assert_page_has_content("January")
     assert_page_has_content("December")
 

@@ -48,29 +48,50 @@ class ResultsTest < AcceptanceTest
       assert_equal true, result.reload.bar?, "bar?"
       assert has_checked_field?("result_#{result.id}_bar")
       uncheck("result_#{result.id}_bar")
-      assert_equal false, result.reload.bar?, "bar?"
+
+      begin
+        Timeout::timeout(10) do
+          until !result.reload.bar?
+            sleep 0.25
+          end
+        end
+      rescue Timeout::Error => e
+        raise Timeout::Error, "result.bar? did not change to 'false'"
+      end
+
       visit "/admin/races/#{race.id}/edit"
       assert !has_checked_field?("result_#{result.id}_bar")
     
       check("result_#{result.id}_bar")
-      assert_equal true, result.reload.bar?, "bar?"
+      begin
+        Timeout::timeout(10) do
+          until result.reload.bar?
+            sleep 0.25
+          end
+        end
+      rescue Timeout::Error => e
+        raise Timeout::Error, "result.bar? did not change to 'true'"
+      end
+
       visit "/admin/races/#{race.id}/edit"
       assert has_checked_field?("result_#{result.id}_bar")
     end
     
     assert page.has_no_selector? :xpath, "//table[@id='results_table']//tr[4]"
-    find("result_#{result.id}_add").click
-    find("result_#{result.id}_destroy").click
+    click_link "result_#{result.id}_add"
+    sleep 0.3
+    find("#result_#{result.id}_destroy").click
     visit "/admin/races/#{race.id}/edit"
     assert_page_has_no_content "Megan Weaver"
     assert_page_has_content "DNF"
 
-    click "result__add"
+    click_link "result__add"
+    visit "/admin/races/#{race.id}/edit"
     assert_page_has_content "Field Size (2)"
 
-    assert_equal "", find_field("#race_laps").value
+    assert_equal "", find_field("race_laps").value
     fill_in "race_laps", :with => "12"
     click_button "Save"
-    assert_equal "12", find_field("#race_laps").value
+    assert_equal "12", find_field("race_laps").value
   end
 end

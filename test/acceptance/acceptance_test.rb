@@ -12,12 +12,13 @@ class AcceptanceTest < ActiveSupport::TestCase
   Capybara.register_driver :selenium do |app|
     Capybara::Selenium::Driver.new(app, :browser => :chrome, :switches => ["--user-data-dir=#{Rails.root}/tmp/chrome-profile"])
   end
+  Capybara.current_driver = :selenium
 
   # Selenium tests start the Rails server in a separate process. If test data is wrapped in a
   # transaction, the server won't see it.
   DatabaseCleaner.strategy = :truncation
-  setup :set_driver, :clean_database
-  teardown :reset_capybara_driver, :report_error_count
+  setup :clean_database, :setup_profile
+  teardown :report_error_count, :reset_session
   
   def report_error_count
     unless @passed
@@ -111,20 +112,21 @@ class AcceptanceTest < ActiveSupport::TestCase
     FileUtils.rm_f "#{DOWNLOAD_DIRECTORY}/#{filename}"
   end
 
-  def set_driver
-    # if ENV["CAPYBARA_DRIVER"] == "selenium"
-      Capybara.current_driver = :selenium
-    # end
-    FileUtils.rm_rf "#{Rails.root}/tmp/chrome-profile"
-    FileUtils.mkdir_p "#{Rails.root}/tmp/chrome-profile"
-    FileUtils.cp_r "#{Rails.root}/test/chrome-profile", "#{Rails.root}/tmp"
+  def setup_profile
+    unless @profile_is_setup
+      FileUtils.rm_rf "#{Rails.root}/tmp/chrome-profile"
+      FileUtils.mkdir_p "#{Rails.root}/tmp/chrome-profile"
+      FileUtils.cp_r "#{Rails.root}/test/chrome-profile", "#{Rails.root}/tmp"
 
-    FileUtils.rm_rf DOWNLOAD_DIRECTORY
-    FileUtils.mkdir_p DOWNLOAD_DIRECTORY
+      FileUtils.rm_rf DOWNLOAD_DIRECTORY
+      FileUtils.mkdir_p DOWNLOAD_DIRECTORY
+      
+      @profile_is_setup = true
+    end
   end
   
-  def reset_capybara_driver
-    Capybara.use_default_driver
+  def reset_session
+    page.driver.browser.manage.delete_all_cookies
   end
   
   def say_if_verbose(text)
