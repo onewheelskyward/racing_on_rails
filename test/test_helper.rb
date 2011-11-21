@@ -154,7 +154,8 @@ class ActiveSupport::TestCase
   end
 
   def create_administrator_session
-    PersonSession.create(FactoryGirl.create(:administrator))
+    @administrator = FactoryGirl.create(:administrator)
+    PersonSession.create(@administrator)
   end
   
   def use_ssl
