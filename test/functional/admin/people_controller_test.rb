@@ -88,7 +88,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_blank_name
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -112,7 +112,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_update_name
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -125,7 +125,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_same_name
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -139,7 +139,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_same_name_different_case
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -154,7 +154,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   
   def test_update_to_existing_name
     # Should ask to merge
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -196,7 +196,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     mollie_alias = Alias.find_by_name('Mollie Cameron')
     assert_not_nil(mollie_alias, 'Alias')
 
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "name",
@@ -255,7 +255,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_merge?
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     tonkin = FactoryGirl.create(:person)
     xhr :put, :update_attribute, 
         :id => tonkin.to_param,
@@ -271,7 +271,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_merge
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     tonkin = FactoryGirl.create(:person)
     old_id = tonkin.id
     assert Person.find_all_by_name("Erik Tonkin"), "Tonkin should be in database"
@@ -286,7 +286,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
 
   def test_update_team_name_to_new_team
     assert_nil(Team.find_by_name('Velo Slop'), 'New team Velo Slop should not be in database')
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     xhr :put, :update_attribute, 
         :id => molly.to_param,
         :name => "team_name",
@@ -298,7 +298,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_team_name_to_existing_team
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     assert_equal(Team.find_by_name('Vanilla'), molly.team, 'Molly should be on Vanilla')
     xhr :put, :update_attribute, 
         :id => molly.to_param,
@@ -311,7 +311,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_update_team_name_to_blank
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     assert_equal(Team.find_by_name('Vanilla'), molly.team, 'Molly should be on Vanilla')
     xhr :put, :update_attribute, 
         :id => molly.to_param,
@@ -324,7 +324,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
     
   def test_toggle_member
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     assert_equal(true, molly.member, 'member before update')
     post(:toggle_member, :id => molly.to_param)
     assert_response :success
@@ -332,7 +332,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     molly.reload
     assert_equal(false, molly.member, 'member after update')
 
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     post(:toggle_member, :id => molly.to_param)
     assert_response :success
     assert_template("shared/_member")
@@ -341,7 +341,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_dupes_merge?
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     molly_with_different_road_number = Person.create(:name => 'Molly Cameron', :road_number => '987123')
     tonkin = FactoryGirl.create(:person)
     xhr :put, :update_attribute, 
@@ -359,7 +359,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_dupes_merge_one_has_road_number_one_has_cross_number?
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     molly.ccx_number = '102'
     molly.save!
     molly_with_different_cross_number = Person.create(:name => 'Molly Cameron', :ccx_number => '810', :road_number => '1009')
@@ -384,7 +384,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_dupes_merge_alias?
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     tonkin = FactoryGirl.create(:person)
     xhr :put, :update_attribute, 
         :id => molly.to_param,
@@ -399,7 +399,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_dupe_merge
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     tonkin = FactoryGirl.create(:person)
     tonkin_with_different_road_number = Person.create(:name => 'Erik Tonkin', :road_number => 'YYZ')
     assert(tonkin_with_different_road_number.valid?, "tonkin_with_different_road_number not valid: #{tonkin_with_different_road_number.errors.full_messages.join(', ')}")
@@ -472,7 +472,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_update_new_number
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     put(:update, {"commit"=>"Save", 
                    "number_year" => Date.today.year.to_s,
                    "number_issuer_id"=>[number_issuers(:association).to_param], "number_value"=>["AZY"], 
@@ -575,7 +575,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
     
   def test_update
-    molly = molly
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     put(:update, {"commit"=>"Save", 
                    "number_year" => Date.today.year.to_s,
                    "number_issuer_id"=>number_issuers(:association).to_param, "number_value"=>[""], "discipline_id"=>cyclocross.to_param,
