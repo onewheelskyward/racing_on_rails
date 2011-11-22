@@ -6,6 +6,12 @@ module Admin
     class TeamNameChangeTest < ActionController::TestCase
       tests Admin::PeopleController
       
+      def setup
+        super
+        create_administrator_session
+        use_ssl
+      end
+
       def test_update_team_name_to_new_team
         assert_nil(Team.find_by_name('Velo Slop'), 'New team Velo Slop should not be in database')
         molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
