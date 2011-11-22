@@ -6,6 +6,12 @@ module Admin
     class UpdateNameTest < ActionController::TestCase
       tests Admin::PeopleController
       
+      def setup
+        super
+        create_administrator_session
+        use_ssl
+      end
+
       def test_update_name
         molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
         xhr :put, :update_attribute, 
@@ -49,6 +55,7 @@ module Admin
 
       def test_update_to_existing_name
         # Should ask to merge
+        FactoryGirl.create(:person, :first_name => "Erik", :last_name => "Tonkin")
         molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
         xhr :put, :update_attribute, 
             :id => molly.to_param,
@@ -68,7 +75,6 @@ module Admin
         tonkin = FactoryGirl.create(:person, :first_name => "Erik", :last_name => "Tonkin")
         erik_alias = tonkin.aliases.create!(:name => "Eric Tonkin")
 
-        tonkin = FactoryGirl.create(:person)
         xhr :put, :update_attribute, 
             :id => tonkin.to_param,
             :name => "name",
@@ -77,7 +83,7 @@ module Admin
         assert_not_nil(assigns["person"], "Should assign person")
         assert_equal(tonkin, assigns['person'], 'Person')
         tonkin.reload
-        assert_equal('Eric Tonkin', tonkin.name, 'Person name after cancel')
+        assert_equal('Eric Tonkin', tonkin.name, 'Person name')
         erik_alias = Alias.find_by_name('Erik Tonkin')
         assert_not_nil(erik_alias, 'Alias')
         assert_equal(tonkin, erik_alias.person, 'Alias person')
@@ -107,7 +113,7 @@ module Admin
       end
 
       def test_update_to_other_person_existing_alias
-        tonkin = FactoryGirl.create(:person)
+        tonkin = FactoryGirl.create(:person, :first_name => "Erik", :last_name => "Tonkin")
         molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
         molly.aliases.create!(:name => "Mollie Cameron")
 
@@ -126,7 +132,10 @@ module Admin
       end
 
       def test_update_to_other_person_existing_alias_and_duplicate_names
-        tonkin = FactoryGirl.create(:person)
+        FactoryGirl.create(:discipline)
+        FactoryGirl.create(:number_issuer)
+        
+        tonkin = FactoryGirl.create(:person, :first_name => "Erik", :last_name => "Tonkin")
         molly_with_different_road_number = Person.create!(:name => 'Molly Cameron', :road_number => '1009')
         molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
         molly.aliases.create!(:name => "Mollie Cameron")
