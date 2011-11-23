@@ -18,7 +18,6 @@ gem "will_paginate", "~> 3.0.beta"
 gem "hoptoad_notifier"
 gem "ruby-ole", :git => "git@github.com:scottwillson/ruby-ole.git"
 gem "spreadsheet", :git => "git@github.com:scottwillson/spreadsheet.git"
-gem "ruby-ole", :git => "git@github.com:scottwillson/ruby-ole.git"
 gem "fckeditor", :git => "git@github.com:scottwillson/fckeditor.git"
 
 group :development do

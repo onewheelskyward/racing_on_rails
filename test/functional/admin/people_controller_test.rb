@@ -338,7 +338,6 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   def test_edit_with_event
     kings_valley = FactoryGirl.create(:event)
     promoter = FactoryGirl.create(:person)
-    get(:edit, :id => promoter.to_param, :event_id => kings_valley.to_param.to_s)
     assert_equal(promoter, assigns['person'], "Should assign 'person'")
     assert_equal(kings_valley, assigns['event'], "Should Kings Valley assign 'event'")
     assert_template("admin/people/edit")

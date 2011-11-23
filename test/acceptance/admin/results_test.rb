@@ -3,7 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + "/../acceptance_test")
 # :stopdoc:
 class ResultsTest < AcceptanceTest
   def test_results_editing
-    FactoryGirl.create(:discipline)
     FactoryGirl.create(:number_issuer)
     event = FactoryGirl.create(:event, :name => "Copperopolis Road Race")
     race = FactoryGirl.create(:race, :event => event)

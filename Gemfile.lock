@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/sandal/prawn.git
-  revision: c041a778d76ab15fc1729b08018cc362810f5986
+  revision: 0968057c9beddbce4419207fa93f17395b5879a1
   specs:
     prawn (1.0.0.rc1)
       pdf-reader (>= 0.9.0)
@@ -91,14 +91,14 @@ GEM
     database_cleaner (0.7.0)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    factory_girl (2.2.0)
+    factory_girl (2.3.0)
       activesupport
-    factory_girl_rails (1.3.0)
-      factory_girl (~> 2.2.0)
+    factory_girl_rails (1.4.0)
+      factory_girl (~> 2.3.0)
       railties (>= 3.0.0)
     fastercsv (1.5.4)
     ffi (1.0.11)
-    highline (1.6.5)
+    highline (1.6.8)
     hoe (2.12.3)
       rake (~> 0.8)
     hoptoad_notifier (2.4.11)
