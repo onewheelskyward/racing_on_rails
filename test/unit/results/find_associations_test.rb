@@ -415,18 +415,19 @@ class FindAssociationsTest < ActiveSupport::TestCase
   def test_find_people_among_duplicates
     FactoryGirl.create(:cyclocross_discipline)
     
-    RacingAssociation.current.now = Date.new(Date.today.year, 6)
-    Person.create!(:name => "Mary Yax").race_numbers.create!(:value => "157")
-    
-    jt_1 = Person.create!(:name => "John Thompson")
-    jt_2 = Person.create!(:name => "John Thompson")
-    jt_2.race_numbers.create!(:value => "157", :discipline => Discipline[:cyclocross])
-    
-    # Bad discipline name—should cause name to not match
-    senior_men = FactoryGirl.create(:category)
-    cx_race = SingleDayEvent.create!(:discipline => "Cyclocross").races.create!(:category => senior_men)
-    result = cx_race.results.create!(:place => 1, :first_name => 'John', :last_name => 'Thompson', :number => "157")
-    assert_equal jt_2, result.person, "Should assign person based on correct discipline number"
+    Timecop.freeze(Date.new(Date.today.year, 6)) do
+      Person.create!(:name => "Mary Yax").race_numbers.create!(:value => "157")
+
+      jt_1 = Person.create!(:name => "John Thompson")
+      jt_2 = Person.create!(:name => "John Thompson")
+      jt_2.race_numbers.create!(:value => "157", :discipline => Discipline[:cyclocross])
+
+      # Bad discipline name—should cause name to not match
+      senior_men = FactoryGirl.create(:category)
+      cx_race = SingleDayEvent.create!(:discipline => "Cyclocross").races.create!(:category => senior_men)
+      result = cx_race.results.create!(:place => 1, :first_name => 'John', :last_name => 'Thompson', :number => "157")
+      assert_equal jt_2, result.person, "Should assign person based on correct discipline number"
+    end
   end
 
   def test_multiple_scores_for_same_race
