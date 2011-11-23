@@ -8,6 +8,14 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     super
     create_administrator_session
     use_ssl
+    
+    @cyclocross = FactoryGirl.create(:cyclocross_discipline)
+    FactoryGirl.create(:discipline, :name => "Downhill")
+    @mountain_bike = FactoryGirl.create(:mtb_discipline)
+    @road = FactoryGirl.create(:discipline, :name => "Road")
+    FactoryGirl.create(:discipline, :name => "Singlespeed")
+    FactoryGirl.create(:discipline, :name => "Track")
+    @association = FactoryGirl.create(:number_issuer)    
   end
 
   def test_toggle_member
@@ -19,7 +27,6 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     molly.reload
     assert_equal(false, molly.member, 'member after update')
 
-    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
     post(:toggle_member, :id => molly.to_param)
     assert_response :success
     assert_template("shared/_member")
@@ -36,7 +43,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    alice = alice
+    alice = FactoryGirl.create(:person)
 
     get(:edit, :id => alice.to_param)
     assert_response :success
@@ -47,7 +54,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_edit_created_by_import_file
-    alice = alice
+    alice = FactoryGirl.create(:person)
     alice.created_by = ImportFile.create!(:name => "some_very_long_import_file_name.xls")
     alice.save!
 
@@ -78,17 +85,19 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_redirected_to(edit_admin_person_path(knowlsons.first))
     assert_nil(knowlsons.first.member_from, 'member_from after update')
     assert_nil(knowlsons.first.member_to, 'member_to after update')
-    assert_equal(administrator, knowlsons.first.created_by, "created by")
+    assert_equal(@administrator, knowlsons.first.created_by, "created by")
     assert_equal("Candi Murray", knowlsons.first.created_by.name, "created by")
   end
 
   def test_update_new_number
-    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron", :road_number => "1")
+    molly_road_number = RaceNumber.first
+    
     put(:update, {"commit"=>"Save", 
                    "number_year" => Date.today.year.to_s,
-                   "number_issuer_id"=>[number_issuers(:association).to_param], "number_value"=>["AZY"], 
-                   "discipline_id" => [mountain_bike.id.to_s],
-                   "number"=>{race_numbers(:molly_road_number).to_param =>{"value"=>"202"}},
+                   "number_issuer_id"=>[@association.to_param], "number_value"=>["AZY"], 
+                   "discipline_id" => [@mountain_bike.id.to_s],
+                   "number"=>{molly_road_number.to_param =>{"value"=>"202"}},
                    "person"=>{"work_phone"=>"", "date_of_birth(2i)"=>"1", "occupation"=>"engineer", "city"=>"Wilsonville", 
                    "cell_fax"=>"", "zip"=>"97070", 
                    "date_of_birth(3i)"=>"1", "mtb_category"=>"Spt", "dh_category"=>"",
@@ -108,8 +117,8 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_equal('AZY', molly.xc_number(true, Date.today.year), 'MTB number should be updated')
     assert_nil(molly.member_from, 'member_from after update')
     assert_nil(molly.member_to, 'member_to after update')
-    assert_nil(RaceNumber.find(race_numbers(:molly_road_number).to_param ).updated_by, "updated_by")
-    assert_equal("Candi Murray", RaceNumber.find_by_value("AZY").updated_by, "updated_by")
+    assert_nil(RaceNumber.find(molly_road_number.to_param ).updated_by, "updated_by")
+    assert_equal(@administrator.name, RaceNumber.find_by_value("AZY").updated_by, "updated_by")
   end
 
   def test_create_with_road_number
@@ -122,8 +131,8 @@ class Admin::PeopleControllerTest < ActionController::TestCase
         "date_of_birth(3i)"=>"", "mtb_category"=>"", "dh_category"=>"", "member"=>"1", "gender"=>"", "ccx_category"=>"", 
         "team_name"=>"", "road_category"=>"", "xc_number"=>"", "street"=>"", "track_category"=>"", "home_phone"=>"", "dh_number"=>"", 
         "road_number"=>"", "first_name"=>"Jon", "ccx_number"=>"", "last_name"=>"Knowlson", "date_of_birth(1i)"=>"", "email"=>"", "state"=>""}, 
-        "number_issuer_id"=>[number_issuers(:association).to_param, number_issuers(:association).to_param], "number_value"=>["8977", "BBB9"],
-        "discipline_id"=>[road.id.to_s, mountain_bike.id.to_s], 
+        "number_issuer_id"=>[@association.to_param, @association.to_param], "number_value"=>["8977", "BBB9"],
+        "discipline_id"=>[@road.id.to_s, @mountain_bike.id.to_s], 
         :number_year => '2007', "official" => "0",
       "commit"=>"Save"})
     
@@ -141,14 +150,14 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_equal(2007, race_number.year, 'Road number year')
     assert_equal('8977', race_number.value, 'Road number value')
     assert_equal(Discipline[:road], race_number.discipline, 'Road number discipline')
-    assert_equal(number_issuers(:association), race_number.number_issuer, 'Road number issuer')
+    assert_equal(@association, race_number.number_issuer, 'Road number issuer')
     
     race_number = RaceNumber.first(:conditions => ['discipline_id=? and year=? and person_id=?', Discipline[:mountain_bike].id, 2007, knowlsons.first.id])
     assert_not_nil(race_number, 'MTB number')
     assert_equal(2007, race_number.year, 'MTB number year')
     assert_equal('BBB9', race_number.value, 'MTB number value')
     assert_equal(Discipline[:mountain_bike], race_number.discipline, 'MTB number discipline')
-    assert_equal(number_issuers(:association), race_number.number_issuer, 'MTB number issuer')
+    assert_equal(@association, race_number.number_issuer, 'MTB number issuer')
 
     assert_equal_dates('2004-02-16', knowlsons.first.member_from, 'member_from after update')
     assert_equal_dates('2004-12-31', knowlsons.first.member_to, 'member_to after update')
@@ -186,11 +195,14 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
     
   def test_update
-    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
+    vanilla = FactoryGirl.create(:tesm)
+    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron", :road_number => "2", :team => vanilla)
+    molly_road_number = RaceNumber.first
+    
     put(:update, {"commit"=>"Save", 
                    "number_year" => Date.today.year.to_s,
-                   "number_issuer_id"=>number_issuers(:association).to_param, "number_value"=>[""], "discipline_id"=>cyclocross.to_param,
-                   "number"=>{race_numbers(:molly_road_number).to_param=>{"value"=>"222"}},
+                   "number_issuer_id"=>@association.to_param, "number_value"=>[""], "discipline_id"=>@cyclocross.to_param,
+                   "number"=>{molly_road_number.to_param=>{"value"=>"222"}},
                    "person"=>{
                      "member_from(1i)"=>"2004", "member_from(2i)"=>"2", "member_from(3i)"=>"16", 
                      "member_to(1i)"=>"2004", "member_to(2i)"=>"12", "member_to(3i)"=>"31", 
@@ -215,8 +227,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
 
     assert_equal 1, molly.versions.size, "versions"
     version = molly.versions.last
-    admin = administrator
-    assert_equal admin.name, version.user, "version user"
+    assert_equal @administrator.name, version.user, "version user"
     changes = version.changes
     assert_equal 26, changes.size, "changes"
     change = changes["team_id"]
@@ -227,7 +238,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_update_bad_member_from_date
-    person = weaver
+    person = FactoryGirl.create(:person)
     put(:update, "commit"=>"Save", "person"=>{
                  "member_from(1i)"=>"","member_from(2i)"=>"10", "member_from(3i)"=>"19",  
                  "member_to(3i)"=>"31", "date_of_birth(2i)"=>"1", "city"=>"Hood River", 
@@ -248,7 +259,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_number_year_changed
-    person = molly
+    person = FactoryGirl.create(:person)
 
     post(:number_year_changed, 
          :id => person.to_param.to_s,
@@ -324,9 +335,9 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     end
   end
 
-  # From PeopleController
   def test_edit_with_event
-    kings_valley = kings_valley
+    kings_valley = FactoryGirl.create(:event)
+    promoter = FactoryGirl.create(:person)
     get(:edit, :id => promoter.to_param, :event_id => kings_valley.to_param.to_s)
     assert_equal(promoter, assigns['person'], "Should assign 'person'")
     assert_equal(kings_valley, assigns['event'], "Should Kings Valley assign 'event'")
@@ -334,7 +345,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_new_with_event
-    kings_valley = kings_valley
+    kings_valley = FactoryGirl.create(:event)
     get(:new, :event_id => kings_valley.to_param)
     assert_not_nil(assigns['person'], "Should assign 'person'")
     assert(assigns['person'].new_record?, 'Promoter should be new record')
@@ -342,48 +353,9 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     assert_template("admin/people/edit")
   end
   
-  def test_save_new_single_day_existing_promoter_different_info_overwrite
-    candi_murray = administrator
-    new_email = "scout@scout-promotions.net"
-    new_phone = "123123"
-
-    put(:update, :id => candi_murray.id, 
-      "person" => {"name" => candi_murray.name, "home_phone" => new_phone, "email" => new_email}, "commit" => "Save")
-    
-    assert_nil(flash['warn'], "Should not have flash['warn'], but has: #{flash['warn']}")
-    assert_not_nil(assigns["person"], "@person")
-    assert(assigns["person"].errors.empty?, assigns["person"].errors.full_messages.join
-)
-
-    assert_redirected_to(edit_admin_person_path(candi_murray))
-    
-    candi_murray.reload
-    assert_equal(candi_murray.name, candi_murray.name, 'promoter old name')
-    assert_equal(new_phone, candi_murray.home_phone, 'promoter new home_phone')
-    assert_equal(new_email, candi_murray.email, 'promoter new email')
-  end
-  
-  def test_save_new_single_day_existing_promoter_no_name
-    nate_hobson = nate_hobson
-    old_name = nate_hobson.name
-    old_email = nate_hobson.email
-    old_phone = nate_hobson.home_phone
-
-    put(:update, :id => nate_hobson.id, 
-      "person" => {"name" => '', "home_phone" => old_phone, "email" => old_email}, "commit" => "Save")
-    
-    assert_nil(flash['warn'], "Should not have flash['warn'], but has: #{flash['warn']}")
-    
-    nate_hobson.reload
-    assert_equal('', nate_hobson.name, 'promoter name')
-    assert_equal(old_phone, nate_hobson.home_phone, 'promoter old phone')
-    assert_equal(old_email, nate_hobson.email, 'promoter old email')
-    
-    assert_redirected_to(edit_admin_person_path(nate_hobson))
-  end
-  
   def test_remember_event_id_on_update
-    promoter = promoter
+     promoter = FactoryGirl.create(:person)
+     jack_frost = FactoryGirl.create(:event)
 
     put(:update, :id => promoter.id, 
       "person" => {"name" => "Fred Whatley", "home_phone" => "(510) 410-2201", "email" => "fred@whatley.net"}, 
@@ -398,6 +370,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
   
   def test_remember_event_id_on_create
+    jack_frost = FactoryGirl.create(:event)
     post(:create, "person" => {"name" => "Fred Whatley", "home_phone" => "(510) 410-2201", "email" => "fred@whatley.net"}, 
     "commit" => "Save",
     "event_id" => jack_frost.id)
