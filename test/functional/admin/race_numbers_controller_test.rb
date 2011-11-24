@@ -9,6 +9,8 @@ class Admin::RaceNumbersControllerTest < ActionController::TestCase
   end
   
   def test_new
+    FactoryGirl.create(:number_issuer)
+    FactoryGirl.create(:discipline)
     person = FactoryGirl.create(:person)
     xhr :get, :new, :person_id => person.to_param
     assert_response :success

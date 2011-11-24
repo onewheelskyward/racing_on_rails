@@ -145,7 +145,7 @@ FactoryGirl.define do
     discipline
     number_issuer
     person
-    sequence :value, 51
+    sequence :value, "100"
   end
 
   factory :role do
