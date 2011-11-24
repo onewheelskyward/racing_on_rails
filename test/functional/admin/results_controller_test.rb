@@ -9,17 +9,12 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_team
-    weaver_jack_frost = weaver_jack_frost
-    weaver_jack_frost.team = nil
-    weaver_jack_frost.save!
-
-    team_name = ''
-
+    weaver_jack_frost = FactoryGirl.create(:result, :team => nil)
     xhr :put,
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "team_name",
-        :value => team_name
+        :value => ""
     assert_response(:success)
 
     weaver_jack_frost.reload
@@ -27,26 +22,23 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_team_to_existing
-    weaver_jack_frost = weaver_jack_frost
-    weaver_jack_frost.team = nil
-    weaver_jack_frost.save!
+    weaver_jack_frost = FactoryGirl.create(:result, :team => nil)
+    vanilla = FactoryGirl.create(:team, :name => "Vanilla")
     
     xhr :put,
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "team_name",
-        :value => vanilla.name
-    assert_response(:success)
+        :value => "Vanilla"
+
     assert_response(:success)
 
     weaver_jack_frost.reload
-    assert_equal(vanilla, weaver_jack_frost.team(true), 'team')
+    assert_equal("Vanilla", weaver_jack_frost.team(true), 'team')
   end
   
   def test_update_no_team_to_new
-    weaver_jack_frost = weaver_jack_frost
-    weaver_jack_frost.team = nil
-    weaver_jack_frost.save!
+    weaver_jack_frost = FactoryGirl.create(:result, :team => nil)
 
     xhr :put,
         :update_attribute,
@@ -57,21 +49,18 @@ class Admin::ResultsControllerTest < ActionController::TestCase
 
     weaver_jack_frost.reload
     assert_equal("Team Vanilla", weaver_jack_frost.team(true).name, "team name")
-    assert_not_equal(vanilla, weaver_jack_frost.team(true), "Should create new team")
   end
   
   def test_update_no_team_to_alias
-    weaver_jack_frost = weaver_jack_frost
-    weaver_jack_frost.team = nil
-    weaver_jack_frost.save!
-
-    team_name = 'Gentile Lovers'
+    weaver_jack_frost = FactoryGirl.create(:result, :team => nil)
+    gentle_lovers = FactoryGirl.create(:team, :name => "Gentle Lovers")
+    gentle_lovers.aliases.create!(:name => "Gentile Lovers")
     
     xhr :put,
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "team_name",
-        :value => team_name
+        :value => "Gentile Lovers"
     assert_response(:success)
 
     weaver_jack_frost.reload
@@ -79,15 +68,13 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_no_team
-    weaver_jack_frost = weaver_jack_frost
-
-    team_name = ''
+    weaver_jack_frost = FactoryGirl.create(:result)
     
     xhr :put,
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "team_name",
-        :value => team_name
+        :value => ""
     assert_response(:success)
 
     weaver_jack_frost.reload
@@ -95,15 +82,14 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_existing_team
-    weaver_jack_frost = weaver_jack_frost
-
-    team_name = 'Vanilla'
+    weaver_jack_frost = FactoryGirl.create(:result, :team => nil)
+    vanilla = FactoryGirl.create(:team, :name => "Vanilla")
     
     xhr :put,
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "team_name",
-        :value => team_name
+        :value => "Vanilla"
     assert_response(:success)
 
     weaver_jack_frost.reload
@@ -111,31 +97,29 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_new_team
-    weaver_jack_frost = weaver_jack_frost
-
-    team_name = 'Astana'
+    weaver_jack_frost = FactoryGirl.create(:result, :team => nil)
     
     xhr :put,
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "team_name",
-        :value => team_name
+        :value => "Astana"
     assert_response(:success)
 
     weaver_jack_frost.reload
-    assert_equal(team_name, weaver_jack_frost.team(true).name, 'team name')
+    assert_equal("Astana", weaver_jack_frost.team(true).name, 'team name')
   end
   
   def test_update_to_team_alias
-    weaver_jack_frost = weaver_jack_frost
-
-    team_name = 'Gentile Lovers'
+    weaver_jack_frost = FactoryGirl.create(:result)
+    gentle_lovers = FactoryGirl.create(:team, :name => "Gentle Lovers")
+    gentle_lovers.aliases.create!(:name => "Gentile Lovers")
     
     xhr :put,
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "team_name",
-        :value => team_name
+        :value => "Gentile Lovers"
     assert_response(:success)
 
     weaver_jack_frost.reload
@@ -143,9 +127,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_set_result_points
-    assert(weaver.aliases(true).empty?)
-    weaver_jack_frost = weaver_jack_frost
-    assert_equal(0, weaver_jack_frost.points, 'points')
+    weaver_jack_frost = FactoryGirl.create(:result)
 
     xhr :put,
         :update_attribute,
@@ -159,10 +141,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_person
-    weaver_jack_frost = weaver_jack_frost
-    weaver_jack_frost.person = nil
-    weaver_jack_frost.save!
-
+    weaver_jack_frost = FactoryGirl.create(:team, :person => nil)
     original_team_name = weaver_jack_frost.team_name
     
     xhr :put,
@@ -180,10 +159,8 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_person_to_existing
-    weaver_jack_frost = weaver_jack_frost
-    weaver_jack_frost.person = nil
-    weaver_jack_frost.save!
-
+    weaver_jack_frost = FactoryGirl.create(:team, :person => nil)
+    tonkin = FactoryGirl.create(:person, :first_name => "Erik", :last_name => "Tonkin")
     original_team_name = weaver_jack_frost.team_name
     
     xhr :put,
@@ -201,9 +178,9 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_no_person_to_alias
-    weaver_jack_frost = weaver_jack_frost
-    weaver_jack_frost.person = nil
-    weaver_jack_frost.save!
+    weaver_jack_frost = FactoryGirl.create(:team, :person => nil)
+    tonkin = FactoryGirl.create(:person, :first_name => "Erik", :last_name => "Tonkin")
+    tonkin.aliases.create!(:name => "Eric Tonkin")
 
     original_team_name = weaver_jack_frost.team_name
     
@@ -211,7 +188,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "name",
-        :value => "Erik Tonkin"
+        :value => "Eric Tonkin"
     assert_response(:success)
 
     weaver_jack_frost.reload
@@ -222,7 +199,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_no_person
-    weaver_jack_frost = weaver_jack_frost
+    weaver_jack_frost = FactoryGirl.create(:result)
 
     original_team_name = weaver_jack_frost.team_name
     
@@ -241,8 +218,9 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_different_person
-    assert_equal(1, tonkin.aliases.size)
-    weaver_jack_frost = weaver_jack_frost
+    weaver_jack_frost = FactoryGirl.create(:team, :person => nil)
+    tonkin = FactoryGirl.create(:person, :first_name => "Erik", :last_name => "Tonkin")
+    tonkin.aliases.create!(:name => "Eric Tonkin")
 
     original_team_name = weaver_jack_frost.team_name
     
@@ -262,15 +240,16 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_alias
-    weaver_jack_frost = weaver_jack_frost
+    weaver_jack_frost = FactoryGirl.create(:team, :person => nil)
+    tonkin = FactoryGirl.create(:person, :first_name => "Erik", :last_name => "Tonkin")
+    tonkin.aliases.create!(:name => "Eric Tonkin")
     original_team_name = weaver_jack_frost.team_name
-    assert_equal(1, tonkin.aliases.size)
     
     xhr :put,
         :update_attribute,
         :id => weaver_jack_frost.to_param,
         :name => "name",
-        :value => "Erik Tonkin"
+        :value => "Eric Tonkin"
     assert_response(:success)
     
     weaver_jack_frost.reload
@@ -283,10 +262,9 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_update_to_new_person
-    weaver = weaver
-    assert_equal 0, weaver.aliases.size, "aliases"
-    assert_equal 4, weaver.results.size, "results"
-    result = weaver_jack_frost
+    weaver = FactoryGirl.create(:person)
+    FactoryGirl.create_list(:result, 3, :person => weaver)
+    result = FactoryGirl.create(:result, :person => weaver)
     
     xhr :put,
         :update_attribute,
@@ -310,7 +288,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_person
-    weaver = weaver
+    weaver = FactoryGirl.create(:result).person
 
     get(:index, :person_id => weaver.to_param.to_s)
     
@@ -320,13 +298,14 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_find_person
+    FactoryGirl.create(:person)
     post(:find_person, :name => 'e', :ignore_id => tonkin.id)    
     assert_response(:success)
     assert_template('admin/results/_people')
   end
   
   def test_find_person_one_result
-    weaver = weaver
+    weaver = FactoryGirl.create(:person)
 
     post(:find_person, :name => weaver.name, :ignore_id => tonkin.id)
     
@@ -341,7 +320,7 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_results
-    weaver = weaver
+    weaver = FactoryGirl.create(:result).person
 
     post(:results, :person_id => weaver.id)
     
@@ -350,9 +329,9 @@ class Admin::ResultsControllerTest < ActionController::TestCase
   end
   
   def test_move
-    weaver = weaver
+    weaver = FactoryGirl.create(:result).person
     tonkin = FactoryGirl.create(:person)
-    result = tonkin_kings_valley
+    result = FactoryGirl.create(:result, :person => tonkin)
 
     assert tonkin.results.include?(result)
     assert !weaver.results.include?(result)

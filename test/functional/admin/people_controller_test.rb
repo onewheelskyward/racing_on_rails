@@ -90,35 +90,37 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_update_new_number
-    molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron", :road_number => "1")
-    molly_road_number = RaceNumber.first
-    
-    put(:update, {"commit"=>"Save", 
-                   "number_year" => Date.today.year.to_s,
-                   "number_issuer_id"=>[@association.to_param], "number_value"=>["AZY"], 
-                   "discipline_id" => [@mountain_bike.id.to_s],
-                   "number"=>{molly_road_number.to_param =>{"value"=>"202"}},
-                   "person"=>{"work_phone"=>"", "date_of_birth(2i)"=>"1", "occupation"=>"engineer", "city"=>"Wilsonville", 
-                   "cell_fax"=>"", "zip"=>"97070", 
-                   "date_of_birth(3i)"=>"1", "mtb_category"=>"Spt", "dh_category"=>"",
-                   "member"=>"1", "gender"=>"M", "notes"=>"rm", "ccx_category"=>"", "team_name"=>"", "road_category"=>"5", 
-                   "street"=>"31153 SW Willamette Hwy W", 
-                   "track_category"=>"", "home_phone"=>"503-582-8823", "first_name"=>"Paul", "last_name"=>"Formiller", 
-                   "date_of_birth(1i)"=>"1969", 
-                   "member_from(1i)"=>"", "member_from(2i)"=>"", "member_from(3i)"=>"", 
-                   "member_to(1i)"=>"", "member_to(2i)"=>"", "member_to(3i)"=>"", 
-                   "email"=>"paul.formiller@verizon.net", "state"=>"OR"}, 
-                   "id"=>molly.to_param}
-    )
-    assert_redirected_to edit_admin_person_path(molly)
-    assert(flash.empty?, 'flash empty?')
-    molly.reload
-    assert_equal('202', molly.road_number(true, Date.today.year), 'Road number should not be updated')
-    assert_equal('AZY', molly.xc_number(true, Date.today.year), 'MTB number should be updated')
-    assert_nil(molly.member_from, 'member_from after update')
-    assert_nil(molly.member_to, 'member_to after update')
-    assert_nil(RaceNumber.find(molly_road_number.to_param ).updated_by, "updated_by")
-    assert_equal(@administrator.name, RaceNumber.find_by_value("AZY").updated_by, "updated_by")
+    Timecop.freeze(Date.new(2008)) do
+      molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
+      molly_road_number = RaceNumber.first
+
+      put(:update, {"commit"=>"Save", 
+                     "number_year" => Date.today.year.to_s,
+                     "number_issuer_id"=>[@association.to_param], "number_value"=>["AZY"], 
+                     "discipline_id" => [@mountain_bike.id.to_s],
+                     "number"=>{molly_road_number.to_param =>{"value"=>"202"}},
+                     "person"=>{"work_phone"=>"", "date_of_birth(2i)"=>"1", "occupation"=>"engineer", "city"=>"Wilsonville", 
+                     "cell_fax"=>"", "zip"=>"97070", 
+                     "date_of_birth(3i)"=>"1", "mtb_category"=>"Spt", "dh_category"=>"",
+                     "member"=>"1", "gender"=>"M", "notes"=>"rm", "ccx_category"=>"", "team_name"=>"", "road_category"=>"5", 
+                     "street"=>"31153 SW Willamette Hwy W", 
+                     "track_category"=>"", "home_phone"=>"503-582-8823", "first_name"=>"Paul", "last_name"=>"Formiller", 
+                     "date_of_birth(1i)"=>"1969", 
+                     "member_from(1i)"=>"", "member_from(2i)"=>"", "member_from(3i)"=>"", 
+                     "member_to(1i)"=>"", "member_to(2i)"=>"", "member_to(3i)"=>"", 
+                     "email"=>"paul.formiller@verizon.net", "state"=>"OR"}, 
+                     "id"=>molly.to_param}
+      )
+      assert_redirected_to edit_admin_person_path(molly)
+      assert(flash.empty?, 'flash empty?')
+      molly.reload
+      assert_equal('202', molly.road_number(true, Date.today.year), 'Road number should not be updated')
+      assert_equal('AZY', molly.xc_number(true, Date.today.year), 'MTB number should be updated')
+      assert_nil(molly.member_from, 'member_from after update')
+      assert_nil(molly.member_to, 'member_to after update')
+      assert_nil(RaceNumber.find(molly_road_number.to_param ).updated_by, "updated_by")
+      assert_equal(@administrator.name, RaceNumber.find_by_value("AZY").updated_by, "updated_by")
+    end
   end
 
   def test_create_with_road_number
@@ -195,7 +197,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
     
   def test_update
-    vanilla = FactoryGirl.create(:tesm)
+    vanilla = FactoryGirl.create(:team)
     molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron", :road_number => "2", :team => vanilla)
     molly_road_number = RaceNumber.first
     
@@ -229,7 +231,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
     version = molly.versions.last
     assert_equal @administrator.name, version.user, "version user"
     changes = version.changes
-    assert_equal 26, changes.size, "changes"
+    assert_equal 27, changes.size, "changes"
     change = changes["team_id"]
     assert_not_nil change, "Should have change for team ID"
     assert_equal vanilla.id, change.first, "Team ID before"
@@ -338,6 +340,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   def test_edit_with_event
     kings_valley = FactoryGirl.create(:event)
     promoter = FactoryGirl.create(:person)
+    get(:edit, :id => promoter.to_param, :event_id => kings_valley.to_param.to_s)
     assert_equal(promoter, assigns['person'], "Should assign 'person'")
     assert_equal(kings_valley, assigns['event'], "Should Kings Valley assign 'event'")
     assert_template("admin/people/edit")

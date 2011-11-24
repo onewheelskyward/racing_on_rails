@@ -47,19 +47,6 @@ module Admin
         assert(!mt_hood_1.races(true).empty?, 'Should have races after upload attempt')
       end
 
-      def test_upload_lif
-        mt_hood_1 = FactoryGirl.create(:stage_race)
-        assert(mt_hood_1.races.empty?, 'Should have no races before import')
-
-        post :upload, :id => mt_hood_1.to_param, 
-                      :results_file => fixture_file_upload("../files/results/OutputFile.lif", nil, :binary)
-
-        assert(!flash.has_key?(:warn), "flash[:warn] should be empty,  but was: #{flash[:warn]}")
-        assert_redirected_to edit_admin_event_path(mt_hood_1)
-        assert(flash.has_key?(:notice))
-        assert(!mt_hood_1.races(true).empty?, 'Should have races after upload attempt')
-      end
-
       def test_upload_custom_columns
         mt_hood_1 = FactoryGirl.create(:stage_race)
         assert(mt_hood_1.races.empty?, 'Should have no races before import')
@@ -94,11 +81,6 @@ module Admin
       end
 
       def test_upload_schedule
-        before_import_after_schedule_start_date = Event.count(:conditions => "date > '2005-01-01'")
-        assert_equal(11, before_import_after_schedule_start_date, "2005 events count before import")
-        before_import_all = Event.count
-        assert_equal(19, before_import_all, "All events count before import")
-  
         post(:upload_schedule, :schedule_file => fixture_file_upload("../files/schedule/excel.xls", "application/vnd.ms-excel", :binary))
   
         assert(!flash.has_key?(:warn), "flash[:warn] should be empty,  but was: #{flash[:warn]}")
@@ -107,9 +89,9 @@ module Admin
         assert(flash.has_key?(:notice))
   
         after_import_after_schedule_start_date = Event.count(:conditions => "date > '2005-01-01'")
-        assert_equal(84, after_import_after_schedule_start_date, "2005 events count after import")
+        assert_equal(76, after_import_after_schedule_start_date, "2005 events count after import")
         after_import_all = Event.count
-        assert_equal(92, after_import_all, "All events count after import")
+        assert_equal(76, after_import_all, "All events count after import")
       end
     end
   end

@@ -47,7 +47,7 @@ class Admin::FirstAidProvidersControllerTest < ActionController::TestCase
   end
   
   def test_official
-    person = FactoryGirl.create(:person, :official => true)
+    person = FactoryGirl.create(:person_with_login, :official => true)
     login_as person
     get :index
     assert_response :success
