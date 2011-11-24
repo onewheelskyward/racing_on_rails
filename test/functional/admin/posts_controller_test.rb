@@ -21,6 +21,7 @@ class Admin::PostsControllerTest < ActionController::TestCase
   end
   
   def test_index_anonymous
+    mailing_list = FactoryGirl.create(:mailing_list)
     get :index, :mailing_list_id => mailing_list.to_param
     assert_redirected_to new_person_session_url(secure_redirect_options)
   end
@@ -51,7 +52,7 @@ class Admin::PostsControllerTest < ActionController::TestCase
   
   def test_receive
     login_as FactoryGirl.create(:administrator)
-    mailing_list = FactoryGirl.create(:mailing_list)
+    mailing_list = FactoryGirl.create(:mailing_list, :name => "obra")
     post :receive, :mailing_list_id => mailing_list.to_param, :raw => fixture_file_upload("email/for_sale.eml")
     assert_not_nil assigns(:post), @post
     assert assigns(:post).errors.empty?, assigns(:post).errors.full_messages.join(", ")
