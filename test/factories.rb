@@ -132,6 +132,13 @@ FactoryGirl.define do
     end
   end
   
+  factory :race_number do
+    discipline
+    number_issuer
+    person
+    sequence :value, 51
+  end
+
   factory :role do
     name "Administrator"
   end
