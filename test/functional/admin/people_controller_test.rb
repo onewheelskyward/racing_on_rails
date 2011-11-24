@@ -90,9 +90,11 @@ class Admin::PeopleControllerTest < ActionController::TestCase
   end
 
   def test_update_new_number
-    Timecop.freeze(Date.new(2008)) do
-      molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron")
-      molly_road_number = RaceNumber.first
+    Timecop.freeze(Date.new(2008, 6)) do
+      molly = FactoryGirl.create(:person, :first_name => "Molly", :last_name => "Cameron", :road_number => "202")
+      assert_equal('202', molly.road_number(true, 2008), 'Road number')
+      assert_equal('202', molly.road_number(true), 'Road number')
+      molly_road_number = RaceNumber.last
 
       put(:update, {"commit"=>"Save", 
                      "number_year" => Date.today.year.to_s,
@@ -111,14 +113,15 @@ class Admin::PeopleControllerTest < ActionController::TestCase
                      "email"=>"paul.formiller@verizon.net", "state"=>"OR"}, 
                      "id"=>molly.to_param}
       )
+      assert assigns(:person).errors.empty?, assigns(:person).errors.full_messages.join(", ")
+      assert(flash.empty?, "flash empty? but was: #{flash}")
       assert_redirected_to edit_admin_person_path(molly)
-      assert(flash.empty?, 'flash empty?')
       molly.reload
-      assert_equal('202', molly.road_number(true, Date.today.year), 'Road number should not be updated')
-      assert_equal('AZY', molly.xc_number(true, Date.today.year), 'MTB number should be updated')
+      assert_equal('202', molly.road_number(true, 2008), 'Road number should not be updated')
+      assert_equal('AZY', molly.xc_number(true, 2008), 'MTB number should be updated')
       assert_nil(molly.member_from, 'member_from after update')
       assert_nil(molly.member_to, 'member_to after update')
-      assert_nil(RaceNumber.find(molly_road_number.to_param ).updated_by, "updated_by")
+      assert_nil(RaceNumber.find(molly_road_number.to_param).updated_by, "updated_by")
       assert_equal(@administrator.name, RaceNumber.find_by_value("AZY").updated_by, "updated_by")
     end
   end

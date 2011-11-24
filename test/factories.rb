@@ -118,6 +118,15 @@ FactoryGirl.define do
       end
     end
   end
+  
+  factory :post do
+    mailing_list
+    subject "[OBRA Chat] Foo"
+    from_email_address "foo@bar.net"
+    from_name "Foo"
+    body "Test message"
+    date Date.today
+  end
 
   factory :race do
     category
