@@ -25,6 +25,7 @@ group :test do
   gem "ansi"
   gem "mocha"
   gem "minitest"
+  gem "sqlite3"
   gem "timecop"
 end
 
