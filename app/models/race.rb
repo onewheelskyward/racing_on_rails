@@ -23,6 +23,7 @@ class Race < ActiveRecord::Base
   serialize :result_columns, Array
   serialize :custom_columns, Array
   belongs_to :event
+  has_one :promoter, :through => :event
   has_many :results, :dependent => :destroy
   
   # Defaults to Event's BAR points
