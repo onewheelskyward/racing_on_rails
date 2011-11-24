@@ -11,11 +11,11 @@ class AgeGradedBar < Competition
                 :include => [:race, {:person => :team}, :team, {:race => [:event, :category]}],
                 :conditions => [%Q{
                   events.type = 'OverallBar' 
-                  and bar = true
+                  and bar = ?
                   and events.sanctioned_by = "#{RacingAssociation.current.default_sanctioned_by}"
                   and categories.id = #{race.category.parent(true).id}
                   and people.date_of_birth between '#{race.dates_of_birth.begin}' and '#{race.dates_of_birth.end}'
-                  and events.date between '#{date.year}-01-01' and '#{date.year}-12-31'}],
+                  and events.date between '#{date.year}-01-01' and '#{date.year}-12-31'}, true],
                 :order => 'person_id'
     )
   end

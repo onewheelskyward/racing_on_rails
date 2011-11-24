@@ -43,6 +43,7 @@ nate_hobson:
   id: 4
   email: sixhobsons@comcast.net
   home_phone: (503) 223-3343
+  persistence_token: <%= Authlogic::Random.hex_token %>
 
 tonkin:
   first_name: Erik
@@ -60,6 +61,7 @@ tonkin:
   road_category: 1
   track_category: 5
   date_of_birth: <%= 30.years.ago.to_date.to_s(:db) %>
+  persistence_token: <%= Authlogic::Random.hex_token %>
 
 matson:
   first_name: Mark
@@ -70,6 +72,7 @@ matson:
   gender: M
   email: mcfatson@gentlelovers.com
   license: 576
+  persistence_token: <%= Authlogic::Random.hex_token %>
 
 weaver:
   first_name: Ryan
@@ -79,6 +82,7 @@ weaver:
   member_to: <%= Date.today.year %>-12-31
   gender: M
   email: hotwheels@yahoo.com
+  persistence_token: <%= Authlogic::Random.hex_token %>
 
 molly:
   first_name: Molly
@@ -87,6 +91,7 @@ molly:
   member_from: 1999-01-01
   member_to: <%= Date.today.year %>-12-31
   gender: F
+  persistence_token: <%= Authlogic::Random.hex_token %>
 
 alice:
   first_name: Alice
@@ -106,6 +111,7 @@ alice:
 no_results:
   first_name: Non
   last_name: Results
+  persistence_token: <%= Authlogic::Random.hex_token %>
 
 past_member:
   first_name: Kevin
@@ -115,3 +121,4 @@ past_member:
   member_to: <%= Date.today.year - 1 %>-12-31
   email: kc@example.com
   license: 576
+  persistence_token: <%= Authlogic::Random.hex_token %>

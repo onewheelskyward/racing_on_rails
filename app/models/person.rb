@@ -159,7 +159,7 @@ class Person < ActiveRecord::Base
     if include_people == "members_only"
       where_clause = "WHERE (member_to >= '#{date.to_s}')" 
     elsif include_people == "print_cards"
-      where_clause = "WHERE  (member_to >= '#{date.to_s}') and print_card is true" 
+      where_clause = "WHERE  (member_to >= '#{date.to_s}') and print_card = 1" 
     end
     
     people = Person.connection.select_all(%Q{

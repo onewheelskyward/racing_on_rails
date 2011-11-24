@@ -100,7 +100,7 @@ class Event < ActiveRecord::Base
   def Event.find_all_years
     years = [ RacingAssociation.current.effective_year ] +
     connection.select_values(
-      "select distinct extract(year from date) from events"
+      "select distinct year from events"
     ).map(&:to_i)
     years = years.uniq.sort
     
@@ -338,7 +338,7 @@ class Event < ActiveRecord::Base
       ActiveRecord::Base.lock_optimistically = false
       # Don't trigger after_save callback just because we're enabling notification
       self.notification = false
-      Event.update_all("notification = false", ["id = ?", id])
+      Event.update_all("notification = 0", ["id = ?", id])
       children.each(&:disable_notification!)
       ActiveRecord::Base.lock_optimistically = true
     end
@@ -351,7 +351,7 @@ class Event < ActiveRecord::Base
       ActiveRecord::Base.lock_optimistically = false
       # Don't trigger after_save callback just because we're enabling notification
       self.notification = true
-      Event.update_all("notification = true", ["id = ?", id])
+      Event.update_all("notification = 1", ["id = ?", id])
       children.each(&:enable_notification!)
       ActiveRecord::Base.lock_optimistically = true
     end

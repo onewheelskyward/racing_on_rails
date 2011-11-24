@@ -46,7 +46,7 @@ class Alias < ActiveRecord::Base
   private
   
   def cannot_shadow_person
-    if Person.exists?(["trim(concat(first_name, ' ', last_name)) = ?", name])
+    if person_exists?(name)
       errors.add('name', "Person named '#{name}' already exists. Cannot create alias that shadows a person's real name.")
     end
   end
@@ -54,6 +54,14 @@ class Alias < ActiveRecord::Base
   def cannot_shadow_team
     if Team.exists?(['name = ?', name])
       errors.add('name', "Team named '#{name}' already exists. Cannot create alias that shadows a team's real name.")
+    end
+  end
+  
+  def person_exists?(name)
+    if ActiveRecord::Base.configurations[Rails.env]["adapter"] == "sqlite3"
+      Person.exists?(["trim('first_name'||' '||'last_name') = ?", name])
+    else
+      Person.exists?(["trim(concat(first_name, ' ', last_name)) = ?", name])
     end
   end
 end

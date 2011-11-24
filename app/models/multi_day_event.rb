@@ -226,7 +226,7 @@ class MultiDayEvent < Event
     return [] unless name && date
     
     @missing_children ||= SingleDayEvent.all( 
-                          :conditions => ['parent_id is null and name = ? and extract(year from date) = ?', 
+                          :conditions => ['parent_id is null and name = ? and year = ?', 
                                           name, date.year])
   end
   

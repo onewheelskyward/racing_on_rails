@@ -23,10 +23,10 @@ class Cat4WomensRaceSeries < Competition
           WHERE (place > 0 or place is null or place = '')
             and categories.id in (#{category_ids_for(race)})
             and (events.type = "SingleDayEvent" or events.type is null or events.id in (?))
-            and events.ironman is true
+            and events.ironman is ?
             and events.date between '#{year}-01-01' and '#{end_date.to_s(:db)}'
           order by person_id
-       }, source_events.collect(&:id) ]
+       }, true, source_events.collect(&:id) ]
     )
   end
 
