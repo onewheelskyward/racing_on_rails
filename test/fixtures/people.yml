@@ -2,6 +2,7 @@ administrator:
   id: 1
   first_name: Candi
   last_name: Murray
+  name: Candi Murray
   email: admin@example.com
   login: admin@example.com
   home_phone: (503) 555-1212
@@ -16,6 +17,7 @@ member:
   id: 2
   first_name: Bob
   last_name: Jones
+  name: Bob Jones
   email: member@example.com
   login: bob.jones
   emergency_contact: Morgan Montgomery
@@ -32,6 +34,7 @@ promoter:
   id: 3
   first_name: Brad
   last_name: Ross
+  name: Brad Ross
   login: promoter@example.com
   password_salt: <%= salt = Authlogic::Random.hex_token %>
   crypted_password: <%= Authlogic::CryptoProviders::Sha512.encrypt("secret" + salt) %>
@@ -48,6 +51,7 @@ nate_hobson:
 tonkin:
   first_name: Erik
   last_name: Tonkin
+  name: Erik Tonkin
   team: kona
   member_from: 1996-01-01
   member_to: <%= Date.today.year %>-12-31
@@ -66,6 +70,7 @@ tonkin:
 matson:
   first_name: Mark
   last_name: Matson
+  name: Mark Matson
   team: kona
   member_from: 1999-01-01
   member_to: <%= Date.today.year %>-12-31
@@ -77,6 +82,7 @@ matson:
 weaver:
   first_name: Ryan
   last_name: Weaver
+  name: Ryan Weaver
   team: gentle_lovers
   member_from: 1999-01-01
   member_to: <%= Date.today.year %>-12-31
@@ -87,6 +93,7 @@ weaver:
 molly:
   first_name: Molly
   last_name: Cameron
+  name: Molly Cameron
   team: vanilla
   member_from: 1999-01-01
   member_to: <%= Date.today.year %>-12-31
@@ -96,6 +103,7 @@ molly:
 alice:
   first_name: Alice
   last_name: Pennington
+  name: Alice Pennington
   team: gentle_lovers
   member_from: 1999-01-01
   member_to: <%= Date.today.year %>-12-31
@@ -112,10 +120,12 @@ no_results:
   first_name: Non
   last_name: Results
   persistence_token: <%= Authlogic::Random.hex_token %>
+  name: Non Results
 
 past_member:
   first_name: Kevin
   last_name: Condron
+  name: Kevin Condron
   team: gentle_lovers
   member_from: 2000-01-01
   member_to: <%= Date.today.year - 1 %>-12-31
