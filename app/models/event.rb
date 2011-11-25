@@ -381,6 +381,18 @@ class Event < ActiveRecord::Base
     suffix = ' ' if date.day < 10
     "#{prefix}#{date.month}/#{date.day}#{suffix}"
   end
+  
+  def date=(value)
+    case value
+    when String
+      self.year = Date.parse(value).year
+    when nil
+      self.year = nil
+    else
+      self.year = value.year
+    end
+    self[:date] = value
+  end
 
   # +date+
   def start_date
@@ -400,8 +412,7 @@ class Event < ActiveRecord::Base
   end
   
   def year
-    return nil unless date
-    date.year
+    self[:year] || date.try(:year)
   end
 
   def multiple_days?
@@ -554,8 +565,8 @@ class Event < ActiveRecord::Base
     
     @multi_day_event_children_with_no_parent ||= SingleDayEvent.all(
       :conditions => [
-        "parent_id is null and name = ? and extract(year from date) = ? 
-         and ((select count(*) from events where name = ? and extract(year from date) = ? and type in ('MultiDayEvent', 'Series', 'WeeklySeries')) = 0)",
+        "parent_id is null and name = ? and year = ? 
+         and ((select count(*) from events where name = ? and year = ? and type in ('MultiDayEvent', 'Series', 'WeeklySeries')) = 0)",
          self.name, self.date.year, self.name, self.date.year])
     # Could do this in SQL
     if @multi_day_event_children_with_no_parent.size == 1

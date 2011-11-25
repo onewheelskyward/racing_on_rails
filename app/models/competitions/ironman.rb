@@ -8,7 +8,7 @@ class Ironman < Competition
   def Ironman.years
     years = []
     results = connection.select_all(
-      "select distinct extract(year from date) as year from events where type = 'Ironman'"
+      "select distinct year as year from events where type = 'Ironman'"
     )
     results.each do |year|
       years << year.values.first.to_i

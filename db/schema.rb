@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111124233132) do
+ActiveRecord::Schema.define(:version => 20111125031448) do
 
   create_table "aliases", :force => true do |t|
     t.string   "alias"
@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(:version => 20111124233132) do
     t.boolean  "beginner_friendly",                       :default => false, :null => false
     t.string   "website"
     t.string   "registration_link"
+    t.integer  "year"
   end
 
   add_index "events", ["bar_points"], :name => "index_events_on_bar_points"

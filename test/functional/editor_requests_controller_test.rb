@@ -46,6 +46,8 @@ class EditorRequestsControllerTest < ActionController::TestCase
   end
   
   def test_must_login
+    p session
+    p "POST"
     post :create, :id => people(:member).to_param, :editor_id => people(:promoter).to_param
     assert_redirected_to new_person_session_url(secure_redirect_options)
   end

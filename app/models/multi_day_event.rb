@@ -114,7 +114,7 @@ class MultiDayEvent < Event
   end
   
   def MultiDayEvent.guess_type(name, date)
-    events = SingleDayEvent.all( :conditions => ['name = ? and extract(year from date) = ?', name, date])
+    events = SingleDayEvent.all( :conditions => ['name = ? and year = ?', name, date])
     MultiDayEvent.guess_type(events)
   end
   
@@ -135,7 +135,7 @@ class MultiDayEvent < Event
   
   def MultiDayEvent.same_name_and_year(event)
     raise ArgumentError, "'event' cannot be nil" if event.nil?
-    MultiDayEvent.first(:conditions => ['name = ? and extract(year from date) = ?', event.name, event.date.year])
+    MultiDayEvent.first(:conditions => ['name = ? and year = ?', event.name, event.date.year])
   end
   
   # Create child events automatically, if we've got enough info to do so

@@ -58,10 +58,6 @@ class Alias < ActiveRecord::Base
   end
   
   def person_exists?(name)
-    if ActiveRecord::Base.configurations[Rails.env]["adapter"] == "sqlite3"
-      Person.exists?(["trim('first_name'||' '||'last_name') = ?", name])
-    else
-      Person.exists?(["trim(concat(first_name, ' ', last_name)) = ?", name])
-    end
+    Person.exists? :name => name
   end
 end
