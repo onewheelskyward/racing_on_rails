@@ -83,7 +83,7 @@ class MbraBar < Competition
                 :include => [:race, {:person => :team}, :team, {:race => [{:event => { :parent => :parent }}, :category]}],
                 :conditions => [%Q{
                     (events.type in ('Event', 'SingleDayEvent', 'MultiDayEvent') or events.type is NULL)
-                    and bar = true
+                    and bar = ?
                     and categories.id in (#{category_ids})
                     and (events.discipline in (#{race_disciplines})
                       or (events.discipline is null and parents_events.discipline in (#{race_disciplines}))
@@ -93,7 +93,7 @@ class MbraBar < Competition
                       or (races.bar_points is null and events.bar_points is null and parents_events.bar_points > 0)
                       or (races.bar_points is null and events.bar_points is null and parents_events.bar_points is null and parents_events_2.bar_points > 0))
                     and events.date between '#{date.year}-01-01' and '#{date.year}-12-31'
-                }],
+                }, true ],
                 :order => 'person_id'
       )
   end

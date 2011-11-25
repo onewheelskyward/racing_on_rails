@@ -26,7 +26,7 @@ class Cat4WomensRaceSeries < Competition
             and events.ironman is ?
             and events.date between '#{year}-01-01' and '#{end_date.to_s(:db)}'
           order by person_id
-       }, true, source_events.collect(&:id) ]
+       }, source_events.collect(&:id), true ]
     )
   end
 

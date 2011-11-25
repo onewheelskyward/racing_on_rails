@@ -85,7 +85,7 @@ class Bar < Competition
                 :conditions => [%Q{
                   place between 1 AND #{point_schedule.size - 1}
                     and (events.type in ('Event', 'SingleDayEvent', 'MultiDayEvent', 'Series', 'WeeklySeries', 'TaborOverall') or events.type is NULL)
-                    and bar = true
+                    and bar = ?
                     and events.sanctioned_by = "#{RacingAssociation.current.default_sanctioned_by}"
                     and categories.id in (#{category_ids})
                     and (events.discipline in (#{race_disciplines})
@@ -96,7 +96,7 @@ class Bar < Competition
                       or (races.bar_points is null and events.bar_points is null and parents_events.bar_points > 0)
                       or (races.bar_points is null and events.bar_points is null and parents_events.bar_points is null and parents_events_2.bar_points > 0))
                     and events.date between '#{date.year}-01-01' and '#{date.year}-12-31'
-                }],
+                }, true ],
                 :order => 'person_id'
       )
   end
