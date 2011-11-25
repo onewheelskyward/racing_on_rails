@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111123181842) do
+ActiveRecord::Schema.define(:version => 20111124233132) do
 
   create_table "adjustments", :force => true do |t|
     t.integer  "order_id"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(:version => 20111123181842) do
 
   create_table "categories", :force => true do |t|
     t.integer  "position",                     :default => 0,   :null => false
-    t.string   "name",           :limit => 64, :default => "",  :null => false
+    t.string   "name",           :limit => 64,                  :null => false
     t.integer  "lock_version",                 :default => 0,   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -227,9 +227,9 @@ ActiveRecord::Schema.define(:version => 20111123181842) do
     t.integer  "bar_points",                                                 :null => false
     t.boolean  "ironman",                                                    :null => false
     t.boolean  "auto_combined_results",                   :default => true,  :null => false
+    t.integer  "promoter_id"
     t.integer  "team_id"
     t.string   "sanctioning_org_event_id", :limit => 16
-    t.integer  "promoter_id"
     t.string   "phone"
     t.string   "email"
     t.boolean  "postponed",                               :default => false, :null => false
@@ -488,7 +488,6 @@ ActiveRecord::Schema.define(:version => 20111123181842) do
     t.boolean  "team_interest",                          :default => false, :null => false
     t.string   "created_by_type"
     t.date     "member_usac_to"
-    t.string   "status"
     t.string   "crypted_password"
     t.string   "password_salt"
     t.string   "persistence_token",                                         :null => false
@@ -502,6 +501,7 @@ ActiveRecord::Schema.define(:version => 20111123181842) do
     t.string   "last_login_ip"
     t.string   "login",                   :limit => 100
     t.integer  "created_by_id"
+    t.string   "status"
     t.date     "license_expiration_date"
     t.string   "club_name"
     t.string   "ncca_club_name"
@@ -512,6 +512,7 @@ ActiveRecord::Schema.define(:version => 20111123181842) do
     t.string   "country_code",            :limit => 2,   :default => "US"
     t.boolean  "membership_card",                        :default => false, :null => false
     t.boolean  "official",                               :default => false, :null => false
+    t.string   "name",                                   :default => "",    :null => false
   end
 
   add_index "people", ["created_by_id"], :name => "index_people_on_created_by_id"
@@ -523,6 +524,7 @@ ActiveRecord::Schema.define(:version => 20111123181842) do
   add_index "people", ["login"], :name => "index_people_on_login"
   add_index "people", ["member_from"], :name => "index_people_on_member_from"
   add_index "people", ["member_to"], :name => "index_people_on_member_to"
+  add_index "people", ["name"], :name => "index_people_on_name"
   add_index "people", ["perishable_token"], :name => "index_people_on_perishable_token"
   add_index "people", ["persistence_token"], :name => "index_people_on_persistence_token"
   add_index "people", ["print_card"], :name => "index_people_on_print_card"
@@ -728,8 +730,8 @@ ActiveRecord::Schema.define(:version => 20111123181842) do
     t.string   "category_class",          :limit => 16
     t.string   "age_group",               :limit => 16
     t.text     "custom_attributes"
-    t.boolean  "competition_result",                                       :null => false, :default => 0
-    t.boolean  "team_competition_result",                                  :null => false, :default => 0
+    t.boolean  "competition_result",                     :default => true, :null => false
+    t.boolean  "team_competition_result",                :default => true, :null => false
     t.string   "category_name"
     t.string   "event_date_range_s",                                       :null => false
     t.date     "date",                                                     :null => false

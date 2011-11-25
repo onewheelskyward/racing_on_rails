@@ -4,15 +4,15 @@ class RenameIndexes < ActiveRecord::Migration
   # SELECT column_name, column_key FROM information_schema.COLUMNS WHERE table_schema = 'racing_on_rails_development' and column_key ="MUL";
   # SELECT CONCAT('alter table ',TABLE_NAME,' DROP INDEX ',index_name,';')  FROM statistics WHERE table_schema = 'racing_on_rails_development' and INDEX_NAME != 'PRIMARY';
   def self.up
-    drop_table :duplicates_racers
-    drop_table :events_people
-    drop_table :events_promoters
-    drop_table :historical_names
-    drop_table :racers
-    drop_table :standings
+    drop_table(:duplicates_racers) rescue nil
+    drop_table(:events_people) rescue nil
+    drop_table(:events_promoters) rescue nil
+    drop_table(:historical_names) rescue nil
+    drop_table(:racers) rescue nil
+    drop_table(:standings) rescue nil
     
-    change_column_default :results, :competition_result, true
-    change_column_default :results, :team_competition_result, true
+    change_column_default :results, :competition_result, false
+    change_column_default :results, :team_competition_result, false
     
     execute("alter table aliases DROP FOREIGN KEY aliases_person_id")
     execute("alter table aliases DROP FOREIGN KEY aliases_team_id_fk")
@@ -33,8 +33,6 @@ class RenameIndexes < ActiveRecord::Migration
     execute("alter table discipline_bar_categories DROP FOREIGN KEY discipline_bar_categories_disciplines_id_fk")
     execute("alter table discipline_bar_categories DROP INDEX idx_category_id")
     execute("alter table discipline_bar_categories DROP INDEX idx_discipline_id")
-    execute("alter table discount_codes DROP FOREIGN KEY discount_codes_ibfk_1")
-    execute("alter table discount_codes DROP INDEX event_id")
     execute("alter table duplicates_people DROP FOREIGN KEY duplicates_people_person_id")
     execute("alter table duplicates_people DROP FOREIGN KEY duplicates_racers_duplicates_id_fk")
     execute("alter table duplicates_people DROP INDEX index_duplicates_racers_on_duplicate_id")
@@ -60,12 +58,6 @@ class RenameIndexes < ActiveRecord::Migration
     execute("alter table events DROP INDEX index_events_on_type")
     execute("alter table events DROP INDEX parent_id")
     execute("alter table events DROP INDEX velodrome_id")
-    execute("alter table line_items DROP INDEX index_line_items_on_discount_code_id")
-    execute("alter table line_items DROP INDEX index_line_items_on_event_id")
-    execute("alter table line_items DROP INDEX index_line_items_on_line_item_id")
-    execute("alter table line_items DROP INDEX index_line_items_on_order_id")
-    execute("alter table line_items DROP INDEX index_line_items_on_person_id")
-    execute("alter table line_items DROP INDEX index_line_items_on_race_id")
     execute("alter table mailing_lists DROP INDEX idx_name")
     execute("alter table names DROP INDEX index_names_on_name")
     execute("alter table names DROP INDEX index_names_on_nameable_type")
@@ -73,15 +65,6 @@ class RenameIndexes < ActiveRecord::Migration
     execute("alter table names DROP INDEX team_id")
     execute("alter table news_items DROP INDEX news_items_date_index")
     execute("alter table news_items DROP INDEX news_items_text_index")
-    execute("alter table orders DROP INDEX index_orders_on_purchase_time")
-    execute("alter table orders DROP INDEX index_orders_on_status")
-    execute("alter table orders DROP INDEX index_orders_on_updated_at")
-    execute("alter table order_people DROP FOREIGN KEY order_people_ibfk_1")
-    execute("alter table order_people DROP FOREIGN KEY order_people_ibfk_2")
-    execute("alter table order_people DROP INDEX index_order_people_on_order_id")
-    execute("alter table order_people DROP INDEX index_order_people_on_person_id")
-    execute("alter table order_transactions DROP INDEX index_order_transactions_on_created_at")
-    execute("alter table order_transactions DROP INDEX index_order_transactions_on_order_id")
     execute("alter table pages DROP FOREIGN KEY pages_parent_id_fk")
     execute("alter table pages DROP INDEX index_pages_on_created_by_id")
     execute("alter table pages DROP INDEX index_pages_on_slug")
@@ -131,7 +114,6 @@ class RenameIndexes < ActiveRecord::Migration
     execute("alter table race_numbers DROP INDEX number_issuer_id")
     execute("alter table race_numbers DROP INDEX racer_id")
     execute("alter table race_numbers DROP INDEX race_numbers_value_index")
-    execute("alter table refunds DROP INDEX index_refunds_on_order_id")
     execute("alter table results DROP FOREIGN KEY results_category_id_fk")
     execute("alter table results DROP FOREIGN KEY results_person_id")
     execute("alter table results DROP FOREIGN KEY results_race_id_fk")
@@ -150,9 +132,6 @@ class RenameIndexes < ActiveRecord::Migration
     execute("alter table scores DROP INDEX scores_source_result_id_index")
     execute("alter table teams DROP INDEX index_teams_on_created_by_id")
     execute("alter table teams DROP INDEX idx_name")
-    execute("alter table update_requests DROP FOREIGN KEY update_requests_ibfk_1")
-    execute("alter table update_requests DROP INDEX index_update_requests_on_expires_at")
-    execute("alter table update_requests DROP INDEX index_update_requests_on_token")
     execute("alter table velodromes DROP INDEX index_velodromes_on_name")
     execute("alter table versions DROP INDEX index_versions_on_created_at")
     execute("alter table versions DROP INDEX index_versions_on_number")
@@ -173,7 +152,7 @@ class RenameIndexes < ActiveRecord::Migration
     add_index :competition_event_memberships, :competition_id
     add_index :competition_event_memberships, :event_id
     add_index :competition_event_memberships, [ :competition_id, :event_id ], :unique => true, :name =>"comp_id_event_id"
-
+    
     add_index :discipline_aliases, :alias
     add_index :discipline_aliases, :discipline_id
     add_index :discipline_aliases, [ :alias, :discipline_id ], :unique => true
@@ -181,8 +160,6 @@ class RenameIndexes < ActiveRecord::Migration
     add_index :discipline_bar_categories, :category_id
     add_index :discipline_bar_categories, :discipline_id
     add_index :discipline_bar_categories, [ :category_id, :discipline_id ], :unique => true
-    
-    add_index :discount_codes, :event_id
     
     add_index :duplicates_people, :duplicate_id
     add_index :duplicates_people, :person_id
