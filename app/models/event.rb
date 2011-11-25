@@ -381,6 +381,18 @@ class Event < ActiveRecord::Base
     suffix = ' ' if date.day < 10
     "#{prefix}#{date.month}/#{date.day}#{suffix}"
   end
+  
+  def date=(value)
+    case value
+    when String
+      self.year = Date.parse(value).year
+    when nil
+      self.year = nil
+    else
+      self.year = value.year
+    end
+    self[:date] = value
+  end
 
   # +date+
   def start_date
@@ -400,8 +412,7 @@ class Event < ActiveRecord::Base
   end
   
   def year
-    return nil unless date
-    date.year
+    self[:year] || date.try(:year)
   end
 
   def multiple_days?
