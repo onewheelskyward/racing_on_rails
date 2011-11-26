@@ -27,22 +27,22 @@
           </div>
         </div>
         <% end -%>
-        <div class="select">
-          <%= f.label :type %>
-          <div class="input">
-            <%= f.select(:type, [['Event', nil],
-                                 ['Single Day Event', 'SingleDayEvent'],
-                                 ['Multi Day Event', 'MultiDayEvent'], 
-                                 ['Series', 'Series'], 
-                                 ['Weekly Series', 'WeeklySeries']], {}, 
-               { :title => "Event: placeholder hidden from schedule (combined TT results). 
-            \nSingle day event: most events. 
-            \nMulti day event: event over consecutive days (stage races, AVC). 
-            \nSeries: weekend events with full BAR points (Cross Crusade). 
-            \nWeekly series: weeknight, BAR points only for overall (PIR)" }) %>
-                <% end -%>
-          </div>
-        </div>
+        <% if @event.type_modifiable? %>
+        <%= f.label :type %>
+        <%= f.select(:type, [['Event', nil],
+                             ['Single Day Event', 'SingleDayEvent'],
+                             ['Multi Day Event', 'MultiDayEvent'], 
+                             ['Series', 'Series'], 
+                             ['Weekly Series', 'WeeklySeries']], {}, 
+           { :title => "Event: placeholder hidden from schedule (combined TT results). 
+    \nSingle day event: most events. 
+    \nMulti day event: event over consecutive days (stage races, AVC). 
+    \nSeries: weekend events with full BAR points (Cross Crusade). 
+    \nWeekly series: weeknight, BAR points only for overall (PIR)" }) %><br/>
+        <% else -%>
+        <%= f.labelled_text :type, @event.friendly_class_name %>
+        <% end -%>
+        <% end -%>
         
         <% case @event
            when SingleDayEvent -%>
@@ -96,7 +96,7 @@
 
       <div class="labelled_link" id="promoter_links">
         <%= link_to_function("Edit", nil, :class => "obvious", :id => "edit_promoter_link") do |page|
-          page << "window.location.href = 'http://#{RacingAssociation.current.rails_host}/admin/people/' + $('#event_promoter_id').val() + '/edit?event_id=#{@event.id}'; return false;"
+          page << "window.location.href = '/admin/people/' + $('#event_promoter_id').val() + '/edit?event_id=#{@event.id}'; return false;"
         end %>
       </div>
       <% end -%>

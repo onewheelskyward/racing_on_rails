@@ -1,3 +1,5 @@
+require "iconv"
+
 # Send email to mailing list. Also receives email from Mailman for archives. Old, but battle-tested, code.
 class MailingListMailer < ActionMailer::Base
 
@@ -45,7 +47,17 @@ class MailingListMailer < ActionMailer::Base
         else
           mailing_list_name = email.to.first.to_s
         end
-        post.mailing_list = MailingList.find_by_name(mailing_list_name)
+        
+        mailing_list = MailingList.find_by_name(mailing_list_name.try(:strip))
+        
+        unless mailing_list
+          email_to = email.to.first.to_s rescue nil
+          email_from = email[:from] rescue nil
+          mail_subject = mail.subject rescue nil
+          raise "No mailing list for '#{mailing_list_name}' header '#{list_post_header}' to '#{email_to}' from '#{email_from}' about '#{mail_subject}'"
+        end
+        
+        post.mailing_list = mailing_list
 
         post.subject = email.subject
 
@@ -53,14 +65,15 @@ class MailingListMailer < ActionMailer::Base
         multipart_alternative = email.parts.detect { |part| part.mime_type == "multipart/alternative" }
         if multipart_related
           # Outlook
-          post.body = multipart_related.text_part.decoded
+          post.body = multipart_related.text_part.try(:decoded)
         elsif multipart_alternative
           # OS X
-          post.body = multipart_alternative.text_part.decoded
+          post.body = multipart_alternative.text_part.try(:decoded)
         else
-          post.body = (email.text_part || email.html_part || email.body).decoded
+          post.body = (email.text_part || email.html_part || email.body).try(:decoded)
         end
-
+        post.body = Iconv.iconv("ASCII//IGNORE", "UTF8", post.body)[0] rescue post.body
+        
         post.from_name = email[:from].display_names.first || email[:from].addresses.first
         post.from_email_address = email[:from].addresses.first
         post.date = email.date

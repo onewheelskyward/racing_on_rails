@@ -50,7 +50,7 @@ class MbraTeamBar < Competition
   # this does not work for mbra due to the 70%-of-events rule for bar that does not apply to bat
   def source_results(race)
     race_disciplines = "'#{race.discipline}'"
-    category_ids = category_ids_for(race)
+    category_ids = category_ids_for(race).join(", ")
     Result.all(
                 :include => [:race, {:person => :team}, :team, {:race => [{:event => { :parent => :parent }}, :category]}],
                 :conditions => [%Q{
@@ -84,7 +84,7 @@ class MbraTeamBar < Competition
 
       if member?(source_result.team, source_result.date)
 
-        if first_result_for_team(source_result, competition_result)
+        if first_result_for_team?(source_result, competition_result)
           # Bit of a hack here, because we split tandem team results into two results,
           # we can't guarantee that results are in team-order.
           # So 'first result' really means 'not the same as last result'
@@ -113,7 +113,7 @@ class MbraTeamBar < Competition
     end
   end
 
-  def first_result_for_team(source_result, competition_result)
+  def first_result_for_team?(source_result, competition_result)
     competition_result.nil? || source_result.team != competition_result.team
   end
 

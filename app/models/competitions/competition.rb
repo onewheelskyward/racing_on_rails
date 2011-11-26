@@ -11,13 +11,19 @@ require 'fileutils'
 #
 # +calculate!+ is the main method
 class Competition < Event
+  # TODO Try using result dates, not event dates to find results
   include FileUtils
+  include Concerns::Competition::Categories
+  include Concerns::Competition::Dates
+  include Concerns::Competition::Names
+  include Concerns::Competition::Points
   
   TYPES = %w{
     AgeGradedBar
     Bar
     CascadeCrossOverall
     Cat4WomensRaceSeries
+    CrossCrusadeCallups
     CrossCrusadeOverall
     CrossCrusadeTeamCompetition
     Ironman
@@ -28,8 +34,6 @@ class Competition < Event
     TeamBar
   }
 
-  attr_accessor :point_schedule
-
   after_create  :create_races
   # return true from before_save callback or Competition won't save
   before_save   { |competition| competition.notification = false; true }
@@ -39,22 +43,24 @@ class Competition < Event
   has_many :source_events, :through => :competition_event_memberships, :source => :event
   
   def self.find_for_year(year = RacingAssociation.current.year)
-    self.find_by_date(Date.new(year, 1, 1))
+    self.where("date between ? and ?", Time.zone.local(year).beginning_of_year.to_date, Time.zone.local(year).end_of_year.to_date).first
+  end
+  
+  def self.find_for_year!(year = RacingAssociation.current.year)
+    self.find_for_year(year) || raise(ActiveRecord::RecordNotFound)
   end
   
   def self.find_or_create_for_year(year = RacingAssociation.current.year)
-    self.find_for_year(year) || self.create(:date => (Date.new(year, 1, 1)))
+    self.find_for_year(year) || self.create(:date => (Time.zone.local(year).beginning_of_year))
   end
   
   # Update results based on source event results.
   # (Calculate clashes with internal Rails method)
-  # Destroys existing Competition for the year first.
-  def Competition.calculate!(year = Date.today.year)
+  def self.calculate!(year = Date.today.year)
     benchmark(name, :level => :info) {
       transaction do
         year = year.to_i if year.is_a?(String)
-        date = Date.new(year, 1, 1)
-        competition = self.find_or_create_by_date(date)
+        competition = self.find_or_create_for_year(year)
         raise(ActiveRecord::ActiveRecordError, competition.errors.full_messages) unless competition.errors.empty?
         competition.destroy_races
         competition.create_races
@@ -68,60 +74,8 @@ class Competition < Event
     true
   end
   
-  def default_date
-    Time.new.beginning_of_year
-  end
-
-  def default_bar_points
-    0
-  end
-  
   def default_ironman
     false
-  end
-
-  def default_name
-    name
-  end
-
-  def friendly_name
-    'Competition'
-  end
-  
-  # Same as +date+. Should always be January 1st
-  def start_date
-    date
-  end
-  
-  # Last day of year for +date+
-  def end_date
-    Date.new(date.year, 12, 31)
-  end
-  
-  def date_range_long_s
-    if multiple_days?
-      "#{start_date.strftime('%a, %B %d')} to #{end_date.strftime('%a, %B %d, %Y')}"
-    else
-      start_date.strftime('%a, %B %d')
-    end
-  end
-  
-  def multiple_days?
-    source_events.count > 1
-  end
-
-  # Assert start and end dates are first and last days of the year
-  def valid_dates
-    if !start_date or start_date.month != 1 or start_date.day != 1
-      errors.add("start_date", "Start date must be January 1st")
-    end
-    if !end_date or end_date.month != 12 or end_date.day != 31
-      errors.add("end_date", "End date must be December 31st")
-    end
-  end
-  
-  def name
-    self[:name] ||= "#{self.date.year} #{friendly_name}"
   end
   
   def create_races
@@ -139,9 +93,8 @@ class Competition < Event
     if place_members_only?
       # Uses batch_size, Rails 2.3 db cursor, to limit load on memory
       Race.find_each(:include => :event,
-                :conditions => [ "events.type != ? and events.date between ? and ?", 
-                                 self.class.name.demodulize, start_date, end_date ],
-                :batch_size => 50
+                :conditions => [ "events.type != ? and events.date between ? and ? and (events.updated_at > ? || races.updated_at > ?)", 
+                                 self.class.name.demodulize, start_date, end_date, 1.week.ago, 1.week.ago ]
                 ) do |r|
                   r.calculate_members_only_places!
                 end
@@ -157,13 +110,13 @@ class Competition < Event
       race.place_results_by_points(break_ties?, ascending_points?)
     end
     
-    # Explicity mark as updated to make it "dirty"
-    self.updated_at_will_change!
+    after_calculate
     save!
   end
   
-  def point_schedule
-    @point_schedule = @point_schedule || []
+  # Callback
+  def after_calculate
+    self.updated_at = Time.zone.now
   end
   
   # source_results must be in person, place ascending order
@@ -171,45 +124,38 @@ class Competition < Event
     []
   end
   
-  # Array of ids (integers)
-  # +race+ category, +race+ category's siblings, and any competition categories
-  def category_ids_for(race)
-    ids = [ race.category_id ]
-    ids = ids + race.category.descendants.map(&:id)
-    ids.join(', ')
-  end
-  
   # If same rider places twice in same race, only highest result counts
   # TODO Replace ifs with methods
   def create_competition_results_for(results, race)
     competition_result = nil
-    results.each_with_index do |source_result, index|
-      logger.debug("#{self.class.name} scoring result: #{source_result.date} race: #{source_result.race.name} pl: #{source_result.place} mem pl: #{source_result.members_only_place if place_members_only?} #{source_result.last_name} #{source_result.team_name}") if logger.debug?
+    person = nil
 
-      person = source_result.person
+    results.each_with_index do |source_result, index|
+      logger.debug("#{self.class.name} scoring result: #{source_result.date} race: #{source_result.race_name} pl: #{source_result.place} mem pl: #{source_result.members_only_place if place_members_only?} #{source_result.last_name} #{source_result.team_name}") if logger.debug?
+
       points = points_for(source_result)
+
+      if person.nil? || source_result.try(:person_id) != person.id
+        person = Person.includes(:names, :team => :names).where(:id => source_result.person_id).first
+      end
+      
       if points > 0.0 && (!members_only? || member?(person, source_result.date))
- 
-        if first_result_for_person(source_result, competition_result)
+        if first_result_for_person?(source_result, competition_result)
           # Intentionally not using results association create method. No need to hang on to all competition results.
           # In fact, this could cause serious memory issues with the Ironman
           competition_result = Result.create!(
              :person => person, 
-             :team => (person ? person.team : nil),
+             :team => person.try(:team),
+             :event => self,
              :race => race)
         end
  
         competition_result.scores.create_if_best_result_for_race(
           :source_result => source_result, 
-          :competition_result => competition_result, 
+          :competition_result_id => competition_result.id, 
           :points => points
         )
       end
-      
-      # Aggressive memory management. If competition has a race with many results, 
-      # the results array can become a large, uneeded, structure
-      results[index] = nil
-      GC.start if index > 0 && index % 1000 == 0
     end
   end
   
@@ -217,59 +163,40 @@ class Competition < Event
   # * Any results after the first four only get 50-point bonus
   # * Drop lowest-scoring result
   def after_create_competition_results_for(race)
+    if maximum_events
+      race.results.each do |result|
+        # Don't bother sorting scores unless we need to drop some
+        if result.scores.size > maximum_events
+          result.scores.sort! { |x, y| y.points <=> x.points }
+          lowest_scores = result.scores[maximum_events, 2]
+          lowest_scores.each do |lowest_score|
+            result.scores.destroy(lowest_score)
+          end
+          # Rails destroys Score in database, but doesn't update the current association
+          result.scores(true)
+        end
+
+        if preliminary?(result)
+          result.preliminary = true       
+        end    
+      end
+    end
+  end
+  
+  def maximum_events
+    nil
   end
   
   def break_ties?
     true
   end
   
-  def ascending_points?
-    true
-  end
-  
-  # Use the recorded place with all finishers? Or only place with just Assoication member finishers?
-  def place_members_only?
-    false
-  end
-  
-  # Only members can score points?
-  def members_only?
-    true 
-  end
-  
-  # Member this +date+ year?
-  def member?(person_or_team, date)
-    person_or_team && person_or_team.member_in_year?(date)
-  end
-  
-  def first_result_for_person(source_result, competition_result)
-    competition_result.nil? || source_result.person != competition_result.person
+  def first_result_for_person?(source_result, competition_result)
+    competition_result.nil? || source_result.person_id != competition_result.person_id
   end
 
-  def first_result_for_team(source_result, competition_result)
-    competition_result.nil? || source_result.team != competition_result.team
-  end
-  
-  # Apply points from point_schedule, and split across team
-  def points_for(source_result, team_size = nil)
-    team_size = team_size || Result.count(:conditions => ["race_id =? and place = ?", source_result.race.id, source_result.place])
-    if place_members_only?
-      points = point_schedule[source_result.members_only_place.to_i].to_f
-    else
-      points = point_schedule[source_result.place.to_i].to_f
-    end
-    if points
-      points * points_factor(source_result) / team_size.to_f
-    else
-      0
-    end
-  end
-  
-  # multiplier from the CompetitionEventsMembership if it exists
-  def points_factor(source_result)
-    cem = source_result.event.competition_event_memberships.detect{|comp| comp.competition_id == self.id}
-    # factor is one if membership is not found
-    cem ? cem.points_factor : 1 
+  def first_result_for_team?(source_result, competition_result)
+    competition_result.nil? || source_result.team_id != competition_result.team_id
   end
   
   def requires_combined_results?

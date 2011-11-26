@@ -1,24 +1,11 @@
 # WSBA rider rankings. Members get points for top-10 finishes in any event
 class RiderRankings < Competition
+  include Concerns::RiderRankings::Points
+
   def friendly_name
     'Rider Rankings'
   end
 
-  def point_schedule
-    [ 0, 100, 70, 50, 40, 36, 32, 28, 24, 20, 16 ]
-  end
-
-  # Apply points from point_schedule, and adjust for team size
-  def points_for(source_result)
-    team_size = Result.count(:conditions => ["race_id =? and place = ?", source_result.race.id, source_result.place])
-    points = point_schedule[source_result.members_only_place.to_i].to_f
-    if points
-      points / team_size
-    else
-      0
-    end
-  end
-  
   def place_members_only?
     true
   end
@@ -29,7 +16,8 @@ class RiderRankings < Competition
       'Junior Men A', 'Junior Men B', 'Junior Men C', 'Junior Men D',
       'Junior Women A', 'Junior Women B', 'Junior Women C', 'Junior Women D',
       'Men Cat 1-2', 'Men Cat 3', 'Men Cat 4-5', 
-      'Master Men 30+ Cat 1-3', 'Master Men 30+ Cat 4-5 & 50+', 
+      'Master Men Cat 1-3', 'Master Men Cat 4-5', 
+      'Masters 50+',
       'Masters Women A', 'Masters Women B', 
       'Women Cat 1-2', 'Women Cat 3', 'Women Cat 4']
 
@@ -51,10 +39,9 @@ class RiderRankings < Competition
                     and results.person_id is not null
                     and events.type = 'SingleDayEvent' 
                     and events.sanctioned_by = "#{RacingAssociation.current.default_sanctioned_by}"
-                    and categories.id in (#{category_ids_for(race)})
+                    and categories.id in (#{category_ids_for(race).join(", ")})
                     and (races.bar_points > 0 or (races.bar_points is null and events.bar_points > 0))
-                    and events.date >= '#{date.year}-01-01' 
-                    and events.date <= '#{date.year}-12-31'
+                    and events.date between '#{date.beginning_of_year}' and '#{date.end_of_year}'
                 }],
                 :order => 'person_id'
     )

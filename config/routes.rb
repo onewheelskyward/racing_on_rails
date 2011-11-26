@@ -52,6 +52,7 @@ RacingOnRails::Application.routes.draw do
       end
     end
     resources :people do
+      resources :aliases
       collection do
         get  :cards
         get  :duplicates
@@ -62,11 +63,13 @@ RacingOnRails::Application.routes.draw do
       end
       member do
         get    :card
-        delete :destroy_number
-        post   :number_year_changed
         post   :toggle_member
       end
-      resources :results
+      resources :race_numbers
+      resources :results do
+        post :move
+      end
+      resources :scores
     end
     match "/people/:id/merge/:other_person_id" => "people#merge", :constraints => { :id => /\d+/, :other_person_id => /\d+/ }, :via => :post, :as => :merge_person
 
@@ -84,7 +87,6 @@ RacingOnRails::Application.routes.draw do
         post :results
       end
       member do
-        post :move_result
         put  :update_attribute
       end
     end
@@ -93,6 +95,7 @@ RacingOnRails::Application.routes.draw do
     resources :single_day_events
 
     resources :teams do
+      resources :aliases
       member do
         post :cancel_in_place_edit
         post :destroy_name
@@ -121,7 +124,18 @@ RacingOnRails::Application.routes.draw do
   match '/admin/persons/:action/:id' => 'admin/people#index', :as => :admin_persons
   match '/admin' => 'admin/home#index', :as => :admin_home
   match '/bar' => 'bar#index', :as => "bar_root"
-  match '/bar(/:year(/:discipline(/:category)))' => 'bar#show', :as => "bar", :defaults => { :discipline => 'overall', :category => 'senior_men' }, :constraints => { :year => /\d{4}/ }
+  match "/bar/:year/:discipline/:category" => "bar#show", 
+        :as => "bar",
+        :defaults => { :discipline => "overall", :category => "senior_men" }
+  match "/bar/:year/:discipline" => "bar#show", 
+        :category => "senior_men",
+        :defaults => { :discipline => "overall" }
+        
+  match "/bar/:year" => "bar#show", 
+        :category => "senior_men",
+        :discipline => "overall",
+        :defaults => { :discipline => "overall" }
+
   match '/cat4_womens_race_series/:year' => 'competitions#show', :as => :cat4_womens_race_series, :type => 'cat4_womens_race_series', :constraints => { :year => /\d{4}/ }
   match '/cat4_womens_race_series' => 'competitions#show', :type => 'cat4_womens_race_series'
   match '/admin/cat4_womens_race_series/results/new' => 'admin/cat4_womens_race_series#new_result', :as => :new_admin_cat4_womens_race_series_result

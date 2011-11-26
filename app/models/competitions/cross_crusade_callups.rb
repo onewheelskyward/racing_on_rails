@@ -18,7 +18,6 @@ class CrossCrusadeCallups < Competition
     races.create!(:category => Category.find_or_create_by_name("Masters Women 35+ A"))
     races.create!(:category => Category.find_or_create_by_name("Masters Women 35+ B"))
     races.create!(:category => Category.find_or_create_by_name("Masters Women 45+"))
-    races.create!(:category => Category.find_or_create_by_name("Beginner Men"))
     races.create!(:category => Category.find_or_create_by_name("Singlespeed"))
     races.create!(:category => Category.find_or_create_by_name("Unicycle"))
     races.create!(:category => Category.find_or_create_by_name("Clydesdale"))
@@ -26,7 +25,7 @@ class CrossCrusadeCallups < Competition
 
   def source_results(race)
     event_ids = source_events.map(&:id).join(", ")
-    category_ids = category_ids_for(race)
+    category_ids = category_ids_for(race).join(", ")
     
     Result.find_by_sql(
       %Q{ SELECT results.* FROM results  

@@ -33,7 +33,7 @@ class Alias < ActiveRecord::Base
   end
   
   def person_or_team
-    unless (person and !team) or (!person and team)
+    unless (person && !team) || (!person && team)
       errors.add "person or team", "Must have exactly one person or team"
     end
   end
@@ -46,7 +46,7 @@ class Alias < ActiveRecord::Base
   private
   
   def cannot_shadow_person
-    if Person.exists?(["trim(concat(first_name, ' ', last_name)) = ?", name])
+    if Person.exists?(["name = ?", name])
       errors.add('name', "Person named '#{name}' already exists. Cannot create alias that shadows a person's real name.")
     end
   end

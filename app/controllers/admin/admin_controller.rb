@@ -1,4 +1,6 @@
 class Admin::AdminController < ApplicationController
+  before_filter :require_administrator
+  
   # Always show tabs
   def toggle_tabs
     @show_tabs = true
@@ -10,7 +12,7 @@ class Admin::AdminController < ApplicationController
       RacingAssociation.current.ssl?
     end
 
-    # Counter-intuitive. "True" means that we don't care if it's HTTPS or HTTP. Overriding SSLRequirement em.
+    # Counter-intuitive. "True" means that we don't care if it's HTTPS or HTTP. Overriding SSLRequirement.
     def ssl_allowed?
       !RacingAssociation.current.ssl?
     end

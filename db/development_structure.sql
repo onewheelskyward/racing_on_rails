@@ -57,7 +57,7 @@ CREATE TABLE `bids` (
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(64) NOT NULL,
+  `name` varchar(64) NOT NULL DEFAULT '',
   `lock_version` int(11) NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -400,6 +400,7 @@ CREATE TABLE `people` (
   `country_code` varchar(2) DEFAULT 'US',
   `membership_card` tinyint(1) NOT NULL DEFAULT '0',
   `official` tinyint(1) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `idx_last_name` (`last_name`),
   KEY `idx_first_name` (`first_name`),
@@ -415,6 +416,7 @@ CREATE TABLE `people` (
   KEY `index_people_on_license` (`license`),
   KEY `index_people_on_print_card` (`print_card`),
   KEY `index_people_on_login` (`login`),
+  KEY `index_people_on_name` (`name`),
   CONSTRAINT `people_team_id_fk` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -539,7 +541,7 @@ CREATE TABLE `races` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
   `city` varchar(128) DEFAULT NULL,
-  `distance` int(11) DEFAULT NULL,
+  `distance` varchar(255) DEFAULT NULL,
   `state` varchar(64) DEFAULT NULL,
   `field_size` int(11) DEFAULT NULL,
   `laps` int(11) DEFAULT NULL,
@@ -610,6 +612,7 @@ CREATE TABLE `racing_associations` (
   `updated_at` datetime DEFAULT NULL,
   `cat4_womens_race_series_end_date` date DEFAULT NULL,
   `unregistered_teams_in_results` tinyint(1) NOT NULL DEFAULT '1',
+  `next_year_start_at` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1007,6 +1010,14 @@ INSERT INTO schema_migrations (version) VALUES ('20110521233707');
 INSERT INTO schema_migrations (version) VALUES ('20110618232719');
 
 INSERT INTO schema_migrations (version) VALUES ('20110806162623');
+
+INSERT INTO schema_migrations (version) VALUES ('20110922012402');
+
+INSERT INTO schema_migrations (version) VALUES ('20111008220748');
+
+INSERT INTO schema_migrations (version) VALUES ('20111121165105');
+
+INSERT INTO schema_migrations (version) VALUES ('20111124233132');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

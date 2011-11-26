@@ -344,32 +344,6 @@ class Admin::PeopleController < Admin::AdminController
     render(:partial => '/admin/people/numbers', :locals => {:year => @year.to_i, :years => @years, :person => @person, :race_numbers => @race_numbers})
   end
   
-  def new_number
-    render :update do |page|
-      page.insert_html(
-        :before, 'new_number_button_row', 
-        :partial => '/admin/people/new_number', 
-        :locals => {:discipline_id => Discipline[:road].id})
-    end
-  end
-  
-  def destroy_number
-    id = params[:number_id]
-    RaceNumber.destroy(id)
-    render :update do |page|
-      page.visual_effect(:puff, "number_#{id}_row", :duration => 2)
-      page.remove("number_#{id}_value")
-    end
-  end
-  
-  def destroy_alias
-    alias_id = params[:alias_id]
-    Alias.destroy(alias_id)
-    render :update do |page|
-      page.visual_effect(:puff, "alias_#{alias_id}", :duration => 2)
-    end
-  end
-  
   # Membership card stickers/labels
   def cards
     @people = Person.all( :conditions => ['print_card=?', true], :order => 'last_name, first_name')
@@ -394,7 +368,7 @@ class Admin::PeopleController < Admin::AdminController
     @people = [@person]
     @person.print_card = false
     @person.membership_card = true
-    @person.card_printed_at = RacingAssociation.current.now
+    @person.card_printed_at = Time.zone.now
     @person.save!
     
     respond_to do |format|
@@ -410,11 +384,11 @@ class Admin::PeopleController < Admin::AdminController
 
   def update_name
     @person = Person.find(params[:id])
-    @person.send "#{params[:name]}=", params[:value]
+    @person.name = params[:value]
 
     @other_people = @person.people_with_same_name
     if @other_people.empty?
-      @person.update_attribute(:name, params[:value])
+      @person.save
       expire_cache
       render :text => @person.name, :content_type => "text/html"
     else
