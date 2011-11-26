@@ -8,6 +8,11 @@ class PublicPagesTest < ActionController::IntegrationTest
   end
   
   def test_results_pages
+    person = FactoryGirl.create(:person)
+    series = Series.create!(:date => Date.new(2004))
+    senior_men = FactoryGirl.create(:category)
+    series.races.create!(:category => senior_men).results.create(:place => "1", :person => person)
+
     Ironman.calculate! 2004
     event = Ironman.find_for_year(2004)
     result = event.races.first.results.first
@@ -50,13 +55,14 @@ class PublicPagesTest < ActionController::IntegrationTest
   end
   
   def test_first_aid_providers
+    person = FactoryGirl.create(:person_with_login, :official => true)
     https! if RacingAssociation.current.ssl?
 
     get "/admin/first_aid_providers"
     assert_redirected_to new_person_session_url(secure_redirect_options)
 
     go_to_login
-    login :person_session => { :login => "alice", :password => "secret" }
+    login :person_session => { :login => person.login, :password => "secret" }
     get "/admin/first_aid_providers"
     assert_response :success
   end

@@ -2,6 +2,12 @@ require File.expand_path("../../test_helper", __FILE__)
 
 # :stopdoc:
 class LoginTest < ActionController::IntegrationTest
+  def setup
+    super
+    FactoryGirl.create(:administrator)
+    FactoryGirl.create(:person_with_login)
+  end
+  
   if RacingAssociation.current.ssl?
     # logged-in?, person_id?, same person?, admin?
     def test_member_account

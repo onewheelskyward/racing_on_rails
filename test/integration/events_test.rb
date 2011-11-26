@@ -3,6 +3,8 @@ require File.expand_path("../../test_helper", __FILE__)
 # :stopdoc:
 class EventsTest < ActionController::IntegrationTest
   def test_index
+    FactoryGirl.create(:event)
+    
     get "/events"
     assert_redirected_to schedule_path
 
