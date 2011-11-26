@@ -13,7 +13,7 @@ class Admin::FirstAidProvidersController < Admin::AdminController
     if @past_events
       conditions = ['date >= ?', RacingAssociation.current.effective_today ]
     else
-      conditions = ['date >= CURDATE()']
+      conditions = ['date >=?', RacingAssociation.current.effective_today.beginning_of_year]
     end
     
     if params[:sort_by].present?
@@ -22,7 +22,7 @@ class Admin::FirstAidProvidersController < Admin::AdminController
       @sort_by = "date"
     end
     
-    @events = SingleDayEvent.all( :conditions => conditions)
+    @events = SingleDayEvent.all(:conditions => conditions)
     
     respond_to do |format|
       format.html

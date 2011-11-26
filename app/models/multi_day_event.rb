@@ -232,7 +232,7 @@ class MultiDayEvent < Event
   
   # All children have results?
   def completed?(reload = false)
-    children.count(reload) > 0 && (children_with_results(reload).size == children.count)
+    children.count > 0 && (children_with_results(reload).size == children.count)
   end
   
   # Synch Races with children. More accurately: create a new Race on each child Event for each Race on the parent.

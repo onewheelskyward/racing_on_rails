@@ -30,7 +30,7 @@ class Ironman < Competition
       where("place != 'DNS'").
       where("races.category_id is not null").
       where("events.type = 'SingleDayEvent' or events.type is null").
-      where("events.ironman = true").
+      where("events.ironman = ?", true).
       where("results.date between ? and ?", Time.zone.local(year).beginning_of_year, Time.zone.local(year).end_of_year).
       order("person_id")
   end

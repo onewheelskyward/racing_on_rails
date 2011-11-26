@@ -26,8 +26,8 @@ end
 
 group :test do
   gem "ansi"
-  gem "mocha"
-  gem "minitest"
+  gem "factory_girl_rails"
+  gem "mocha", :require => false
   gem "sqlite3"
   gem "timecop"
 end

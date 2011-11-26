@@ -220,7 +220,7 @@ class MultiDayEventTest < ActiveSupport::TestCase
     # Bypass business logic and test what's really in the database
     results = Event.connection.select_one("select * from events where id=#{single_event_1.id}")
     assert_equal("Elkhorn Stage Race", results["name"], "SingleDayEvent name")
-    assert_equal(0, results["cancelled"], "SingleDayEvent cancelled")
+    assert(results["cancelled"] == 0 || results["cancelled"] == 'f', "SingleDayEvent cancelled")
     assert_equal_dates("2007-06-19", results["date"], "SingleDayEvent start_date")
     assert_equal("Baker City", results["city"], "SingleDayEvent city")
     assert_equal("Track", results["discipline"], "SingleDayEvent discipline")

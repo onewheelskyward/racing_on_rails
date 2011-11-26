@@ -18,7 +18,7 @@ class Cat4WomensRaceSeries < Competition
             and categories.id in (?)
             and (events.type = "SingleDayEvent" or events.type is null or events.id in (?))
             and events.ironman is ?
-            and events.date between '#{year}-01-01' and '#{end_date.to_s(:db)}'
+            and events.date between ? and ?
           order by person_id
        }, category_ids_for(race), source_events.collect(&:id), true, date.beginning_of_year, _end_date ]
     )

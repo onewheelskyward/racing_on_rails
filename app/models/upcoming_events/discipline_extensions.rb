@@ -14,12 +14,12 @@ module UpcomingEvents
         :joins => "left outer join events as childrens_events on childrens_events.parent_id = events.id",
         :conditions => scope_by_sanctioned([%Q{ childrens_events.date between ? and ? and 
                                                 (childrens_events.type is null or childrens_events.type = 'SingleDayEvent') and
-                                                events.cancelled = false and 
-                                                events.practice = false and
-                                                events.instructional = false and 
+                                                events.cancelled = ? and 
+                                                events.practice = ? and
+                                                events.instructional = ? and 
                                                 events.discipline in (?) and 
                                                 events.type = ? }, 
-                                            dates.begin, dates.end, self.names, "MultiDayEvent"]),
+                                            dates.begin, dates.end, false, false, false, self.names, "MultiDayEvent"]),
         :order => 'events.date')
 
       # Find Series events, but not their parents, nor WeeklySeries
@@ -28,13 +28,13 @@ module UpcomingEvents
           :include => :parent,
           :conditions => scope_by_sanctioned(
                            [%Q{ events.date between ? and ? 
-                                and events.cancelled = false 
-                                and events.instructional = false 
-                                and events.practice = false 
+                                and events.cancelled = ? 
+                                and events.instructional = ? 
+                                and events.practice = ? 
                                 and events.parent_id is not null 
                                 and parents_events.type = ?
                                 and parents_events.discipline in (?) }, 
-                            dates.begin, dates.end, "Series", self.names]),
+                            dates.begin, dates.end, false, false, false, "Series", self.names]),
           :order => 'events.date') 
       
       single_day_events + multi_day_events + series_events
@@ -46,11 +46,11 @@ module UpcomingEvents
         :joins => "left outer join events as childrens_events on childrens_events.parent_id = events.id",
         :conditions => scope_by_sanctioned([%Q{ childrens_events.date between ? and ? and 
                                                 (childrens_events.type is null or childrens_events.type = 'SingleDayEvent') and
-                                                events.cancelled = false and 
-                                                events.practice = false and
-                                                events.instructional = false and 
+                                                events.cancelled = ? and 
+                                                events.practice = ? and
+                                                events.instructional = ? and 
                                                 events.discipline in (?)}, 
-                                            dates.begin, dates.end, self.names]),
+                                            dates.begin, dates.end, false, false, false, self.names]),
         :order => 'events.date')
     end
 

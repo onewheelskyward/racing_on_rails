@@ -312,7 +312,7 @@ class Event < ActiveRecord::Base
       ActiveRecord::Base.lock_optimistically = false
       # Don't trigger after_save callback just because we're enabling notification
       self.notification = false
-      Event.update_all("notification = 0", ["id = ?", id])
+      Event.where(:id => id).update_all(:notification => false)
       children.each(&:disable_notification!)
       ActiveRecord::Base.lock_optimistically = true
     end
@@ -325,7 +325,7 @@ class Event < ActiveRecord::Base
       ActiveRecord::Base.lock_optimistically = false
       # Don't trigger after_save callback just because we're enabling notification
       self.notification = true
-      Event.update_all("notification = 1", ["id = ?", id])
+      Event.where(:id => id).update_all(:notification => true)
       children.each(&:enable_notification!)
       ActiveRecord::Base.lock_optimistically = true
     end
@@ -337,7 +337,9 @@ class Event < ActiveRecord::Base
   # and CombinedTimeTrialResults recalcs
   # Check database to ensure most recent value is used, and not a association's out-of-date cached value
   def notification_enabled?
-    connection.select_value("select notification from events where id = #{id}") == 1
+    unless new_record?
+      Event.exists? :id => id, :notification => true
+    end
   end
 
   # Set point value/factor for this Competition. Convenience method to hide CompetitionEventMembership complexity.
