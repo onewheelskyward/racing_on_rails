@@ -7,7 +7,7 @@ class ResultsControllerTest < ActionController::TestCase
     
     association_category = Factory(:category, :name => "CBRA")
     @senior_men          = Factory(:category, :name => "Senior Men", :parent => association_category)
-    @senior_women         = Factory(:category, :name => "Senior Women", :parent => association_category)
+    @senior_women        = Factory(:category, :name => "Senior Women", :parent => association_category)
     
     discipline = Factory(:discipline, :name => "Road")
     discipline.bar_categories << @senior_men
@@ -303,10 +303,9 @@ class ResultsControllerTest < ActionController::TestCase
   def test_competition_team
     FactoryGirl.create(:discipline, :name => "Team")
     team = Team.create!(:name => "dfl", :member => true)
-    FactoryGirl.create(:event, :date => Date.new(2004)).races.create!(:category => @senior_women).results.create!(:place => "1", :person => Person.create!, :team => team)
+    person = FactoryGirl.create(:person)
+    FactoryGirl.create(:event, :date => Date.new(2004, 2)).races.create!(:category => @senior_women).results.create!(:place => "1", :person => person, :team => team)
     Bar.calculate!(2004)
-    result = bar.races.first.results.first
-    assert_not_nil(result, 'result')
     TeamBar.calculate!(2004)
     bar = TeamBar.all.first
     result = bar.races.first.results.first
