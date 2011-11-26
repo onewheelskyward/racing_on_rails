@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(:version => 20111125031448) do
 
   create_table "categories", :force => true do |t|
     t.integer  "position",                     :default => 0,   :null => false
-    t.string   "name",           :limit => 64,                  :null => false
+    t.string   "name",           :limit => 64, :default => "",  :null => false
     t.integer  "lock_version",                 :default => 0,   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
