@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def set_racing_association
-    RacingAssociation.current = RacingAssociation.find_by_domain(request.domain)
+    RacingAssociation.current = RacingAssociation.first
   end
   
   def toggle_tabs
