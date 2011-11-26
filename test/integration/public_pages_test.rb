@@ -11,7 +11,8 @@ class PublicPagesTest < ActionController::IntegrationTest
     person = FactoryGirl.create(:person)
     series = Series.create!(:date => Date.new(2004))
     senior_men = FactoryGirl.create(:category)
-    series.races.create!(:category => senior_men).results.create(:place => "1", :person => person)
+    race = series.races.create!(:category => senior_men)
+    result = race.results.create(:place => "1", :person => person)
 
     Ironman.calculate! 2004
     event = Ironman.find_for_year(2004)

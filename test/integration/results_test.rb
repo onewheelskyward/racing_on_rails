@@ -3,6 +3,10 @@ require File.expand_path("../../test_helper", __FILE__)
 # :stopdoc:
 class ResultsTest < ActionController::IntegrationTest
   def test_custom_columns
+    FactoryGirl.create(:discipline)
+    FactoryGirl.create(:discipline, :name => "Downhill")
+    FactoryGirl.create(:number_issuer)
+    
     goto_login_page_and_login_as FactoryGirl.create(:administrator)
 
     event = FactoryGirl.create(:result).event
