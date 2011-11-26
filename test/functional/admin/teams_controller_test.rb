@@ -17,7 +17,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   
   def test_not_logged_in_edit
     destroy_person_session
-    vanilla = FactoryGirl.create(:teAM)
+    vanilla = FactoryGirl.create(:team)
     get(:edit, :id => vanilla.to_param)
     assert_redirected_to new_person_session_url(secure_redirect_options)
     assert_nil(@request.session["person"], "No person in session")
@@ -122,7 +122,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
     assert(!assigns["team"].errors.empty?, 'Attempt to assign blank name should add error')
     assert_equal(vanilla, assigns['team'], 'Team')
     vanilla.reload
-    assert_equal('Vanilla', vanilla.name, 'Team name after cancel')
+    assert_equal('Vanilla Bicycles', vanilla.name, 'Team name')
   end
 
   def test_set_name
@@ -180,10 +180,10 @@ class Admin::TeamsControllerTest < ActionController::TestCase
     assert_template("admin/teams/merge_confirm")
     assert_not_nil(assigns["team"], "Should assign team")
     assert_equal(vanilla, assigns['team'], 'Team')
-    assert_not_nil(Team.find_by_name('Vanilla'), 'Vanilla still in database')
+    assert_not_nil(Team.find_by_name('Vanilla Bicycles'), 'Vanilla still in database')
     assert_not_nil(Team.find_by_name('Kona'), 'Kona still in database')
     vanilla.reload
-    assert_equal('Vanilla', vanilla.name, 'Team name after cancel')
+    assert_equal('Vanilla Bicycles', vanilla.name, 'Team name after cancel')
   end
   
   def test_set_name_to_existing_alias
@@ -305,7 +305,7 @@ class Admin::TeamsControllerTest < ActionController::TestCase
   
   def test_merge
     vanilla = FactoryGirl.create(:team, :name => "Vanilla")
-    kona = FactoryGirl.create(:team)
+    kona = FactoryGirl.create(:team, :name => "Kona")
     old_id = kona.id
     assert(Team.find_by_name('Kona'), 'Kona should be in database')
     

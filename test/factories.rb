@@ -98,8 +98,8 @@ FactoryGirl.define do
     factory :person_with_login do
       sequence(:login) { |n| "person#{n}@example.com" }
       sequence(:email) { |n| "person#{n}@example.com" }
-      password_salt "c6be084e3033ba4024345e96154a876e2d5d3942fb8db02bd9c53b7a2f64f47ff8bef33e765d30cc35a7c98e045c27f2752091391d3e85b44aaa7f75926906ad"
-      crypted_password "1843a3711b16a7f2c1afb93d605bd58d2cdc44fea50e156b83a33fb806e4091803bdfb5afad6e9a48c6c55722ca4e92635e44fb6a346d7cc756d84787b11f344"
+      password_salt { Authlogic::Random.hex_token }
+      crypted_password { Authlogic::CryptoProviders::Sha512.encrypt("secret" + password_salt) }
       persistence_token { Authlogic::Random.hex_token }
       single_access_token { Authlogic::Random.friendly_token }
       perishable_token { Authlogic::Random.friendly_token }

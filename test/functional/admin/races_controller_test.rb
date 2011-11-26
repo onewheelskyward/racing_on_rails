@@ -9,7 +9,7 @@ class Admin::RacesControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    kings_valley_3 = FactoryGirl.create(:event)
+    kings_valley_3 = FactoryGirl.create(:race)
     get(:edit, :id => kings_valley_3.to_param)
     assert_response(:success)
     assert_template("admin/races/edit")

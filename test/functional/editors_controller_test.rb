@@ -8,7 +8,10 @@ class EditorsControllerTest < ActionController::TestCase
   end
   
   def test_create
-    login_as :member
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person_with_login)
+
+    login_as member
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to edit_person_path(member)
     
@@ -16,7 +19,10 @@ class EditorsControllerTest < ActionController::TestCase
   end
   
   def test_create_by_get
-    login_as :member
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person_with_login)
+
+    login_as member
     get :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to edit_person_path(member)
     
@@ -24,7 +30,11 @@ class EditorsControllerTest < ActionController::TestCase
   end
   
   def test_create_as_admin
-    login_as :administrator
+    administrator = FactoryGirl.create(:administrator)
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person_with_login)
+
+    login_as administrator
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to edit_person_path(member)
     
@@ -32,12 +42,17 @@ class EditorsControllerTest < ActionController::TestCase
   end
   
   def test_login_required
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person)
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to new_person_session_url(secure_redirect_options)
   end
   
   def test_security
-    login_as :promoter
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person_with_login)
+
+    login_as promoter
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to unauthorized_path
     
@@ -45,9 +60,12 @@ class EditorsControllerTest < ActionController::TestCase
   end
   
   def test_already_exists
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person_with_login)
+
     member.editors << promoter
     
-    login_as :member
+    login_as member
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to edit_person_path(member)
     
@@ -55,7 +73,11 @@ class EditorsControllerTest < ActionController::TestCase
   end
   
   def test_admin
-    login_as :administrator
+    administrator = FactoryGirl.create(:administrator)
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person_with_login)
+
+    login_as administrator
     post :create, :id => member.to_param, :editor_id => promoter.to_param, :return_to => "admin"
     assert_redirected_to edit_admin_person_path(member)
     
@@ -63,19 +85,26 @@ class EditorsControllerTest < ActionController::TestCase
   end
   
   def test_person_not_found
-    login_as :member
+    member = FactoryGirl.create(:person_with_login)
+
+    login_as member
     assert_raise(ActiveRecord::RecordNotFound) { post :create, :editor_id => "37812361287", :id => member.to_param }
   end
   
   def test_editor_not_found
-    login_as :member
+    member = FactoryGirl.create(:person_with_login)
+
+    login_as member
     assert_raise(ActiveRecord::RecordNotFound) { post :create, :editor_id => member.to_param, :id => "2312631872343" }
   end
   
   def test_deny_access
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person_with_login)
+
     member.editors << promoter
     
-    login_as :member
+    login_as member
     delete :destroy, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to edit_person_path(member)
     
@@ -83,9 +112,12 @@ class EditorsControllerTest < ActionController::TestCase
   end
   
   def test_deny_access_by_get
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person_with_login)
+
     member.editors << promoter
     
-    login_as :member
+    login_as member
     get :destroy, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to edit_person_path(member)
     

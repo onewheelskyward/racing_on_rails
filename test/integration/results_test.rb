@@ -3,7 +3,7 @@ require File.expand_path("../../test_helper", __FILE__)
 # :stopdoc:
 class ResultsTest < ActionController::IntegrationTest
   def test_custom_columns
-    goto_login_page_and_login_as :administrator
+    goto_login_page_and_login_as administrator
 
     event = banana_belt_1
     get edit_admin_event_path(event)

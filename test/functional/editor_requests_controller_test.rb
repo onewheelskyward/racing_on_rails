@@ -8,19 +8,24 @@ class EditorRequestsControllerTest < ActionController::TestCase
   end
   
   def test_create
-    login_as :promoter
+    promoter = FactoryGirl.create(:person_with_login)
+    member = FactoryGirl.create(:person, :email => "person@example.com")
+
+    login_as promoter
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to edit_person_path(promoter)
     
     editor_request = EditorRequest.first(:conditions => { :person_id => member.id, :editor_id => promoter.id })
-    assert_not_nil editor_request, "Should created EditorRequest"
+    assert_not_nil editor_request, "Should create EditorRequest"
     assert editor_request.token.present?, "Should create token"
   end
   
   def test_dupes
+    promoter = FactoryGirl.create(:person_with_login)
+    member = FactoryGirl.create(:person, :email => "person@example.com")
     existing_editor_request = member.editor_requests.create!(:editor => promoter)
 
-    login_as :promoter
+    login_as promoter
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to edit_person_path(promoter)
     
@@ -31,8 +36,11 @@ class EditorRequestsControllerTest < ActionController::TestCase
   end
   
   def test_already_editor
+    promoter = FactoryGirl.create(:person_with_login)
+    member = FactoryGirl.create(:person, :email => "person@example.com")
+
     member.editors << promoter
-    login_as :promoter
+    login_as promoter
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to edit_person_path(promoter)
     
@@ -41,22 +49,32 @@ class EditorRequestsControllerTest < ActionController::TestCase
   end
   
   def test_not_found
-    login_as :promoter
+    promoter = FactoryGirl.create(:person_with_login)
+    login_as promoter
     assert_raise(ActiveRecord::RecordNotFound) { post(:create, :id => 1231232213133, :editor_id => promoter.to_param) }
   end
   
   def test_must_login
+    promoter = FactoryGirl.create(:person)
+    member = FactoryGirl.create(:person, :email => "person@example.com")
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to new_person_session_url(secure_redirect_options)
   end
   
   def test_security
-    login_as :past_member
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person, :email => "person@example.com")
+    past_member = FactoryGirl.create(:person_with_login)
+
+    login_as past_member
     post :create, :id => member.to_param, :editor_id => promoter.to_param
     assert_redirected_to unauthorized_path
   end
   
   def test_show
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person, :email => "person@example.com")
+
     use_http
     editor_request = member.editor_requests.create!(:editor => promoter)
     get :show, :id => member.to_param, :id => editor_request.token
@@ -65,6 +83,9 @@ class EditorRequestsControllerTest < ActionController::TestCase
   end
   
   def test_show_not_found
+    promoter = FactoryGirl.create(:promoter)
+    member = FactoryGirl.create(:person, :email => "person@example.com")
+
     use_http
     editor_request = member.editor_requests.create!(:editor => promoter)
     assert_raise(ActiveRecord::RecordNotFound) { get(:show, :id => member.to_param, :id => "12367127836shdgadasd") }
