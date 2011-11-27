@@ -5,7 +5,7 @@ module UpcomingEvents
 
     def find_all_upcoming_events(dates)
       single_day_events = SingleDayEvent.all(
-        :conditions => scope_by_sanctioned(['date between ? and ? and cancelled = false and parent_id is null and discipline in (?)', dates.begin, dates.end, self.names]),
+        :conditions => scope_by_sanctioned(['date between ? and ? and cancelled = ? and parent_id is null and discipline in (?)', dates.begin, dates.end, false, self.names]),
         :order => 'date')
 
       # Find MultiDayEvents, not their children, nor MultiDayEvents subclasses

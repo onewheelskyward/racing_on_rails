@@ -27,7 +27,7 @@ module Names
     # Remember names from previous years. Keeps the correct name on old results without creating additional teams.
     # This is a bit naive
     def add_name
-      last_year = Date.today.year - 1
+      last_year = Time.zone.now.year - 1
       if name_was.present? && results_before_this_year? && self.names.none? { |name| name.year == last_year }
         name = names.build(:name => name_was, :year => last_year)
         if self.respond_to?(:first_name)
@@ -41,14 +41,10 @@ module Names
     end
   
     def results_before_this_year?
-      # Exists? doesn't support joins
-      count = self.class.count_by_sql([%Q{
-        select results.id from #{self.class.table_name}, results, races, events 
-        where #{self.class.table_name}.id = ? and #{self.class.table_name}.id = results.#{self.class.name.downcase}_id 
-          and results.race_id = races.id
-          and races.event_id = events.id and events.date < ? limit 1
-      }, id, Date.today.beginning_of_year])
-      count > 0
+      Result.
+        where("#{self.class.name.singularize.foreign_key}" => id).
+        where("date < ?", Date.today.beginning_of_year).
+        exists?
     end
     
     private
