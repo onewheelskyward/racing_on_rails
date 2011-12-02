@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_person_session, :current_person, :secure_redirect_options
 
-  before_filter :clear_racing_association, :toggle_tabs
+  before_filter :clear_racing_association, :toggle_tabs, :prepend_view_path_if_mobile
 
   def self.expire_cache
     begin
@@ -241,4 +241,17 @@ class ApplicationController < ActionController::Base
   def ssl_required?
     RacingAssociation.current.ssl? && (self.class.read_inheritable_attribute(:ssl_required_actions) || []).include?(action_name.to_sym)
   end
+
+  private
+ 
+  def prepend_view_path_if_mobile
+    if mobile_request?
+      prepend_view_path "app/views/mobile"
+    end
+  end
+ 
+  def mobile_request?
+    request.subdomains.first == 'm'
+  end
+  helper_method :mobile_request?
 end

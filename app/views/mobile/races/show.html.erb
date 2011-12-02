@@ -1,0 +1,6 @@
+<h2><%= @race.full_name %></h2>
+<ul data-role="listview">
+  <%- @race.results.each do |result| -%>
+  <li><%= result.place %>&nbsp; <%= result.name %></li>
+  <% end %>
+</ul>

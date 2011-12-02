@@ -2,7 +2,7 @@
 #
 # Caches all of its pages
 class ScheduleController < ApplicationController
-  before_filter :assign_schedule_data
+  before_filter :assign_schedule_data, :except => :show
   
   caches_page :index, :calendar, :list
   
@@ -14,8 +14,12 @@ class ScheduleController < ApplicationController
   # * year
   # * schedule: instance of year's Schedule::Schedule
   def index
-    expires_in 1.hour, :public => true
-    render_page
+    if mobile_request?
+      render :show
+    else
+      expires_in 1.hour, :public => true
+      render_page
+    end
   end
 
   # List of events -- one line per event

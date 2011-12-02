@@ -1,0 +1,6 @@
+<h2><%= @event.full_name %></h2>
+<ul data-role="listview">
+  <%- @event.races.each do |race| -%>
+  <li><%= link_to race.name, race %></li>
+  <% end %>
+</ul>
