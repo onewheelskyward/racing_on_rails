@@ -8,7 +8,7 @@ class MobileTest < ActionController::IntegrationTest
     get "http://m.cbra.org/"
     assert_response :success
     
-    get "http://m.cbra.org/events/#{result.event}/races"
+    get "http://m.cbra.org/events/#{result.event_id}/races"
     assert_response :success
 
     get "http://m.cbra.org/schedule"
