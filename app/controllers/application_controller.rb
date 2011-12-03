@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     page_path.gsub!(/\/$/, "")
     
     if mobile_request?
-      path = "mobile#{path}"
+      page_path = "mobile#{page_path}"
     end
 
     @page = Page.find_by_path(page_path)
