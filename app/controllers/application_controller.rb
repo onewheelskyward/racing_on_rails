@@ -62,10 +62,14 @@ class ApplicationController < ActionController::Base
     page_path.gsub!(/.html$/, "")
     page_path.gsub!(/index$/, "")
     page_path.gsub!(/\/$/, "")
+    
+    if mobile_request?
+      path = "mobile#{path}"
+    end
 
     @page = Page.find_by_path(page_path)
     if @page
-      return render(:inline => @page.body, :layout => true)
+      render(:inline => @page.body, :layout => true)
     end
   end
 
