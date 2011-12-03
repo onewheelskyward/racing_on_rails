@@ -23,7 +23,9 @@ class ResultsController < ApplicationController
   #
   # See source code of Api::Results and Api::Base
   def index
-    expires_in 1.hour, :public => true
+    unless mobile_request?
+      expires_in 1.hour, :public => true
+    end
     respond_to do |format|
       format.html {
         @year = params['year'].to_i
