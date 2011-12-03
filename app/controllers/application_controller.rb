@@ -256,7 +256,7 @@ class ApplicationController < ActionController::Base
   end
 
   def mobile_browser?
-    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(iPhone|iPod|iPad|Android)/]
+    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(iPhone|iPod|Android)/]
   end
   helper_method :mobile_browser?
 
