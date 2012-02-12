@@ -145,7 +145,7 @@ class PeopleFile < RacingOnRails::Grid::GridFile
         rows.each do |row|
           row_hash = row.to_hash
           row_hash[:year] = year if year
-          row_hash[:updated_by] = "Membership import: #{import_file.name}"
+          row_hash[:updated_by] = import_file
           logger.debug(row_hash.inspect) if logger.debug?
           next if row_hash[:first_name].blank? && row_hash[:first_name].blank? && row_hash[:name].blank?
           
@@ -258,9 +258,9 @@ class PeopleFile < RacingOnRails::Grid::GridFile
   def import_file
     unless @import_file
       if @file
-        @import_file = ImportFile.create!(:name => @file.path)
+        @import_file = ImportFile.create!(:name => "#{@file.path} #{Person.current.try(:name_or_login)}")
       else
-        @import_file = ImportFile.create!
+        @import_file = ImportFile.create!(:name => "#{Person.current.try(:name_or_login)} file")
       end
     end
     @import_file

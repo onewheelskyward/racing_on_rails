@@ -7,9 +7,13 @@ class Person < ActiveRecord::Base
   include SentientUser
   include Export::People
 
-  versioned :except => [ :current_login_at, :current_login_ip, :last_login_at, :last_login_ip, :updated_by, :login_count, :password_salt, 
-                         :perishable_token, :persistence_token, :single_access_token ]
+  versioned :except => [ :current_login_at, :current_login_ip, :last_login_at, :last_login_ip, :login_count, :password_salt, 
+                         :perishable_token, :persistence_token, :single_access_token, 
+                         :created_by_id, :created_by_type, :updated_by_id, :updated_by_type ],
+            :initial_version => true
   
+  include Concerns::Audit
+
   acts_as_authentic do |config|
     config.validates_length_of_login_field_options :within => 3..100, :allow_nil => true, :allow_blank => true
     config.validates_format_of_login_field_options :with => Authlogic::Regex.login, 
@@ -29,12 +33,9 @@ class Person < ActiveRecord::Base
   before_validation :find_associated_records
   validate :membership_dates
   before_save :destroy_shadowed_aliases
-  before_create :set_created_by
-  before_save :set_updated_by
   after_save :add_alias_for_old_name
 
   has_many :aliases
-  belongs_to :created_by, :polymorphic => true
   has_and_belongs_to_many :editable_people, :class_name => "Person", :foreign_key => "editor_id", :before_add => :validate_unique_editors
   has_and_belongs_to_many :editors, :class_name => "Person", :association_foreign_key => "editor_id", :before_add => :validate_unique_editors
   has_many :editor_requests, :dependent => :destroy
@@ -44,6 +45,9 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_many :sent_editor_requests, :foreign_key => "editor_id", :class_name => "EditorRequest", :dependent => :destroy
   belongs_to :team
+  
+  has_many :created_people, :as => :created_by, :class_name => "Person"
+  has_many :updated_people, :as => :updated_by, :class_name => "Person"
   
   attr_accessor :year
   
@@ -749,14 +753,6 @@ class Person < ActiveRecord::Base
     self.license_type = license_type
     save!
   end
-  
-  def created_from_result?
-    !created_by.nil? && created_by.kind_of?(Event)
-  end
-  
-  def updated_after_created?
-    created_at && updated_at && ((updated_at - created_at) > 1.hour) && updated_by
-  end
 
   def state=(value)
     if value and value.size == 2
@@ -942,20 +938,6 @@ class Person < ActiveRecord::Base
 
   def can_edit?(person)
     person == self || administrator? || person.editors.include?(self)
-  end
-  
-  def set_updated_by
-    if Person.current
-      self.updated_by = Person.current.name_or_login
-      # FIXME consolidate
-      self.last_updated_by = Person.current.name_or_login
-    end
-  end
-  
-  def set_created_by
-    if created_by.nil? && Person.current
-      self.created_by = Person.current
-    end
   end
   
   # If name changes to match existing alias, destroy the alias

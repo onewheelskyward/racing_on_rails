@@ -97,6 +97,7 @@ class Event < ActiveRecord::Base
   attr_reader :new_promoter_name
   attr_reader :new_team_name
 
+  include Concerns::Audit
   include Concerns::Event::Comparison
   include Concerns::Event::Dates
   include Concerns::Event::Names

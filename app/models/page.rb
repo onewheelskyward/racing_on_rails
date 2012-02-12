@@ -8,16 +8,15 @@ class Page < ActiveRecord::Base
   include SentientUser
 
   acts_as_tree
-  versioned
+  versioned :except => [ :created_by_id, :created_by_type, :updated_by_id, :updated_by_type ]
+
+  include Concerns::Audit
   
   before_validation :set_slug, :set_path, :set_body
-  before_create :set_created_by
   validates_uniqueness_of :path
   
   after_create :update_parent
   after_destroy :update_parent
-  
-  belongs_to :created_by, :class_name => "Person"
 
   # Friendly param. Last segment in +path+
   def set_slug
@@ -33,15 +32,6 @@ class Page < ActiveRecord::Base
     _ancestors << Page.find(self.parent_id) if self.parent_id
     
     self.path = (_ancestors << self).map(&:slug).join("/").gsub(/^\//, "")
-  end
-  
-  def set_created_by
-    self.created_by = Person.current
-    true
-  end
-  
-  def last_updated_by
-    versions.last.try(:user) || created_by
   end
   
   # Can't reliably set default value for MySQL text field

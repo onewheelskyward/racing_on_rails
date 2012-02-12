@@ -10,6 +10,8 @@ class PersonTest < ActiveSupport::TestCase
     team = Team.new(:name => "7-11")
     
     person.team = team
+    admin = FactoryGirl.create(:administrator)
+    Person.current = admin
     person.save!
     
     person_from_db = Person.find_by_last_name("Hampsten")
@@ -20,6 +22,10 @@ class PersonTest < ActiveSupport::TestCase
     assert_equal(person.team, person_from_db.team, "person.team")
     assert(!person.team.new_record?, "team.new_record")
     assert(!person_from_db.new_record?, "person_from_db.new_record")
+    assert_equal admin, person.created_by, "created_by"
+    assert_equal admin, person.updated_by, "updated_by"
+    assert_equal [ person ], admin.created_people, "administrator.created_by_people"
+    assert_equal [ person ], admin.updated_people, "administrator.updated_by_people"
   end
 
   def test_save_existing_team

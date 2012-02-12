@@ -122,7 +122,7 @@ class Admin::PeopleControllerTest < ActionController::TestCase
       assert_nil(molly.member_from, 'member_from after update')
       assert_nil(molly.member_to, 'member_to after update')
       assert_nil(RaceNumber.find(molly_road_number.to_param).updated_by, "updated_by")
-      assert_equal(@administrator.name, RaceNumber.find_by_value("AZY").updated_by, "updated_by")
+      assert_equal(@administrator, RaceNumber.find_by_value("AZY").updated_by, "updated_by")
     end
   end
 
@@ -232,14 +232,14 @@ class Admin::PeopleControllerTest < ActionController::TestCase
 
     assert_equal 1, molly.versions.size, "versions"
     version = molly.versions.last
-    assert_equal @administrator.name, version.user, "version user"
+    assert_equal @administrator, version.user, "version user"
     changes = version.changes
-    assert_equal 28, changes.size, "changes"
+    assert_equal 26, changes.size, "changes"
     change = changes["team_id"]
     assert_not_nil change, "Should have change for team ID"
     assert_equal vanilla.id, change.first, "Team ID before"
     assert_equal nil, change.last, "Team ID after"
-    assert_equal "Candi Murray", molly.last_updated_by, "updated_by"
+    assert_equal "Candi Murray", molly.updated_by, "updated_by"
   end
   
   def test_update_bad_member_from_date
