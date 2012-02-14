@@ -73,10 +73,15 @@ class AddPageCreatedUpdatedBy < ActiveRecord::Migration
     drop_column :people, :last_updated_by
     drop_column :race_numbers, :old_updated_by
 
+    # Switch our updated_by param with user
     # Add FK constraints
     # Just delete the reference?
 
     # Make sure merge handles created and updated by
+
+    # Naming
+
+    # Comments
   end
 
   def self.down

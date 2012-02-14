@@ -18,14 +18,27 @@ class PersonTest < ActiveSupport::TestCase
     assert_not_nil(person_from_db, "Hampsten should  be  DB")
     assert_not_nil(Team.find_by_name("7-11"), "7-11 should be in DB")
     assert_equal(person.team, person_from_db.team, "person.team")
-    person.reload
+    person = Person.find(person.id)
     assert_equal(person.team, person_from_db.team, "person.team")
     assert(!person.team.new_record?, "team.new_record")
     assert(!person_from_db.new_record?, "person_from_db.new_record")
     assert_equal admin, person.created_by, "created_by"
     assert_equal admin, person.updated_by, "updated_by"
-    assert_equal [ person ], admin.created_people, "administrator.created_by_people"
-    assert_equal [ person ], admin.updated_people, "administrator.updated_by_people"
+    assert_equal 1, person.versions.size, "Should create initial version"
+
+    another_admin = FactoryGirl.create(:person)
+    Person.current = another_admin
+    person.city = "Boulder"
+    person.save!
+    assert_equal 2, person.versions.size, "Should create second version after update"
+    assert_equal admin, person.created_by, "created_by"
+    p person.versions(true)
+    assert_equal another_admin, person.updated_by, "updated_by"
+
+    file = ImportFile.new(:name => "/tmp/import.xls")
+    assert person.update_attributes(:name => "Andrew Hampsten", :updated_by => file), "update_attributes"
+    assert_equal admin, person.created_by, "created_by"
+    assert_equal file, person.updated_by, "updated_by"
   end
 
   def test_save_existing_team

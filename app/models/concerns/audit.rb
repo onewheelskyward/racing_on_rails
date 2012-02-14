@@ -3,25 +3,22 @@ module Concerns
     extend ActiveSupport::Concern
     
     included do
-      before_create :set_created_by, :set_updated_by
       before_save :set_updated_by
-
-      belongs_to :created_by, :polymorphic => true
-      belongs_to :updated_by, :polymorphic => true
     end
 
     module InstanceMethods
-      def set_updated_by
-        if !updated_by_id_changed? && Person.current
-          self.updated_by = Person.current
-        end
-        true
+      def created_by
+        versions.first.try(:user)
       end
-      
-      def set_created_by
-        if created_by.nil? && Person.current
-          self.created_by = Person.current
-        end
+
+      def updated_by
+        versions.last.try(:user)
+      end
+
+      def set_updated_by
+        p "set_updated_by @updated_by #{@updated_by}"
+        p "Person.current #{Person.current}"
+        @updated_by = @updated_by || Person.current
         true
       end
 
