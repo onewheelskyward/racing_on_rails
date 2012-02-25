@@ -101,7 +101,9 @@ class Result < ActiveRecord::Base
         existing_team = Team.find_by_name_or_alias(team.name)
         self.team = existing_team if existing_team
       end
-      team.created_by = event if team && team.new_record?
+      if team && team.new_record?
+        team.updated_by = event
+      end
     end
     true
   end
@@ -173,7 +175,7 @@ class Result < ActiveRecord::Base
   def save_person
     if person && (person.new_record? || person.changed?)
       if person.new_record?
-        person.created_by = event
+        person.updated_by = event
       end
       person.save!
     end

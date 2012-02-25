@@ -8,8 +8,8 @@ class Page < ActiveRecord::Base
   include SentientUser
 
   acts_as_tree
-  versioned :except => [ :created_by_id, :created_by_type, :updated_by_id, :updated_by_type ]
-
+  
+  versioned :except => [ :created_by_id, :created_by_type, :updated_by_id, :updated_by_type ], :initial_version => true
   include Concerns::Audit
   
   before_validation :set_slug, :set_path, :set_body

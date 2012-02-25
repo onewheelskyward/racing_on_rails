@@ -4,9 +4,12 @@
 #
 # Team names must be unique
 class Team < ActiveRecord::Base
-  include Concerns::Audit
   include Names::Nameable
   include Export::Teams
+
+  versioned :except => [ :created_by_id, :created_by_type, :updated_by_id, :updated_by_type ],
+            :initial_version => true
+  include Concerns::Audit
 
   before_save :destroy_shadowed_aliases
   after_save :add_alias_for_old_name

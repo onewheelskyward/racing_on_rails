@@ -262,7 +262,7 @@ class Person < ActiveRecord::Base
       end
       if attributes[:team] && attributes[:team].is_a?(Hash)
         team = Team.new(attributes[:team])
-        team.created_by = attributes[:created_by]
+        team.updated_by = attributes[:updated_by]
         attributes[:team] = team
       end
       self.updated_by = attributes[:updated_by]
@@ -391,7 +391,7 @@ class Person < ActiveRecord::Base
       self.team = nil
     else
       self.team = Team.find_by_name_or_alias(value)
-      self.team = Team.new(:name => value, :created_by => new_record? ? self.created_by : nil) unless self.team
+      self.team = Team.new(:name => value, :updated_by => new_record? ? self.updated_by : nil) unless self.team
     end
   end
 

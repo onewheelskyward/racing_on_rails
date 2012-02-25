@@ -168,7 +168,7 @@ class PeopleFile < RacingOnRails::Grid::GridFile
           if people.empty?
             delete_unwanted_member_from(row_hash, person)
             add_print_card_and_label(row_hash)
-            row_hash[:created_by] = import_file
+            row_hash[:updated_by] = import_file
             person = Person.new(row_hash)
             person.save!
             @created = @created + 1

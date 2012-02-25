@@ -86,7 +86,7 @@ FactoryGirl.define do
     title "Plain"
     updated_at Time.zone.local(2007)
     created_at Time.zone.local(2007)
-    association :created_by, :factory => :person
+    updated_by :factory => :person
   end
   
   factory :person do

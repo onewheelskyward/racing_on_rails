@@ -12,12 +12,11 @@ module Concerns
       end
 
       def updated_by
+        p "Audit#updated_by"
         versions.last.try(:user)
       end
 
       def set_updated_by
-        p "set_updated_by @updated_by #{@updated_by}"
-        p "Person.current #{Person.current}"
         @updated_by = @updated_by || Person.current
         true
       end
