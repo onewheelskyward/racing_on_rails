@@ -32,7 +32,6 @@ class PersonTest < ActiveSupport::TestCase
     person.save!
     assert_equal 2, person.versions.size, "Should create second version after update"
     assert_equal admin, person.created_by, "created_by"
-    p person.versions(true)
     assert_equal another_admin, person.updated_by, "updated_by"
 
     file = ImportFile.new(:name => "/tmp/import.xls")

@@ -210,10 +210,8 @@ CREATE TABLE `events` (
   `beginner_friendly` tinyint(1) NOT NULL DEFAULT '0',
   `website` varchar(255) DEFAULT NULL,
   `registration_link` varchar(255) DEFAULT NULL,
-  `created_by_id` int(11) DEFAULT NULL,
-  `updated_by_id` int(11) DEFAULT NULL,
-  `updated_by_type` varchar(255) DEFAULT NULL,
-  `created_by_type` varchar(255) DEFAULT NULL,
+  `score_by` varchar(255) DEFAULT NULL,
+  `points` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_disciplined` (`discipline`),
   KEY `parent_id` (`parent_id`),
@@ -225,8 +223,6 @@ CREATE TABLE `events` (
   KEY `index_events_on_sanctioned_by` (`sanctioned_by`),
   KEY `index_events_on_bar_points` (`bar_points`),
   KEY `index_events_on_promoter_id` (`promoter_id`),
-  KEY `index_events_on_created_by_id` (`created_by_id`),
-  KEY `index_events_on_updated_by_id` (`updated_by_id`),
   CONSTRAINT `events_events_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
   CONSTRAINT `events_number_issuers_id_fk` FOREIGN KEY (`number_issuer_id`) REFERENCES `number_issuers` (`id`),
   CONSTRAINT `events_promoter_id` FOREIGN KEY (`promoter_id`) REFERENCES `people` (`id`) ON DELETE SET NULL,
@@ -335,15 +331,11 @@ CREATE TABLE `pages` (
   `updated_at` datetime DEFAULT NULL,
   `lock_version` int(11) NOT NULL DEFAULT '0',
   `created_by_id` int(11) DEFAULT NULL,
-  `updated_by_id` int(11) DEFAULT NULL,
-  `updated_by_type` varchar(255) DEFAULT NULL,
-  `created_by_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_pages_on_path` (`path`),
   KEY `parent_id` (`parent_id`),
   KEY `index_pages_on_slug` (`slug`),
   KEY `index_pages_on_created_by_id` (`created_by_id`),
-  KEY `index_pages_on_updated_by_id` (`updated_by_id`),
   CONSTRAINT `pages_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `pages` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -384,7 +376,6 @@ CREATE TABLE `people` (
   `official_interest` tinyint(1) NOT NULL DEFAULT '0',
   `race_promotion_interest` tinyint(1) NOT NULL DEFAULT '0',
   `team_interest` tinyint(1) NOT NULL DEFAULT '0',
-  `created_by_type` varchar(255) DEFAULT NULL,
   `member_usac_to` date DEFAULT NULL,
   `crypted_password` varchar(255) DEFAULT NULL,
   `password_salt` varchar(255) DEFAULT NULL,
@@ -398,7 +389,6 @@ CREATE TABLE `people` (
   `current_login_ip` varchar(255) DEFAULT NULL,
   `last_login_ip` varchar(255) DEFAULT NULL,
   `login` varchar(100) DEFAULT NULL,
-  `created_by_id` int(11) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `license_expiration_date` date DEFAULT NULL,
   `club_name` varchar(255) DEFAULT NULL,
@@ -411,8 +401,6 @@ CREATE TABLE `people` (
   `membership_card` tinyint(1) NOT NULL DEFAULT '0',
   `official` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
-  `updated_by_id` int(11) DEFAULT NULL,
-  `updated_by_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_last_name` (`last_name`),
   KEY `idx_first_name` (`first_name`),
@@ -423,7 +411,6 @@ CREATE TABLE `people` (
   KEY `index_people_on_persistence_token` (`persistence_token`),
   KEY `index_people_on_perishable_token` (`perishable_token`),
   KEY `index_people_on_single_access_token` (`single_access_token`),
-  KEY `index_people_on_created_by_id` (`created_by_id`),
   KEY `index_people_on_email` (`email`),
   KEY `index_people_on_license` (`license`),
   KEY `index_people_on_print_card` (`print_card`),
@@ -509,18 +496,12 @@ CREATE TABLE `race_numbers` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `updated_by` varchar(255) DEFAULT NULL,
-  `created_by_id` int(11) DEFAULT NULL,
-  `updated_by_id` int(11) DEFAULT NULL,
-  `updated_by_type` varchar(255) DEFAULT NULL,
-  `created_by_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `racer_id` (`person_id`),
   KEY `discipline_id` (`discipline_id`),
   KEY `number_issuer_id` (`number_issuer_id`),
   KEY `race_numbers_value_index` (`value`),
   KEY `index_race_numbers_on_year` (`year`),
-  KEY `index_race_numbers_on_created_by_id` (`created_by_id`),
-  KEY `index_race_numbers_on_updated_by_id` (`updated_by_id`),
   CONSTRAINT `race_numbers_discipline_id_fk` FOREIGN KEY (`discipline_id`) REFERENCES `disciplines` (`id`),
   CONSTRAINT `race_numbers_number_issuer_id_fk` FOREIGN KEY (`number_issuer_id`) REFERENCES `number_issuers` (`id`),
   CONSTRAINT `race_numbers_person_id` FOREIGN KEY (`person_id`) REFERENCES `people` (`id`) ON DELETE CASCADE
@@ -789,12 +770,9 @@ CREATE TABLE `teams` (
   `show_on_public_page` tinyint(1) DEFAULT '0',
   `created_by_type` varchar(255) DEFAULT NULL,
   `created_by_id` int(11) DEFAULT NULL,
-  `updated_by_id` int(11) DEFAULT NULL,
-  `updated_by_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_name` (`name`),
-  KEY `index_teams_on_created_by_id` (`created_by_id`),
-  KEY `index_teams_on_updated_by_id` (`updated_by_id`)
+  KEY `index_teams_on_created_by_id` (`created_by_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `users` (
@@ -1057,6 +1035,8 @@ INSERT INTO schema_migrations (version) VALUES ('20111124233132');
 INSERT INTO schema_migrations (version) VALUES ('20111218163759');
 
 INSERT INTO schema_migrations (version) VALUES ('20111218301508');
+
+INSERT INTO schema_migrations (version) VALUES ('20120129233136');
 
 INSERT INTO schema_migrations (version) VALUES ('20120205200408');
 

@@ -29,7 +29,6 @@ class Result < ActiveRecord::Base
   include Concerns::Result::Time
   include Export::Results
   
-  attr_accessor :updated_by
   serialize :custom_attributes, Hash
 
   before_save :find_associated_records
@@ -166,7 +165,7 @@ class Result < ActiveRecord::Base
     discipline = Discipline[event.discipline]
     default_number_issuer = NumberIssuer.find_by_name(RacingAssociation.current.short_name)
     if person && event.number_issuer && event.number_issuer != default_number_issuer && number.present? && !RaceNumber.rental?(number, discipline)
-      person.updated_by = self.updated_by
+      person.updated_by = updated_by
       person.add_number(number, discipline, event.number_issuer, event.date.year)
     end
   end
