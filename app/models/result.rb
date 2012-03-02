@@ -51,6 +51,8 @@ class Result < ActiveRecord::Base
 
   scope :competition, where(:competition_result => true)
 
+  attr_accessor :updater
+
   def self.find_all_for(person)
     if person.is_a? Person
       person_id = person.id
@@ -101,7 +103,7 @@ class Result < ActiveRecord::Base
         self.team = existing_team if existing_team
       end
       if team && team.new_record?
-        team.updated_by = event
+        team.updater = event
       end
     end
     true
@@ -165,7 +167,7 @@ class Result < ActiveRecord::Base
     discipline = Discipline[event.discipline]
     default_number_issuer = NumberIssuer.find_by_name(RacingAssociation.current.short_name)
     if person && event.number_issuer && event.number_issuer != default_number_issuer && number.present? && !RaceNumber.rental?(number, discipline)
-      person.updated_by = updated_by
+      person.updater = updater
       person.add_number(number, discipline, event.number_issuer, event.date.year)
     end
   end
@@ -174,7 +176,7 @@ class Result < ActiveRecord::Base
   def save_person
     if person && (person.new_record? || person.changed?)
       if person.new_record?
-        person.updated_by = event
+        person.updater = event
       end
       person.save!
     end

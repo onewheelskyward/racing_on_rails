@@ -7,8 +7,7 @@ class Team < ActiveRecord::Base
   include Names::Nameable
   include Export::Teams
 
-  versioned :except => [ :created_by_id, :created_by_type, :updated_by_id, :updated_by_type ],
-            :initial_version => true
+  versioned :initial_version => true
   include Concerns::Audit
 
   before_save :destroy_shadowed_aliases

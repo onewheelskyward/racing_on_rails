@@ -126,7 +126,7 @@ class PageTest < ActiveSupport::TestCase
   
     new_person = Person.create!(:name => "New Person", :password => "foobar123", :password_confirmation => "foobar123", :email => "person@example.com")
     new_parent = Page.create!(:title => "Root")
-    page.updated_by = nil
+    page.updater = nil
     Person.current = new_person
     assert_equal(1, page.versions.count, "versions")
     page.update_attributes! :parent_id => new_parent.id, :title => "Revised Title", :body => "Revised content"

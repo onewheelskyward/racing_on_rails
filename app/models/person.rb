@@ -8,8 +8,7 @@ class Person < ActiveRecord::Base
   include Export::People
 
   versioned :except => [ :current_login_at, :current_login_ip, :last_login_at, :last_login_ip, :login_count, :password_salt, 
-                         :perishable_token, :persistence_token, :single_access_token, 
-                         :created_by_id, :created_by_type, :updated_by_id, :updated_by_type ],
+                         :perishable_token, :persistence_token, :single_access_token ],
             :initial_version => true
   
   include Concerns::Audit
@@ -45,9 +44,6 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_many :sent_editor_requests, :foreign_key => "editor_id", :class_name => "EditorRequest", :dependent => :destroy
   belongs_to :team
-  
-  has_many :created_people, :as => :created_by, :class_name => "Person"
-  has_many :updated_people, :as => :updated_by, :class_name => "Person"
   
   attr_accessor :year
   
@@ -262,10 +258,10 @@ class Person < ActiveRecord::Base
       end
       if attributes[:team] && attributes[:team].is_a?(Hash)
         team = Team.new(attributes[:team])
-        team.updated_by = attributes[:updated_by]
+        team.updater = attributes[:updater]
         attributes[:team] = team
       end
-      self.updated_by = attributes[:updated_by]
+      self.updater = attributes[:updater]
       self.year = attributes[:year]
     end
     super(attributes)
@@ -391,7 +387,7 @@ class Person < ActiveRecord::Base
       self.team = nil
     else
       self.team = Team.find_by_name_or_alias(value)
-      self.team = Team.new(:name => value, :updated_by => new_record? ? self.updated_by : nil) unless self.team
+      self.team = Team.new(:name => value, :updater => new_record? ? self.updater : nil) unless self.team
     end
   end
 
@@ -578,7 +574,7 @@ class Person < ActiveRecord::Base
         end
         race_numbers.build(
           :person => self, :value => value, :discipline => discipline, :year => _year, :number_issuer => association, 
-          :updated_by => self.updated_by
+          :updater => self.updater
         ) unless existing_number
       else
         race_number = RaceNumber.first(
@@ -587,7 +583,7 @@ class Person < ActiveRecord::Base
         unless race_number
           race_numbers.create(
             :person => self, :value => value, :discipline => discipline, :year => _year, 
-            :number_issuer => association, :updated_by => self.updated_by
+            :number_issuer => association, :updater => self.updater
           )
         end
       end

@@ -145,7 +145,7 @@ class PeopleFile < RacingOnRails::Grid::GridFile
         rows.each do |row|
           row_hash = row.to_hash
           row_hash[:year] = year if year
-          row_hash[:updated_by] = import_file
+          row_hash[:updater] = import_file
           logger.debug(row_hash.inspect) if logger.debug?
           next if row_hash[:first_name].blank? && row_hash[:first_name].blank? && row_hash[:name].blank?
           
@@ -168,7 +168,7 @@ class PeopleFile < RacingOnRails::Grid::GridFile
           if people.empty?
             delete_unwanted_member_from(row_hash, person)
             add_print_card_and_label(row_hash)
-            row_hash[:updated_by] = import_file
+            row_hash[:updater] = import_file
             person = Person.new(row_hash)
             person.save!
             @created = @created + 1

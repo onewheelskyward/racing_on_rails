@@ -3,20 +3,20 @@ module Concerns
     extend ActiveSupport::Concern
     
     included do
-      before_save :set_updated_by
+      before_save :set_user
     end
 
     module InstanceMethods
       def created_by
-        versions.first.try(:user)
+        versions.first.try :user
       end
 
       def updated_by
-        @_updated_by || versions.last.try(:user)
+        versions.last.try :user
       end
 
-      def set_updated_by
-        @_updated_by = @_updated_by || Person.current
+      def set_user
+        @user = @user || @updater || Person.current
         true
       end
 

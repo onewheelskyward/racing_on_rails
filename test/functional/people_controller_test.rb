@@ -82,7 +82,7 @@ class PeopleControllerTest < ActionController::TestCase
     assert_redirected_to edit_person_path(person)
     person = Person.find(person.id)
     assert_equal gentle_lovers, person.reload.team, "Team should be updated"
-    assert_equal 1, person.versions.size, "versions"
+    assert_equal 2, person.versions.size, "versions"
     version = person.versions.last
     assert_equal person, version.user, "version user"
     changes = version.changes
@@ -106,7 +106,7 @@ class PeopleControllerTest < ActionController::TestCase
     assert_redirected_to edit_person_path(person)
     person = Person.find(person.id)
     assert_equal gentle_lovers, person.reload.team, "Team should be updated"
-    assert_equal 1, person.versions.size, "versions"
+    assert_equal 2, person.versions.size, "versions"
     version = person.versions.last
     assert_equal "my_login", version.user.name_or_login, "version user"
     changes = version.changes

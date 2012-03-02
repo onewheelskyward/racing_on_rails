@@ -35,7 +35,7 @@ class PersonTest < ActiveSupport::TestCase
     assert_equal another_admin, person.updated_by, "updated_by"
 
     file = ImportFile.new(:name => "/tmp/import.xls")
-    assert person.update_attributes(:name => "Andrew Hampsten", :updated_by => file), "update_attributes"
+    assert person.update_attributes(:name => "Andrew Hampsten", :updater => file), "update_attributes"
     assert_equal admin, person.created_by, "created_by"
     assert_equal file, person.updated_by, "updated_by"
   end
@@ -152,8 +152,8 @@ class PersonTest < ActiveSupport::TestCase
     assert_equal_dates Time.zone.now.end_of_year.to_date, person_to_keep.member_to, "member_to"
     
     assert_equal "7123811", person_to_keep.license, "license"
-    assert_equal 1, person_to_keep.versions.size, "versions"
-    assert_equal [ 2 ], person_to_keep.versions.map(&:number).sort, "version numbers"
+    assert_equal 3, person_to_keep.versions.size, "versions in #{person_to_keep.versions}"
+    assert_equal [ 2, 3, 4 ], person_to_keep.versions.map(&:number).sort, "version numbers"
   end
   
   def test_merge_login
@@ -163,10 +163,10 @@ class PersonTest < ActiveSupport::TestCase
     Timecop.freeze(1.hour.from_now) do
       person_to_merge_old_password = person_to_merge.crypted_password
 
-      assert_equal 0, person_to_merge.versions.size, "versions"
-      assert_equal 0, person_to_keep.versions.size, "no versions"
+      assert_equal 1, person_to_merge.versions.size, "versions"
+      assert_equal 1, person_to_keep.versions.size, "versions"
       person_to_keep.merge person_to_merge
-      assert_equal 1, person_to_keep.versions.size, "Merge should create only one version"
+      assert_equal 3, person_to_keep.versions.size, "Merge should create only one version and keep initial versions from both, but: #{person_to_keep.versions}"
 
       person_to_keep.reload
       assert_equal "tonkin", person_to_keep.login, "Should merge login"
