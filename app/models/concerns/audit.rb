@@ -3,7 +3,7 @@ module Concerns
     extend ActiveSupport::Concern
     
     included do
-      before_save :set_user
+      before_save :set_updater
     end
 
     module InstanceMethods
@@ -15,8 +15,8 @@ module Concerns
         versions.last.try :user
       end
 
-      def set_user
-        @user = @user || @updater || Person.current
+      def set_updater
+        @updater ||= Person.current
         true
       end
 
