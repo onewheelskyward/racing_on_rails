@@ -44,7 +44,13 @@ class AddPageCreatedUpdatedBy < ActiveRecord::Migration
           version.user = person
         end
         version.user_name = nil
-        version.save!
+        begin
+          version.save!        
+        rescue Exception => e
+          # Skip very small number of record with bad YAML
+          puts "#{e}. Destroying bad version #{version.id}"
+          version.destroy
+        end
       end
     end
 
