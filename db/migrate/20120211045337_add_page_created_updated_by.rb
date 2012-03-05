@@ -32,7 +32,9 @@ class AddPageCreatedUpdatedBy < ActiveRecord::Migration
     end
 
     Team.where("created_by_id is not null").each do |team|
-      team.versions.create!(:user => ::Person.find(team.created_by_id), :modifications => {})
+      if Person.exists?(team.created_by_id)
+        team.versions.create!(:user => Person.find(team.created_by_id), :modifications => {})
+      end
     end
 
     VestalVersions::Version.all.each do |version|
