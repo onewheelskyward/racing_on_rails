@@ -12,6 +12,7 @@ class Person < ActiveRecord::Base
             :initial_version => true
   
   include Concerns::Audit
+  belongs_to :old_created_by, :polymorphic => true
 
   acts_as_authentic do |config|
     config.validates_length_of_login_field_options :within => 3..100, :allow_nil => true, :allow_blank => true
