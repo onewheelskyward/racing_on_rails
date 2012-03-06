@@ -47,7 +47,7 @@ RacingOnRails::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
   
-  config.logger = ::SyslogLogger.new("racing_on_rails")
+  config.logger = ::SyslogLogger.new("racing_on_rails", Syslog::LOG_LOCAL4)
   config.logger.level = ::Logger::INFO
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
