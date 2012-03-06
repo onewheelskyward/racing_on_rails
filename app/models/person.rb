@@ -11,7 +11,7 @@ class Person < ActiveRecord::Base
                          :perishable_token, :persistence_token, :single_access_token ],
             :initial_version => true
   
-  include Concerns::Audit
+  include Concerns::Versioned
   belongs_to :old_created_by, :polymorphic => true
 
   acts_as_authentic do |config|

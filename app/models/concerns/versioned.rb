@@ -1,5 +1,5 @@
 module Concerns
-  module Audit
+  module Versioned
     extend ActiveSupport::Concern
     
     included do

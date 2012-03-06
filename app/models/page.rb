@@ -5,11 +5,10 @@
 #
 # Uses ActsAsVersions, and should be moved to VestalVersions
 class Page < ActiveRecord::Base
+  include Concerns::Versioned
   include SentientUser
 
-  acts_as_tree
-  
-  include Concerns::Audit
+  acts_as_tree  
   
   before_validation :set_slug, :set_path, :set_body
   validates_uniqueness_of :path

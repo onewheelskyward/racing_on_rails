@@ -65,14 +65,6 @@ class AddPageCreatedUpdatedBy < ActiveRecord::Migration
     remove_column :teams, :created_by_type
     remove_column :teams, :created_by_id
 
-
-    # # Naming
-
-    # # Comments
-
-    # # Move versioned call to Audit module?
-
-    # Ensure version templates are sane
     # fix down migration
   end
 

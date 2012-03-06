@@ -10,7 +10,7 @@
 # and associations. PersonNumbers are also used to differentiate between People with the same name, and 
 # to identify person results with misspelled names.
 class RaceNumber < ActiveRecord::Base
-  include Concerns::Audit
+  include Concerns::Versioned
 
   before_validation :defaults
   validates_presence_of :discipline
