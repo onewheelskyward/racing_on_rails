@@ -7,7 +7,7 @@ class AddPageCreatedUpdatedBy < ActiveRecord::Migration
       elsif race_number.old_updated_by["xls"]
         file = ImportFile.find_or_create_by_name(race_number.old_updated_by)
         race_number.versions.create!(:user => file, :modifications => {})
-      elsif (person = ::Person.find_by_name(race_number.old_updated_by)).present?
+      elsif (person = Person.find_by_name(race_number.old_updated_by)).present?
         race_number.versions.create!(:user => person, :modifications => {})
       elsif (event = Event.where("name = ? and YEAR(date) = ?", race_number.old_updated_by, race_number.year).first).present?
         race_number.versions.create!(:user => event)
@@ -20,7 +20,7 @@ class AddPageCreatedUpdatedBy < ActiveRecord::Migration
       elsif person.last_updated_by["xls"]
         file = ImportFile.find_or_create_by_name(person.last_updated_by)
         person.versions.create!(:user => file, :modifications => {})
-      elsif (updated_by_person = ::Person.find_by_name(person.last_updated_by)).present?
+      elsif (updated_by_person = Person.find_by_name(person.last_updated_by)).present?
         person.versions.create!(:user => updated_by_person, :modifications => {})
       end
     end
@@ -39,7 +39,7 @@ class AddPageCreatedUpdatedBy < ActiveRecord::Migration
 
     VestalVersions::Version.all.each do |version|
       if version.user_name.present?
-        person = ::Person.find_by_name(version.user_name)
+        person = Person.find_by_name(version.user_name)
         if person
           version.user = person
         end
