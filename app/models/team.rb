@@ -6,8 +6,6 @@
 class Team < ActiveRecord::Base
   include Names::Nameable
   include Export::Teams
-
-  versioned :initial_version => true
   include Concerns::Audit
 
   before_save :destroy_shadowed_aliases

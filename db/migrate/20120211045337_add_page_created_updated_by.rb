@@ -65,10 +65,6 @@ class AddPageCreatedUpdatedBy < ActiveRecord::Migration
     remove_column :teams, :created_by_type
     remove_column :teams, :created_by_id
 
-    # # Make sure merge handles created and updated by
-    
-    # # Add FK constraints
-    # # Just delete the reference?
 
     # # Naming
 

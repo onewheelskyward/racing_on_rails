@@ -3,6 +3,7 @@ module Concerns
     extend ActiveSupport::Concern
     
     included do
+      versioned :initial_version => true
       before_save :set_updater
     end
 

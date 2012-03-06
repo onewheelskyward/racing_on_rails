@@ -9,7 +9,6 @@ class Page < ActiveRecord::Base
 
   acts_as_tree
   
-  versioned :initial_version => true
   include Concerns::Audit
   
   before_validation :set_slug, :set_path, :set_body
