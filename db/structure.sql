@@ -271,7 +271,7 @@ CREATE TABLE `events` (
   CONSTRAINT `events_number_issuers_id_fk` FOREIGN KEY (`number_issuer_id`) REFERENCES `number_issuers` (`id`),
   CONSTRAINT `events_promoter_id` FOREIGN KEY (`promoter_id`) REFERENCES `people` (`id`) ON DELETE SET NULL,
   CONSTRAINT `events_velodrome_id_fk` FOREIGN KEY (`velodrome_id`) REFERENCES `velodromes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=375 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `historical_names` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -593,7 +593,7 @@ CREATE TABLE `people` (
   KEY `index_people_on_login` (`login`),
   KEY `index_people_on_name` (`name`),
   CONSTRAINT `people_team_id_fk` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `people_people` (
   `person_id` int(11) NOT NULL,
@@ -1029,7 +1029,7 @@ CREATE TABLE `versions` (
   KEY `index_versions_on_number` (`number`),
   KEY `index_versions_on_tag` (`tag`),
   KEY `index_versions_on_created_at` (`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO schema_migrations (version) VALUES ('1');
 

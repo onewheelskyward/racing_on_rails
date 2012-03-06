@@ -46,17 +46,18 @@ module RacingOnRails
     if File.exists?("#{config.root}/local/config/database.yml")
       paths.config.database = "#{config.root}/local/config/database.yml"
     end
+
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
+
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
+
+    # Local config customization
+    load("#{::Rails.root.to_s}/local/config/environment.rb") if File.exist?("#{::Rails.root.to_s}/local/config/environment.rb")
   end
 
-  # Enable the asset pipeline
-  config.assets.enabled = true
-
-  # Version of your assets, change this if you want to expire all your assets
-  config.assets.version = '1.0'
-
-  # Local config customization
-  load("#{::Rails.root.to_s}/local/config/environment.rb") if File.exist?("#{::Rails.root.to_s}/local/config/environment.rb")
-  
   class ActionView::Base
     def self.default_form_builder
       RacingOnRails::FormBuilder

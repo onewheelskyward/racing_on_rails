@@ -133,7 +133,7 @@ GEM
     database_cleaner (0.7.0)
     dynamic_form (1.1.4)
     erubis (2.7.0)
-    factory_girl (2.3.1)
+    factory_girl (2.3.2)
       activesupport
     factory_girl_rails (1.4.0)
       factory_girl (~> 2.3.0)
