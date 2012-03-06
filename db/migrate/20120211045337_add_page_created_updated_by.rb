@@ -64,11 +64,5 @@ class AddPageCreatedUpdatedBy < ActiveRecord::Migration
 
     remove_column :teams, :created_by_type
     remove_column :teams, :created_by_id
-
-    # fix down migration
-  end
-
-  def self.down
-
   end
 end
