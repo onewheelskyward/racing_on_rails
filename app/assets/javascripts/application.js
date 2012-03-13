@@ -1,10 +1,5 @@
 /*
- *= require jquery
- *= require jquery_ujs
- *= require jquery-ui
- *= require jquery.jeditable
- *= require_self
- *= require tabs
+//= require twitter/bootstrap
 */
 
 function restripeTable(id) {
