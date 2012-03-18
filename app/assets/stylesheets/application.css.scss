@@ -1,0 +1,102 @@
+$font-size-bigger: 16px;
+
+$black: rgb(0, 0, 0);
+$near-black: rgb(30, 30, 30);
+$green-yellow: rgb(208, 250, 48);
+
+$highlight-color: $green-yellow;
+$font-color: $near-black;
+
+$linkColor: $font-color;
+$linkColorHover: $black;
+
+$nav: rgb(109, 109, 109);
+$nav-font-color: rgb(204, 204, 204);
+
+$content-background-color: white;
+$content-border-color: rgb(204, 204, 204);
+
+@import "bootstrap";
+
+body {
+  color: $font-color;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", FreeSans, Helvetica;  
+}
+
+body nav a:hover, body a:hover, a:hover {
+  background-color: $highlight-color;
+  color: $font-color;
+  text-decoration: underline;
+}
+
+h2, h2 a {
+  color: rgb(90, 90, 90);
+  text-align: center;
+}
+
+.nav {
+  margin-left: auto;
+}
+
+nav {
+  background-color: $nav;
+  border-radius: 3px;
+  margin-top: $baseLineHeight * 1.5;
+  vertical-align: center;
+}
+
+nav h1 {
+  line-height: $baseLineHeight * 2;
+  padding-left: $baseLineHeight / 2;
+}
+
+nav h1, nav h1 a, nav a {
+  color: $nav-font-color;
+  font-size: $font-size-bigger;
+}
+
+nav ul {
+  line-height: $baseLineHeight * 2;
+  margin-bottom: 0px;
+  padding-right: $baseLineHeight / 2;
+  text-align: right;
+}
+
+nav li {
+  border-right: 1px solid $nav-font-color;
+  display: inline;
+  list-style-type: none;
+  padding-left: $baseLineHeight / 2;
+  padding-right: $baseLineHeight / 2;
+}
+
+nav li:last-child {
+  border-right: 0px;
+}
+
+.page-nav {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.page-nav + .page-nav {
+  margin-top: $baseLineHeight / 2;
+}
+
+.page-nav a {
+  padding-left: $baseLineHeight / 2;
+  padding-right: $baseLineHeight / 2;
+  border-right: 1px solid $nav-font-color;
+}
+
+.page-nav a:last-child {
+  border-right: 0px;
+}
+
+.content {
+  background-color: $content-background-color;
+  border-radius: 6px;
+  border: 1px solid $content-border-color;
+  margin-bottom: $baseLineHeight / 2;
+  padding: $baseLineHeight;
+}

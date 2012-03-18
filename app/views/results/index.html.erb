@@ -1,10 +1,14 @@
 <% @page_title = "Results: #{@year}" %>
 
-<%= render_page "schedule/years" %>
+<div class="row">
+  <div class="span12">
+    <%= render_page "schedule/years" %>
+    <%= render :partial => 'disciplines' %>
+  </div>
+</div>
 
-<%= render :partial => 'disciplines' %>
-
-<%= table :caption => "#{@year}&nbsp;Results".html_safe do %>
+<h2><%= @year %> Results</h2>
+<%= table do %>
   <%- @events.sort_by!(&:date).each do |event| -%>
   <tr>
     <td class="date"><%= event.short_date %></td>

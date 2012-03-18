@@ -21,23 +21,20 @@
   <%= yield :head %>
 </head>
 <body>
-  <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <%= link_to RacingAssociation.current.name, "/", :class => "brand" %>
-        <div class="nav-collapse">
-          <ul class="nav">
+  <div class="container nav">
+    <nav>
+      <div class="row">
+        <div class="span6">
+          <h1><%= link_to RacingAssociation.current.name, "/"%></h1>
+        </div>
+        <div class="span6">
+          <ul>
             <li><%= link_to "Results", results_path, :id => "results_link" %></li>
             <li><%= link_to "Schedule", schedule_path, :id => "schedule_link" %></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
-    </div>
+    </nav>
   </div>
 
   <div class="container">
@@ -61,10 +58,11 @@
     </div>
     <% end %>
 
+<div class="content">
 <%= yield %>
+</div>
 
     <footer>
-      <p>
         <%= link_to RacingAssociation.current.short_name, "/" %> |
         <%= link_to "Results", results_path, :id => "results_link" %> |
         <%= link_to "Schedule", schedule_path, :id => "schedule_link" %> | 
@@ -76,9 +74,8 @@
         <% if current_person && current_person.administrator? %>
          | <%= link_to "Administration", {:controller => "/admin/events"}, { :id => "admin_link" } %>
         <% end %>
-      </p>
     </footer>
 
-    </div> <!-- /container -->
+    </div>
 </body>
 </html>

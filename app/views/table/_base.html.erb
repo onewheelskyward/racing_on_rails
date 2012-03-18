@@ -1,6 +1,6 @@
 <div class="table_container<%= " #{style_class}" if style_class %>"<%= " id='#{id}'" if id %><%= " data-id='#{dataid}'" if dataid %>>
   <%- if caption_visible %><div class="caption"><%= caption %></div><% end -%>
-  <table cellspacing="0" class="table table-striped<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %><%= " data-id='#{dataid}'" if dataid %>>
+  <table cellspacing="0" class="base table table-striped<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %><%= " data-id='#{dataid}'" if dataid %>>
     <%- if insert_header -%>
     <thead>
       <tr>

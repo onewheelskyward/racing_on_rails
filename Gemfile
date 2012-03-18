@@ -29,7 +29,7 @@ gem "ri_cal"
 gem "truncate_html"
 gem "jquery-rails"
 gem "yui-compressor"
-gem "twitter-bootstrap-rails"
+gem "bootstrap-sass"
 
 group :assets do
   gem 'sass-rails', "~> 3.2.0"

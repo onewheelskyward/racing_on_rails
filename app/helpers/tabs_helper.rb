@@ -18,7 +18,7 @@ module TabsHelper
     end
 
     def add(name, options = {}, html_options = {}, &block)
-      _html_options = { :class => "btn" }
+      _html_options = { }
       _html_options.merge!(html_options) if html_options
       @tabs << Tab.new(name, options, _html_options)
     end
@@ -30,16 +30,14 @@ module TabsHelper
 
     # Builder escapes text, which is not what we want
     def to_html(select_current_page = true)
-      table_class = "tabs"
-      table_class = "tabs_solo" if @tabs.size < 2
       html = <<HTML
-     <div class="row"><div class="btn-group">
+     <div class="page-nav">
 HTML
       @tabs.each_with_index do |tab, index|
         html << link_to(tab.name, tab.options, tab.html_options).to_s
       end
       end_html = <<HTML
-    </div></div>
+    </div>
 HTML
       html << end_html
     end
