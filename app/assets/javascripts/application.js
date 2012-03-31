@@ -1,5 +1,12 @@
 /*
 //= require bootstrap
+ *= require jquery
+ *= require jquery_ujs
+ *= require jquery-ui
+ *= require jquery.jeditable
+ *= require_self
+ *= require tabs
+ *= require first_aid_providers
 */
 
 function restripeTable(id) {

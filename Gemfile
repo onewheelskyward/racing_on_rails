@@ -44,7 +44,7 @@ end
 
 group :test do
   gem "ansi"
-  gem "factory_girl", "2.3.1"
+  gem "factory_girl"
   gem "factory_girl_rails"
   gem "mocha", :require => false
   gem "sqlite3"
@@ -54,7 +54,7 @@ end
 group :acceptance do
   gem "capybara"
   gem "database_cleaner"
-  gem "factory_girl", "2.3.1"
+  gem "factory_girl"
   gem "factory_girl_rails"
   gem "launchy"
   gem "mocha", :require => false
