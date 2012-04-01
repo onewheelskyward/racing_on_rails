@@ -9,7 +9,6 @@
   <![endif]-->
 
 
-  <%= stylesheet_link_tag    "bootstrap", :media => "all" %>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= airbrake_javascript_notifier unless Rails.env.acceptance? %>
@@ -21,25 +20,25 @@
   <%= yield :head %>
 </head>
 <body>
-  <div class="container nav">
+  <div class="container-fluid nav">
     <nav>
-      <div class="row">
+      <div class="row-fluid">
         <div class="span6">
           <h1><%= link_to RacingAssociation.current.name, "/"%></h1>
         </div>
         <div class="span6">
           <ul>
-            <li><%= link_to "Results", results_path, :id => "results_link" %></li>
             <li><%= link_to "Schedule", schedule_path, :id => "schedule_link" %></li>
+            <li><%= link_to "Results", results_path, :id => "results_link" %></li>
           </ul>
         </div>
       </div>
     </nav>
   </div>
 
-  <div class="container">
+  <div class="container-fluid">
     <% if flash[:warn].present? %>
-    <div class="row">
+    <div class="row-fluid">
       <div class="span16">
         <div class="alert-message warning">
           <p><%= flash[:warn] %></p>
@@ -49,7 +48,7 @@
     <% end %>
 
     <% if flash[:notice].present? %>
-    <div class="row">
+    <div class="row-fluid">
       <div class="span16">
         <div class="alert-message success">
           <p><%= flash[:notice] %></p>
@@ -62,20 +61,14 @@
 <%= yield %>
 </div>
 
-    <footer>
-        <%= link_to RacingAssociation.current.short_name, "/" %> |
-        <%= link_to "Results", results_path, :id => "results_link" %> |
-        <%= link_to "Schedule", schedule_path, :id => "schedule_link" %> | 
-        <% if current_person %>
-        <%= link_to "Logout", person_session_path, :method => :delete, :id => "account_link" %>
-        <% else %>
-        <%= link_to "Login", new_person_session_path, { :id => "account_link" } %>
-        <% end %>
-        <% if current_person && current_person.administrator? %>
-         | <%= link_to "Administration", {:controller => "/admin/events"}, { :id => "admin_link" } %>
-        <% end %>
-    </footer>
-
+    <div class="container-fluid nav">
+      <footer>
+        <ul>
+          <li><%= link_to "Account", account_path, :id => "account_link" %></li>
+          <li><%= link_to "Login", new_person_session_path, :id => "login_link" %></li>
+        </ul>
+      </footer>
     </div>
+  </div>
 </body>
 </html>
