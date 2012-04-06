@@ -19,22 +19,16 @@ GIT
       ttfunk (~> 1.0.3)
 
 GIT
-  remote: git://github.com/scottwillson/fckeditor.git
-  revision: 905f4db427732e030da948726c49ef87b51e8f09
-  specs:
-    fckeditor (0.6.2)
-
-GIT
   remote: git://github.com/scottwillson/ruby-ole.git
-  revision: 13e20ce064fb1fe8c703832796811a85583c6f5c
+  revision: 6b9d2530b12259ca21af75ed2dcb26ba745a6115
   specs:
-    ruby-ole (1.2.10)
+    ruby-ole (1.2.11.3)
 
 GIT
   remote: git://github.com/scottwillson/spreadsheet.git
-  revision: db1988571f236d4f426e8dec86200683aa35f479
+  revision: e5d97bc43f3db66600a70ace5de638f41a4a700b
   specs:
-    spreadsheet (0.6.5)
+    spreadsheet (0.6.6)
       ruby-ole
 
 GIT
@@ -48,7 +42,7 @@ GIT
 
 GIT
   remote: git://github.com/swanandp/acts_as_list.git
-  revision: 825dc3296c5a8f6832a2590d7645a671a70f87f9
+  revision: fe06669871c749be493608f609604e6d9e0475e8
   specs:
     acts_as_list (0.1.5)
 
@@ -59,12 +53,20 @@ GIT
     default_value_for (1.0.7)
 
 GIT
+  remote: https://github.com/rails/coffee-rails.git
+  revision: 2ff73973dbb47946ede02f1103404cf8f710a215
+  specs:
+    coffee-rails (3.2.0)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0.beta, < 5.0)
+
+GIT
   remote: https://github.com/rails/rails.git
-  revision: 657095d8bbec51999d66b379245e8d3466ee27af
+  revision: 29089bf6faeb496f0cb7d439b848bc6ee4f40e9e
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
-      mail (~> 2.4.3)
+      mail (~> 2.4.4)
     actionpack (4.0.0.beta)
       activemodel (= 4.0.0.beta)
       activesupport (= 4.0.0.beta)
@@ -74,7 +76,6 @@ GIT
       rack (~> 1.4.1)
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
-      sprockets (~> 2.2.0)
     activemodel (4.0.0.beta)
       activesupport (= 4.0.0.beta)
       builder (~> 3.0.0)
@@ -82,9 +83,6 @@ GIT
       activemodel (= 4.0.0.beta)
       activesupport (= 4.0.0.beta)
       arel (~> 3.0.2)
-    activeresource (4.0.0.beta)
-      activemodel (= 4.0.0.beta)
-      activesupport (= 4.0.0.beta)
     activesupport (4.0.0.beta)
       i18n (~> 0.6)
       multi_json (~> 1.0)
@@ -93,22 +91,35 @@ GIT
       actionmailer (= 4.0.0.beta)
       actionpack (= 4.0.0.beta)
       activerecord (= 4.0.0.beta)
-      activeresource (= 4.0.0.beta)
       activesupport (= 4.0.0.beta)
-      bundler (~> 1.0)
+      bundler (~> 1.1)
       railties (= 4.0.0.beta)
+      sprockets-rails (~> 1.0)
     railties (4.0.0.beta)
       actionpack (= 4.0.0.beta)
       activesupport (= 4.0.0.beta)
-      rack-ssl (~> 1.3.2)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.6)
+
+GIT
+  remote: https://github.com/rails/sass-rails.git
+  revision: 325b4ee0bb324be06e4840d48caa183a836598be
+  specs:
+    sass-rails (4.0.0.beta)
+      railties (>= 4.0.0.beta, < 5.0)
+      sass (>= 3.1.10)
+      sprockets-rails (~> 1.0)
+      tilt (~> 1.3)
 
 GEM
   remote: http://rubygems.org/
   specs:
     Ascii85 (1.0.1)
+    POpen4 (0.1.4)
+      Platform (>= 0.4.0)
+      open4
+    Platform (0.4.0)
     addressable (2.2.7)
     airbrake (3.0.9)
       activesupport
@@ -136,13 +147,23 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
-    database_cleaner (0.7.1)
+    ckeditor (3.7.0.rc3)
+      mime-types (~> 1.17.2)
+      orm_adapter (~> 0.0.6)
+    cocaine (0.2.1)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.2.0)
+    database_cleaner (0.7.2)
     dynamic_form (1.1.4)
     erubis (2.7.0)
-    factory_girl (2.6.1)
-      activesupport (>= 2.3.9)
-    factory_girl_rails (1.7.0)
-      factory_girl (~> 2.6.0)
+    execjs (1.3.0)
+      multi_json (~> 1.0)
+    factory_girl (3.1.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (3.1.0)
+      factory_girl (~> 3.1.0)
       railties (>= 3.0.0)
     fastercsv (1.5.4)
     ffi (1.0.11)
@@ -151,11 +172,14 @@ GEM
     i18n (0.6.0)
     in_place_editing (1.1.2)
     journey (1.0.3)
-    json (1.6.5)
-    kgio (2.7.2)
-    launchy (2.0.5)
+    jquery-rails (2.0.2)
+      railties (>= 3.2.0, < 5.0)
+      thor (~> 0.14)
+    json (1.6.6)
+    kgio (2.7.4)
+    launchy (2.1.0)
       addressable (~> 2.2.6)
-    mail (2.4.3)
+    mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -163,7 +187,7 @@ GEM
     mime-types (1.17.2)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.1.0)
+    multi_json (1.2.0)
     mysql2 (0.3.11)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
@@ -172,16 +196,22 @@ GEM
     net-ssh (2.3.0)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
-    nokogiri (1.5.0)
-    pdf-reader (1.0.0)
+    nokogiri (1.5.2)
+    open4 (1.3.0)
+    orm_adapter (0.0.7)
+    paperclip (3.0.1)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (>= 0.0.2)
+      mime-types
+    pdf-reader (1.1.0)
       Ascii85 (~> 1.0.0)
       ruby-rc4
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
-    rack-ssl (1.3.2)
-      rack
     rack-test (0.6.1)
       rack (>= 1.0)
     raindrops (0.8.0)
@@ -191,16 +221,20 @@ GEM
     ri_cal (0.8.8)
     ruby-rc4 (0.1.5)
     rubyzip (0.9.6.1)
+    sass (3.1.15)
     selenium-webdriver (2.20.0)
       childprocess (>= 0.2.5)
       ffi (~> 1.0)
       multi_json (~> 1.0)
       rubyzip
-    sprockets (2.2.0)
+    sprockets (2.3.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    sprockets-rails (1.0.0)
+      railties (>= 4.0.0.beta, < 5.0)
+      sprockets (~> 2.3.1)
     sqlite3 (1.3.5)
     tabular (0.0.7)
     thor (0.14.6)
@@ -212,13 +246,18 @@ GEM
     truncate_html (0.5.4)
     ttfunk (1.0.3)
     tzinfo (0.3.32)
-    unicorn (4.2.0)
+    uglifier (1.2.4)
+      execjs (>= 0.3.0)
+      multi_json (>= 1.0.2)
+    unicorn (4.2.1)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
     will_paginate (3.0.3)
     xpath (0.1.4)
       nokogiri (~> 1.3)
+    yui-compressor (0.9.6)
+      POpen4 (>= 0.1.4)
 
 PLATFORMS
   ruby
@@ -233,6 +272,8 @@ DEPENDENCIES
   capistrano
   capistrano-unicorn
   capybara
+  ckeditor (= 3.7.0.rc3)
+  coffee-rails!
   database_cleaner
   default_value_for!
   dynamic_form
@@ -240,17 +281,19 @@ DEPENDENCIES
   factory_girl
   factory_girl_rails
   fastercsv
-  fckeditor!
   in_place_editing
+  jquery-rails
   launchy
   mocha
   mysql2
+  paperclip
   pdf-reader
   prawn!
   rails!
   rake
   ri_cal
   ruby-ole!
+  sass-rails!
   selenium-webdriver
   spreadsheet!
   sqlite3
@@ -258,6 +301,8 @@ DEPENDENCIES
   tabular (> 0.0.5)
   timecop
   truncate_html
+  uglifier
   unicorn
   vestal_versions!
   will_paginate (~> 3.0.beta)
+  yui-compressor

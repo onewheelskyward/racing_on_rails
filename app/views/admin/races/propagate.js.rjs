@@ -1,3 +1,0 @@
-page[:propagate_races_progress].hide
-page[:propagate_races].show
-page.alert "Added all race categories from #{@event.full_name} to #{pluralize @event.children.count, "child"}"

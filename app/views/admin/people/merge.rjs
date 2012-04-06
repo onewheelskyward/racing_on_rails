@@ -1,4 +1,0 @@
-page.remove "person_#{@other_person.id}_row"
-page.replace_html "person_#{@person.id}_aliases", render(:partial => 'aliases', :locals => { :person => @person })
-page.call :flash, "notice", "Merged #{@other_person.name} into #{@person.name}"
-page.call :restripeTable, :people_table

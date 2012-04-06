@@ -17,16 +17,23 @@ gem "will_paginate", "~> 3.0.beta"
 gem "airbrake"
 gem "ruby-ole", :git => "git://github.com/scottwillson/ruby-ole.git"
 gem "spreadsheet", :git => "git://github.com/scottwillson/spreadsheet.git"
-gem "fckeditor", :git => "git://github.com/scottwillson/fckeditor.git"
+gem "ckeditor", "3.7.0.rc3"
 gem "default_value_for", :git => "https://github.com/FooBarWidget/default_value_for.git"
 gem "acts_as_list", :git => "git://github.com/swanandp/acts_as_list.git"
 gem "acts_as_tree", :git => "git://github.com/parasew/acts_as_tree.git"
 gem "dynamic_form"
 gem "in_place_editing"
-# FIXME Some updating need for Rails 3.1+ assets
-#gem "rails-widgets", :git => "git://github.com/scottwillson/rails-widgets.git"
 gem "ri_cal"
 gem "truncate_html"
+gem "jquery-rails"
+gem "yui-compressor"
+gem "paperclip"
+
+group :assets do
+  gem 'sass-rails', :git => "https://github.com/rails/sass-rails.git"
+  gem 'coffee-rails', :git => "https://github.com/rails/coffee-rails.git"
+  gem 'uglifier'
+end
 
 group :development do
   gem "capistrano"

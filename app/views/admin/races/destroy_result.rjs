@@ -1,2 +1,0 @@
-page.replace_html "results", :partial => "results", :locals => { :race => @result.race }
-page.call :restripeTable, :results

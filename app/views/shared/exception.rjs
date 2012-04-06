@@ -1,3 +1,0 @@
-page.show("warn")
-page.hide("notice")
-page["warn_span"].replace_html escape_once(exception.message)
