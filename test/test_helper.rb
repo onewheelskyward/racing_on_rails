@@ -21,7 +21,8 @@ class ActiveSupport::TestCase
     end
   end
   
-  setup :activate_authlogic, :reset_association, :reset_no_angle_brackets_exceptions
+  # setup :activate_authlogic, :reset_association, :reset_no_angle_brackets_exceptions
+  setup :reset_association, :reset_no_angle_brackets_exceptions
   
   # Discipline class may have loaded earlier with no aliases in database
   teardown :assert_no_angle_brackets, :reset_disciplines
