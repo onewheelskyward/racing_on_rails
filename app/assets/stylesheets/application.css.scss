@@ -2,9 +2,17 @@ $font-size-bigger: 16px;
 
 $black: rgb(0, 0, 0);
 $near-black: rgb(30, 30, 30);
+$gray-darker: rgb(90, 90, 90);
+$gray: rgb(109, 109, 109);
+$mid-gray: rgb(204, 204, 204);
 $grayLighter: rgb(238, 238, 238);
 $grayLightest: rgb(250, 250, 250);
 $green-yellow: rgb(208, 250, 48);
+
+// OBRA 2012
+$dark-blue: rgb(1, 6, 62);
+$pale-yellow: rgb(254, 244, 0);
+$pale-blue: rgb(137, 212, 244);
 
 $highlight-color: $green-yellow;
 $font-color: $near-black;
@@ -12,12 +20,12 @@ $font-color: $near-black;
 $linkColor: $font-color;
 $linkColorHover: $black;
 
-$nav: rgb(109, 109, 109);
-$nav-font-color: rgb(204, 204, 204);
+$nav-background-color: $gray-darker;
+$nav-font-color: $mid-gray;
 
 $body-background-color: $grayLightest;
 $content-background-color: white;
-$content-border-color: rgb(204, 204, 204);
+$content-border-color: $mid-gray;
 
 $tableBorder: rgb(221, 221, 221);
 
@@ -35,10 +43,11 @@ body nav a:hover, body footer a:hover, body a:hover, a:hover {
   text-decoration: underline;
 }
 
-h2, h2 a {
-  color: rgb(90, 90, 90);
+h2, h2 a, h2 a:hover {
+  color: $gray-darker;
   padding-top: $baseLineHeight;
   text-align: center;
+  text-decoration: none;
 }
 
 h3, h3 a, h3 a:hover {
@@ -52,7 +61,7 @@ h3, h3 a, h3 a:hover {
 }
 
 nav, footer {
-  background-color: $nav;
+  background-color: $nav-background-color;
   border-radius: 3px;
   margin-top: $baseLineHeight * 1.5;
   vertical-align: center;
