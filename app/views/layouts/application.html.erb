@@ -61,14 +61,14 @@
 <%= yield %>
 </div>
 
-    <div class="container-fluid nav">
-      <footer>
-        <ul>
-          <li><%= link_to "Account", account_path, :id => "account_link" %></li>
-          <li><%= link_to "Login", new_person_session_path, :id => "login_link" %></li>
-        </ul>
-      </footer>
-    </div>
+  </div>
+  <div class="container-fluid nav">
+    <footer>
+      <ul>
+        <li><%= link_to "Account", account_path, :id => "account_link" %></li>
+        <li><%= link_to "Login", new_person_session_path, :id => "login_link" %></li>
+      </ul>
+    </footer>
   </div>
 </body>
 </html>
