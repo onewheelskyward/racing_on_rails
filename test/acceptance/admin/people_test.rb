@@ -89,6 +89,7 @@ class PeopleTest < AcceptanceTest
     click_link "new_person"
     assert_match(/Admin: People: New Person/, find("title").text)
     
+    matson.race_numbers.create!(:value => "878", :year => 2009)
     visit "/admin/people/#{matson.id}/edit"
     assert_page_has_content "Mark Matson"
     if Time.zone.today.month < 12
@@ -101,6 +102,10 @@ class PeopleTest < AcceptanceTest
       assert_page_has_no_content "Unknown action"
       assert_page_has_no_content "Couldn't find RaceNumber"
     end
+
+    assert !page.has_css?("input.number[value='878']")
+    select "2009", :from => "number_year"
+    assert page.has_css?("input.number[value='878']")
     
     visit "/admin/people/#{brad.id}/edit"
     assert_page_has_content 'Ross'
@@ -119,6 +124,9 @@ class PeopleTest < AcceptanceTest
     
     find("#person_#{alice.id}").drag_to(find("#person_#{molly.id}"))
     wait_for_page_content "Merged A Penn into Molly Cameron"
+    assert page.has_selector?("#notice", :visible => true)
+    assert page.has_selector?("#warn", :visible => false)
+    assert !page.has_selector?("#info")
     assert !Person.exists?(alice.id), "Alice should be merged"
     assert Person.exists?(molly.id), "Molly still exist after merge"
   end

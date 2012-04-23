@@ -23,7 +23,7 @@ $linkColorHover: $black;
 $nav-background-color: $gray-darker;
 $nav-font-color: $mid-gray;
 
-$body-background-color: $grayLightest;
+$body-background-color: $grayLighter;
 $content-background-color: white;
 $content-border-color: $mid-gray;
 
@@ -41,6 +41,10 @@ body nav a:hover, body footer a:hover, body a:hover, a:hover {
   background-color: $highlight-color;
   color: $font-color;
   text-decoration: underline;
+  text-shadow: none;
+  -webkit-transition: all .1s linear;
+  -moz-transition: all .1s linear;
+  transition: all .1s linear;
 }
 
 h2, h2 a, h2 a:hover {
@@ -62,9 +66,22 @@ h3, h3 a, h3 a:hover {
 
 nav, footer {
   background-color: $nav-background-color;
+  border: 1px solid darken($nav-background-color, 10);
   border-radius: 3px;
   margin-top: $baseLineHeight * 1.5;
   vertical-align: center;
+
+  background-image: -moz-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
+  background-image: -ms-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(lighten($nav-background-color, 6)), to(darken($nav-background-color, 6)));
+  background-image: -webkit-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
+  background-image: -o-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
+  background-image: linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='lighten($nav-background-color, 6)', endColorstr='darken($nav-background-color, 6)', GradientType=0);
+  -webkit-box-shadow: inset 0 1px 0 lighten($nav-background-color, 10);
+  -moz-box-shadow: inset 0 1px 0 lighten($nav-background-color, 10);
+  box-shadow: inset 0 1px 0 lighten($nav-background-color, 10);
 }
 
 footer {
@@ -79,6 +96,7 @@ nav h1, footer h1 {
 nav h1, nav h1 a, nav a, footer h1, footer h1 a, footer a {
   color: $nav-font-color;
   font-size: $font-size-bigger;
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, .7), 0 0 30px rgba(0, 0, 0, .6);
 }
 
 nav ul, footer ul {
