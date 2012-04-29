@@ -93,6 +93,7 @@ class Event < ActiveRecord::Base
   }
   
   scope :today_and_future, lambda { { :conditions => [ "date >= ?", Time.zone.today ]}}
+  scope :current_year, lambda { where("date between ? and ?", Time.zone.now.beginning_of_year, Time.zone.now.end_of_year) }
   scope :not_child, { :conditions => "parent_id is null" }
 
   attr_reader :new_promoter_name
