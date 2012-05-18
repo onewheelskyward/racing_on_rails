@@ -10,21 +10,18 @@ class ActiveSupport::TestCase
   self.use_instantiated_fixtures  = false
   self.pre_loaded_fixtures  = false
 
+  include Test::EscapingAssertions
   include Test::EnumerableAssertions
-
-  @@no_angle_brackets_exceptions = []
-
-  class << self
-    def assert_no_angle_brackets(*options)
-      options = options.extract_options!
-      @@no_angle_brackets_exceptions = Array.wrap(options[:except])
-    end
-  end
   
-  setup :activate_authlogic, :reset_association, :reset_no_angle_brackets_exceptions
-  
+  setup :activate_authlogic, :reset_association
+
   # Discipline class may have loaded earlier with no aliases in database
-  teardown :assert_no_angle_brackets, :reset_disciplines, :reset_person_current
+  teardown :reset_disciplines, :reset_person_current
+  teardown lambda { |t| no_angle_brackets(t) }
+
+  # Ensure that test database transaction rollsback before we assert_no_angle_brackets.
+  # Otherwise, if no_angle_brackets fails, test data is left in the database.
+  set_callback(:teardown, :before, :teardown_fixtures)
 
   def reset_association
     RacingAssociation.current = nil
@@ -37,11 +34,6 @@ class ActiveSupport::TestCase
 
   def reset_person_current
     Person.current = nil
-  end
-
-  
-  def reset_no_angle_brackets_exceptions
-    @@reset_no_angle_brackets_exceptions = []
   end
 
   # person = fixture symbol or Person
@@ -126,19 +118,27 @@ class ActiveSupport::TestCase
 
   # Detect HTML escaping screw-ups
   # Eats RAM if there are many errors. Set VERBOSE_HTML_SOURCE to see page source.
-  def assert_no_angle_brackets
-    # unless @@no_angle_brackets_exceptions.include?(__method__) || @@no_angle_brackets_exceptions.include?(:all)
-    #   if @response && !@response.blank?
-    #     body_string = @response.body.to_s
-    #     if ENV["VERBOSE_HTML_SOURCE"]
-    #       assert !body_string["&lt;"], "Found escaped left angle bracket in #{body_string}"
-    #       assert !body_string["&rt;"], "Found escaped right angle bracket in #{body_string}"
-    #     else
-    #       assert !body_string["&lt;"], "Found escaped left angle bracket"
-    #       assert !body_string["&rt;"], "Found escaped right angle bracket"
-    #     end
-    #   end
-    # end
+  def no_angle_brackets(test_case)
+    unless self.no_angle_brackets_exceptions.include?(test_case.method_name.to_sym) || self.no_angle_brackets_exceptions.include?(:all)
+      if @response && @response.present?
+        body_string = @response.body.to_s
+        if ENV["VERBOSE_HTML_SOURCE"]
+          if body_string["&lt;"]
+            flunk "Found escaped left angle bracket in #{body_string}"
+          end
+          if body_string["&rt;"]
+            flunk "Found escaped right angle bracket in #{body_string}"
+          end
+        else
+          if body_string["&lt;"]
+            flunk "Found escaped left angle bracket"
+          end
+          if body_string["&rt;"]
+            flunk "Found escaped right angle bracket"
+          end
+        end
+      end
+    end
   end
 
   def create_administrator_session
@@ -182,7 +182,6 @@ class ActiveSupport::TestCase
        all_results = results.collect(&:place)
        # important to get last place in last
        results.sort! { |a,b| a.place.to_i <=> b.place.to_i }
-       need_results = []
        (1..results.last.place.to_i).reverse_each { |res|
          unless all_results.include?(res.to_s)
            # we need a result, there is a gap here
