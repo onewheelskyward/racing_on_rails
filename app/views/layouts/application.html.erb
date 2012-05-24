@@ -39,8 +39,8 @@
   <div class="container-fluid">
     <% if flash[:warn].present? %>
     <div class="row-fluid">
-      <div class="span16">
-        <div class="alert-message warning">
+      <div class="span12">
+        <div class="alert alert-error">
           <p><%= flash[:warn] %></p>
         </div>
       </div>
@@ -49,8 +49,8 @@
 
     <% if flash[:notice].present? %>
     <div class="row-fluid">
-      <div class="span16">
-        <div class="alert-message success">
+      <div class="span12">
+        <div class="alert alert-success">
           <p><%= flash[:notice] %></p>
         </div>
       </div>

@@ -3,22 +3,22 @@ module RacingOnRails
   class FormBuilder < ActionView::Helpers::FormBuilder
     # Set +editable+ to false for read-only
     def labelled_text_field(method, text = method.to_s.titleize, text_field_options = {})
-      label_options = text_field_options.delete(:label) || {}
+      label_options = text_field_options.delete(:label) || { :class => "control-label" }
       if text_field_options[:editable] == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} #{text_field(method, text_field_options)}}.html_safe
+        %Q{<div class="control-group">#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="controls">#{text_field(method, text_field_options)}</div></div>}.html_safe
       end
     end
 
     # Set +editable+ to false for read-only
     def labelled_select(method, select_options, options = {})
-      label_options = options.delete(:label) || {}
+      label_options = options.delete(:label) || { :class => "control-label" }
       text = label_options.delete(:text) if label_options
       if options[:editable] == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} #{select(method, select_options, options)}}.html_safe
+        %Q{<div class="control-group">#{label(method, "#{text || method.to_s.titleize}", label_options)}<div class="controls">#{select(method, select_options, options)}</div></div>}.html_safe
       end
     end
 
@@ -28,17 +28,17 @@ module RacingOnRails
     end
     
     def labelled_password_field(method, text = method.to_s.titleize, password_field_options = {})
-      label_options = password_field_options.delete(:label) || {}
-      %Q{#{label(method, "#{text}", label_options)} #{password_field(method, password_field_options)}}.html_safe
+      label_options = password_field_options.delete(:label) || { :class => "control-label" }
+      %Q{<div class="control-group">#{label(method, "#{text}", label_options)} <div class="controls">#{password_field(method, password_field_options)}</div></div>}.html_safe
     end
 
     # Set +editable+ to false for read-only
     def labelled_check_box(method, text = nil, check_box_options = {})
-      label_options = check_box_options.delete(:label) || {}
+      label_options = check_box_options.delete(:label) || { :class => "checkbox" }
       if check_box_options[:editable] == false
-        %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
+        %Q{#{label(method, text || method.to_s.titleize, label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{<div class="check_box"><div class="input">#{check_box(method, check_box_options)}</div><div  class="label">#{label(method, text || method.to_s.titleize)}</div></div>}.html_safe
+        %Q{<div class="control-group"><div class="controls">#{label(method, label_options) { "#{check_box(method, check_box_options)}#{text || method.to_s.titleize}".html_safe }}</div></div>}.html_safe
       end
     end
     
@@ -58,7 +58,8 @@ module RacingOnRails
     end
     
     def labelled_text(method, text = nil, label_text = nil, label_options = {})
-      %Q{#{label(method, "#{label_text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{text || @object.send(method)}</div>}.html_safe
+      label_options.merge!(:class => "control-label")
+      %Q{<div class="control-group">#{label(method, "#{label_text || method.to_s.titleize}", label_options)} <div class="controls labelled_text" id="#{object_name}_#{method}">#{text || @object.send(method)}</div></div>}.html_safe
     end
   end
 end

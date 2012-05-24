@@ -1,3 +1,6 @@
+// *= require twitter/bootstrap
+// *= require_tree .
+
 $font-size-bigger: 16px;
 
 $black: rgb(0, 0, 0);
@@ -29,7 +32,7 @@ $content-border-color: $mid-gray;
 
 $tableBorder: rgb(221, 221, 221);
 
-@import "bootstrap";
+@import "twitter/bootstrap";
 
 body {
   background-color: $body-background-color;
@@ -172,7 +175,6 @@ nav li:last-child, footer li:last-child {
   padding-left: $baseLineHeight;
 }
 
-.notes, .updatedon {
-  margin-top: $baseLineHeight * 1.5;
-  text-align: center;
+.actions {
+  text-align: right;
 }
