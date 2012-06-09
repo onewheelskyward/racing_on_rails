@@ -1,28 +1,31 @@
-<%= table :caption => "Categories", :class => "span6 person_categories", :insert_header => true, :columns => 2 do %>
-  <%- if RacingAssociation.current.bmx_numbers? -%>
-  <tr>
-    <td>BMX</td>
-    <td><%= person.bmx_category %></td>
-  </tr>
-  <%- end -%>
-  <tr>
-    <td>Cyclocross</td>
-    <td><%= person.ccx_category %></td>
-  </tr>
-  <tr>
-    <td>Downhill</td>
-    <td><%= person.dh_category %></td>
-  </tr>
-  <tr>
-    <td>Mountain Bike</td>
-    <td><%= person.mtb_category %></td>
-  </tr>
-  <tr>
-    <td>Road</td>
-    <td><%= person.road_category %></td>
-  </tr>
-  <tr>
-    <td>Track</td>
-    <td><%= person.track_category %></td>
-  </tr>
-<% end -%>
+<div class="span4">
+  <h3>Categories</h3>
+  <%= table :class => "person_categories", :columns => 2 do %>
+    <%- if RacingAssociation.current.bmx_numbers? -%>
+    <tr>
+      <td>BMX</td>
+      <td><%= person.bmx_category %></td>
+    </tr>
+    <%- end -%>
+    <tr>
+      <td>Cyclocross</td>
+      <td><%= person.ccx_category %></td>
+    </tr>
+    <tr>
+      <td>Downhill</td>
+      <td><%= person.dh_category %></td>
+    </tr>
+    <tr>
+      <td>Mountain Bike</td>
+      <td><%= person.mtb_category %></td>
+    </tr>
+    <tr>
+      <td>Road</td>
+      <td><%= person.road_category %></td>
+    </tr>
+    <tr>
+      <td>Track</td>
+      <td><%= person.track_category %></td>
+    </tr>
+  <% end -%>
+</div>

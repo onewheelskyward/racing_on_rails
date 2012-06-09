@@ -5,10 +5,10 @@
 
 <h2><%= @person.name %></h2>
 
-  <div class="container">
+  <div class="container-fluid">
 
   <%= form_for @person, :html => { :class => "form-horizontal" } do |f| -%>
-    <div class="row">
+    <div class="row-fluid">
       <div class="span6">
         <%= f.labelled_text_field :first_name %>
         <%= f.labelled_text_field :last_name %>
@@ -36,14 +36,14 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row-fluid">
     <div class="span6">
       <%= f.labelled_text_field :email %>
       <%= f.labelled_text_field :home_phone %>
       <%= f.labelled_text_field :work_phone %>
       <%= f.labelled_text_field :cell_fax %>
       <%= f.labelled_text_field :emergency_contact %>
-      <%= f.labelled_text_field :emergency_contact_phone, "Emerg. Contact Phone" %>
+      <%= f.labelled_text_field :emergency_contact_phone, "Em. Contact Phone" %>
       <div class="check_boxes">
         <%= f.labelled_check_box :wants_mail, "It's OK to send me mail" %>
         <%= f.labelled_check_box :wants_email, "It's OK to email me" %>
@@ -69,8 +69,8 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="span6">
+  <div class="row-fluid">
+    <div class="span6 membership">
       <%= f.labelled_text :member_from, @person.member_from %>
       <%= f.labelled_text :member_to, @person.member_to %>
   
@@ -78,44 +78,43 @@
       <%= f.labelled_text(:usa_cycling, "Current (#{@person.license})", nil, :class => "current") if @person.member_usac_to && @person.member_usac_to >= Time.zone.today -%>
       <%= f.labelled_text(:member, "Renewed", nil, :class => "renewed") if @person.renewed? -%>
       <%= f.labelled_text(:member, "Not current", nil, :class => "not_current") if !@person.member? && !@person.renewed? -%>  
-      <%= f.labelled_text :official, @person.official? %>
+      <%= f.labelled_check_box :official, "Official", :editable => false %>
     </div>
 
     <div class="span6">
-      <%= f.labelled_text_field :login, nil, :autocomplete => "off" %>
-      <%= f.labelled_password_field :password, nil, :autocomplete => "off" %>
-      <%= f.labelled_password_field :password_confirmation, "Confirm Password", :autocomplete => "off" %>
+      <%= f.labelled_text_field :login, nil, :autocomplete => "off", :class => "span12" %>
+      <%= f.labelled_password_field :password, nil, :autocomplete => "off", :class => "span12" %>
+      <%= f.labelled_password_field :password_confirmation, "Confirm Password", :autocomplete => "off", :class => "span12" %>
     </div>
   </div>
+  
+  <hr/>
 
-
-  <div class="row">
+  <div class="row-fluid">
     <%= render :partial => "numbers", :locals => { :person => @person } %>
     <%= render :partial => "categories", :locals => { :person => @person } %>
+    <%= render(:partial => "people/events", :locals => { :person => @person, :events => @person.events.all( :conditions => [ 
+       "parent_id is null and date between ? and ?", Time.zone.now.beginning_of_year, Time.zone.now.end_of_year 
+     ]).sort_by(&:date).reverse }) %>
   </div>
 
-  <div class="row">
+  <div class="row-fluid">
     <%= render :partial => "people/account_permissions", 
                 :locals => { :person => @person, 
                              :account_permissions => @person.account_permissions, 
                              :return_to => @person.new_record? ? nil : edit_person_path(@person)
                            }
     %>
-    <%= render(:partial => "people/events", :locals => { :person => @person, :events => @person.events.all( :conditions => [ 
-       "parent_id is null and date between ? and ?", Time.zone.now.beginning_of_year, Time.zone.now.end_of_year 
-     ]).sort_by(&:date).reverse }) %>
   </div>
 
+  <hr/>
 
-  <div class="row">
+  <div class="row-fluid buttons">
     <div class="updatedon span8">
       <%= render :partial => "people/created_updated" %>
     </div>
     
-    <div class="actions span4">
-      <%= link_to "Results", person_results_path(@person) %>
-      <%= submit_tag "Save", :class => "btn btn-primary", :id => "save" %>
-    </div>
+    <div class="actions span4"><%= link_to "Results", person_results_path(@person) %><%= submit_tag "Save", :class => "btn btn-primary", :id => "save" %></div>
   </div>
 <% end -%>
 </div>

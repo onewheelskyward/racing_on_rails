@@ -1,21 +1,17 @@
-<div class="table_container<%= " #{style_class}" if style_class %>"<%= " id='#{id}'" if id %><%= " data-id='#{dataid}'" if dataid %>>
-  <%- if caption_visible %><h3><%= caption %></h3><% end -%>
-  <table class="base table table-striped<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %><%= " data-id='#{dataid}'" if dataid %>>
-    <%- if insert_header -%>
-    <thead>
-      <tr>
-        <% columns.times do -%><th>&nbsp;</th><%- end -%>
-      </tr>
-    </thead>
-    <%- end -%>
-    <tbody>
+<table class="base table table-striped<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %><%= " data-id='#{dataid}'" if dataid %>>
+  <%- if insert_header -%>
+  <thead>
+    <tr>
+      <% columns.times do -%><th>&nbsp;</th><%- end -%>
+    </tr>
+  </thead>
+  <%- end -%>
+  <tbody>
 <%= body -%>
-      <%- if body.blank? || collection.try(:empty?) -%>
-      <tr>
-        <td class="empty">None</td>
-      </tr>
-      <%- end -%>
-    </tbody>
-  </table>
-  <%= link_to(image_tag("icons/add.png"), :url => { :action => new_action }, :html => { :class => "image" }, :remote => true) if new_action -%>
-</div>
+    <%- if body.blank? || collection.try(:empty?) -%>
+    <tr>
+      <td colspan="<%= columns %>" class="empty">None</td>
+    </tr>
+    <%- end -%>
+  </tbody>
+</table>

@@ -21,7 +21,8 @@ end -%>
 
 <div class="container">
   <%- for month in @schedule.months -%>
-  <%= table :class => "calendar", :caption => "<a name='#{month.name}'>#{month.name} #{@year}</a>".html_safe do %>
+  <h3><a name='<%= month.name %>'><%= month.name %> <%= @year %></a></h3>
+  <%= table :class => "calendar" do %>
       <tr>
         <th>Sunday</th>
         <th>Monday</th>

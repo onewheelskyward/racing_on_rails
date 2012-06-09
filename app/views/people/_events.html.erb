@@ -1,4 +1,6 @@
-  <%= table :caption => "Promoted Events", :class => "span6 promoted_events", :collection => events do %>
+<div class="span4">
+  <h3>Promoted Events</h3>
+  <%= table :class => "promoted_events", :collection => events, :columns => 2 do %>
     <tr>
       <th>Date</th>
       <th>Name</th>
@@ -6,4 +8,5 @@
     <%= render :partial => "people/event", 
                :collection => events
     %>
-  <% end -%>
+  <% end -%>  
+</div>

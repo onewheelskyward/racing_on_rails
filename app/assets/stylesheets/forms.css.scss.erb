@@ -1,3 +1,5 @@
+$form-color: rgb(30, 30, 30);
+
 .labelled_text {
   padding-top: 5px;
 }
@@ -5,6 +7,82 @@
 .form-horizontal .check_boxes .control-group {
   margin-bottom: 0px;
 }
+
+.form-horizontal label {
+  font-weight: bold;  
+}
+
+.form-horizontal .controls {
+  margin-left: 148px;
+}
+
+input, textarea, select, .uneditable-input {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-color: rgb(187, 187, 187);
+  border-radius: 0px;
+  color: $form-color;
+}
+
+
+input, button, select, textarea {
+  font-family: "Lucida Grande", Helvetica, Arial, Verdana;
+}
+
+select {
+  background: none;
+  background-color: none;
+  -webkit-appearance: none;
+}
+
+select, input[type="file"] {
+  line-height: 18px;
+}
+
+label {
+  color: rgb(90, 90, 90);
+}
+
+.updatedon, .actions a {
+  display: inline-block;
+  height: 18px;
+  line-height: 18px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 5px;
+  vertical-align: middle;
+}
+
+.btn-primary {
+  -webkit-appearance: none;
+  -webkit-box-align: center;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.0742188) 0px 1px 1px 0px inset;
+  background-color: #4F4F4F;
+  background-image: -webkit-linear-gradient(top, #6D6D6D, #222);
+  border-bottom-color: black;
+  border-bottom-style: solid;
+  border-left-color: #222;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-right-color: #222;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-top-color: #222;
+  border-top-style: solid;
+  border-top-width: 1px;
+  box-shadow: rgba(0, 0, 0, 0.0742188) 0px 1px 1px 0px inset;
+  color: white;
+  text-shadow: rgba(0, 0, 0, 0.246094) 0px -1px 0px;
+}
+
+.btn-primary:hover {
+  background-color: rgb(208, 250, 48);
+  background-image: none;
+  color: black;
+  text-shadow: none;
+}
+
 
 /*label {
   font-size: 1em;

@@ -1,15 +1,17 @@
-$(document).ready(function() {
-  bindNumberYearChange();
+jQuery(document).ready(function() {
+  bindDestroyNumber();
   bindDragAndDrop();
+  bindNumberYearChange();
+  bindExport();
 });
 
 function bindNumberYearChange() {
-  $('#number_year').change(function() {
-    $('#numbers_wrapper').load(
+  jQuery('#number_year').change(function() {
+    jQuery('#numbers_wrapper').load(
       '/admin/people/number_year_changed',
       { 
-        year: $('#number_year').val(),
-        id: $('#number_year').attr('data-person-id')
+        year: jQuery('#number_year').val(),
+        id: jQuery('#number_year').attr('data-person-id')
       },
       function() {
         bindNumberYearChange();
@@ -19,25 +21,48 @@ function bindNumberYearChange() {
 }
 
 function bindDragAndDrop() {
-  $('.person_icon').draggable({ 
+  jQuery('.person_icon').draggable({ 
     revert: 'invalid', 
     zIndex: 10000,
     opacity: 0.7,
     helper: function(event) {
-      return $('<div class="person" data-id="' + $(this).attr('data-id') + '">' + $(this).attr('data-name') + '</div>');
+      return jQuery('<div class="person" data-id="' + jQuery(this).attr('data-id') + '">' + jQuery(this).attr('data-name') + '</div>');
     }
     });
-  $('.person_row').droppable({
+  jQuery('.person_row').droppable({
     hoverClass: 'hovering',
     drop: function(event, ui) {
       ui.helper.hide('scale');
       ui.draggable.closest('tr').hide('fade');
-      $(this).addClass('merging');
-      $.ajax({
-        url: '/admin/people/' + $(this).attr('data-id') + '/merge/' + ui.draggable.attr('data-id') +'.js',
+      jQuery(this).addClass('merging');
+      jQuery.ajax({
+        url: '/admin/people/' + jQuery(this).attr('data-id') + '/merge/' + ui.draggable.attr('data-id') +'.js',
         type: 'POST',
         dataType: 'script'
       });
     }
   });
+}
+
+function bindDestroyNumber() {
+  jQuery('a.destroy_number').click(function() {
+    jQuery('#new_number_' + jQuery(this).attr('data-row-id')).remove();
+    return false;
+  });
+}
+
+function bindExport() {
+  jQuery('#export_button').click(function() {
+    submit_export(this);
+    return false;
+  });
+}
+
+function submit_export() {
+  if (jQuery('#format').val() == 'scoring_sheet') {
+    this.location = '/admin/people.xls?excel_layout=scoring_sheet&include=' + jQuery('#include').val();
+  }
+  else {
+    this.location = '/admin/people.' + jQuery('#format').val() + '?excel_layout=' + jQuery('#format').val() + '&include=' + jQuery('#include').val();
+  }
 }

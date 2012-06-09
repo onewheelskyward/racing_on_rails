@@ -1,5 +1,6 @@
 // *= require twitter/bootstrap
-// *= require_tree .
+// *= require forms
+// *= require pages
 
 $font-size-bigger: 16px;
 
@@ -19,11 +20,12 @@ $pale-blue: rgb(137, 212, 244);
 
 $highlight-color: $green-yellow;
 $font-color: $near-black;
+$form-color: $font-color;
 
 $linkColor: $font-color;
 $linkColorHover: $black;
 
-$nav-background-color: $gray-darker;
+$nav-background-color: $gray;
 $nav-font-color: $mid-gray;
 
 $body-background-color: $grayLighter;
@@ -33,11 +35,17 @@ $content-border-color: $mid-gray;
 $tableBorder: rgb(221, 221, 221);
 
 @import "twitter/bootstrap";
+@import "forms";
 
 body {
   background-color: $body-background-color;
   color: $font-color;
-  font-family: "Lucida Grande", "Lucida Sans Unicode", FreeSans, Helvetica;  
+  font-family: "Lucida Grande", Helvetica, Arial, Verdana;
+}
+
+.container-fluid {
+  padding-left:  $baseLineHeight * 2 * 1.618;
+  padding-right:  $baseLineHeight * 2 * 1.618;
 }
 
 body nav a:hover, body footer a:hover, body a:hover, a:hover {
@@ -50,14 +58,20 @@ body nav a:hover, body footer a:hover, body a:hover, a:hover {
   transition: all .1s linear;
 }
 
+.section {
+  padding-top: 60px;
+}
+
 h2, h2 a, h2 a:hover {
   color: $gray-darker;
+  padding-bottom: $baseLineHeight;
   padding-top: $baseLineHeight;
   text-align: center;
   text-decoration: none;
 }
 
 h3, h3 a, h3 a:hover {
+  color: $gray-darker;
   padding-top: $baseLineHeight;
   text-align: center;
   text-decoration: none;
@@ -71,7 +85,7 @@ nav, footer {
   background-color: $nav-background-color;
   border: 1px solid darken($nav-background-color, 10);
   border-radius: 3px;
-  margin-top: $baseLineHeight * 1.5;
+  margin-top: $baseLineHeight * 2;
   vertical-align: center;
 
   background-image: -moz-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
@@ -81,7 +95,6 @@ nav, footer {
   background-image: -o-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
   background-image: linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='lighten($nav-background-color, 6)', endColorstr='darken($nav-background-color, 6)', GradientType=0);
   -webkit-box-shadow: inset 0 1px 0 lighten($nav-background-color, 10);
   -moz-box-shadow: inset 0 1px 0 lighten($nav-background-color, 10);
   box-shadow: inset 0 1px 0 lighten($nav-background-color, 10);
@@ -99,7 +112,7 @@ nav h1, footer h1 {
 nav h1, nav h1 a, nav a, footer h1, footer h1 a, footer a {
   color: $nav-font-color;
   font-size: $font-size-bigger;
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, .7), 0 0 30px rgba(0, 0, 0, .6);
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, .35), 0 0 30px rgba(0, 0, 0, .3);
 }
 
 nav ul, footer ul {
@@ -177,4 +190,22 @@ nav li:last-child, footer li:last-child {
 
 .actions {
   text-align: right;
+}
+
+.table td {
+  border-bottom: none;
+  border-top: none;
+}
+
+.table {
+  border-bottom: 2px solid $mid-gray;
+  border-top: 2px solid $mid-gray;
+}
+
+.table-striped tbody tr:nth-child(odd) td{
+  background-color: $grayLighter;
+}
+
+th, .table-striped tbody tr:nth-child(odd) th {
+  background-color: $mid-gray;
 }
