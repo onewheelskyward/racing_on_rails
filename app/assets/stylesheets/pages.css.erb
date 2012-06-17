@@ -25,33 +25,26 @@ table#left_nav td.icon {
 }
 
 /* Calendar of events */
-div.calendar table {
+table.calendar {
   border-collapse: separate;
   padding: 0px;
   width: 100%;
-  background: white;
-}
-
-div.calendar {
   margin-bottom: 36px;
 }
 
-.calendar table th, .calendar .caption
-{
+table.calendar thead th {
   text-align: center;
 }
 
-tr.month
-{
+tr.month {
   vertical-align: top;
 }
 
-td.day
-{
-  height: 70px;
+td.day {
+  height: 100px;
   width: 14%;
+  background-color: rgb(238, 238, 238);
   border: 1px solid white;
-  background: #F4FDBF;
   padding: 4px 4px;
   text-align: left;
 }
@@ -67,28 +60,32 @@ td.day div.beginner_friendly {
   padding-left: 20px;
 }
 
-td.day div.number
-{
+td.day div.number {
   font-weight: bold;
+  text-align: right;
 }
 
 td.day_from_other_month
 {
-  height: 70px;
+  height: 100px;
   width: 14%;
   border: 1px solid white;
   background: white;
   padding: 4px 4px;
 }
 
-td.day_from_other_month div.number
-{
+td.day_from_other_month div.number {
   font-style: italic;
-  text-align: left;
+  text-align: right;
 }
 
-div.calendar table.base td.beginner_friendly {
+table.calendar td.beginner_friendly {
   text-align: right;
+}
+
+h3.month a:hover {
+  background: none;
+  background-color: none;
 }
 
 
@@ -116,6 +113,11 @@ tr.discipline_upcoming_events td.info {
 
 a.beginner_friendly {
   padding-right: 8px;
+}
+
+p.list_link, p.atra_ncs {
+  margin-top: 9px;
+  text-align: center;
 }
 
 

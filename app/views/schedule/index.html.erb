@@ -13,16 +13,17 @@ end -%>
 <% end %>
 
 <%= render_page "schedule/others" %>
-<p class="centered"><%= link_to "Schedule in list format", {:action => 'list'}, {:class => 'obvious'} %> with race organizer contact information</p>
+<p class="list_link"><%= link_to "Schedule in list format", schedule_list_path, :class => "obvious" %> with race organizer contact information</p>
 
 <% if RacingAssociation.current.competitions.include?(:atra_points_series) -%>
-<p class="centered"><%= image_tag "icons/red_star.gif", :style => "margin: 0px; padding-top: 2px;" %>&nbsp;ATRA National Championship Series (NCS)</p>
+<p class="atra_ncs"><%= image_tag "icons/red_star.gif", :style => "margin: 0px; padding-top: 2px;" %>&nbsp;ATRA National Championship Series (NCS)</p>
 <%- end %>
 
-<div class="container">
-  <%- for month in @schedule.months -%>
-  <h3><a name='<%= month.name %>'><%= month.name %> <%= @year %></a></h3>
-  <%= table :class => "calendar" do %>
+<div class="container-fluid">
+  <%- @schedule.months.each do |month| -%>
+  <h3 class="month"><a name='<%= month.name %>'><%= month.name %> <%= @year %></a></h3>
+  <table class="calendar table">
+    <thead>
       <tr>
         <th>Sunday</th>
         <th>Monday</th>
@@ -32,6 +33,8 @@ end -%>
         <th>Friday</th>
         <th>Saturday</th>
       </tr>
+    </thead>
+    <tbody>
     <%- month.weeks.each do |week| -%>
       <tr class="month">
       <%- week.days.each do |day| -%>
@@ -61,7 +64,8 @@ end -%>
       </tr>
       <%- end -%>
   <% end -%>
-<% end %>
+    <tbody>
+  </table>
 </div>
 
 <%= link_to "Excel", :format => :xls %> |

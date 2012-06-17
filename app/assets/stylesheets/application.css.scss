@@ -58,6 +58,10 @@ body nav a:hover, body footer a:hover, body a:hover, a:hover {
   transition: all .1s linear;
 }
 
+a.obvious {
+  text-decoration: underline;
+}
+
 .section {
   padding-top: 60px;
 }
