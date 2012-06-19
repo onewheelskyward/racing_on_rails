@@ -6,11 +6,13 @@ $font-size-bigger: 16px;
 
 $black: rgb(0, 0, 0);
 $near-black: rgb(30, 30, 30);
-$gray-darker: rgb(90, 90, 90);
+$gray-darker: rgb(54, 54, 54);
 $gray: rgb(109, 109, 109);
 $mid-gray: rgb(204, 204, 204);
 $grayLighter: rgb(238, 238, 238);
 $grayLightest: rgb(250, 250, 250);
+$warm-gray: rgb(228, 228, 224);
+$warm-gray-light: rgb(250, 250, 248);
 $green-yellow: rgb(208, 250, 48);
 
 // OBRA 2012
@@ -19,17 +21,17 @@ $pale-yellow: rgb(254, 244, 0);
 $pale-blue: rgb(137, 212, 244);
 
 $highlight-color: $green-yellow;
-$font-color: $near-black;
+$font-color: $gray-darker;
 $form-color: $font-color;
 
 $linkColor: $font-color;
 $linkColorHover: $black;
 
-$nav-background-color: $gray;
+$nav-background-color: $gray-darker;
 $nav-font-color: $mid-gray;
 
-$body-background-color: $grayLighter;
-$content-background-color: white;
+$body-background-color: $warm-gray;
+$content-background-color: $warm-gray-light;
 $content-border-color: $mid-gray;
 
 $tableBorder: rgb(221, 221, 221);
@@ -67,7 +69,7 @@ a.obvious {
 }
 
 h2, h2 a, h2 a:hover {
-  color: $gray-darker;
+  color: $gray;
   padding-bottom: $baseLineHeight;
   padding-top: $baseLineHeight;
   text-align: center;
@@ -197,19 +199,23 @@ nav li:last-child, footer li:last-child {
 }
 
 .table td {
-  border-bottom: none;
+  border-bottom: 1px solid darken($warm-gray, 18);
   border-top: none;
 }
 
 .table {
-  border-bottom: 2px solid $mid-gray;
-  border-top: 2px solid $mid-gray;
+  border-bottom: 2px solid darken($warm-gray, 18);
+  border-top: 2px solid darken($warm-gray, 18);
 }
 
-.table-striped tbody tr:nth-child(odd) td{
-  background-color: $grayLighter;
+.table-striped tbody tr:nth-child(even) td {
+  background-color: lighten($warm-gray, 4);
+}
+
+.table-striped tbody tr:nth-child(odd) td {
+  background-color: $warm-gray;
 }
 
 th, .table-striped tbody tr:nth-child(odd) th {
-  background-color: $mid-gray;
+  background-color: darken($warm-gray, 18);
 }
