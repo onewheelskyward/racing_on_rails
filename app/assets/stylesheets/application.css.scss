@@ -1,6 +1,8 @@
-// *= require twitter/bootstrap
 // *= require forms
 // *= require pages
+
+@import "bootstrap";
+@import "bootstrap-responsive";
 
 $font-size-bigger: 16px;
 
@@ -36,8 +38,6 @@ $content-border-color: $mid-gray;
 
 $tableBorder: rgb(221, 221, 221);
 
-@import "twitter/bootstrap";
-@import "bootstrap-responsive";
 @import "forms";
 
 body {
@@ -47,8 +47,8 @@ body {
 }
 
 .container-fluid {
-  padding-left:  $baseLineHeight * 2 * 1.618;
-  padding-right:  $baseLineHeight * 2 * 1.618;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 body nav a:hover, body footer a:hover, body a:hover, a:hover {
@@ -219,4 +219,19 @@ nav li:last-child, footer li:last-child {
 
 th, .table-striped tbody tr:nth-child(odd) th {
   background-color: darken($warm-gray, 18);
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  
+  nav {
+    margin-top: $baseLineHeight;
+  }
+  
+  nav ul {
+    text-align: center;
+  }
 }

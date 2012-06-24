@@ -27,7 +27,7 @@ gem "ri_cal"
 gem "truncate_html"
 gem "jquery-rails"
 gem "yui-compressor"
-gem "bootstrap-sass-rails"
+gem "bootstrap-sass"
 gem "paperclip"
 
 group :assets do
