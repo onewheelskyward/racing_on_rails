@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <title><%= page_title %></title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 
-
-  <%= stylesheet_link_tag    "bootstrap", :media => "all" %>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= airbrake_javascript_notifier unless Rails.env.acceptance? %>
@@ -21,24 +21,37 @@
   <%= yield :head %>
 </head>
 <body>
-  <div class="container">
-    <div class="hero-unit">
-        <%= link_to RacingAssociation.current.name, "/", :class => "brand" %>
-        <div class="nav-collapse">
-          <ul class="nav">
-            <li><%= link_to "Results", results_path, :id => "results_link" %></li>
+  <div class="container-fluid nav">
+    <nav>
+      <div class="row-fluid visible-phone">
+        <div class="span12">
+          <ul>
+            <li><%= link_to RacingAssociation.current.short_name, "/"%></li>
             <li><%= link_to "Schedule", schedule_path, :id => "schedule_link" %></li>
+            <li><%= link_to "Results", results_path, :id => "results_link" %></li>
           </ul>
+        </div>
       </div>
-    </div>
+
+      <div class="row-fluid hidden-phone">
+        <div class="span6">
+          <h1><%= link_to RacingAssociation.current.short_name, "/"%></h1>
+        </div>
+        <div class="span6">
+          <ul>
+            <li><%= link_to "Schedule", schedule_path, :id => "schedule_link" %></li>
+            <li><%= link_to "Results", results_path, :id => "results_link" %></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </div>
 
-  <div class="container">
-    <%= render :partial => "shared/tabs" %>
+  <div class="container-fluid">
     <% if flash[:warn].present? %>
-    <div class="row">
-      <div class="span16">
-        <div class="alert-message warning">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="alert alert-error">
           <p><%= flash[:warn] %></p>
         </div>
       </div>
@@ -46,30 +59,27 @@
     <% end %>
 
     <% if flash[:notice].present? %>
-    <div class="row">
-      <div class="span16">
-        <div class="alert-message success">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="alert alert-success">
           <p><%= flash[:notice] %></p>
         </div>
       </div>
     </div>
     <% end %>
 
+<div class="content">
 <%= yield %>
+</div>
 
+  </div>
+  <div class="container-fluid nav">
     <footer>
-      <p>
-        <%= link_to RacingAssociation.current.short_name, "/" %> |
-        <%= link_to "Logout", person_session_path, :method => :delete, :id => "account_link" %>
-      </p>
+      <ul>
+        <li><%= link_to "Account", account_path, :id => "account_link" %></li>
+        <li><%= link_to "Login", new_person_session_path, :id => "login_link" %></li>
+      </ul>
     </footer>
-
-    </div> <!-- /container -->
-  <%= render :partial => "shared/auto_complete" %>
+  </div>
 </body>
 </html>
-
-<% content_for :javascript_include_tag do -%>
-  <%= javascript_include_tag "events" %>
-  <%= javascript_include_tag "people" %>
-<% end -%>
