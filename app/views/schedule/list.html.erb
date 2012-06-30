@@ -1,27 +1,27 @@
 <% @page_title = "Schedule: #{@year}" %>
 
-<% if RacingAssociation.current.show_calendar_view? -%>
-<p class="centered"><%= link_to 'Schedule in calendar format', {:action => 'index'}, {:class => 'obvious'} %></p>
-<hr class="space" />
-<% end -%>
-
 <%= render :partial => "years" %>
 <%= render :partial => "disciplines", :locals => { :year => @year } %>
+<%= render :partial => "tabs" %>
 
 <% if Time.zone.today < Date.new(@year, 2) %>
 <div>Tentative. Dates are subject to change.</div>
 <% end %>
 
-<%= table :caption => @year do %>
-  <tr>
-    <th class="date">Date</th>
-    <th></th>
-    <th>Event</th>
-    <th>Promoter</th> 
-    <th>Phone</th>
-    <th>Discipline</th>
-    <th>Location</th>
-  </tr>
+<h2><%= @year %></h2>
+<%= table do %>
+  <thead>
+    <tr>
+      <th class="date">Date</th>
+      <th></th>
+      <th>Event</th>
+      <th>Promoter</th> 
+      <th>Phone</th>
+      <th>Discipline</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
 <%- @schedule.months.each do |month| -%>
   <%- month.weeks.each do |week| -%>
     <%- week.days.each do |day| -%>
@@ -56,3 +56,4 @@
   <%- end -%>
 <%- end -%>
 <% end -%>
+</tbody>
