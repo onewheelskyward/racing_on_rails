@@ -27,8 +27,8 @@
         <div class="span12">
           <ul>
             <li><%= link_to RacingAssociation.current.short_name, "/"%></li>
-            <li><%= link_to "Schedule", schedule_path, :id => "schedule_link" %></li>
-            <li><%= link_to "Results", results_path, :id => "results_link" %></li>
+            <li><%= link_to "Schedule", schedule_path, :class => "schedule_link" %></li>
+            <li><%= link_to "Results", results_path, :class => "results_link" %></li>
           </ul>
         </div>
       </div>
@@ -39,8 +39,8 @@
         </div>
         <div class="span6">
           <ul>
-            <li><%= link_to "Schedule", schedule_path, :id => "schedule_link" %></li>
-            <li><%= link_to "Results", results_path, :id => "results_link" %></li>
+            <li><%= link_to "Schedule", schedule_path, :class => "schedule_link" %></li>
+            <li><%= link_to "Results", results_path, :class => "results_link" %></li>
           </ul>
         </div>
       </div>
@@ -76,8 +76,8 @@
   <div class="container-fluid nav">
     <footer>
       <ul>
-        <li><%= link_to "Account", account_path, :id => "account_link" %></li>
-        <li><%= link_to "Login", new_person_session_path, :id => "login_link" %></li>
+        <li><%= link_to "Account", account_path, :class => "account_link" %></li>
+        <li><%= link_to "Login", new_person_session_path, :class => "login_link" %></li>
       </ul>
     </footer>
   </div>
