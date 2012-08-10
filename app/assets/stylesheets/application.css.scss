@@ -14,6 +14,7 @@ $warm-gray-light: rgb(250, 250, 248);
 $green-yellow: rgb(208, 250, 48);
 
 $highlight-color: $green-yellow;
+$font-color-light: $gray;
 $font-color: $gray-darker;
 $form-color: $font-color;
 
@@ -27,7 +28,7 @@ $body-background-color: $warm-gray;
 $content-background-color: $warm-gray-light;
 $content-border-color: $mid-gray;
 
-$tableBorder: rgb(221, 221, 221);
+$tableBorder: darken($warm-gray, 18);
 
 @import "bootstrap";
 @import "bootstrap-responsive";
@@ -162,11 +163,7 @@ nav li:last-child, footer li:last-child {
   background-color: $content-background-color;
   border-radius: 6px;
   border: 1px solid $content-border-color;
-  padding: $baseLineHeight;
-}
-
-.table-striped tr:last-child td {
-  border-bottom: 1px solid $tableBorder;
+  padding: $baseLineHeight * 2;
 }
 
 .event_info {
@@ -193,25 +190,36 @@ nav li:last-child, footer li:last-child {
 }
 
 .table td {
-  border-bottom: 1px solid darken($warm-gray, 18);
+  border-bottom: 1px solid $tableBorder;
   border-top: none;
 }
 
 .table {
-  border-bottom: 2px solid darken($warm-gray, 18);
-  border-top: 2px solid darken($warm-gray, 18);
+  margin-top: $baseLineHeight * 1.5;
 }
 
-.table-striped tbody tr:nth-child(even) td {
+.table-striped tbody tr:first-child td {
+  border-top: 2px solid $tableBorder;
+}
+
+.table-striped tbody tr:last-child td {
+  border-bottom: 2px solid $tableBorder;
+}
+
+.table-striped tbody tr:nth-child(even) td, .table-striped tbody tr:nth-child(even) td:hover {
   background-color: lighten($warm-gray, 4);
 }
 
-.table-striped tbody tr:nth-child(odd) td {
+.table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) td:hover {
   background-color: $warm-gray;
 }
 
 th, .table-striped tbody tr:nth-child(odd) th {
-  background-color: darken($warm-gray, 18);
+  background-color: $gray;
+  border-top: none;
+  color: $grayLighter;
+  padding-bottom: 4px;
+  padding-top: 4px;
 }
 
 @media (max-width: 767px) {
@@ -227,4 +235,12 @@ th, .table-striped tbody tr:nth-child(odd) th {
   nav ul {
     text-align: center;
   }
+}
+
+.updatedon {
+  border-bottom: none;
+  color: $font-color-light;
+  font-style: italic;
+  text-align: center;
+  white-space: nowrap;
 }
