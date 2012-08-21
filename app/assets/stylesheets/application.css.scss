@@ -140,7 +140,7 @@ nav li:last-child, footer li:last-child {
   border-right: 0px;
 }
 
-.page-nav {
+.page-nav, .page-links {
   margin: 0 auto;
   text-align: center;
 }
@@ -194,6 +194,14 @@ nav li:last-child, footer li:last-child {
   border-top: none;
 }
 
+h1 + .table, h2 + .table {
+  margin-top: 0px;
+}
+
+h3 + .table {
+  margin-top: $baseLineHeight / 2;
+}
+
 .table {
   margin-top: $baseLineHeight * 1.5;
 }
@@ -215,10 +223,13 @@ nav li:last-child, footer li:last-child {
 }
 
 th, .table-striped tbody tr:nth-child(odd) th {
-  background-color: $gray;
+  background-color: $tableBorder;
   border-top: none;
-  color: $grayLighter;
-  padding-bottom: 4px;
+  color: $near-black;
+}
+
+.table-striped.table th {
+  padding-bottom: 3px;
   padding-top: 4px;
 }
 
