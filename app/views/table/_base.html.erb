@@ -1,4 +1,4 @@
-<table class="base table table-striped<%= " #{style_class}" if style_class %>"<%= " id='#{id}_table'" if id %><%= " data-id='#{dataid}'" if dataid %>>
+<table class="base table table-striped<%= " #{style_class}".html_safe if style_class %>"<%= " id='#{id}_table'".html_safe if id %><%= " data-id='#{dataid}'".html_safe if dataid %>>
   <%- if insert_header -%>
   <thead>
     <tr>
