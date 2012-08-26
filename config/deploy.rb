@@ -12,7 +12,7 @@ require "capistrano-unicorn"
 set :scm, "git"
 set :repository, "git://github.com/scottwillson/racing_on_rails.git"
 set :site_local_repository, "git@github.com:scottwillson/#{application}-local.git"
-set :branch, "master"
+set :branch, "rails_3_2"
 set :deploy_via, :remote_cache
 set :keep_releases, 5
 
@@ -66,6 +66,7 @@ namespace :deploy do
   end
 end
 
-after "deploy:update_code", "deploy:local_code", "deploy:symlinks", "deploy:copy_cache"
+before "deploy:assets:precompile", "deploy:local_code"
+after "deploy:update_code", "deploy:symlinks", "deploy:copy_cache"
 
 require 'airbrake/capistrano'

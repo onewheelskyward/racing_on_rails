@@ -1,10 +1,10 @@
 <% style_class = nil unless style_class  %>
-<h3><%= link_to 'Results', results_path(:host => RacingAssociation.current.rails_host) %></h3>
+<h3><%= link_to 'Results', results_path %></h3>
 <%= table :class => style_class || "no_top_margin", 
          :id => "home_page_results" do %>
   <%- @recent_results.each do |event| -%>
   <tr>
-    <td><%= link_to event.full_name, event_results_path(event, :host => RacingAssociation.current.rails_host) %></td>
+    <td><%= link_to event.full_name, event_results_path(event) %></td>
   </tr>
   <%- end -%>
   <%- if @recent_results.empty? -%>
@@ -13,6 +13,6 @@
   </tr>
   <%- end -%>
   <tr>
-    <td style="padding-top: 16px;"><%= link_to("More &hellip;".html_safe, results_path(:host => RacingAssociation.current.rails_host)) %></td>
+    <td style="padding-top: 16px;"><%= link_to("More &hellip;".html_safe, results_path) %></td>
   </tr>
 <% end -%>

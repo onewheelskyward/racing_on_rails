@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 gem "rails", "~>3.2"
 
@@ -17,7 +17,7 @@ gem "will_paginate", "~> 3.0.beta"
 gem "airbrake"
 gem "ruby-ole", :git => "git://github.com/scottwillson/ruby-ole.git"
 gem "spreadsheet", :git => "git://github.com/scottwillson/spreadsheet.git"
-gem "ckeditor", "3.7.0.rc3"
+gem "ckeditor", "3.7.2"
 gem "default_value_for", :git => "https://github.com/FooBarWidget/default_value_for.git"
 gem "acts_as_list", :git => "git://github.com/swanandp/acts_as_list.git"
 gem "acts_as_tree", :git => "git://github.com/parasew/acts_as_tree.git"
@@ -31,9 +31,9 @@ gem "bootstrap-sass"
 gem "paperclip"
 
 group :assets do
-  gem 'sass-rails', "~> 3.2.0"
-  gem 'coffee-rails', "~> 3.2.0"
-  gem 'uglifier'
+  gem "sass-rails",   "~> 3.2.3"
+  gem "coffee-rails", "~> 3.2.1"
+  gem "uglifier", ">= 1.0.3"
 end
 
 group :development do
@@ -67,4 +67,5 @@ end
 group :production do
   gem "syslog-logger"
   gem "unicorn"
+  gem "execjs"
 end
