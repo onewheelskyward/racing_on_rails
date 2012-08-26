@@ -157,6 +157,6 @@ function makeEditable() {
 }
 
 $(document).ready(function() {
-  $('.wants_focus:visible').select();
   makeEditable();
+  jQuery('.wants_focus:visible').select();
 });
