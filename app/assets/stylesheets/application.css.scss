@@ -16,7 +16,7 @@ $green-yellow: rgb(208, 250, 48);
 $highlight-color: $green-yellow;
 $font-color-light: $gray;
 $font-color: $gray-darker;
-$form-color: $font-color-light;
+$form-color: $font-color;
 
 $linkColor: $font-color;
 $linkColorHover: $black;
@@ -189,6 +189,11 @@ nav li:last-child, footer li:last-child {
   text-align: right;
 }
 
+.actions a {
+  padding-left: $baseLineHeight;
+  padding-right: $baseLineHeight;
+}
+
 .table td {
   border-bottom: 1px solid $tableBorder;
   border-top: none;
@@ -256,12 +261,16 @@ th, .table-striped tbody tr:nth-child(odd) th {
   white-space: nowrap;
 }
 
+.buttons .updatedon {
+  text-align: left;
+}
+
 #search_form {
   margin-bottom: 0px;
 }
 
 label {
-  color: $form-color;
+  color: $gray;
   font-weight: bold;  
 }
 
@@ -277,4 +286,22 @@ input[type="text"] {
   max-width: 80px;
   text-align: right;
   width: 80px;
+}
+
+select {
+  color: $font-color;
+}
+
+.form-horizontal .controls {
+  margin-left: 150px;
+}
+
+@media (max-width: 480px) {
+  .form-horizontal .controls {
+    margin-left: 0;
+  }
+}
+
+.labelled_text {
+  padding-top: 5px;
 }
