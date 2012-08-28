@@ -8,17 +8,17 @@
 <div>Tentative. Dates are subject to change.</div>
 <% end %>
 
-<h2><%= @year %></h2>
+<h2><%= @year %> Schedule</h2>
 <%= table do %>
   <thead>
     <tr>
       <th class="date">Date</th>
-      <th></th>
+      <th class="hidden-phone"></th>
       <th>Event</th>
       <th>Promoter</th> 
-      <th>Phone</th>
-      <th>Discipline</th>
-      <th>Location</th>
+      <th class="hidden-phone">Phone</th>
+      <th class="hidden-phone">Discipline</th>
+      <th class="hidden-phone">Location</th>
     </tr>
   </thead>
   <tbody>
@@ -28,11 +28,11 @@
       <%- day.events.each do |event| -%>
   <tr class="<%= cycle("even", "odd") %>">
     <td class="date">
-      <%= event.date.strftime("%a %m/%d") if event.date -%>
+      <%= event.date.strftime("%a %_m/%d") if event.date -%>
     </td>
-    <td class="beginner_friendly"><%= image_tag("icons/star_green.png") if event.beginner_friendly? %></td>
+    <td class="beginner_friendly hidden-phone"><%= image_tag("icons/star_green.png") if event.beginner_friendly? %></td>
     <%- if event.cancelled %>
-    <td><span class="cancelled"><%= event.full_name -%></span> <i>cancelled</i></td>
+    <td class="hidden-phone"><span class="cancelled"><%= event.full_name -%></span> <i>cancelled</i></td>
     <%- elsif event.postponed? %>
     <td><span class="postponed"><%= event.full_name -%></span> <i>postponed</i></td>
     <%- else -%>
@@ -47,9 +47,9 @@
       </td> 
   <%- end -%>
     <td><%= link_to_event_email event %></td> 
-    <td class="contact_phone"><%= link_to_event_phone event %></td> 
-    <td><%= event.discipline -%></td> 
-    <td><%= event.city -%></td>
+    <td class="contact_phone hidden-phone"><%= link_to_event_phone event %></td> 
+    <td class="hidden-phone"><%= event.discipline -%></td> 
+    <td class="hidden-phone"><%= event.city -%></td>
   </tr>
   <%- end -%>
     <%- end -%>

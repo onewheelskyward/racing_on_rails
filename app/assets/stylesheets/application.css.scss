@@ -16,7 +16,7 @@ $green-yellow: rgb(208, 250, 48);
 $highlight-color: $green-yellow;
 $font-color-light: $gray;
 $font-color: $gray-darker;
-$form-color: $font-color;
+$form-color: $font-color-light;
 
 $linkColor: $font-color;
 $linkColorHover: $black;
@@ -258,4 +258,23 @@ th, .table-striped tbody tr:nth-child(odd) th {
 
 #search_form {
   margin-bottom: 0px;
+}
+
+label {
+  color: $form-color;
+  font-weight: bold;  
+}
+
+input[type="text"] {
+  color: $form-color;  
+}
+
+.form-horizontal .check_boxes .control-group {
+  margin-bottom: 0px;
+}
+
+.table .date {
+  max-width: 80px;
+  text-align: right;
+  width: 80px;
 }
