@@ -273,6 +273,10 @@ th, .table-striped tbody tr:nth-child(odd) th {
   white-space: nowrap;
 }
 
+.buttons {
+  margin-top: $baseLineHeight;
+}
+
 .buttons .updatedon {
   text-align: left;
 }
