@@ -10,7 +10,7 @@
 
 
 <div class="column_grid_container">
-  <div class="span-6 last">
+  <div class="span-6">
     <%= label(:event, :name, "Event") %><%= text_field :event, :name, :autocomplete => "off" %><br/>
     <%= label(:event, :date, "Date") %><%= date_select "event", "date", :order => [:month, :day, :year]%>
     <%= label(:event, :sanctioned_by, "#{check_box(:event, :sanctioned_by)} #{RacingAssociation.current.short_name}?".html_safe, :class => "check_box") %>
@@ -22,19 +22,19 @@
       <th class="span-1">Number</th>
       <th class="span-3">First Name</th>
       <th class="span-3">Last Name</th>
-      <th class="span-3 last">Team Name</th>
+      <th class="span-3">Team Name</th>
     </tr>
     <tr>
       <td class="span-1"><%= f.text_field :place %></td>
       <td class="span-1"><%= f.text_field :number %></td>
       <td class="span-3"><%= f.text_field :first_name %></td>
       <td class="span-3"><%= f.text_field :last_name %></td>
-      <td class="span-3 last"><%= f.text_field :team_name %></td>
+      <td class="span-3"><%= f.text_field :team_name %></td>
     </tr>
   <% end -%>
 
-  <div class="page_buttons span-6 last">
-    <div class="right span-6 last">
+  <div class="page_buttons span-6">
+    <div class="right span-6">
       <%= link_to "Cancel" %>
       <%= submit_tag "Save", :id => "save" %>
     </div>

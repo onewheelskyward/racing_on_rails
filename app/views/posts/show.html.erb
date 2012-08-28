@@ -18,7 +18,7 @@
 <%= labelled_text :post, :date, nil, @post.date.strftime("%m/%d/%Y %I:%M %p") %><br/>
 <%= labelled_text :post, :from, nil, h(@post.sender_obscured) %><br/>
 
-<div class="clear last" id="archived_post_body">
+<div class="clear id="archived_post_body">
 <% if @post.topica? || @post.body["<html>"] %>
   <%= sanitize(simple_format(@post.body)) %>
 <% else %>
@@ -26,7 +26,7 @@
 <% end -%>
 </div>
 
-<table class="archive_navigation clear last">
+<table class="archive_navigation clear">
   <tr>
     <%= render("mailing_lists/links", :mailing_list => @post.mailing_list) %>
   </tr>

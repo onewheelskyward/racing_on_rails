@@ -25,16 +25,16 @@
       <%- end %>
     </div>
 
-    <div class="span-3 last">
+    <div class="span-3">
       <%= f.labelled_text_field :notes, nil, :editable => administrator? %>
       <%= f.labelled_text_field :field_size, "Field Size (#{@race.results.size})", :editable => administrator? %>
       <%= f.labelled_text_field :distance, nil, :editable => administrator? %>
       <%= f.labelled_text_field :laps, nil, :editable => administrator? %>
     </div>
 
-    <div class="span-6 page_buttons last">
+    <div class="span-6 page_buttons">
        <div class="updatedon span-3"><%= "Updated: #{time_ago_in_words(@race.updated_at, true)} ago" if @race.updated_at.present? %>&nbsp;</div>
-      <div class="right span-3 last">
+      <div class="right span-3">
         <%= submit_tag "Save", :id => "save" %>
       </div>
     </div>

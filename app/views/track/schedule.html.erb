@@ -23,7 +23,7 @@
       </tr>
     </table>
   </div>
-  <div class="span-4 last">
+  <div class="span-4">
     <%= table :caption => "Schedule", :class => "box-4" do %>
       <tr>
           <th>Date</th>
@@ -57,7 +57,7 @@
     <% end %>        
   </div>
   
-  <div class="span-6 last">
+  <div class="span-6">
     <%= render :partial => 'weekly_events', 
                :locals => { :caption => "Weekly Racing Schedule", 
                             :weekly_events => @events.select { |e| e.class == WeeklySeries && !e.instructional? && !e.practice? } }%>

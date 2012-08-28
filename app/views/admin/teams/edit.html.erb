@@ -9,9 +9,10 @@
 
 <h2><%= @team.name %></h2>
 
-<div class="column_grid_container">
+<div class="container-fluid">
   <%= form_for [:admin, @team] do |f| -%>
-    <div class="span-3">
+  <div class="row-fluid">
+    <div class="span6">
       <%= f.labelled_text_field :name, nil, :class => @team.new_record? ? "wants_focus" : "" %>
       <%= f.labelled_text_field :contact_name %>
       <%= f.labelled_text_field :contact_email %>
@@ -20,13 +21,13 @@
       <%= f.labelled_check_box :member, "Member" %>
       <%= f.labelled_check_box :show_on_public_page, "Show on public teams page" %>
     </div>
-    <div class="span-3 last">
+    <div class="span6">
       <%= f.labelled_text_area :sponsors %>
     </div>
 
     <hr class="space" />
 
-    <div class="clear span-6 last">
+    <div class="clear span-6">
       <%= table :caption => "People", :class => "box-2 clear", :insert_header => true do %>
         <%- @team.people.sort { |x, y| x.last_name <=> y.last_name || x.first_name <=> y.first_name }.each do |person| -%>
         <tr>
@@ -50,7 +51,7 @@
         <%- end -%>
       <% end -%>
 
-      <%= table :caption => "Historical Names", :class => "box-2 last", :insert_header => true, :columns => 3 do %>
+      <%= table :caption => "Historical Names", :class => "box-2", :insert_header => true, :columns => 3 do %>
         <%- @team.names.sort_by(&:year).reverse.each do |name| -%>
         <tr id="name_<%= name.id %>">
           <td><%= name.name %></td>
@@ -66,7 +67,7 @@
       <% end -%>
     </div>
     
-    <div class="page_buttons clear span-6 last">
+    <div class="page_buttons clear span-6">
       <div class="updatedon span-2">
         <span class="created_at">
           <% if @team.created_at %>Created <%= time_ago_in_words(@team.created_at, true) + " ago" %><% end %>
@@ -75,7 +76,7 @@
         <% if @team.updated_at %>Updated <%= time_ago_in_words(@team.updated_at, true) + " ago" %><% end %>
         <% if @team.updated_by %>by <%= truncate_from_end(@team.updated_by_name) %><% end %>
       </div>
-      <div class="right span-3 last">
+      <div class="right span6">
         <%= link_to("Results", team_path(@team), :class => 'obvious') unless @team.new_record? %>  
         <%= link_to("Delete", admin_team_path(@team), :method => :delete, :class => 'obvious', :id => 'delete') unless @team.new_record? %>
         <%= submit_tag "Save", :id => "save" %>

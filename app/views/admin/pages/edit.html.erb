@@ -14,12 +14,12 @@
       <% end -%>
     </div>
   
-    <div class="span-4 last">
-      <%= f.labelled_text_area :body, :class => "box-4 last", :class => @page.new_record? ? "" : "wants_focus" %>
+    <div class="span-4">
+      <%= f.labelled_text_area :body, :class => "box-4, :class => @page.new_record? ? "" : "wants_focus" %>
 
-      <div class="page_buttons clear span-4 last">
+      <div class="page_buttons clear span-4">
         <div class="updatedon span-2"><%= "Updated: #{updated(@page)}".html_safe if @page.updated_at %></div>
-        <div class="right span-2 last">
+        <div class="right span-2">
           <%= link_to("Preview", "/#{@page.path}", :target => "_new", :class => "obvious", :id => "preview") %>
           <%= link_to("Delete", 
                       admin_page_path(@page), 

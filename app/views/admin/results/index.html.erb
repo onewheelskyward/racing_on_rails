@@ -8,12 +8,12 @@
   </div>
 </form>
 
-<div class="people clear last" id="people">
+<div class="people clear id="people">
   <div class="full_width" id="left_person">
     <%= render :partial => 'person', :locals => {:person => @person, :results => @results} %>
   </div>
 
-  <div class="half_width last" id="right_person"></div>
+  <div class="half_width id="right_person"></div>
 </div>
 
 <%= javascript_tag do %>

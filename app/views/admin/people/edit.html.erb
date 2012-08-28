@@ -16,16 +16,16 @@
 
 <h2><%= @person.name %></h2>
 
-<div class="column_grid_container">
+<div class="container-fluid">
 <%= form_for [:admin, @person]  do |f| -%>
   <%= hidden_field_tag("event_id", @event.id) if @event %>
-  <div class="span-3">
+  <div class="span6">
     <%= f.labelled_text_field :first_name, nil, :class => @person.new_record? ? "wants_focus" : "" %>
     <%= f.labelled_text_field :last_name %>
     <%= f.labelled_text_field :team_name %>
     <%= f.labelled_text_field :status %>
   </div>
-  <div class="span-3 last">
+  <div class="span6">
     <%= f.label :date_of_birth, "Date of Birth" %>
     <%= date_select 'person', 'date_of_birth', 
         :order => [:month, :day, :year], 
@@ -43,7 +43,7 @@
     <%= f.select(:gender, ['', 'F', 'M']) %><br/>
   </div>
 
-  <div class="span-3">
+  <div class="span6">
     <%= f.labelled_text_field :email %>
     <%= f.labelled_text_field :home_phone %>
     <%= f.labelled_text_field :work_phone %>
@@ -53,7 +53,7 @@
     <%= f.labelled_check_box :wants_mail, "Wants mail?" %>
     <%= f.labelled_check_box :wants_email, "Wants email?" %>
   </div>
-  <div class="span-3 last">
+  <div class="span6">
     <%= f.labelled_text_field :street %>
     <%= f.label :city, "City, State ZIP" %>
     <%= f.text_field :city, :class => "city" %> <%= f.text_field :state, :class => "state" %> <%= f.text_field :zip, :class => "zip" %>
@@ -80,7 +80,7 @@
 
   <hr class="space" />
 
-  <div class="span-3">
+  <div class="span6">
     <%= f.label :member_from, "Member From" %>
     <%= date_select 'person', 'member_from', 
         :order => [:month, :day, :year],
@@ -107,13 +107,13 @@
     <%= f.labelled_check_box :official %>
   </div>
 
-  <div class="span-3 last">
+  <div class="span6">
     <%= f.labelled_text_area :notes %>
   </div>
 
   <hr class="space" />
 
-  <div class="clear span-6 last">
+  <div class="clear span-6">
     <div id="numbers_wrapper"><%= render :partial => 'numbers', :locals => {:year => @year, :years => @years, :person => @person, :race_numbers => @race_numbers} %></div>
     <%= render :partial => 'categories', :locals => { :person => @person } %>
     <%= render :partial => 'aliases_table', :locals => { :person => @person } %>
@@ -121,7 +121,7 @@
 
   <hr class="space" />
 
-  <div class="clear span-6 last">
+  <div class="clear span-6">
     <%= render :partial => "people/account_permissions", 
                 :locals => { :person => @person, 
                              :account_permissions => @person.account_permissions, 
@@ -133,11 +133,11 @@
      ]).sort_by(&:date).reverse }) unless @person.events.empty? %>
   </div>
 
-  <div class="page_buttons span-6 last">
+  <div class="page_buttons span-6">
     <div class="updatedon span-2">
       <%= render(:partial => "people/created_updated") unless @person.new_record? %>
     </div>
-    <div class="right span-4 last">
+    <div class="right span-4">
       <%= link_to("Move Results", admin_person_results_path(@person)) unless @person.new_record? %>  
       <%= link_to("Delete", admin_person_path(@person), :method => :delete, :class => 'obvious', :id => 'delete') unless @person.new_record? %>
       <%= submit_tag "Save", :id => "save" %>
