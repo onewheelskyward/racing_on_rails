@@ -251,6 +251,18 @@ th, .table-striped tbody tr:nth-child(odd) th {
   nav ul {
     text-align: center;
   }
+
+  .actions {
+    padding-left: 314px;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .actions {
+    padding-left: 0px;
+    text-align: left;
+  }
 }
 
 .updatedon {
