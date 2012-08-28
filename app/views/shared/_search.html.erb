@@ -1,8 +1,8 @@
-<%= form_tag({}, {:method => "get", :id => "search_form"}) do %>
-  <div class="centered">
-    <%= label_tag "name" %>
-    <%= text_field_tag "name", name, :class => "wants_focus" %>
+<%= form_tag({}, { :method => "get", :id => "search_form", :class => "form-horizontal" }) do %>
+  <div class="row-fluid">
+    <div class="span3"></div>
+    <div class="span6">
+      <%= text_field_tag("name", @name, :class => "wants_focus span12", :placeholder => placeholder) %>
+    </div>
   </div>
 <% end -%>
-
-<hr class="space clear"/>

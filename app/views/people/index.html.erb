@@ -1,43 +1,36 @@
 <% @page_title = "People" %>
 <% @show_tabs = (promoter? || administrator?) -%>
 
-<%= render_page "people/disciplines", :locals => { :year => @year } %>
-
 <div class="container-fluid">
+  <%= render_page "people/disciplines", :locals => { :year => @year } %>
+  
+  <h2>People</h2>
+  <%= render :partial => "shared/search", :locals => { :name => @name, :placeholder => "Enter name to search" } %>
 
-  <%= form_tag({}, { :method => "get", :id => "search_form", :class => "form-horizontal" }) do %>
   <div class="row-fluid">
-    <div class="span3"></div>
-    <div class="span6">
-      <%= text_field_tag("name", @name, :class => "wants_focus span12", :placeholder => "Enter part of a person's name to search") %>
+    <div class="span12">
+      <%= table :class => "people", :id => :people do %>
+        <tr>
+          <th class="name">Name</th>
+          <th class="aliases">Aliases</th>
+          <th class="right">Road Cat</th>
+          <th class="right">MTB Cat</th>
+          <th class="right">Cross Cat</th>
+        </tr>
+        <%= render :partial => "person", :collection => @people %>
+        <% if @people.empty? %>
+        <tr>
+          <td colspan="5" class="not_found">No matching people found</td>
+        </tr>
+        <% else %>
+          <%= will_paginate @people %>
+        <% end %>
+      <% end -%>
+
+      <% if (promoter? || administrator? || official?) %>
+      <%= link_to("Export current members to Excel", admin_people_path(:format => "xls", :excel_layout => "scoring_sheet", :include => "members_only"), :id => "export_link") %>
+      <% end -%>
     </div>
   </div>
-<% end -%>
-
-<div class="row-fluid">
-  <div class="span12">
-    <%= table :class => "people", :id => :people do %>
-      <tr>
-        <th class="name">Name</th>
-        <th class="aliases">Aliases</th>
-        <th class="right">Road Cat</th>
-        <th class="right">MTB Cat</th>
-        <th class="right">Cross Cat</th>
-      </tr>
-      <%= render :partial => "person", :collection => @people %>
-      <% if @people.empty? %>
-      <tr>
-        <td colspan="5" class="not_found">No matching people found</td>
-      </tr>
-      <% else %>
-        <%= will_paginate @people %>
-      <% end %>
-    <% end -%>
-
-    <% if (promoter? || administrator? || official?) %>
-    <%= link_to("Export current members to Excel", admin_people_path(:format => "xls", :excel_layout => "scoring_sheet", :include => "members_only"), :id => "export_link") %>
-    <% end -%>
-  </div>
-</div>
 
 </div>
