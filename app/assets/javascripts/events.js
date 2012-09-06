@@ -4,6 +4,7 @@ $(document).ready(function() {
     $('#upload_form').hide(); 
     $('#upload_progress').show(); 
     $('#upload_form').submit();
+    $('#event_type').tooltip();
   });
   
   $('#propagate_races').live('ajax:beforeSend', function() {

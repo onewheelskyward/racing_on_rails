@@ -15,7 +15,8 @@ module RacingOnRails
     end
     
     def labelled_text(object_name, method, label_text = nil, text = nil, label_options = {}, text_class = nil)
-      %Q{#{label(object_name, method, "#{label_text || method.to_s.titleize}", label_options)} <div class="labelled #{text_class}" id="#{object_name}_#{method}">#{text || instance_variable_get("@#{object_name}").send(method)}</div>}.html_safe
+      label_options = label_options.delete(:label) || { :class => "control-label" }
+      %Q{<div class="control-group">#{label(object_name, method, "#{label_text || method.to_s.titleize}", label_options)} <div class="controls #{text_class}" id="#{object_name}_#{method}">#{text || instance_variable_get("@#{object_name}").send(method)}</div></div>}.html_safe
     end
   end
 end

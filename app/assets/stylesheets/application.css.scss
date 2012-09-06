@@ -1,3 +1,4 @@
+// *= require jquery-ui-1.8.2.custom
 // *= require pages
 
 $font-size-bigger: 16px;
@@ -107,6 +108,7 @@ footer {
 
 nav h1, footer h1 {
   line-height: $baseLineHeight * 1.5;
+  margin: 0px;
   padding-left: $baseLineHeight / 2;
 }
 
@@ -294,6 +296,10 @@ input[type="text"] {
   color: $form-color;  
 }
 
+.form-horizontal .check_boxes {
+  margin-bottom: $baseLineHeight;
+}
+
 .form-horizontal .check_boxes .control-group {
   margin-bottom: 0px;
 }
@@ -325,4 +331,17 @@ select {
 input[type="search"].search_form {
   -webkit-appearance: searchfield;
   box-sizing: border-box;
+}
+
+td.numeric {
+  text-align: right;
+}
+
+legend {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+fieldset {
+  padding-bottom: $baseLineHeight;
 }

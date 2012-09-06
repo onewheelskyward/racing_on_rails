@@ -2,7 +2,6 @@ source "https://rubygems.org"
 
 gem "rails", "~>3.2"
 
-gem "fastercsv", :platforms => :ruby_18
 gem "rake"
 gem "authlogic"
 gem "tabular", ">0.0.5"
@@ -27,8 +26,8 @@ gem "ri_cal"
 gem "truncate_html"
 gem "jquery-rails"
 gem "yui-compressor"
-gem "bootstrap-sass"
-gem "paperclip"
+gem "bootstrap-sass", :git => "git://github.com/dszczyt/bootstrap-sass.git"
+gem "jquery_datepicker"
 
 group :assets do
   gem "sass-rails",   "~> 3.2.3"

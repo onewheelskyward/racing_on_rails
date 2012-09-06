@@ -1,18 +1,20 @@
 /* Page-specific. Do we really need so many of these?  Probably should be separate files for pages. */
 
 /* Admin events */
-table#left_nav {
-  font-size: 8pt;
+.edit_event h3.events {
+  padding-top: 0px;
 }
 
-table#left_nav td.text {
-  white-space: nowrap;  
-  padding-left: 4px;
+.edit_event .control-group.name {
+  margin-bottom: 6px;
 }
 
-table#left_nav td.icon {
+.edit_event .control-group.promoter {
+  margin-bottom: 6px;
+}
+
+table td.delete_all_races {
   text-align: right;
-  padding-right: 0px;
 }
 
 #promoter_links {
@@ -351,7 +353,7 @@ input.city {
 }
 
 input.city_no_zip {
-  width: 200px;
+  width: 80%;
 }
 
 input.state {
@@ -359,7 +361,7 @@ input.state {
 }
 
 input.state_no_zip {
-  width: 30px;
+  width: 10%;
 }
 
 input.zip {

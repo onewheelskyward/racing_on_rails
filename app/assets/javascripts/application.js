@@ -3,6 +3,7 @@
  *= require jquery_ujs
  *= require jquery-ui
  *= require jquery.jeditable
+ *= require bootstrap
  *= require_self
  *= require tabs
  *= require first_aid_providers
