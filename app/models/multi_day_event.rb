@@ -34,7 +34,6 @@ class MultiDayEvent < Event
                owner = proxy_association.owner
                attributes[:parent_id] = owner.id
                attributes[:parent] = owner
-               Event::PROPOGATED_ATTRIBUTES.each { |attr| attributes[attr] = owner[attr] }               
                event = SingleDayEvent.new(attributes)
                (event.date = owner.date) unless attributes[:date]
                event.parent = owner
@@ -47,7 +46,6 @@ class MultiDayEvent < Event
                owner = proxy_association.owner
                attributes[:parent_id] = owner.id
                attributes[:parent] = owner
-               Event::PROPOGATED_ATTRIBUTES.each { |attr| attributes[attr] = owner[attr] }               
                event = SingleDayEvent.new(attributes)
                (event.date = owner.date) unless attributes[:date]
                event.parent = owner
