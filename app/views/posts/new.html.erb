@@ -1,6 +1,6 @@
 <% @page_title = "Mailing Lists: #{@mailing_list.friendly_name}" %>
 
-<div class="column_grid_container top_margin">
+<div class="container-fluid">
 <%= error_messages_for :post %>
 
   <%= form_for [ @mailing_list, @post ] do |f| %>
@@ -23,7 +23,7 @@
     
     <div class="page_buttons clear span-6">
       <div class="updatedon span-5 right"><% unless @reply_to %>You must be a subscriber to post<% end %></div>
-      <div class="right span-1>
+      <div class="right span-1">
     <% if @reply_to %>
         <%= submit_tag("Send") %>
     <% else %>

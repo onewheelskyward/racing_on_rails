@@ -1,12 +1,12 @@
 <% @page_title = "Admin: Pages: #{@page.title}: #{@version.number}" %>
 
-<div class="column_grid_container top_margin">
+<div class="container-fluid">
   <div class="span-2">
     <%= labelled_text :page, :title, "Title", @page.title, {:class => "left no_top_margin"}, "no_top_margin" %>
     <%= labelled_text :page, :slug, "Slug", @page.slug, {:class => "left"} %>
     <%= labelled_text :page, :parent_id, "Parent", ("#{@parent.title} (#{@parent.path})" if @parent), {:class => "left"} %>
 
-    <%= table :caption => "Versions", :class => "versions box-2 top_margin", :id => :versions, :insert_header => true, :columns => 2 do %>
+    <%= table :caption => "Versions", :class => "versions box-2", :id => :versions, :insert_header => true, :columns => 2 do %>
       <%= render :partial => "admin/pages/version", 
                  :collection => @page.versions.sort_by(&:number).reverse, 
                  :locals => { :selected => @version } %>

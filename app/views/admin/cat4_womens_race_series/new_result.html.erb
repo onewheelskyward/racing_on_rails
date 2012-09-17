@@ -9,7 +9,7 @@
             :html => { :autocomplete => "off", :class => "cat4_womens_race_series" }) do |f| %>
 
 
-<div class="column_grid_container">
+<div class="container-fluid">
   <div class="span-6">
     <%= label(:event, :name, "Event") %><%= text_field :event, :name, :autocomplete => "off" %><br/>
     <%= label(:event, :date, "Date") %><%= date_select "event", "date", :order => [:month, :day, :year]%>

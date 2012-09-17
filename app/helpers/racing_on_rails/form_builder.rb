@@ -7,7 +7,11 @@ module RacingOnRails
       if text_field_options[:editable] == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
-        %Q{<div class="control-group #{method.to_s}">#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="controls">#{text_field(method, text_field_options)}</div></div>}.html_safe
+        help_block = nil
+        if text_field_options[:help]
+          help_block = "<span class='help-block'>#{text_field_options.delete(:help)}</span>"
+        end
+        %Q{<div class="control-group #{method.to_s}">#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="controls">#{text_field(method, text_field_options)}#{help_block}</div></div>}.html_safe
       end
     end
 

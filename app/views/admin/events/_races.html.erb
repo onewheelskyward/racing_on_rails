@@ -9,13 +9,18 @@
         <%= link_to(image_tag('icons/page_go.png', :title => 'View public results web page', :alt => 'View public results web page'), 
              event_results_path(@event), 
              { :class => "image" }) if @event.has_results_including_children?
-        %>
+        -%>
       </th>
     </tr>
   </thead>
   <tbody>
     <%= render @event.races %>
-    <% unless @event.new_record? || @event.races.any? %>
+    <%- if @event.new_record? %>
+    <tr>
+      <td colspan="4">Save new event to add races.</td>
+    </tr>
+    <% end -%>
+    <% unless @event.new_record? || @event.races.present? %>
     <tr>
       <td colspan="4" class="empty">No races. Click [+] to add a race.</td>
     </tr>
