@@ -4,7 +4,8 @@ module RacingOnRails
     # Set +editable+ to false for read-only
     def labelled_text_field(method, text = method.to_s.titleize, text_field_options = { :class => "span12" })
       label_options = text_field_options.delete(:label) || { :class => "control-label" }
-      if text_field_options[:editable] == false
+      editable = text_field_options.delete(:editable)
+      if editable == false
         %Q{#{label(method, "#{text || method.to_s.titleize}", label_options)} <div class="labelled" id="#{object_name}_#{method}">#{@object.send(method)}</div>}.html_safe
       else
         help_block = nil
