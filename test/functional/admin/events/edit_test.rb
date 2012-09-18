@@ -20,7 +20,8 @@ module Admin
         assert_not_nil(assigns["event"], "Should assign event")
         assert_nil(assigns["race"], "Should not assign race")
         assert(!@response.body["#&lt;Velodrome:"], "Should not have model in text field")
-        assert_select "#event_date_1i", :count => 1
+        assert_select "#event_date_range_long_s"
+        assert_select "#event_date"
       end
   
       def test_edit_sti_subclasses
