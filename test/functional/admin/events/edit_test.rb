@@ -30,9 +30,11 @@ module Admin
           get(:edit, :id => event.to_param)
           assert_response(:success)
           if event_class == SingleDayEvent
-            assert_select "#event_date_1i", :count => 1
+            assert_select "#event_date_range_long_s"
+            assert_select "#event_date"
           else
-            assert_select "#event_date_1i", :count => 0
+            assert_select "#event_date_range_long_s", :count => 0
+            assert_select "#event_date", :count => 0
           end
         end
       end
