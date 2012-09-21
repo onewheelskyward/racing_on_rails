@@ -2,7 +2,7 @@
 
 <h2>You are logged in as <%= current_person.login %></h2>
 
-<div class="page-nav">
+<div class="page_links">
   <%= link_to("#{RacingAssociation.current.short_name} Homepage", root_url(:protocol => "http")) %>
   <%= link_to("Your Account", account_url) %>
   <% if administrator? -%>

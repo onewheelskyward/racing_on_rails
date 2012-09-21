@@ -31,13 +31,13 @@ module TabsHelper
     # Builder escapes text, which is not what we want
     def to_html(select_current_page = true)
       html = <<HTML
-     <div class="page-nav">
+<ul class="nav">
 HTML
       @tabs.each_with_index do |tab, index|
-        html << link_to(tab.name, tab.options, tab.html_options).to_s
+        html << "  <li>#{link_to(tab.name, tab.options, tab.html_options).html_safe}</li>"
       end
       end_html = <<HTML
-    </div>
+</ul>
 HTML
       html << end_html
     end
