@@ -10,12 +10,12 @@ require 'bundler/capistrano'
 require "capistrano-unicorn"
 
 require "rvm/capistrano"
-set :rvm_ruby_string, "ruby-1.9.3-head"
+set :rvm_ruby_string, "1.9.3"
 
 set :scm, "git"
 set :repository, "git://github.com/scottwillson/racing_on_rails.git"
+set :branch, "master"
 set :site_local_repository, "git@github.com:scottwillson/#{application}-local.git"
-set :branch, "rails_3_2"
 set :deploy_via, :remote_cache
 set :keep_releases, 5
 

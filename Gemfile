@@ -15,8 +15,7 @@ gem "erubis"
 gem "will_paginate", "~> 3.0.beta"
 gem "ruby-ole", :git => "git://github.com/scottwillson/ruby-ole.git"
 gem "spreadsheet", :git => "git://github.com/scottwillson/spreadsheet.git"
-gem "ckeditor", "3.7.2"
-gem "paperclip"
+gem "ckeditor_rails", :require => "ckeditor-rails"
 gem "default_value_for", :git => "https://github.com/FooBarWidget/default_value_for.git"
 gem "acts_as_list", :git => "git://github.com/swanandp/acts_as_list.git"
 gem "acts_as_tree", :git => "git://github.com/parasew/acts_as_tree.git"
@@ -28,6 +27,7 @@ gem "jquery-rails"
 gem "yui-compressor"
 gem "bootstrap-sass", :git => "git://github.com/dszczyt/bootstrap-sass.git"
 gem "jquery_datepicker"
+gem "therubyracer"
 
 group :assets do
   gem "sass-rails",   "~> 3.2.3"
@@ -60,7 +60,9 @@ group :acceptance do
 end
 
 group :staging do
+  gem "execjs"
   gem "rvm-capistrano"
+  gem "capistrano-unicorn"
 end
 
 group :production do
