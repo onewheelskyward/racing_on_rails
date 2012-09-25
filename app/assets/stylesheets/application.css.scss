@@ -297,7 +297,7 @@ fieldset {
   padding-bottom: $baseLineHeight;
 }
 
-ul.nav {
+ul.nav, ul.page-links {
   margin-bottom: $baseLineHeight / 2;
   margin-left: auto;
   margin-right: auto;
@@ -307,21 +307,17 @@ ul.nav {
   width: auto
 }
 
-ul.nav li {
+ul.nav li, ul.page-links li {
   display: inline;
   padding-left: 8px;
   padding-right: 8px;
   border-left: 1px solid $mid-gray;
 }
 
-ul.nav li:first-child {
+ul.nav li:first-child, ul.page-links li:first-child {
   border-left: none;
 }
 
 .nav > li > a {
   display: inline;
-}
-
-.page-links {
-  text-align: center;
 }
