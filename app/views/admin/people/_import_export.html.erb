@@ -1,11 +1,13 @@
-<div class="row-fluid">
-  <%= form_tag preview_import_admin_people_path, :multipart => true, :id => "import_form" do %>
-  <div class="page_buttons">
-    <label for="people_file">Import</label>
-    <%= file_field_tag "people_file", :onchange => "$('#import_form').submit();".html_safe %>
-    </div>
-  <% end -%>
+<hr/>
 
+<div class="row-fluid buttons">
+  <%= form_tag preview_import_admin_people_path, :multipart => true, :class=> "form-horizontal", :id => "import_form" do %>
+    <label class="control-label" for="people_file">Import</label>
+    <%= file_field_tag "people_file", :onchange => "$('#import_form').submit();".html_safe %>
+  <% end -%>
+</div>
+
+<div class="row-fluid buttons">
   <%= form_tag({}, {:id => "export_form"}) %>
     <div class="page_buttons">
       <select name="include" id="include">
