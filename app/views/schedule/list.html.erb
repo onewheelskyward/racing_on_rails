@@ -9,7 +9,7 @@
 <% end %>
 
 <h2><%= @year %> Schedule</h2>
-<%= table do %>
+<%= table :collection => @events, :columns => 7 do %>
   <thead>
     <tr>
       <th class="date">Date</th>
@@ -22,10 +22,7 @@
     </tr>
   </thead>
   <tbody>
-<%- @schedule.months.each do |month| -%>
-  <%- month.weeks.each do |week| -%>
-    <%- week.days.each do |day| -%>
-      <%- day.events.each do |event| -%>
+<%- @events.each do |event| -%>
   <tr class="<%= cycle("even", "odd") %>">
     <td class="date">
       <%= event.date.strftime("%a %_m/%d") if event.date -%>
@@ -52,8 +49,5 @@
     <td class="hidden-phone"><%= event.city -%></td>
   </tr>
   <%- end -%>
-    <%- end -%>
-  <%- end -%>
-<%- end -%>
 <% end -%>
 </tbody>
