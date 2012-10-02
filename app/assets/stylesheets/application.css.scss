@@ -47,7 +47,7 @@ body {
   padding-right: 3%;
 }
 
-body nav a:hover, body footer a:hover, body a:hover, a:hover {
+body nav a:hover, body footer a:hover, body a:hover, a:hover, .nav > li > a:hover {
   background-color: $highlight-color;
   color: $font-color;
   text-decoration: underline;
