@@ -1,4 +1,6 @@
-<%= table :class => "pages", :id => :pages do %>
+<h3>Pages</h3>
+
+<%= table :class => "pages", :id => :pages, :collection => @pages, :columns => 3 do %>
   <tr>
     <th class="title">Title</th>
     <th class="updated">Updated</th>
@@ -7,6 +9,6 @@
   <%= render @pages %>
 <% end -%>
 
-<div class="buttons container">
-  <%= link_to(image_tag('icons/add.png'), new_admin_page_path, :class => "image") %>
+<div class="row-fluid buttons">
+  <div class="span12"><%= link_to(image_tag('icons/add.png'), new_admin_page_path, :class => "image") %></div>
 </div>

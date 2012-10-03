@@ -11,7 +11,7 @@ module RacingOnRails
         help_block = "<span class='help-block'>#{text_field_options.delete(:help)}</span>"
       end
 
-      %Q{<div class="control-group">#{label_tag(attribute, "#{text || method.to_s.titleize}", label_options)} <div class="controls">#{text_field_tag(attribute, value, text_field_options)}#{help_block}</div></div>}.html_safe
+      %Q{<div class="control-group">#{label_tag(attribute, "#{text || method.to_s.titleize}", label_options)} #{text_field_tag(attribute, value, text_field_options)}#{help_block}</div></div>}.html_safe
     end
     
     def labelled_text(object_name, method, label_text = nil, text = nil, label_options = {}, text_class = nil)

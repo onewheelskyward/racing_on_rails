@@ -6,16 +6,18 @@
 
   <div class="row-fluid">
     <%= table :class => "people clear", :collection => @people, :columns => 8, :id => :people do %>
-      <tr>
-        <th class="icon"/>
-        <th class="name">Name</th>
-        <th class="team">Team</th>
-        <th class="aliases">Aliases</th>
-        <th class="number">Road</th>
-        <th class="number">MTB</th>
-        <th class="check_box">Member</th>
-        <th class="actions last"></th>
-      </tr>
+      <thead>
+        <tr>
+          <th class="icon"/>
+          <th class="name">Name</th>
+          <th class="team">Team</th>
+          <th class="aliases">Aliases</th>
+          <th class="number">Road</th>
+          <th class="number">MTB</th>
+          <th class="check_box">Member</th>
+          <th class="actions last"></th>
+        </tr>
+      </thead>
       <%= render :partial => "person", :collection => @people %>
     <% end -%>
   </div>

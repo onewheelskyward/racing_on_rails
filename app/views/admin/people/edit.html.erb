@@ -17,7 +17,7 @@
 <h2><%= @person.name %></h2>
 
 <div class="container-fluid">
-<%= form_for [:admin, @person]  do |f| -%>
+  <%= form_for [:admin, @person] do |f| -%>
   <%= hidden_field_tag("event_id", @event.id) if @event %>
   <div class="row-fluid">
     <div class="span6">
@@ -143,7 +143,7 @@
       <div class="right span-4">
         <%= link_to("Move Results", admin_person_results_path(@person)) unless @person.new_record? %>  
         <%= link_to("Delete", admin_person_path(@person), :method => :delete, :class => 'obvious', :id => 'delete') unless @person.new_record? %>
-        <%= submit_tag "Save", :id => "save" %>
+        <%= submit_tag "Save", :class => "btn-primary", :id => "save" %>
       </div>
     </div>
   </div>
