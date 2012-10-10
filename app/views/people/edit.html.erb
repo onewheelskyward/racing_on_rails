@@ -91,20 +91,28 @@
   <hr/>
 
   <div class="row-fluid">
-    <%= render :partial => "numbers", :locals => { :person => @person } %>
-    <%= render :partial => "categories", :locals => { :person => @person } %>
-    <%= render(:partial => "people/events", :locals => { :person => @person, :events => @person.events.all( :conditions => [ 
-       "parent_id is null and date between ? and ?", Time.zone.now.beginning_of_year, Time.zone.now.end_of_year 
-     ]).sort_by(&:date).reverse }) %>
+    <div class="span4">
+      <%= render :partial => "numbers", :locals => { :person => @person } %>
+    </div>
+    <div class="span4">
+      <%= render :partial => "categories", :locals => { :person => @person } %>
+    </div>
+    <div class="span4">
+      <%= render(:partial => "people/events", :locals => { :person => @person, :events => @person.events.all( :conditions => [ 
+         "parent_id is null and date between ? and ?", Time.zone.now.beginning_of_year, Time.zone.now.end_of_year 
+       ]).sort_by(&:date).reverse }) %>
+    </div>
   </div>
 
   <div class="row-fluid">
-    <%= render :partial => "people/account_permissions", 
+    <div class="span12">
+      <%= render :partial => "people/account_permissions", 
                 :locals => { :person => @person, 
                              :account_permissions => @person.account_permissions, 
                              :return_to => @person.new_record? ? nil : edit_person_path(@person)
                            }
     %>
+    </div>
   </div>
 
   <div class="row-fluid buttons">

@@ -1,12 +1,10 @@
-<div class="span4">
-  <h3>Promoted Events</h3>
-  <%= table :class => "promoted_events", :collection => events, :columns => 2 do %>
-    <tr>
-      <th>Date</th>
-      <th>Name</th>
-    </tr>
-    <%= render :partial => "people/event", 
-               :collection => events
-    %>
-  <% end -%>  
-</div>
+<h3>Promoted Events</h3>
+<%= table :class => "promoted_events", :collection => events, :columns => 2 do %>
+  <tr>
+    <th>Date</th>
+    <th>Name</th>
+  </tr>
+  <%= render :partial => "people/event", 
+             :collection => events
+  %>
+<% end -%>  

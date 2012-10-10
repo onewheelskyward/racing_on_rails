@@ -1,7 +1,7 @@
-<%= table :caption => "Numbers", 
-         :class => "numbers box-2 clear",
+<h3>Numbers</h3>
+<%= table :class => "numbers",
          :id => "numbers",
-         :insert_header => true, 
+         :collection => race_numbers,
          :columns => 1 do %>
   <tr>
     <td class="number_year">
@@ -17,33 +17,35 @@
   <% @number = number %>
   <tr id="<%= "number_#{number.id}_row" %>">
     <td>
-      <table cellspacing="0">
-        <tr>
-          <td>
-            <label class="inline"><%= number.number_issuer.name %> <%= number.discipline.name %></label>
-          </td>
-          <td class="right">
-            <%= text_field 'number[]', 'value', :class => "number" %>
-          </td>
-          <td>
-            <%= link_to(
-                  image_tag("icons/information.png"), 
-                  "#", 
-                  :title => "Updated #{time_ago_in_words(number.updated_at, true)} ago #{"by #{number.updated_by_name}"}", 
-                  :class => "image"
-                ) %>
-          </td>
-          <td class="right">
-            <%= link_to(
-                  image_tag('icons/delete.png'),
-                  admin_person_race_number_path(person, number),
-                  :remote => true,
-                  :method => :delete,
-                  :id => "destroy_number_#{number.id}", 
-                  :class => "image"
-            ) %>
-          </td>
-        </tr>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <label class="inline"><%= number.number_issuer.name %> <%= number.discipline.name %></label>
+            </td>
+            <td class="right">
+              <%= text_field 'number[]', 'value', :class => "number" %>
+            </td>
+            <td>
+              <%= link_to(
+                    image_tag("icons/information.png"), 
+                    "#", 
+                    :title => "Updated #{time_ago_in_words(number.updated_at, true)} ago #{"by #{number.updated_by_name}"}", 
+                    :class => "image"
+                  ) %>
+            </td>
+            <td class="right">
+              <%= link_to(
+                    image_tag('icons/delete.png'),
+                    admin_person_race_number_path(person, number),
+                    :remote => true,
+                    :method => :delete,
+                    :id => "destroy_number_#{number.id}", 
+                    :class => "image"
+              ) %>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </td>
   </tr>
