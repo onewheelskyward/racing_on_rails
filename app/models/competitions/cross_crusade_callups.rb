@@ -14,6 +14,7 @@ class CrossCrusadeCallups < Competition
     races.create!(:category => Category.find_or_create_by_name("Junior Women"))
     races.create!(:category => Category.find_or_create_by_name("Women A"))
     races.create!(:category => Category.find_or_create_by_name("Women B"))
+    races.create!(:category => Category.find_or_create_by_name("Women C"))
     races.create!(:category => Category.find_or_create_by_name("Beginner Women"))
     races.create!(:category => Category.find_or_create_by_name("Masters Women 35+ A"))
     races.create!(:category => Category.find_or_create_by_name("Masters Women 35+ B"))
@@ -47,5 +48,9 @@ class CrossCrusadeCallups < Competition
   # Apply points from point_schedule, and split across team
   def points_for(source_result, team_size = nil)
     point_schedule[source_result.place.to_i].to_f
+  end
+  
+  def all_year?
+    false
   end
 end
