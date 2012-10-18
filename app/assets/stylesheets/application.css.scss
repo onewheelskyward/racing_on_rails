@@ -6,15 +6,16 @@ $font-size-bigger: 16px;
 $black: rgb(0, 0, 0);
 $near-black: rgb(30, 30, 30);
 $gray-darker: rgb(54, 54, 54);
-$gray: rgb(109, 109, 109);
+$gray: rgb(153, 153, 153);
 $mid-gray: rgb(204, 204, 204);
 $grayLighter: rgb(238, 238, 238);
 $grayLightest: rgb(250, 250, 250);
 $warm-gray: rgb(228, 228, 224);
 $warm-gray-light: rgb(250, 250, 248);
 $green-yellow: rgb(208, 250, 48);
+$orange: rgb(255, 85, 0);
 
-$highlight-color: $green-yellow;
+$highlight-color: $orange;
 $font-color-light: $gray;
 $font-color: $gray-darker;
 $form-color: $font-color;
@@ -22,14 +23,15 @@ $form-color: $font-color;
 $linkColor: $font-color;
 $linkColorHover: $black;
 
-$nav-background-color: $gray-darker;
-$nav-font-color: $mid-gray;
+$nav-background-color: white;
+$nav-font-color: $gray;
+$nav-heading-font-color: $orange;
 
-$body-background-color: $warm-gray;
-$content-background-color: $warm-gray-light;
-$content-border-color: $mid-gray;
+$body-background-color: white;
+$content-background-color: white;
+$content-border-color: white;
 
-$tableBorder: darken($warm-gray, 18);
+$tableBorder: $gray;
 
 @import "bootstrap";
 @import "bootstrap-responsive";
@@ -39,7 +41,8 @@ body {
   background-color: $body-background-color;
   color: $font-color;
   font-family: "Lucida Grande", Helvetica, Arial, Verdana;
-  padding-top: $baseLineHeight * 2;
+  font-size: 12px;
+  padding-top: $baseLineHeight;
 }
 
 .container-fluid {
@@ -66,13 +69,21 @@ a.obvious {
 }
 
 h2, h2 a, h2 a:hover {
-  color: $gray;
+  border-bottom: 1px solid $gray;
+  color: $mid-gray;
+  font-size: 95px;
+  line-height: 95px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding-bottom: 20px;
+  padding-top: 10px;
   text-align: center;
   text-decoration: none;
 }
 
 h3, h3 a, h3 a:hover {
   color: $gray-darker;
+  font-size: 19px;
   text-align: center;
   text-decoration: none;
 }
@@ -84,38 +95,30 @@ h3, h3 a, h3 a:hover {
 
 nav, footer {
   background-color: $nav-background-color;
-  border: 1px solid darken($nav-background-color, 10);
-  border-radius: 3px;
+  border: none;
   vertical-align: center;
-
-  background-image: -moz-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
-  background-image: -ms-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(lighten($nav-background-color, 6)), to(darken($nav-background-color, 6)));
-  background-image: -webkit-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
-  background-image: -o-linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
-  background-image: linear-gradient(top, lighten($nav-background-color, 6), darken($nav-background-color, 6));
-  background-repeat: repeat-x;
-  -webkit-box-shadow: inset 0 1px 0 lighten($nav-background-color, 10);
-  -moz-box-shadow: inset 0 1px 0 lighten($nav-background-color, 10);
-  box-shadow: inset 0 1px 0 lighten($nav-background-color, 10);
 }
 
 nav h1, footer h1 {
   line-height: $baseLineHeight * 1.5;
   margin: 0px;
-  padding-left: $baseLineHeight / 2;
+  padding-left: 0px;
 }
 
-nav h1, nav h1 a, nav a, footer h1, footer h1 a, footer a {
+nav h1, nav h1 a, footer h1, footer h1 a {
+  color: $nav-heading-font-color;
+  font-size: $font-size-bigger;
+}
+
+nav a, footer a {
   color: $nav-font-color;
   font-size: $font-size-bigger;
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, .35), 0 0 30px rgba(0, 0, 0, .3);
 }
 
 nav ul, footer ul {
   line-height: $baseLineHeight * 1.5;
   margin-bottom: 0px;
-  padding-right: $baseLineHeight / 2;
+  padding-right: 0px;
   padding-top: 1px;
   text-align: right;
 }
@@ -136,12 +139,16 @@ nav li:last-child, footer li:last-child {
   border-right: 0px;
 }
 
+nav {
+  border-bottom: 10px solid $gray-darker;
+  padding-bottom: $baseLineHeight;
+}
+
 .content {
   background-color: $content-background-color;
-  border-radius: 6px;
-  border: 1px solid $content-border-color;
+  border: 0px;
   margin-bottom: $baseLineHeight;
-  padding: $baseLineHeight * 2;
+  padding: 0px;
 }
 
 .event_info {
@@ -172,33 +179,34 @@ table .actions a {
 }
 
 .table td {
-  border-bottom: 1px solid $tableBorder;
+  border-bottom: 1px dotted $tableBorder;
   border-top: none;
 }
 
 .table-striped tbody tr:first-child td {
-  border-top: 2px solid $tableBorder;
+  border-top: 1px dotted $tableBorder;
 }
 
 .table-striped tbody tr:last-child td {
-  border-bottom: 2px solid $tableBorder;
+  border-bottom: 1px solid $tableBorder;
 }
 
 .table-striped tbody tr:nth-child(even) td, .table-striped tbody tr:nth-child(even) td:hover {
-  background-color: lighten($warm-gray, 4);
+  background-color: none;
 }
 
 .table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) td:hover {
-  background-color: $warm-gray;
+  background-color: none;
 }
 
 th, .table-striped tbody tr:nth-child(odd) th {
-  background-color: $tableBorder;
+  background-color: none;
   border-top: none;
   color: $near-black;
 }
 
 .table-striped.table th {
+  font-weight: bold;
   padding-bottom: 3px;
   padding-top: 4px;
 }
