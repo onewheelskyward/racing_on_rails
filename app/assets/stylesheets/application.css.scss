@@ -269,6 +269,10 @@ select {
   margin-left: 150px;
 }
 
+.form-horizontal .control-group {
+  margin-bottom: 10px;
+}
+
 @media (max-width: 480px) {
   .form-horizontal .controls {
     margin-left: 0;
