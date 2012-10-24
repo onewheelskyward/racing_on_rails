@@ -1,7 +1,7 @@
 // *= require jquery-ui-1.8.2.custom
-// *= require pages
 
 $font-size-bigger: 16px;
+$font-size-smaller: 12px;
 
 $black: rgb(0, 0, 0);
 $near-black: rgb(30, 30, 30);
@@ -230,6 +230,7 @@ th, .table-striped tbody tr:nth-child(odd) th {
   border-bottom: none;
   color: $font-color-light;
   font-style: italic;
+  padding-bottom: $baseLineHeight;
   text-align: center;
   white-space: nowrap;
 }
@@ -325,3 +326,5 @@ ul.nav li:first-child, ul.page-links li:first-child {
 .nav > li > a {
   display: inline;
 }
+
+@import "pages";

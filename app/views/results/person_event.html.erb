@@ -52,7 +52,7 @@
 <%- end -%>
 
 <%# TODO Add year param %>
-<p class= "centered">
+<p>
   See all results for <%= link_to(@person.name, person_results_path(@person), :class => 'obvious') %> or the
   <% if @event.is_a?(Ironman) %>
     <%= link_to(@event.name, {:controller => 'ironman', :action => 'index', :year => @event.date.year}, :class => 'obvious') %>.

@@ -2,7 +2,7 @@ Sorry, you're not allowed to look at that page.
 <%= "You are logged-in as #{current_person.login}." if current_person %>
 <%= "You are not logged-in." unless current_person %>
 
-<div class="container-fluid centered">
+<div class="container-fluid">
   <%= link_to("Login", new_person_session_path) unless current_person %><br/>
   <%= link_to('Public Homepage', "/") %><br/>
   <%= link_to('Admin Pages', admin_events_path) if current_person && current_person.administrator? %><br/>

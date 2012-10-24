@@ -9,7 +9,7 @@
 
 <% if @race && @race.results.any? -%>
 <h2><%= @race.year %> <%= @race.discipline %> BAR</h2>
-<div class="updatedon centered">Updated <%= @race.updated_at.to_formatted_s(:long) %></div>
+<div class="updatedon">Updated <%= @race.updated_at.to_formatted_s(:long) %></div>
 <% end -%>
 
 <%= render :partial => "races", :locals => { :race => @race } %>

@@ -20,7 +20,7 @@ There is no prize just identification of riders who need to get a life.</p>
 
 <p><%= will_paginate @results %></p>
 
-<div class="updatedon centered">Updated <%= @ironman.updated_at.to_formatted_s(:long) %></div>
+<div class="updatedon">Updated <%= @ironman.updated_at.to_formatted_s(:long) %></div>
 
 <%= table :caption => "#{@ironman.date.year} Ironman", :columns => 4, :class => "event_results" do %>
   <% result_columns = %w{ place name team_name points } %>

@@ -15,10 +15,9 @@
   <%- end -%>
 </div>
 
+<% unless @event.children_and_child_competitions_with_results.select { |child| child.is_a?(SingleDayEvent) }.empty? -%>
 <div class="row-fluid event_info">  
-  <% unless @event.children_and_child_competitions_with_results.select { |child| child.is_a?(SingleDayEvent) }.empty? -%>
-  <br />
-  <table class="top_margin child_single_day_events">
+  <table class="child_single_day_events">
     <% @event.children_and_child_competitions_with_results.select { |child| child.is_a?(SingleDayEvent) }.each do |child| -%>
     <tr>
       <td class="right"><%= link_to child.date.strftime('%A, %B %d'), event_results_path(child) %></td>
@@ -32,17 +31,17 @@
       <% end -%>
     <% end -%>
   </table>
-  <% end -%>
 </div>
+<% end -%>
 
   <%= render :partial => "races", :object => @event %>
 
   <%- unless @event.children_and_child_competitions_with_results.select { |child| !child.is_a?(SingleDayEvent) }.empty? -%>
 <div class="row-fluid event_info">
-  <table class="top_margin child_events">
+  <table class="child_events">
   <%- @event.children_and_child_competitions_with_results.select { |child| !child.is_a?(SingleDayEvent) }.each do |child| -%>
     <tr>
-      <td class="centered"><%= link_to child.name, event_results_path(child), { :class => "obvious" } %></td>
+      <td><%= link_to child.name, event_results_path(child), { :class => "obvious" } %></td>
     </tr>
   <%- end -%>
   </table>
@@ -50,7 +49,7 @@
   <%- end -%>
 
   <%- if @event.notes.present? -%>
-  <p class="notes"><%= @event.notes.html_safe -%></p>
+  <p class="event_notes"><%= @event.notes.html_safe -%></p>
   <%- end -%>
 
   <% unless @event.races_with_results.empty? -%>
@@ -60,7 +59,8 @@
 
   <% benchmark("Render results", :silence => false) do %>
   <% @event.races_with_results.sort.each do |race| %>
-  <%= table :caption => race.name, :class => "event_results", :id => "race_#{race.id}" do %>
+  <h3 id="race_<%= race.id %>"><%= race.name %></h3>
+  <%= table :class => "event_results", :id => "race_#{race.id}" do %>
     <tr>
       <%- race.result_columns_or_default.map.each do |column| -%>
       <th class="<%= column %>"><%= result_header column %></th>

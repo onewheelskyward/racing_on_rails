@@ -3,7 +3,7 @@
 <%= render_page "person_years", :locals => { :person => @person } %>
 
 <h2><%= @person.name %></h2>
-<%= table :class => "person_results", :id => "person_results", :collection => @event_results do %>
+<%= table :class => "person_results", :id => "person_results", :collection => @event_results, :columns => 4 do %>
   <tr>
     <th>&nbsp;</th>
     <th>Race</th>
@@ -58,7 +58,7 @@
 <% end %>
 
 <% if @person.member? %>
-<p class="updatedon centered">
+<p class="updatedon">
   Member since <%= @person.member_from.to_s(:long) %>
 </p>
 <% end -%>

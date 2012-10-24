@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
   <div class="span-2">
-    <%= labelled_text :page, :title, "Title", @page.title, {:class => "left no_top_margin"}, "no_top_margin" %>
+    <%= labelled_text :page, :title, "Title", @page.title, {:class => "left"}, "no_top_margin" %>
     <%= labelled_text :page, :slug, "Slug", @page.slug, {:class => "left"} %>
     <%= labelled_text :page, :parent_id, "Parent", ("#{@parent.title} (#{@parent.path})" if @parent), {:class => "left"} %>
 

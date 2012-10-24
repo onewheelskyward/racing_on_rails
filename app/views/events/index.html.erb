@@ -1,7 +1,7 @@
 <% @page_title = "#{@person.name}: Events" %>
 <% @show_tabs = (promoter? || administrator?) -%>
 
-<div class="container centered">
+<div class="container">
 <%= table :caption => "Promoted Events", :class => "span-4", :collection => @events do %>
   <tr>
     <th>Date</th>

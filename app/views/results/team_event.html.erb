@@ -48,7 +48,7 @@
 <%- end -%>
 
 <%# TODO Add year param %>
-<p class= "centered">
+<p>
   See all results for <%= link_to(@team.name, team_results_path(@team), :class => 'obvious') %> or the
   <%= link_to(@result.event.full_name, event_results_path(@result.event), :class => 'obvious') %>.
 </p>
