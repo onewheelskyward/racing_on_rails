@@ -94,7 +94,7 @@ class Competition < Event
   
   def create_races
     category = Category.find_or_create_by_name(friendly_name)
-    self.races.create(:category => category)
+    races.create(:category => category) unless Race.where(:category_id => category.id).exists?
   end
   
   # Override in superclass for Competitions like OBRA OverallBAR
