@@ -257,8 +257,9 @@ input[type="text"] {
 }
 
 .table .date {
-  max-width: 80px;
+  max-width: 240px;
   text-align: right;
+  white-space: nowrap;
   width: 80px;
 }
 
