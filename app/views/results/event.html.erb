@@ -37,14 +37,10 @@
   <%= render :partial => "races", :object => @event %>
 
   <%- unless @event.children_and_child_competitions_with_results.select { |child| !child.is_a?(SingleDayEvent) }.empty? -%>
-<div class="row-fluid event_info">
-  <table class="child_events">
+<div class="row-fluid event_info child_events">
   <%- @event.children_and_child_competitions_with_results.select { |child| !child.is_a?(SingleDayEvent) }.each do |child| -%>
-    <tr>
-      <td><%= link_to child.name, event_results_path(child), { :class => "obvious" } %></td>
-    </tr>
+  <%= link_to child.name, event_results_path(child), { :class => "obvious" } %><br/>
   <%- end -%>
-  </table>
 </div>
   <%- end -%>
 
