@@ -60,15 +60,18 @@ class Competition < Event
     benchmark(name, :level => :info) {
       transaction do
         year = year.to_i if year.is_a?(String)
-        competition = self.find_or_create_for_year(year)
-        competition.set_date
-        raise(ActiveRecord::ActiveRecordError, competition.errors.full_messages) unless competition.errors.empty?
-        competition.destroy_races
-        competition.create_races
-        competition.create_children
-        # Could bulk load all Event and Races at this point, but hardly seems to matter
-        competition.calculate_members_only_places
-        competition.calculate!
+        competition = self.find_for_year(year)
+        if competition.nil? || competition.updated_at.nil? || Result.where("updated_at >= ?", competition.updated_at).exists?
+          competition = self.find_or_create_for_year(year)
+          competition.set_date
+          raise(ActiveRecord::ActiveRecordError, competition.errors.full_messages) unless competition.errors.empty?
+          competition.delete_races
+          competition.create_races
+          competition.create_children
+          # Could bulk load all Event and Races at this point, but hardly seems to matter
+          competition.calculate_members_only_places
+          competition.calculate!
+        end
       end
     }
     # Don't return the entire populated instance!
@@ -77,6 +80,19 @@ class Competition < Event
   
   def default_ironman
     false
+  end
+
+  def delete_races
+    ActiveRecord::Base.lock_optimistically = false
+    disable_notification!
+    
+    races.each do |race|
+      Score.delete_all("competition_result_id in (select id from results where race_id = #{race.id})")
+      Result.where(race_id: race.id).delete_all
+    end
+    races.clear
+    enable_notification!
+    ActiveRecord::Base.lock_optimistically = true
   end
   
   def create_races
@@ -107,6 +123,7 @@ class Competition < Event
       results = source_results_with_benchmark(race)
       create_competition_results_for(results, race)
       after_create_competition_results_for(race)
+      race.results.each(&:update_points!)
       race.place_results_by_points(break_ties?, ascending_points?)
     end
     
@@ -135,28 +152,35 @@ class Competition < Event
 
       points = points_for(source_result)
 
-      if person.nil? || source_result.try(:person_id) != person.id
-        person = Person.includes(:names, :team => :names).where(:id => source_result.person_id).first
+      if person.nil? || source_result.person_id != person.id
+        person = source_result.person
       end
       
-      if points > 0.0 && (!members_only? || member?(person, source_result.date))
+      # Competitions that use competition results (e.g., Overall BAR uses discipline BAR)
+      # assume that first competition checked membership requirements
+      if person && points > 0.0 && (!members_only? || source_result.competition_result? || person.member_in_year?(source_result.date))
         if first_result_for_person?(source_result, competition_result)
           # Intentionally not using results association create method. No need to hang on to all competition results.
           # In fact, this could cause serious memory issues with the Ironman
           competition_result = Result.create!(
              :person => person, 
-             :team => person.try(:team),
+             :team => person.team,
              :event => self,
-             :race => race)
+             :race => race,
+             :competition_result => true)
         end
- 
-        competition_result.scores.create_if_best_result_for_race(
-          :source_result => source_result, 
-          :competition_result_id => competition_result.id, 
-          :points => points
-        )
+       
+        create_score competition_result, source_result, points
       end
     end
+  end
+  
+  def create_score(competition_result, source_result, points)
+    competition_result.scores.create_if_best_result_for_race(
+      :source_result => source_result, 
+      :competition_result_id => competition_result.id, 
+      :points => points
+    )
   end
   
   # By default, does nothing. Useful to apply rule like:
