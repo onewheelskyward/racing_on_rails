@@ -10,13 +10,16 @@
   <div class="row-fluid">
     <div class="span12">
       <%= table :class => "people", :id => :people do %>
-        <tr>
-          <th class="name">Name</th>
-          <th class="aliases">Aliases</th>
-          <th class="right">Road Cat</th>
-          <th class="right">MTB Cat</th>
-          <th class="right">Cross Cat</th>
-        </tr>
+        <th class="name">Name</th>
+        <th class="aliases">AKA</th>
+        <th class="member">Member</th>
+        <th class="license">License</th>
+        <th>Team</th>
+        <th>City</th>
+        <th class="right">Road Cat</th>
+        <th class="right">MTB Cat</th>
+        <th class="right">Cross Cat</th>
+        <th class="racing_age">Racing Age</th>
         <%= render :partial => "person", :collection => @people %>
         <% if @people.empty? %>
         <tr>

@@ -1,5 +1,5 @@
-<tr class="<%= cycle("even", "odd") %>" id="person_<%= person.id %>_row" style="position: relative;">
-  <td class="name" style="position: relative;">
+<tr id="person_<%= person.id %>_row">
+  <td class="name">
     <%- @person = person -%>
       <%= link_to person.name, person_results_path(person) %>
   </td>

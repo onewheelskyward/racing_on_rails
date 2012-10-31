@@ -2,16 +2,15 @@
 
 <h2>OBRA-registered teams in Oregon and SW Washington.</h2>
 
-<p align="left">A list of <%= link_to "clubs rides", "http://#{RacingAssociation.current.static_host}/teams/rides.html", :class => "obvious" %> is available if you're looking for a group ride.</p>
+<p>A list of <%= link_to "clubs rides", "http://#{RacingAssociation.current.static_host}/teams/rides.html", :class => "obvious" %> is available if you're looking for a group ride.</p>
 
 <%= table :caption => "Teams", :id => "teams" do %>
   <tr>
     <th>Name</th>
     <th>Sponsors</th>
-    <th>Website</th>
     <th>Contact</th>
-    <th>&nbsp;</th>
+    <th>Results</th>
   </tr>
-  <%= render :partial => "team", :collection => @teams.sort { |x, y| x.name.downcase <=> y.name.downcase || x <=> y } %>
+  <%= render :partial => "team", :collection => @teams.sort { |x, y| x.name.downcase <=> y.name.downcase } %>
 <% end -%>
 
