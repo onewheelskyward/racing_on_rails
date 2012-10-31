@@ -3,7 +3,7 @@
 class ResultsController < ApplicationController
   include Api::Results
 
-  caches_page :index, :event, :person, :person_event, :team, :if => Proc.new { |c| !mobile_request? }
+  caches_page :index, :event, :person, :person_event, :team
   
   # HTML: Formatted links to Events with Results
   # == Params
