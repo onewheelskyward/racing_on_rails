@@ -1,20 +1,18 @@
-<div class="span4">
-  <h3><%= RacingAssociation.current.effective_year %> Numbers</h3>
-  <%= table :class => "numbers",
-           :id => "numbers",
-           :columns => 2 do %>
-    <% if RacingAssociation.current.show_license %>
-    <tr>
-      <td><%= RacingAssociation.current.short_name %> License/Membership #</td>
-      <td class="right"><%= @person.license %></td>
-    </tr>
-    <% end %>
+<h3><%= RacingAssociation.current.effective_year %> Numbers</h3>
+<%= table :class => "numbers",
+         :id => "numbers",
+         :columns => 2 do %>
+  <% if RacingAssociation.current.show_license %>
+  <tr>
+    <td><%= RacingAssociation.current.short_name %> License/Membership #</td>
+    <td class="right"><%= @person.license %></td>
+  </tr>
+  <% end %>
   
-    <% @person.race_numbers.select { |n| n.year == RacingAssociation.current.effective_year }.each do |number| -%>
-    <tr>
-      <td><%= number.number_issuer.name %> <%= number.discipline.name %></td>
-      <td class="right"><%= number.value %></td>
-    </tr>
-    <% end -%>
+  <% @person.race_numbers.select { |n| n.year == RacingAssociation.current.effective_year }.each do |number| -%>
+  <tr>
+    <td><%= number.number_issuer.name %> <%= number.discipline.name %></td>
+    <td class="right"><%= number.value %></td>
+  </tr>
   <% end -%>
-</div>
+<% end -%>

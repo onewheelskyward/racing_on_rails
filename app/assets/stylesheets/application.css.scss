@@ -239,6 +239,11 @@ th, .table-striped tbody tr:nth-child(odd) th {
   text-align: left;
 }
 
+.buttons .actions a {
+  padding-left: $baseLineHeight / 2;
+  padding-right: $baseLineHeight / 2;
+}
+
 label {
   color: $gray;
   font-weight: bold;  
