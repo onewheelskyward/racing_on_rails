@@ -2,9 +2,9 @@
   <td class="name">
     <%- @person = person -%>
       <%= link_to person.name, person_results_path(person) %>
-  </td>
-  <td class="aliases">
-    <%= truncate(person.aliases.collect{ |a| a.name }.join(', '), :limit => 200) %>
+    <div class="aliases">
+      <%= person.aliases.collect(&:name).join(", ") %>
+    </div>
   </td>
   <td class="member">
     <%= "Yes" if person.member? %>

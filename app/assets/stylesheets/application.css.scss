@@ -309,7 +309,7 @@ fieldset {
 }
 
 ul.nav, ul.page-links {
-  margin-bottom: $baseLineHeight;
+  margin-bottom: $baseLineHeight / 4;
   margin-left: auto;
   margin-right: auto;
   padding-top: 0px;
@@ -331,6 +331,10 @@ ul.nav li:first-child, ul.page-links li:first-child {
 
 .nav > li > a {
   display: inline;
+}
+
+ul.nav + h2 {
+  margin-top: $baseLineHeight;
 }
 
 @import "pages";

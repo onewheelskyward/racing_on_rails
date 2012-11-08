@@ -2,7 +2,8 @@
 
 <%= render_page "results/team_years", :locals => { :team => @team } %>
 
-<%= table :caption => @team.name, :id => "team", :collection => @results do %>
+<h2><%= @team.name %></h2>
+<%= table :id => "team", :collection => @results, :columns => 5 do %>
   <tr>
     <th>&nbsp;</th>
     <th>Race</th>
