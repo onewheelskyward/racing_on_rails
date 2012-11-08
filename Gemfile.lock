@@ -52,12 +52,6 @@ GIT
   specs:
     default_value_for (2.0.1)
 
-PATH
-  remote: lib/registration_engine
-  specs:
-    registration_engine (0.0.1)
-      activemerchant
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -79,17 +73,6 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.1.3)
-    active_utils (1.0.5)
-      activesupport (>= 2.3.11)
-      i18n
-    activemerchant (1.28.0)
-      active_utils (>= 1.0.2)
-      activesupport (>= 2.3.11)
-      builder (>= 2.0.0)
-      i18n
-      json (>= 1.5.1)
-      money
-      nokogiri
     activemodel (3.2.8)
       activesupport (= 3.2.8)
       builder (~> 3.0.0)
@@ -179,9 +162,6 @@ GEM
     mime-types (1.19)
     mocha (0.12.7)
       metaclass (~> 0.0.1)
-    money (5.0.0)
-      i18n (~> 0.4)
-      json
     multi_json (1.3.6)
     mysql2 (0.3.11)
     net-scp (1.0.4)
@@ -304,7 +284,6 @@ DEPENDENCIES
   prawn!
   rails (~> 3.2)
   rake
-  registration_engine!
   ri_cal
   ruby-ole!
   rvm-capistrano
