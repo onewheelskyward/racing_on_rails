@@ -28,6 +28,7 @@ gem "yui-compressor"
 gem "bootstrap-sass", :git => "git://github.com/dszczyt/bootstrap-sass.git"
 gem "jquery_datepicker"
 gem "therubyracer"
+# gem "registration_engine", :path => "/Users/sw/devel/registration_engine/lib/registration_engine"
 
 group :assets do
   gem "sass-rails",   "~> 3.2.3"
