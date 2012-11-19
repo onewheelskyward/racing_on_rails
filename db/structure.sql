@@ -1,3 +1,18 @@
+CREATE TABLE `adjustments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `person_id` int(11) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lock_version` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_adjustments_on_order_id` (`order_id`),
+  KEY `index_adjustments_on_person_id` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `aliases` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `alias` varchar(255) DEFAULT NULL,
@@ -39,6 +54,25 @@ CREATE TABLE `articles` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `bank_statements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `american_express_fees` decimal(10,2) DEFAULT NULL,
+  `american_express_gross` decimal(10,2) DEFAULT NULL,
+  `credit_card_gross` decimal(10,2) DEFAULT NULL,
+  `credit_card_percentage_fees` decimal(10,2) DEFAULT NULL,
+  `credit_card_transaction_fees` decimal(10,2) DEFAULT NULL,
+  `items` int(11) DEFAULT NULL,
+  `refunds` int(11) DEFAULT NULL,
+  `refunds_gross` decimal(10,2) DEFAULT NULL,
+  `gross` decimal(10,2) DEFAULT NULL,
+  `other_fees` decimal(10,2) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_bank_statements_on_date` (`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `bids` (
@@ -116,6 +150,20 @@ CREATE TABLE `disciplines` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_disciplines_on_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `discount_codes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_by_id` int(11) DEFAULT NULL,
+  `created_by_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `person_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci DEFAULT 'new',
+  `amount` decimal(10,2) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `duplicates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -202,6 +250,17 @@ CREATE TABLE `events` (
   `beginner_friendly` tinyint(1) NOT NULL DEFAULT '0',
   `website` varchar(255) DEFAULT NULL,
   `registration_link` varchar(255) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `registration` tinyint(1) DEFAULT NULL,
+  `promoter_pays_registration_fee` tinyint(1) DEFAULT NULL,
+  `registration_ends_at` datetime DEFAULT NULL,
+  `override_registration_ends_at` tinyint(1) DEFAULT NULL,
+  `all_events_discount` decimal(10,2) DEFAULT NULL,
+  `additional_race_price` decimal(10,2) DEFAULT NULL,
+  `custom_suggestion` varchar(255) DEFAULT NULL,
+  `field_limit` int(11) DEFAULT NULL,
+  `refund_policy` varchar(255) DEFAULT NULL,
+  `membership_required` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_disciplined` (`discipline`),
   KEY `parent_id` (`parent_id`),
@@ -227,6 +286,40 @@ CREATE TABLE `import_files` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `line_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `discount_code_id` int(11) DEFAULT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `line_item_id` int(11) DEFAULT NULL,
+  `person_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `product_variant_id` int(11) DEFAULT NULL,
+  `additional_product_variant_id` int(11) DEFAULT NULL,
+  `race_id` int(11) DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `string_value` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `boolean_value` tinyint(1) DEFAULT NULL,
+  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'LineItem',
+  `promoter_pays_registration_fee` tinyint(1) NOT NULL DEFAULT '0',
+  `purchase_price` decimal(10,2) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'new',
+  `effective_purchased_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_line_items_on_order_id` (`order_id`),
+  KEY `index_line_items_on_person_id` (`person_id`),
+  KEY `index_line_items_on_event_id` (`event_id`),
+  KEY `index_line_items_on_race_id` (`race_id`),
+  KEY `index_line_items_on_discount_code_id` (`discount_code_id`),
+  KEY `index_line_items_on_line_item_id` (`line_item_id`),
+  KEY `index_line_items_on_product_id` (`product_id`),
+  KEY `index_line_items_on_product_variant_id` (`product_variant_id`),
+  KEY `index_line_items_on_additional_product_variant_id` (`additional_product_variant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `mailing_lists` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -269,6 +362,77 @@ CREATE TABLE `number_issuers` (
   UNIQUE KEY `number_issuers_name_index` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `order_people` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `person_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `owner` tinyint(1) DEFAULT NULL,
+  `membership_card` tinyint(1) DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `street` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `zip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `country_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT 'US',
+  `membership_address_is_billing_address` tinyint(1) DEFAULT '1',
+  `billing_first_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `billing_last_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `billing_street` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `billing_city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `billing_state` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `billing_zip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `billing_country_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT 'US',
+  `card_expires_on` date DEFAULT NULL,
+  `card_brand` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `road_category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ccx_category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `dh_category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mtb_category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `track_category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `home_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `work_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `cell_fax` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `gender` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
+  `occupation` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `official_interest` tinyint(1) NOT NULL DEFAULT '0',
+  `race_promotion_interest` tinyint(1) NOT NULL DEFAULT '0',
+  `team_interest` tinyint(1) NOT NULL DEFAULT '0',
+  `volunteer_interest` tinyint(1) NOT NULL DEFAULT '0',
+  `wants_email` tinyint(1) NOT NULL DEFAULT '0',
+  `wants_mail` tinyint(1) NOT NULL DEFAULT '0',
+  `team_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `emergency_contact` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `emergency_contact_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lock_version` int(11) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_order_people_on_person_id` (`person_id`),
+  KEY `index_order_people_on_order_id` (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `purchase_price` decimal(10,2) DEFAULT NULL,
+  `notes` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'new',
+  `purchase_time` datetime DEFAULT NULL,
+  `ip_address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `waiver_accepted` tinyint(1) DEFAULT NULL,
+  `error_message` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `previous_status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `suggest` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_orders_on_status` (`status`),
+  KEY `index_orders_on_purchase_time` (`purchase_time`),
+  KEY `index_orders_on_updated_at` (`updated_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
@@ -285,6 +449,25 @@ CREATE TABLE `pages` (
   KEY `index_pages_on_slug` (`slug`),
   CONSTRAINT `pages_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `pages` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `payment_gateway_transactions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `line_item_id` int(11) DEFAULT NULL,
+  `action` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `success` tinyint(1) DEFAULT NULL,
+  `authorization` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `message` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `params` text COLLATE utf8_unicode_ci,
+  `lock_version` int(11) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_payment_gateway_transactions_on_created_at` (`created_at`),
+  KEY `index_payment_gateway_transactions_on_order_id` (`order_id`),
+  KEY `index_payment_gateway_transactions_on_line_item_id` (`line_item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -347,6 +530,16 @@ CREATE TABLE `people` (
   `membership_card` tinyint(1) NOT NULL DEFAULT '0',
   `official` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
+  `billing_first_name` varchar(255) DEFAULT NULL,
+  `billing_last_name` varchar(255) DEFAULT NULL,
+  `billing_street` varchar(255) DEFAULT NULL,
+  `billing_city` varchar(255) DEFAULT NULL,
+  `billing_state` varchar(255) DEFAULT NULL,
+  `billing_zip` varchar(255) DEFAULT NULL,
+  `billing_country_code` varchar(255) DEFAULT 'US',
+  `card_expires_on` date DEFAULT NULL,
+  `card_brand` varchar(255) DEFAULT NULL,
+  `membership_address_is_billing_address` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_last_name` (`last_name`),
   KEY `idx_first_name` (`first_name`),
@@ -418,6 +611,48 @@ CREATE TABLE `posts` (
   CONSTRAINT `posts_mailing_list_id_fk` FOREIGN KEY (`mailing_list_id`) REFERENCES `mailing_lists` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `product_variants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `position` int(11) NOT NULL DEFAULT '1',
+  `inventory` int(11) DEFAULT NULL,
+  `default` tinyint(1) NOT NULL DEFAULT '0',
+  `additional` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_product_variants_on_product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `notify_racing_association` tinyint(1) NOT NULL DEFAULT '0',
+  `inventory` int(11) DEFAULT NULL,
+  `seller_pays_fee` tinyint(1) NOT NULL DEFAULT '0',
+  `type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `suggest` tinyint(1) NOT NULL DEFAULT '0',
+  `image_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `dependent` tinyint(1) NOT NULL DEFAULT '0',
+  `seller_id` int(11) DEFAULT NULL,
+  `has_amount` tinyint(1) NOT NULL DEFAULT '0',
+  `donation` tinyint(1) NOT NULL DEFAULT '0',
+  `unique` tinyint(1) NOT NULL DEFAULT '0',
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lock_version` int(11) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_products_on_event_id` (`event_id`),
+  KEY `index_products_on_type` (`type`),
+  KEY `index_products_on_seller_id` (`seller_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `race_numbers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `person_id` int(11) NOT NULL DEFAULT '0',
@@ -458,6 +693,9 @@ CREATE TABLE `races` (
   `bar_points` int(11) DEFAULT NULL,
   `event_id` int(11) NOT NULL,
   `custom_columns` text,
+  `custom_price` decimal(10,2) DEFAULT NULL,
+  `full` tinyint(1) DEFAULT NULL,
+  `field_limit` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_category_id` (`category_id`),
   KEY `index_races_on_event_id` (`event_id`),
@@ -518,7 +756,18 @@ CREATE TABLE `racing_associations` (
   `mobile_site` tinyint(1) NOT NULL DEFAULT '0',
   `cat4_womens_race_series_start_date` date DEFAULT NULL,
   `filter_schedule_by_sanctioning_organization` tinyint(1) NOT NULL DEFAULT '0',
+  `person_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `refunds` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `line_item_id` int(11) DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_refunds_on_line_item_id` (`line_item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `results` (
@@ -640,6 +889,18 @@ CREATE TABLE `teams` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `update_requests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_person_id` int(11) DEFAULT NULL,
+  `lock_version` int(11) NOT NULL DEFAULT '0',
+  `expires_at` datetime DEFAULT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_update_requests_on_order_person_id` (`order_person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `velodromes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -901,6 +1162,8 @@ INSERT INTO schema_migrations (version) VALUES ('20120528182244');
 INSERT INTO schema_migrations (version) VALUES ('20120720235539');
 
 INSERT INTO schema_migrations (version) VALUES ('20121002174208');
+
+INSERT INTO schema_migrations (version) VALUES ('20121114052521');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

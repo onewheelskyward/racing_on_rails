@@ -12,6 +12,12 @@ class AcceptanceTest < ActiveSupport::TestCase
   Capybara.register_driver :selenium do |app|
     Capybara::Selenium::Driver.new(app, :browser => :chrome, :switches => ["--user-data-dir=#{Rails.root}/tmp/chrome-profile", "--ignore-certificate-errors"])
   end
+
+  Capybara.configure do |config|
+    config.current_driver = :selenium
+    config.app_host       = "http://localhost"
+    config.server_port    = 8080
+  end
   Capybara.current_driver = :selenium
 
   # Selenium tests start the Rails server in a separate process. If test data is wrapped in a

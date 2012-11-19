@@ -11,70 +11,91 @@ class LoginTest < ActionController::IntegrationTest
   # logged-in?, person_id?, same person?, admin?
   def test_member_account
     get "/account"
-    assert_redirected_to "http://www.example.com/person_session/new"
+    assert_redirected_to "https://www.example.com/account"
+    https!
     follow_redirect!
+    assert_redirected_to "https://www.example.com/person_session/new"
     login :person_session => { :login => 'bob.jones', :password => 'secret' }
-    assert_redirected_to "http://www.example.com/account"
+    assert_redirected_to "https://www.example.com/account"
     follow_redirect!
-    assert_redirected_to "http://www.example.com/people/#{@member.id}/edit"
+    assert_redirected_to "https://www.example.com/people/#{@member.id}/edit"
 
     get "/account"
-    assert_redirected_to "http://www.example.com/people/#{@member.id}/edit"
+    assert_redirected_to "https://www.example.com/people/#{@member.id}/edit"
 
     get "/people/#{@member.id}/account"
-    assert_redirected_to "http://www.example.com/people/#{@member.id}/edit"
+    assert_redirected_to "https://www.example.com/people/#{@member.id}/edit"
 
     get "/people/account"
-    assert_redirected_to "http://www.example.com/people/#{@member.id}/edit"
+    assert_redirected_to "https://www.example.com/people/#{@member.id}/edit"
 
     another_member = Person.create!.id
     get "/people/#{another_member}/account"
-    assert_redirected_to "http://www.example.com/people/#{another_member}/edit"
+    assert_redirected_to "https://www.example.com/people/#{another_member}/edit"
     follow_redirect!
     assert_redirected_to unauthorized_path
 
     get "/logout"
     get "/account"
     login :person_session => { :login => 'admin@example.com', :password => 'secret' }
-    assert_redirected_to "http://www.example.com/account"
+    assert_redirected_to "https://www.example.com/account"
     follow_redirect!
-    assert_redirected_to "http://www.example.com/people/#{@administrator.id}/edit"
+    assert_redirected_to "https://www.example.com/people/#{@administrator.id}/edit"
 
     get "/people/#{@member.id}/account"
-    assert_redirected_to "http://www.example.com/people/#{@member.id}/edit"
+    assert_redirected_to "https://www.example.com/people/#{@member.id}/edit"
 
     get "/people/account"
-    assert_redirected_to "http://www.example.com/people/#{@administrator.id}/edit"
+    assert_redirected_to "https://www.example.com/people/#{@administrator.id}/edit"
 
     get "/people/#{another_member}/account"
-    assert_redirected_to "http://www.example.com/people/#{another_member}/edit"
+    assert_redirected_to "https://www.example.com/people/#{another_member}/edit"
 
     get "/people/#{@administrator.id}/account"
-    assert_redirected_to "http://www.example.com/people/#{@administrator.id}/edit"
-      
+    assert_redirected_to "https://www.example.com/people/#{@administrator.id}/edit"
+    
     put "/people/#{@administrator.id}"
-    assert_redirected_to "http://www.example.com/people/#{@administrator.id}/edit"      
+    assert_redirected_to "https://www.example.com/people/#{@administrator.id}/edit"      
   end
 
   def test_redirect_from_old_paths
     get "/account/login"
-    assert_response :success
+    assert_redirected_to "https://www.example.com/account/login"
+    follow_redirect!
 
     get "/account/logout"
-    assert_redirected_to "http://www.example.com/person_session/new"
+    assert_redirected_to "https://www.example.com/person_session/new"
     follow_redirect!
   end
 
   def test_login
+    get "http://www.example.com/login"
+    assert_redirected_to "https://www.example.com/login"
+
+    https!
     get "/login"
 
     login :person_session => { :login => 'bob.jones', :password => 'secret' }
-    assert_redirected_to "http://www.example.com/people/#{@member.id}/edit"
+    assert_redirected_to "https://www.example.com/people/#{@member.id}/edit"
+
+    get "/login"
+  end
+
+  def test_login_on_nonstandard_port
+    get "http://www.example.com:8080/login"
+    assert_redirected_to "https://www.example.com/login"
+
+    https!
+    get "/login"
+
+    login :person_session => { :login => 'bob.jones', :password => 'secret' }
+    assert_redirected_to "https://www.example.com/people/#{@member.id}/edit"
 
     get "/login"
   end
 
   def test_valid_admin_login
+    https!
     get admin_people_path
     assert_response :redirect
     follow_redirect!
@@ -99,6 +120,7 @@ class LoginTest < ActionController::IntegrationTest
   end
 
   def test_should_fail_cookie_login
+    https!
     PersonSession.create(@administrator)
     cookies["person_credentials"] = "invalid_auth_token"
     get '/admin/events'
@@ -108,6 +130,7 @@ class LoginTest < ActionController::IntegrationTest
   def test_blank_login_should_not_work
     Person.create!
 
+    https!
     post person_session_path, "person_session" => { "email" => "", "password" => "" }, "login" => "Login"
     assert_response :success
     assert_template "person_sessions/new"
@@ -121,6 +144,7 @@ class LoginTest < ActionController::IntegrationTest
   end
   
   def test_unauthorized
+    https!
     get "/unauthorized"
     assert_response :success
   end
@@ -128,7 +152,7 @@ class LoginTest < ActionController::IntegrationTest
   private
   
   def go_to_login
-    https! if RacingAssociation.current.ssl?
+    https!
     get new_person_session_path
     assert_response :success
     assert_template "person_sessions/new"
