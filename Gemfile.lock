@@ -48,10 +48,9 @@ GIT
     default_value_for (2.0.1)
 
 PATH
-  remote: ~/devel/registration_engine/lib/registration_engine
+  remote: lib/registration_engine
   specs:
     registration_engine (0.0.1)
-      activemerchant
 
 GEM
   remote: https://rubygems.org/
@@ -275,6 +274,7 @@ PLATFORMS
 
 DEPENDENCIES
   Ascii85
+  activemerchant
   acts_as_list!
   acts_as_tree!
   airbrake

@@ -27,7 +27,8 @@ gem "truncate_html"
 gem "jquery-rails"
 gem "yui-compressor"
 gem "therubyracer"
-gem "registration_engine", :path => "~/devel/registration_engine/lib/registration_engine"
+gem "activemerchant"
+gem "registration_engine", :path => "lib/registration_engine"
 
 group :assets do
   gem "sass-rails",   "~> 3.2.3"
