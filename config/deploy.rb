@@ -14,7 +14,7 @@ set :rvm_ruby_string, "1.9.3"
 
 set :scm, "git"
 set :repository, "git://github.com/scottwillson/racing_on_rails.git"
-set :branch, "master"
+set :branch, "with-registration"
 set :site_local_repository, "git@github.com:scottwillson/#{application}-local.git"
 set :deploy_via, :remote_cache
 set :keep_releases, 5
@@ -33,6 +33,10 @@ namespace :deploy do
     end
     run "chmod -R g+w #{release_path}/local"
     run "ln -s #{release_path}/local/public #{release_path}/public/local"
+  end
+  
+  task :registration_engine do
+    run "git clone git@github.com:scottwillson/registration-engine.git #{release_path}/lib/registration_engine"
   end
   
   task :symlinks do
@@ -68,7 +72,7 @@ namespace :deploy do
   end
 end
 
-before "deploy:assets:precompile", "deploy:local_code"
+before "deploy:assets:precompile", "deploy:local_code", "deploy:registration_engine"
 after "deploy:update_code", "deploy:symlinks", "deploy:copy_cache"
 
 require 'airbrake/capistrano'
