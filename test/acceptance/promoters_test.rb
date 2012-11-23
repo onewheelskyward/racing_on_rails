@@ -19,7 +19,7 @@ class PromotersTest < AcceptanceTest
     login_as promoter
     
     click_link "events_tab"
-    click_link "Cross Crusade"
+    first("a[href='/admin/events/#{series.id}/edit']").click
     click_button "Save"
     
     click_link "create_race"
@@ -57,7 +57,7 @@ class PromotersTest < AcceptanceTest
     wait_for_download "scoring_sheet.xls"
 
     click_link "events_tab"
-    click_link "Cross Crusade"
+    first("a[href='/admin/events/#{series.id}/edit']").click
     click_ok_on_alert_dialog
     click_link "propagate_races"
   end
