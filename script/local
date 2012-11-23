@@ -1,12 +1,26 @@
-#! /bin/bash
+#! /usr/bin/env ruby
 
 # Simple script to switch local directories for dev
 
-if [ -h local ]; then
-  rm local
-fi
-if [ -h public/local ]; then
-  rm public/local
-fi
-ln -s ../racing_on_rails_local/$1 local
-ln -s local/public public/local
+if File.exists?("local")
+  File.rm "local"
+end
+
+if File.exists?("public/local")
+  File.rm "public/local"
+end
+
+`ln -s ../racing_on_rails_local/#{ARGV[1]} local`
+`ln -s ../racing_on_rails_local/#{ARGV[1]}/public public/local`
+
+if ARGV[1] == "obra" || ARGV[1] == "nabra"
+  if File.exists?("lib/registration_engine") && !File.exists?("lib/registration_engine.disabled")
+    File.mv "lib/registration_engine", "lib/registration_engine.disabled"
+    `ln -s ../registration_engine lib/registration_engine`
+  end
+else
+  if !File.exists?("lib/registration_engine") && File.exists?("lib/registration_engine.disabled")
+    File.rm "lib/registration_engine"
+    File.mv "lib/registration_engine.disabled", "lib/registration_engine"
+  end
+end
