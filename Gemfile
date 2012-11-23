@@ -51,6 +51,8 @@ end
 
 group :acceptance do
   gem "capybara"
+  gem "nokogiri"
+  gem "xpath"
   gem "database_cleaner"
   gem "factory_girl"
   gem "factory_girl_rails"
