@@ -150,7 +150,7 @@ class PersonSessionsControllerTest < ActionController::TestCase
     if RacingAssociation.current.ssl?
       assert_redirected_to person_session_url(secure_redirect_options)
     else
-      assert_redirected_to new_person_session_url(secure_redirect_options)
+      assert_response :success
     end
   end
 end
