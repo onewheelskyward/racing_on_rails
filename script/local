@@ -2,25 +2,31 @@
 
 # Simple script to switch local directories for dev
 
-if File.exists?("local")
-  File.rm "local"
+require "fileutils"
+
+association = ARGV[0]
+
+if File.symlink?("local")
+  FileUtils.rm "local"
 end
 
-if File.exists?("public/local")
-  File.rm "public/local"
+if File.symlink?("public/local")
+  FileUtils.rm "public/local"
 end
 
-`ln -s ../racing_on_rails_local/#{ARGV[1]} local`
-`ln -s ../racing_on_rails_local/#{ARGV[1]}/public public/local`
+if !association.nil?
+  `ln -s ../racing_on_rails_local/#{association} local`
+  `ln -s ../../racing_on_rails_local/#{association}/public public/local`
+end
 
-if ARGV[1] == "obra" || ARGV[1] == "nabra"
-  if File.exists?("lib/registration_engine") && !File.exists?("lib/registration_engine.disabled")
-    File.mv "lib/registration_engine", "lib/registration_engine.disabled"
+if association == "obra" || association == "nabra"
+  if File.symlink?("lib/registration_engine") && !File.directory?("lib/registration_engine.disabled")
+    FileUtils.mv "lib/registration_engine", "lib/registration_engine.disabled"
     `ln -s ../registration_engine lib/registration_engine`
   end
 else
-  if !File.exists?("lib/registration_engine") && File.exists?("lib/registration_engine.disabled")
-    File.rm "lib/registration_engine"
-    File.mv "lib/registration_engine.disabled", "lib/registration_engine"
+  if !File.symlink?("lib/registration_engine") && File.directory?("lib/registration_engine.disabled")
+    FileUtils.rm "lib/registration_engine"
+    FileUtils.mv "lib/registration_engine.disabled", "lib/registration_engine"
   end
 end
