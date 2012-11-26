@@ -142,6 +142,7 @@ class AcceptanceTest < ActiveSupport::TestCase
   # Go to login page and login
   def login_as(person)
     visit "/person_session/new"
+    wait_for "#person_session_login"
     fill_in "person_session_login", :with => person.login
     fill_in "person_session_password", :with => "secret"
     click_button "login_button"
