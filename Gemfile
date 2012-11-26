@@ -28,6 +28,8 @@ gem "yui-compressor"
 gem "bootstrap-sass", :git => "git://github.com/dszczyt/bootstrap-sass.git"
 gem "jquery_datepicker"
 gem "therubyracer"
+gem "activemerchant"
+gem "registration_engine", :path => "lib/registration_engine"
 
 group :assets do
   gem "sass-rails",   "~> 3.2.3"
@@ -50,6 +52,8 @@ end
 
 group :acceptance do
   gem "capybara"
+  gem "nokogiri"
+  gem "xpath"
   gem "database_cleaner"
   gem "factory_girl"
   gem "factory_girl_rails"
