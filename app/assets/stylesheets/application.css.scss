@@ -38,7 +38,6 @@ $tableBorder: darken($warm-gray, 18);
 body {
   background-color: $body-background-color;
   color: $font-color;
-  font-family: "Lucida Grande", Helvetica, Arial, Verdana;
   padding-top: $baseLineHeight * 2;
 }
 
@@ -80,6 +79,12 @@ h3, h3 a, h3 a:hover {
 .page-nav, .footer {
   margin-bottom: $baseLineHeight;
   margin-left: auto;
+}
+
+@media (max-width: 767px) {
+  .page-nav {
+    margin-bottom: $baseLineHeight / 2;
+  }
 }
 
 nav, footer {
@@ -144,6 +149,13 @@ nav li:last-child, footer li:last-child {
   padding: $baseLineHeight * 2;
 }
 
+@media (max-width: 767px) {
+  .content {
+    margin-bottom: $baseLineHeight / 2;
+    padding: $baseLineHeight / 2;
+  }
+}
+
 .event_info {
   text-align: center;
 }
@@ -160,10 +172,6 @@ nav li:last-child, footer li:last-child {
 
 .event_races td {
   padding-left: $baseLineHeight;
-}
-
-.actions {
-  text-align: right;
 }
 
 table .actions a {
@@ -207,36 +215,21 @@ th, .table-striped tbody tr:nth-child(odd) th {
   body {
     padding-left: 0px;
     padding-right: 0px;
+    padding-top: $baseLineHeight / 2;
   }
   
   nav ul {
     text-align: center;
   }
-
-  .actions {
-    padding-left: 314px;
-    text-align: left;
-  }
 }
 
-@media (max-width: 480px) {
-  .actions {
-    padding-left: 0px;
-    text-align: left;
-  }
+.buttons {
+  vertical-align: middle;
 }
 
-.updatedon {
-  border-bottom: none;
+.created_updated {
   color: $font-color-light;
   font-style: italic;
-  padding-bottom: $baseLineHeight;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.buttons .updatedon {
-  text-align: left;
 }
 
 .buttons .actions a {

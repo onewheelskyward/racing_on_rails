@@ -12,7 +12,7 @@
   <%= render :partial => "version", :collection => @person.versions.sort_by(&:updated_at).reverse %>
 
   <div class="page_buttons span-6">
-    <div class="updatedon span-2">
+    <div class="created_updated span-2">
       <span class="created_at">
         <%= render :partial => "people/created_updated" %>
     </div>

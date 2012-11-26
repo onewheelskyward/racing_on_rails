@@ -68,7 +68,7 @@
     </div>
     
     <div class="page_buttons clear span-6">
-      <div class="updatedon span-2">
+      <div class="created_updated span-2">
         <span class="created_at">
           <% if @team.created_at %>Created <%= time_ago_in_words(@team.created_at, true) + " ago" %><% end %>
           <% if @team.created_by %>by <%= truncate_from_end(@team.created_by.name) %><% end %>

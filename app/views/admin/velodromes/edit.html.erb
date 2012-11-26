@@ -20,7 +20,7 @@
   </div>
   <div class="row-fluid buttons">
     <div class="span3"></div>
-    <div class="updatedon span3">
+    <div class="created_updated span3">
       <%= "Updated: " + time_ago_in_words(@velodrome.updated_at, true) + " ago" unless @velodrome.updated_at.nil? %>
     </div>
     <div class="actions span3"><%= link_to("Delete", admin_velodrome_path(@velodrome), :method => :delete, :class => 'obvious', :id => 'delete') unless @velodrome.new_record? %><%= submit_tag "Save", :class => "btn btn-primary", :id => "save" %></div>

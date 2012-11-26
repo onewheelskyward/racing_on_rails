@@ -21,7 +21,7 @@ end -%>
 </div>
 
 <% unless @oregon_cup.new_record? %>
-<div class="updatedon">Updated <%= @oregon_cup.updated_at.to_formatted_s(:long) %></div>
+<div class="created_updated">Updated <%= @oregon_cup.updated_at.to_formatted_s(:long) %></div>
 <% end %>  
 
 <table style="margin-top: 24px;">

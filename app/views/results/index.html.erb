@@ -1,11 +1,13 @@
 <% @page_title = "Results: #{@year}" %>
 
-<div class="row-fluid">
+<!-- <div class="row-fluid">
   <div class="span12">
     <%= render_page "schedule/years" %>
     <%= render :partial => 'disciplines' %>
   </div>
-</div>
+</div> -->
+
+<%= select_tag "year", options_for_select((2008..2012).to_a.reverse), :blank => false, :value => 2012 %>
 
 <h2><%= @year %> Results</h2>
 <%= table do %>

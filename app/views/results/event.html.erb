@@ -49,7 +49,7 @@
   <%- end -%>
 
   <% unless @event.races_with_results.empty? -%>
-  <p class="updatedon">Updated <%= @event.updated_at.to_formatted_s(:long) %></p>
+  <p class="created_updated">Updated <%= @event.updated_at.to_formatted_s(:long) %></p>
   <%= render :partial => "questions", :locals => { :event => @event } %>
   <% end -%>
 

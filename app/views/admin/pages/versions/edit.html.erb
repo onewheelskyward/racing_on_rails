@@ -18,7 +18,7 @@
   </div>
 
   <div class="page_buttons clear full_width>
-    <div class="updatedon span-3"><%= "Updated: #{updated(@page)}".html_safe if @page.updated_at %></div>
+    <div class="created_updated span-3"><%= "Updated: #{updated(@page)}".html_safe if @page.updated_at %></div>
     <div class="right full_width>
       <%= link_to("Preview", admin_pages_version_path(@version), :target => "_new", :class => "obvious", :id => "preview") %>
       <%= link_to("Delete", 

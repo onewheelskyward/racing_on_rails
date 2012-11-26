@@ -33,7 +33,7 @@
     </div>
 
     <div class="span-6 page_buttons">
-       <div class="updatedon span-3"><%= "Updated: #{time_ago_in_words(@race.updated_at, true)} ago" if @race.updated_at.present? %>&nbsp;</div>
+       <div class="created_updated span-3"><%= "Updated: #{time_ago_in_words(@race.updated_at, true)} ago" if @race.updated_at.present? %>&nbsp;</div>
       <div class="right span-3">
         <%= submit_tag "Save", :id => "save" %>
       </div>

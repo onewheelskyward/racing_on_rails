@@ -23,7 +23,7 @@
 </table>
 <% end -%>
 
-<span class="updatedon">Updated <%= @event.updated_at.to_formatted_s(:long) %></span>
+<span class="created_updated">Updated <%= @event.updated_at.to_formatted_s(:long) %></span>
 
 <%- @event.races.each_with_index do |race, index| -%>
 <%- unless race.results.empty? -%>

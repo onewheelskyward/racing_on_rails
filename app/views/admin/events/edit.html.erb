@@ -175,7 +175,7 @@
           <% end -%>
         </div>
         <div class="row-fluid">
-          <div class="updatedon span8">
+          <div class="created_updated span8">
             <% unless @event.updated_at.nil? %>Updated: <%= time_ago_in_words(@event.updated_at, true) + " ago" %><% end %>
             <%= "New" if @event.new_record? %>
           </div>
