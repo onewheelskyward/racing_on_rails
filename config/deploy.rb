@@ -76,7 +76,11 @@ namespace :deploy do
   end
 end
 
-before "deploy:assets:precompile", "deploy:local_code", "deploy:registration_engine"
+if application == "obra" || application == "nabra"
+  before "deploy:assets:precompile", "deploy:local_code", "deploy:registration_engine"
+elsif application != "racing_on_rails"
+  before "deploy:assets:precompile", "deploy:local_code"
+end
 after "deploy:update_code", "deploy:symlinks", "deploy:copy_cache"
 
 require 'airbrake/capistrano'
