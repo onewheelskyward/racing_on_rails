@@ -10,14 +10,9 @@ end -%>
 <hr/>
 
 <div class="container-fluid">
-  <div class="row-fluid buttons">
-    <div class="span6">
-      <%= form_tag upload_schedule_admin_events_path, :multipart => true, :id => "upload_form" do %>
-      <label class="left">Import Schedule</label><%= file_field_tag "schedule_file", :onchange => "$('#upload_form').submit();" %>
-      <% end -%>
-    </div>
-    <div class="span6 actions">
-      <%= link_to 'New Event', {:controller => 'events', :action => 'new', :year =>  @year}, {:id => "new_event"} %>
+  <div class="row-fluid control-group">
+    <div class="span12">
+      <%= link_to 'New Event', {:controller => 'events', :action => 'new', :year =>  @year}, {:class => "btn btn-primary", :id => "new_event"} %>
     </div>
   </div>
 </div>
@@ -71,3 +66,13 @@ end -%>
   </div>
 </div>
 <% end %>
+
+<div class="container-fluid">
+    <div class="span12 import_schedule">
+      <%= form_tag upload_schedule_admin_events_path, :multipart => true, :class => "form-horizontal", :id => "upload_form" do %>
+          <label for="schedule_file">Import Schedule</label>
+          <%= file_field_tag "schedule_file", :onchange => "$('#upload_form').submit();" %>
+      </div>
+    <% end %>
+  </div>
+</div>
