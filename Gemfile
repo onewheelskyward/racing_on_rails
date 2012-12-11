@@ -28,12 +28,13 @@ gem "yui-compressor"
 gem "bootstrap-sass", :git => "git://github.com/dszczyt/bootstrap-sass.git"
 gem "jquery_datepicker"
 gem "therubyracer"
+gem "libv8", "~> 3.11.8"
 gem "activemerchant"
 gem "registration_engine", :path => "lib/registration_engine"
 
 group :assets do
-  gem "sass-rails",   "~> 3.2.3"
-  gem "coffee-rails", "~> 3.2.1"
+  gem "sass-rails",   "~> 3.2"
+  gem "coffee-rails", "~> 3.2"
   gem "uglifier", ">= 1.0.3"
 end
 

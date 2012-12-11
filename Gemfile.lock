@@ -83,9 +83,9 @@ GEM
     active_utils (1.0.5)
       activesupport (>= 2.3.11)
       i18n
-    activemerchant (1.28.0)
+    activemerchant (1.29.3)
       active_utils (>= 1.0.2)
-      activesupport (>= 2.3.11)
+      activesupport (>= 2.3.14)
       builder (>= 2.0.0)
       i18n
       json (>= 1.5.1)
@@ -110,7 +110,7 @@ GEM
       builder
       girl_friday
     arel (3.0.2)
-    authlogic (3.1.3)
+    authlogic (3.2.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
     builder (3.0.4)
@@ -131,7 +131,7 @@ GEM
       xpath (~> 1.0.0)
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
-    ckeditor_rails (3.6.4.1)
+    ckeditor_rails (4.0)
       railties (~> 3.0)
       thor (~> 0.14)
     coffee-rails (3.2.2)
@@ -162,16 +162,17 @@ GEM
     i18n (0.6.1)
     in_place_editing (1.2.0)
     journey (1.0.4)
-    jquery-rails (2.1.3)
-      railties (>= 3.1.0, < 5.0)
-      thor (~> 0.14)
+    jquery-rails (2.1.4)
+      railties (>= 3.0, < 5.0)
+      thor (>= 0.14, < 2.0)
     jquery_datepicker (0.4)
     json (1.7.5)
     kgio (2.7.4)
     launchy (2.1.2)
       addressable (~> 2.3)
-    libv8 (3.3.10.4)
-    libwebsocket (0.1.6.1)
+    libv8 (3.11.8.4)
+    libwebsocket (0.1.7.1)
+      addressable
       websocket
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -183,7 +184,7 @@ GEM
       metaclass (~> 0.0.1)
     money (5.1.0)
       i18n (~> 0.6.0)
-    multi_json (1.3.7)
+    multi_json (1.5.0)
     mysql2 (0.3.11)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
@@ -192,7 +193,7 @@ GEM
     net-ssh (2.6.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
-    newrelic_rpm (3.5.2.17)
+    newrelic_rpm (3.5.3.25)
     nokogiri (1.5.5)
     open4 (1.3.0)
     pdf-reader (1.2.0)
@@ -226,6 +227,7 @@ GEM
     rake (10.0.2)
     rdoc (3.12)
       json (~> 1.4)
+    ref (1.0.2)
     ri_cal (0.8.8)
     rubinius-actor (0.0.2)
       rubinius-core-api
@@ -239,12 +241,12 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    selenium-webdriver (2.26.0)
+    selenium-webdriver (2.27.2)
       childprocess (>= 0.2.5)
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
-    sprockets (2.2.1)
+    sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -252,11 +254,11 @@ GEM
     sqlite3 (1.3.6)
     syslog-logger (1.6.8)
     tabular (0.0.7)
-    therubyracer (0.10.2)
-      libv8 (~> 3.3.10)
+    therubyracer (0.11.0)
+      ref
     thor (0.16.0)
     tilt (1.3.3)
-    timecop (0.5.3)
+    timecop (0.5.4)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
@@ -266,7 +268,7 @@ GEM
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
-    unicorn (4.4.0)
+    unicorn (4.5.0)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
@@ -292,7 +294,7 @@ DEPENDENCIES
   capistrano-unicorn
   capybara
   ckeditor_rails
-  coffee-rails (~> 3.2.1)
+  coffee-rails (~> 3.2)
   database_cleaner
   default_value_for!
   dynamic_form
@@ -304,6 +306,7 @@ DEPENDENCIES
   jquery-rails
   jquery_datepicker
   launchy
+  libv8 (~> 3.11.8)
   mocha (~> 0.12.0)
   mysql2
   newrelic_rpm
@@ -316,7 +319,7 @@ DEPENDENCIES
   ri_cal
   ruby-ole!
   rvm-capistrano
-  sass-rails (~> 3.2.3)
+  sass-rails (~> 3.2)
   selenium-webdriver
   spreadsheet!
   sqlite3
