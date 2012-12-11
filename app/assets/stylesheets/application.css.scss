@@ -46,7 +46,7 @@ body {
   padding-right: 3%;
 }
 
-body nav a:hover, body footer a:hover, body a:hover, a:hover, .nav > li > a:hover {
+body nav a:hover, body footer a:hover, body a:hover, a:hover, .nav > li > a:hover, .btn-link:hover {
   background-color: $highlight-color;
   color: $font-color;
   text-decoration: underline;
@@ -56,7 +56,7 @@ body nav a:hover, body footer a:hover, body a:hover, a:hover, .nav > li > a:hove
   transition: all .1s linear;
 }
 
-a.obvious {
+.btn-link, a.obvious {
   text-decoration: underline;
 }
 
@@ -223,18 +223,15 @@ th, .table-striped tbody tr:nth-child(odd) th {
   }
 }
 
-.buttons {
-  vertical-align: middle;
-}
-
 .created_updated {
   color: $font-color-light;
   font-style: italic;
-}
-
-.buttons .actions a {
-  padding-left: $baseLineHeight / 2;
-  padding-right: $baseLineHeight / 2;
+  .btn-link {
+    text-decoration: none;
+  }
+  .btn-link:hover {
+    text-decoration: underline;
+  }
 }
 
 label {
