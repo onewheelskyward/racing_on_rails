@@ -247,6 +247,10 @@ th, .table-striped tbody tr:nth-child(odd) th {
   }
 }
 
+p.created_updated {
+  text-align: center;
+}
+
 label {
   color: $gray;
   font-weight: bold;  
