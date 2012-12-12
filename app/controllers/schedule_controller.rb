@@ -3,6 +3,7 @@
 # Caches all of its pages
 class ScheduleController < ApplicationController
   before_filter :assign_schedule_data, :except => :show
+  before_filter :add_tentative_warning, :except => :show
   before_filter :assign_sanctioning_organizations, :except => :show
   
   caches_page :index, :calendar, :list
@@ -107,6 +108,12 @@ class ScheduleController < ApplicationController
     end
 
     @schedule = Schedule::Schedule.new(@year, @events)
+  end
+  
+  def add_tentative_warning
+    if Time.zone.today < Date.new(@year, 2)
+      flash[:notice] = "Tentative. Dates are subject to change."
+    end
   end
   
   def assign_sanctioning_organizations

@@ -4,10 +4,6 @@
 <%= render :partial => "disciplines", :locals => { :year => @year } %>
 <%= render :partial => "tabs" %>
 
-<% if Time.zone.today < Date.new(@year, 2) %>
-<div>Tentative. Dates are subject to change.</div>
-<% end %>
-
 <h2><%= @year %> Schedule</h2>
 <%= table :collection => @events, :columns => 7 do %>
   <thead>
