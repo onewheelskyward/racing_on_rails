@@ -1,6 +1,6 @@
 <tr class="<%= cycle("even", "odd") %>" id="result_<%= result.id %>_row" style="position: relative;">
   <% result.race.result_columns_or_default_for_editing.each do |column| %>
-  <td><%= 
+  <td<%= result_cell_class column %>><%= 
     if result.respond_to?(column) && !result.new_record?
       if column == "bar"
         check_box_tag "result_#{result.id}_bar", "1", result.bar?, :class => "bar_check_box", "data-url" => url_for(:controller => "results", :action => "update_attribute", :id => result.to_param) 

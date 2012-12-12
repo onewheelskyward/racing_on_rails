@@ -1,7 +1,8 @@
-<%= table :caption => "Results", :class => "results", :id => :results do %>
+<h3>Results</h3>
+<%= table :class => "results", :id => :results do %>
   <tr>
     <% race.result_columns_or_default_for_editing.each do |column| -%>
-    <th><%= result_header column %></th>
+    <th class="<%= column %>"><%= result_header column %></th>
     <% end -%>
     <th class="actions span-2"></th>
   </tr>
