@@ -16,6 +16,10 @@
     <% end -%>
   </div>
   <div class="row-fluid">
-    <%= link_to image_tag("icons/group_add.png"), new_admin_velodrome_path, :class => "image new", :id => "new_velodrome" %>
+    <div class="span12">
+      <%= link_to new_admin_velodrome_path, :class => "btn", :id => "new_velodrome" do %>
+        <i class="icon-flag"></i> New Velodrome
+      <% end %>
+    </div>
   </div>
 </div>

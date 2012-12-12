@@ -73,12 +73,12 @@
       </div>
     </div>
 
-    <div class="row-fluid buttons">
-      <div class="created_updated span8">
-        <% if @racing_association.updated_at %>Updated <%= time_ago_in_words(@racing_association.updated_at, true) + " ago" %><% end %>
-      </div>
-    
-      <div class="actions span4"><%= submit_tag "Save", :class => "btn-primary", :id => "save" %></div>
+    <div class="row-fluid">
+      <div class="span12">
+        <%= submit_tag "Save", :class => "btn-primary", :id => "save" %>
+        <div class="created_updated pull-right">
+          <% if @racing_association.updated_at %>Updated <%= time_ago_in_words(@racing_association.updated_at, true) + " ago" %><% end %>
+        </div>
     </div>
   <% end -%>
 </div>

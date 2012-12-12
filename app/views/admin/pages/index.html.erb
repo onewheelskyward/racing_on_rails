@@ -9,6 +9,10 @@
   <%= render @pages %>
 <% end -%>
 
-<div class="row-fluid buttons">
-  <div class="span12"><%= link_to(image_tag('icons/add.png'), new_admin_page_path, :class => "image") %></div>
+<div class="row-fluid">
+  <div class="span12">
+    <%= link_to new_admin_page_path, :class => "btn", :id => "new_page" do %>
+      <i class="icon-file"></i> New Page
+    <% end %>
+  </div>
 </div>
