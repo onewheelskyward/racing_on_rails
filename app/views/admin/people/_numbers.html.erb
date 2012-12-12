@@ -23,7 +23,7 @@
             <td>
               <label class="inline"><%= number.number_issuer.name %> <%= number.discipline.name %></label>
             </td>
-            <td class="right">
+            <td>
               <%= text_field 'number[]', 'value', :class => "number" %>
             </td>
             <td>
@@ -34,7 +34,7 @@
                     :class => "image"
                   ) %>
             </td>
-            <td class="right">
+            <td>
               <%= link_to(
                     image_tag('icons/delete.png'),
                     admin_person_race_number_path(person, number),
@@ -54,7 +54,7 @@
     <%= render :partial => "/admin/race_numbers/new" %>
   <% else %>
   <tr id="new_number_button_row">
-    <td class="right">
+    <td>
       <%= link_to(
             image_tag("icons/add.png", :size => "16x16"), 
             new_admin_person_race_number_path(person),

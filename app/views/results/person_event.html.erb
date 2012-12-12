@@ -13,11 +13,11 @@
     <th>Category</th>
     <th>Team</th>
     <th>Date</th>
-    <th class="right">Points</th>
+    <th>Points</th>
   </tr>
   <% result.scores.sort { |x, y| y.source_result.date <=> x.source_result.date }.each do |score| %>
   <tr class="<%= cycle "even", "odd" %>">
-    <td class="right" width="24"><%= score.source_result.place %></td>
+    <td width="24"><%= score.source_result.place %></td>
     <td width="400">
       <%= link_to(score.source_result.event_full_name, 
                   event_results_path(
@@ -37,7 +37,7 @@
       <%- end -%>
     </td>
     <td width="100"><%= score.source_result.event.date.strftime("%D") %></td>
-    <td class="right"><%= number_with_precision(score.points, :precision => 1) %></td>
+    <td><%= number_with_precision(score.points, :precision => 1) %></td>
   </tr>
   <% end %>
   <tr>

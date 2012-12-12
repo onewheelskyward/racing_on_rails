@@ -29,7 +29,7 @@
     <th>Race</th>
     <th>Category</th>
     <th>Date</th>
-    <th class="right">Points</th>
+    <th>Points</th>
   </tr>
   <%# FIXME Add test for rendering this page with lots of results %>
   <% result.scores.sort_by(&:source_event_date).each do |score| %>
@@ -44,7 +44,7 @@
                   :anchor => "race_#{score.source_result.race_id}")) if score.source_result.competition_result? %></td>
     <td class="category"><%= score.source_result.race_name %></td>
     <td class="dates"><%= score.source_result.event_date_range_s %></td>
-    <td class="right"><%= number_with_precision(score.points, :precision => 1) %></td>
+    <td><%= number_with_precision(score.points, :precision => 1) %></td>
   </tr>
   <% end %>
   <tr>

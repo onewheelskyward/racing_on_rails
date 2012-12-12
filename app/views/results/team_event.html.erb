@@ -11,11 +11,11 @@
     <th>Category</th>
     <th>Person</th>
     <th>Date</th>
-    <th class="right">Points</th>
+    <th>Points</th>
   </tr>
   <% @result.scores.stable_sort_by(:points).stable_sort_by(:source_event_date).each do |score| %>
   <tr class="<%= cycle "even", "odd" %>">
-    <td class="right" width="24"><%= score.source_result.place unless (score.source_result.event_id == @result.event_id) %></td>
+    <td width="24"><%= score.source_result.place unless (score.source_result.event_id == @result.event_id) %></td>
     <td width="400">
       <% if score.event_name -%>
         <%= score.event_name %>
@@ -34,7 +34,7 @@
       <%= score.description || score.source_result.person_name %>
     </td>
     <td width="100"><%= (score.date || score.source_result.date).strftime("%D") %></td>
-    <td class="right"><%= number_with_precision(score.points, :precision => 1) %></td>
+    <td><%= number_with_precision(score.points, :precision => 1) %></td>
   </tr>
   <% end %>
   <tr>
