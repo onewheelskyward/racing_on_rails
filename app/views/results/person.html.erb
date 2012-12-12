@@ -8,14 +8,14 @@
     <th class="place">&nbsp;</th>
     <th class="event">Event</th>
     <th class="category">Category</th>
-    <th class="date">Date</th>
+    <th class="date hidden-phone">Date</th>
   </tr>
   <% @event_results.sort_by(&:event_end_date).reverse.each do |result| -%>
   <tr class="<%= cycle("even", "odd") %>">
     <td class="place"><%= result.place %></td>
     <td class="event"><%= link_to(result.event_full_name, event_results_path(:event_id => result.event_id, :anchor => "race_#{result.race_id}")) %></td>
     <td class="category"><%= result.race_name %></td>
-    <td class="date"><%= result.event_date_range_s %></td>
+    <td class="date hidden-phone"><%= result.event_date_range_s %></td>
   </tr>
   <%- end -%>
 <% end -%>
@@ -27,8 +27,8 @@
     <th class="place">&nbsp;</th>
     <th class="event">Event</th>
     <th class="category">Category</th>
-    <th class="date">Date</th>
-    <th class="points">Points</th>
+    <th class="date hidden-phone">Date</th>
+    <th class="points hidden-phone">Points</th>
   </tr>
   <%# FIXME Add test for rendering this page with lots of results %>
   <% result.scores.sort_by(&:source_event_date).each do |score| %>
@@ -42,15 +42,15 @@
                   event_person_results_path(:event_id => score.source_result.event_id, :person_id => @person.id, 
                   :anchor => "race_#{score.source_result.race_id}")) if score.source_result.competition_result? %></td>
     <td class="category"><%= score.source_result.race_name %></td>
-    <td class="date"><%= score.source_result.event_date_range_s %></td>
-    <td class="points"><%= number_with_precision(score.points, :precision => 1) %></td>
+    <td class="date hidden-phone"><%= score.source_result.event_date_range_s %></td>
+    <td class="points hidden-phone"><%= number_with_precision(score.points, :precision => 1) %></td>
   </tr>
   <% end %>
   <tr>
     <td></td>
     <td></td>
-    <td></td>
-    <td></td>
+    <td class="hidden-phone"></td>
+    <td class="hidden-phone"></td>
     <td class="total_points"><span class="total">TOTAL</span><%= number_with_precision(result.points, :precision => 1) %></td>
   </tr>
 <% end -%>

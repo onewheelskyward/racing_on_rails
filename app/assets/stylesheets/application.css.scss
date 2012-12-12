@@ -38,7 +38,7 @@ $tableBorder: darken($warm-gray, 18);
 body {
   background-color: $body-background-color;
   color: $font-color;
-  padding-top: $baseLineHeight * 2;
+  padding-top: $baseLineHeight;
 }
 
 .container-fluid {
