@@ -1,5 +1,5 @@
 <%= content_tag :tr, :class => "#{cycle("even", "odd")} person_row", :id => "person_#{person.id}_row", "data-id" => person.id do %>
-  <td class="icon"><%= image_tag "icons/user.png", :class => "person_icon", :id => "person_#{person.id}", "data-name" => person.name, "data-id" => person.id %></td>
+  <td class="icon"><i class="icon-user" id="<%= person.id %>" data-name="<%= person.name %>" data-id="<%= person.id %>"></i></td>
   <td class="name">
     <%= editable person, :name %>
   </td>
@@ -20,4 +20,3 @@
     <%= link_to 'Edit', edit_admin_person_path(person), :id => "edit_#{person.id}" %>
   </td>
 <% end %>
-

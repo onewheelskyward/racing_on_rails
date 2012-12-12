@@ -25,7 +25,7 @@
                   admin_pages_version_path(@version),
                   :data => { :confirm => "Really delete this version?" }, 
                   :method => :delete, 
-                  :class => "obvious", 
+                  :class => "btn", 
                   :id => "delete") %>
       <%= link_to "Revert", revert_admin_pages_version_path(@version), :data => { :confirm => "Really revert the current page to this version?" } %>
     </div>

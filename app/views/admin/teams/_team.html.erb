@@ -1,5 +1,5 @@
 <%= content_tag :tr, :class => "#{cycle("even", "odd")} team_row", :id => "team_#{team.id}_row", "data-id" => team.id do %>
-  <td class="icon"><%= image_tag "icons/group.png", :class => "team_icon", :id => "team_#{team.id}", "data-id" => team.id, "data-name" => team.name %></td>
+  <td class="icon"><i class="icon-th" id="<%= team.id %>" data-name="<%= team.name %>" data-id="<%= team.id %>"></i></td>
   <td class="name">
     <%= editable team, :name %>
   </td>
@@ -10,6 +10,7 @@
     <%= render :partial => "shared/member", :locals => { :record => team } %>
   </td>
   <td class="actions not_editable">
-    <%= link_to "Results", team_path(team), :id => "show_#{team.id}" %> | <%= link_to "Edit", edit_admin_team_path(team), :id => "edit_#{team.id}" %>
+    <%= link_to "Results", team_path(team), :id => "show_#{team.id}" %>
+    <%= link_to "Edit", edit_admin_team_path(team), :id => "edit_#{team.id}" %>
   </td>
 <% end -%>

@@ -160,7 +160,7 @@
     <div class="span12">
       <%= submit_tag "Save", :class => "btn btn-primary", :id => "save" %>
       <%= link_to("Move Results", admin_person_results_path(@person), :class => "btn btn-link") unless @person.new_record? %>
-      <%= link_to("Delete", admin_person_path(@person), :method => :delete, :class => 'btn btn-link', :id => 'delete') unless @person.new_record? %>
+      <%= link_to("Delete", admin_person_path(@person), :method => :delete, :class => 'btn', :id => 'delete') unless @person.new_record? %>
       <div class="pull-right hidden-phone created_updated"><%= render :partial => "people/created_updated" %></div>
     </div>
   </div>

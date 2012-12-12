@@ -211,6 +211,19 @@ th, .table-striped tbody tr:nth-child(odd) th {
   padding-top: 4px;
 }
 
+.table-striped td.icon {
+  max-width: 16px;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  padding-right: 0px;
+  padding-top: 8px;
+  width: 16px;
+}
+
+.table-striped .check_box {
+  text-align: center;
+}
+
 @media (max-width: 767px) {
   body {
     padding-left: 0px;

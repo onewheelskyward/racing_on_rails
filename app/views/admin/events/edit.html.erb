@@ -179,7 +179,7 @@
         <div class="row-fluid control-group">
           <div class="span12">
             <%= submit_tag "Save", :class => "btn btn-primary", :id => "save" %>
-            <%= link_to("Delete", admin_event_path(@event), :method => :delete, :class => 'btn btn-link obvious', :id => 'delete') unless @event.new_record? || !administrator? %>
+            <%= link_to("Delete", admin_event_path(@event), :method => :delete, :class => 'btn', :id => 'delete') unless @event.new_record? || !administrator? %>
             <div class="pull-right hidden-phone created_updated">
               <% unless @event.updated_at.nil? %>Updated: <%= time_ago_in_words(@event.updated_at, true) + " ago" %><% end %>
               <%= "New" if @event.new_record? %>

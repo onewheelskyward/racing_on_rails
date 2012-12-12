@@ -35,7 +35,7 @@
         <td><%=h article_category.id %></td>
         <td><%=h article_category.parent_id %></td>
         <td><%= link_to 'Edit', edit_admin_article_category_path(article_category) %></td>
-        <td><%= link_to 'Destroy', [:admin, article_category], :confirm => 'Are you sure?', :method => :delete %></td>
+        <td><%= link_to 'Destroy', [:admin, article_category], :confirm => 'Are you sure?', :method => :delete, :class => "btn" %></td>
       </tr>
     <% end %>
   <% end %>
