@@ -31,6 +31,7 @@ gem "therubyracer"
 gem "libv8", "~> 3.11.8"
 gem "activemerchant"
 gem "registration_engine", :path => "lib/registration_engine"
+gem "will_paginate-bootstrap"
 
 group :assets do
   gem "sass-rails",   "~> 3.2"

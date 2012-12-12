@@ -235,7 +235,9 @@ table.results .drag {
   cursor: move;
 }
 
-table.results td.place {
+table.results td.place,
+table.results th.points,
+table.results td.points {
   text-align: right;
 }
 
@@ -486,8 +488,17 @@ table.child_single_day_events td {
   padding-right: 8px;
 }
 
+table.child_single_day_events td.date {
+  text-align: right;
+}
+
+table.child_single_day_events td.event {
+  text-align: left;
+}
+
 table.child_single_day_events td.child {
   padding-top: 2px;
+  text-align: left;
 }
 
 table.child_single_day_events td.child a {
@@ -694,8 +705,8 @@ table#preview_import_table th {
   margin-left: 8px;
 }
 
-.pagination .current {
-  padding-right: 0px;
+.pagination {
+  text-align: center;
 }
 
 .promoted_events .name,

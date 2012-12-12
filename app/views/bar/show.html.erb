@@ -9,10 +9,13 @@
 
 <% if @race && @race.results.any? -%>
 <h2><%= @race.year %> <%= @race.discipline %> BAR</h2>
-<div class="created_updated">Updated <%= @race.updated_at.to_formatted_s(:long) %></div>
 <% end -%>
 
 <%= render :partial => "races", :locals => { :race => @race } %>
+
+<% if @race && @race.results.any? -%>
+<p class="created_updated">Updated <%= @race.updated_at.to_formatted_s(:long) %></p>
+<% end -%>
 
 <% if @race.nil? || @race.results.empty? %>
 No results for <%= params[:year] %>

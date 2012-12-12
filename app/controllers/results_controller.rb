@@ -102,9 +102,7 @@ class ResultsController < ApplicationController
   def team
     @team = Team.find(params[:team_id])
     set_date_and_year
-    @results = Result.all(
-      :conditions => [ "team_id = ? and year = ? and competition_result = false and team_competition_result = false", @team.id, @date.year ]
-    )
+    @results = Result.where("team_id = ? and year = ? and competition_result = false and team_competition_result = false", @team.id, @date.year)
   end
   
   

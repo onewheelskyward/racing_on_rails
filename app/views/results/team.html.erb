@@ -3,21 +3,21 @@
 <%= render_page "results/team_years", :locals => { :team => @team } %>
 
 <h2><%= @team.name %></h2>
-<%= table :id => "team", :collection => @results, :columns => 5 do %>
+<%= table :class => "results", :id => "team", :collection => @results, :columns => 5 do %>
   <tr>
-    <th>&nbsp;</th>
-    <th>Race</th>
-    <th>Category</th>
-    <th>Person</th>
-    <th>Date</th>
+    <th class="place">&nbsp;</th>
+    <th class="event">Event</th>
+    <th class="category">Category</th>
+    <th class="name">Person</th>
+    <th class="date">Date</th>
   </tr>
-  <%- @results.sort { |x, y| y.event_end_date <=> x.event_end_date }.each do |result| -%>
+  <%- @results.sort_by(&:event_end_date).reverse.each do |result| -%>
   <tr class="<%= cycle("even", "odd") %>">
-    <td width="24"><%= result.place %></td>
-    <td width="400"><%= link_to(result.race_full_name, event_results_path(:event_id => result.event_id)) %></td>
-    <td width="200"><%= link_to(result.race_name, event_results_path(:event_id => result.event_id, :anchor => "race_#{result.race_id}")) %></td>
-    <td width="200"><%= link_to_results result.person_name, result %></td>
-    <td width="100"><%= result.event_date_range_s %></td>
+    <td class="place"><%= result.place %></td>
+    <td class="even"><%= link_to(result.race_full_name, event_results_path(:event_id => result.event_id)) %></td>
+    <td class="category"><%= link_to(result.race_name, event_results_path(:event_id => result.event_id, :anchor => "race_#{result.race_id}")) %></td>
+    <td class="name"><%= link_to_results result.name, result %></td>
+    <td class="date"><%= result.event_date_range_s %></td>
   </tr>
   <%- end -%>
 <%- end -%>

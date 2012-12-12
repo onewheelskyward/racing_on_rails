@@ -13,16 +13,18 @@ No results for <%= @year %>
 <br/>
 <% end %>
 
-<p>The Ironman Competition is a 'just for fun' record of the number of events riders do.<br>
-There is no prize just identification of riders who need to get a life.</p>
-
 <% unless @ironman.nil? or @ironman.races.empty? or @ironman.races.first.results.empty? %>
 
-<p><%= will_paginate @results %></p>
+<h3><%= @ironman.date.year %> Ironman</h3>
 
-<div class="created_updated">Updated <%= @ironman.updated_at.to_formatted_s(:long) %></div>
+<p class="event_notes">The Ironman Competition is a 'just for fun' record of the number of events riders do. 
+There is no prize just identification of riders who need to get a life.</p>
 
-<%= table :caption => "#{@ironman.date.year} Ironman", :columns => 4, :class => "event_results" do %>
+<p class="created_updated">Updated <%= @ironman.updated_at.to_formatted_s(:long) %></p>
+
+<%= will_paginate @results, :renderer => BootstrapPagination::Rails %>
+
+<%= table :columns => 4, :class => "event_results" do %>
   <% result_columns = %w{ place name team_name points } %>
   <tr>
     <%- result_columns.map.each do |column| -%>
@@ -38,5 +40,5 @@ There is no prize just identification of riders who need to get a life.</p>
   <%- end -%>
 <%- end -%>
 
-<p><%= will_paginate @results %></p>
+<%= will_paginate @results, :renderer => BootstrapPagination::Rails %>
 <% end %>  
