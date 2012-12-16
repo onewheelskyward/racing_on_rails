@@ -3,7 +3,7 @@
 <%= render :partial => "schedule/years" %>
 <%= tabs do |tabs|
   @schedule.months.each do |month|
-    tabs.add(month.name, :year => @year, :anchor => month.name)
+    tabs.add(month.name, :anchor => month.name.downcase)
   end
 end -%>
 
@@ -20,7 +20,7 @@ end -%>
 <div class="container-fluid">
   <div class="row-fluid">
   <%- @schedule.months.each do |month| -%>
-    <h3 class="month"><a name='<%= month.name %>'><%= month.name %> <%= @year %></a></h3>
+  <h3 class="month"><a id='<%= month.name.downcase %>'><%= month.name %> <%= @year %></a></h3>
     <table class="calendar table">
       <thead>
         <tr>
@@ -68,11 +68,10 @@ end -%>
 <% end %>
 
 <div class="container-fluid">
-    <div class="span12 import_schedule">
-      <%= form_tag upload_schedule_admin_events_path, :multipart => true, :class => "form-horizontal", :id => "upload_form" do %>
-          <label for="schedule_file">Import Schedule</label>
-          <%= file_field_tag "schedule_file", :onchange => "$('#upload_form').submit();" %>
-      </div>
+  <div class="span12 import_schedule">
+    <%= form_tag upload_schedule_admin_events_path, :multipart => true, :class => "form-horizontal", :id => "upload_form" do %>
+      <label for="schedule_file">Import Schedule</label>
+      <%= file_field_tag "schedule_file", :onchange => "$('#upload_form').submit();" %>
     <% end %>
   </div>
 </div>
