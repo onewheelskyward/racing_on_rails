@@ -379,7 +379,7 @@ class Person < ActiveRecord::Base
   end
 
   def gender_pronoun
-    if gender == "F"
+    if female?
       "herself"
     else
       "himself"
@@ -387,7 +387,7 @@ class Person < ActiveRecord::Base
   end
   
   def possessive_pronoun
-    if gender == "F"
+    if female?
       "her"
     else
       "his"
@@ -395,7 +395,7 @@ class Person < ActiveRecord::Base
   end
   
   def third_person_pronoun
-    if gender == "F"
+    if female?
       "her"
     else
       "him"
@@ -483,6 +483,32 @@ class Person < ActiveRecord::Base
   def senior?
     if date_of_birth
       date_of_birth < Date.new(18.years.ago.year, 1, 1)
+    end
+  end
+  
+  def female?
+    gender == "F"
+  end
+  
+  def male?
+    gender == "M"
+  end
+
+  def age_category
+    if female?
+      if junior?
+        "girl"
+      else
+        "woman"
+      end
+    else
+      if master?
+        "master"
+      elsif junior?
+        "boy"
+      else
+        "man"
+      end
     end
   end
   
