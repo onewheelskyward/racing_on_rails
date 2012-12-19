@@ -44,47 +44,45 @@ function hideFlash() {
 }
 
 function autoComplete(model, attribute, path) {
-  $(document).ready(function() {
-    console.log('binding autocomplete');
-    $('#' + attribute + '_auto_complete').autocomplete({
-      delay: 200,
-      minLength: 3,
-      source: path,
-      messages: {
-        noResults: null,
-        results: function() {}
-      },
-      focus: function(event, ui) {
-        $('#promoter_auto_complete').val(ui.item.person.first_name + ' ' + ui.item.person.last_name);
-        return false;
-      },
-      select: function(event, ui) {
-        $('#promoter_auto_complete').val(ui.item.person.first_name + ' ' + ui.item.person.last_name);
-        $('#event_promoter_id').val(ui.item.person.id);
-        $('#event_promoter_id').change();
-        return false;
+  console.log('autoComplete ' + model + ' ' + attribute + ' ' + path);
+  $('#' + attribute + '_auto_complete').autocomplete({
+    delay: 200,
+    minLength: 3,
+    source: path,
+    messages: {
+      noResults: null,
+      results: function() {}
+    },
+    focus: function(event, ui) {
+      $('#promoter_auto_complete').val(ui.item.person.first_name + ' ' + ui.item.person.last_name);
+      return false;
+    },
+    select: function(event, ui) {
+      $('#promoter_auto_complete').val(ui.item.person.first_name + ' ' + ui.item.person.last_name);
+      $('#event_promoter_id').val(ui.item.person.id);
+      $('#event_promoter_id').change();
+      return false;
+    }
+  })
+  .data("autocomplete")
+  ._renderItem = function(ul, item) {
+      var description = [];
+      if (item.person.team !== undefined && item.person.team.name !== undefined) {
+        description.push(item.person.team.name);
       }
-    })
-    .data("autocomplete")
-    ._renderItem = function(ul, item) {
-        var description = [];
-        if (item.person.team !== undefined && item.person.team.name !== undefined) {
-          description.push(item.person.team.name);
-        }
-        if (item.person.city !== undefined) {
-          description.push(item.person.city);
-        }
-        if (item.person.state !== undefined) {
-          description.push(item.person.state);
-        }
+      if (item.person.city !== undefined) {
+        description.push(item.person.city);
+      }
+      if (item.person.state !== undefined) {
+        description.push(item.person.state);
+      }
         
-        return $('<li id="person_' + item.person.id + '"></li>')
-          .data( "item.autocomplete", item )
-          .append('<a>' + item.person.first_name + ' ' + item.person.last_name + '<div class="informal">' + description + "</div></a>")
-          .appendTo( ul );
-      };
-    ;
-  });  
+      return $('<li id="person_' + item.person.id + '"></li>')
+        .data( "item.autocomplete", item )
+        .append('<a>' + item.person.first_name + ' ' + item.person.last_name + '<div class="informal">' + description + "</div></a>")
+        .appendTo( ul );
+    };
+  ;
 }    
 
 function autoCompleteTeam(model, attribute, path) {
