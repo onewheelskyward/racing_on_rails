@@ -33,7 +33,7 @@ $tableBorder: darken($warm-gray, 18);
 
 @import "bootstrap";
 @import "bootstrap-responsive";
-
+@import 'font-awesome';
 
 body {
   background-color: $body-background-color;
@@ -343,6 +343,15 @@ ul.nav li:first-child, ul.page-links li:first-child {
 
 ul.nav + h2 {
   margin-top: $baseLineHeight;
+}
+
+@-webkit-keyframes Rotate {
+  from {-webkit-transform:rotate(0deg);}
+  to {-webkit-transform:rotate(360deg);}
+}
+.rotate {
+  -webkit-animation: Rotate 2s infinite linear;
+  -webkit-transform-origin: 53% 49%;
 }
 
 @import "pages";

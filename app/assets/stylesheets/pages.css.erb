@@ -146,7 +146,9 @@ p.list_link, p.atra_ncs {
 
 /* Categories */
 .category_root {
+  float: left;
   min-height: 400px;
+  width: 90%;
 }
 
 .category_root.hovering {
@@ -154,22 +156,15 @@ p.list_link, p.atra_ncs {
   background-color: lighten($highlight-color, 33);
 }
 
-div.disclosure {
-  background-repeat: no-repeat;
+.disclosure {
   clear: none;
   float: left;
   height: 24px;
-  padding-left: 16px;
-}
-
-.collapsed {
-  background-position: -456px -68px;
-  background-image: url(<%= asset_path("glyphicons-halflings.png") %>);  
-}
-
-.expanded {
-  background-position: -313px -115px;
-  background-image: url(<%= asset_path("glyphicons-halflings.png") %>);  
+  line-height: 24px;
+  margin-top: 0px;
+  text-align: center;
+  width: 24px;
+  display: inline-block !important;
 }
 
 .category_root .category {
@@ -181,7 +176,6 @@ div.disclosure {
 .category .category_name {
   clear: none;
   float: left;
-/*  padding-left: 24px;*/
   cursor: move;
   background-repeat: no-repeat;
   background-position: 0px 2px;
@@ -191,22 +185,18 @@ div.disclosure {
   white-space: nowrap;
 }
 
+.category i {
+  line-height: 24px;
+}
+
 .category .children {
   clear: both;
   float: left;
   padding-left: 24px;
 }
 
-.category_root .category img {
-  padding-top: 4px;
-}
-
 .category_root div.hovering {
   background-color: #E9F79B;
-}
-
-.ui-draggable-dragging.category {
-  background-image: url(<%= asset_path("icons/star.png") %>);
 }
 
 /* Results admin */

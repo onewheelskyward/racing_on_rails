@@ -106,13 +106,13 @@
             <%= f.hidden_field :promoter_id -%>
             <%= f.label :promoter_id, nil, :class => "control-label" %>
             <div class="controls">
-              <input type="text" class="span12" id="promoter_name_auto_complete" name="event[promoter_name]" value="<%= @event.promoter_name %>" autocomplete="off" />
+              <input type="text" class="span12" id="promoter_auto_complete" name="event[promoter_name]" value="<%= @event.promoter_name %>" autocomplete="off" />
             </div>
           </div>
 
           <script type="text/javascript" charset="utf-8">
           $(document).ready(function() {
-            autoComplete('event', 'promoter_name', '<%= people_path(:format => :json) %>');
+            autoComplete('event', 'promoter', '<%= people_path(:format => :json) %>');
           });
           </script>
 
@@ -129,7 +129,22 @@
             <%= f.labelled_text_field :email %>
           </fieldset>
 
-          <%= auto_complete(f, :event, :team, admin_teams_path(:format => :json), "Sponsoring Team") if administrator? %>
+          <% if administrator? %>
+          <div class="control-group team">
+            <%= f.hidden_field :team_id -%>
+            <%= f.label :team_id, "Sponsoring Team", :class => "control-label" %>
+            <div class="controls">
+              <input type="text" class="span12" id="team_auto_complete" name="event[team_name]" value="<%= @event.team_name %>" autocomplete="off" />
+            </div>
+          </div>
+
+          <script type="text/javascript" charset="utf-8">
+          $(document).ready(function() {
+            autoCompleteTeam('event', 'team', '<%= admin_teams_path(:format => :json) %>');
+          });
+          </script>
+          <% end %>
+
           <%= f.labelled_text_field :first_aid_provider, nil, :editable => administrator?, :class => "span12" %>
           <%= f.labelled_text_field :chief_referee, nil, :editable => administrator?, :class => "span12" %>
 

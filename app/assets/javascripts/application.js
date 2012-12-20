@@ -4,7 +4,6 @@
  *= require jquery-ui
  *= require jquery.jeditable
  *= require bootstrap
- *= require spin
  *= require_self
  *= require tabs
 */
@@ -44,7 +43,6 @@ function hideFlash() {
 }
 
 function autoComplete(model, attribute, path) {
-  console.log('autoComplete ' + model + ' ' + attribute + ' ' + path);
   $('#' + attribute + '_auto_complete').autocomplete({
     delay: 200,
     minLength: 3,
