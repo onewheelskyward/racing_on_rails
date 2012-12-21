@@ -157,14 +157,31 @@ p.list_link, p.atra_ncs {
 }
 
 .disclosure {
+  background-repeat: no-repeat;
   clear: none;
+  display: inline-block;
   float: left;
-  height: 24px;
-  line-height: 24px;
-  margin-top: 0px;
+  height: 14px;
+  margin-right: 8px;
+  margin-top: 5px;
   text-align: center;
-  width: 24px;
-  display: inline-block !important;
+  vertical-align: middle;
+  width: 14px;
+}
+
+.collapsed {
+  background-image: url(<%= asset_path("glyphicons-halflings.png") %>);
+  background-position: -264px -72px;
+}
+
+.expanded {
+  background-image: url(<%= asset_path("glyphicons-halflings.png") %>);
+  background-position: -264px -72px;
+  -webkit-transform:rotate(90deg);
+}
+
+.category .icon-list {
+  margin-top: 2px;
 }
 
 .category_root .category {
@@ -759,7 +776,6 @@ table.people div.aliases {
 td.right, th.right {
   text-align: right;
 }
-
 
 .icon-parents {
   background-image: url(<%= asset_path("glyphicons/glyphicons_024_parents.png") %>);

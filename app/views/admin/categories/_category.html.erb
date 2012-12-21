@@ -1,5 +1,5 @@
 <div class="category" id="category_<%= category.id %>_row" data-id="<%= category.id %>">
-  <i class="disclosure <%= "icon-caret-right" if category.children.present? %>" 
+  <i class="disclosure <%= "collapsed" if category.children.present? %>" 
      id="disclosure_<%= category.id %>" 
      data-id="<%= category.id%>"></i>
   <div class="category_name" id="category_<%= category.id %>" data-id="<%= category.id %>"><i class="icon-star"></i> <%= category.name %></div>

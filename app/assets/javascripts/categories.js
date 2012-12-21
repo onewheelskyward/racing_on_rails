@@ -35,9 +35,9 @@ function bindCategoryEvents() {
 
 function expandDisclosure(categoryId) {
   var disclosure = $('#disclosure_' + categoryId);
-  if (disclosure.is('.icon-caret-right')) {
-    disclosure.removeClass('icon-caret-right');
-    disclosure.removeClass('icon-caret-down');
+  if (disclosure.is('.collapsed')) {
+    disclosure.removeClass('collapsed');
+    disclosure.removeClass('expanded');
     disclosure.addClass('icon-refresh');
     disclosure.addClass('rotate');
 
@@ -47,7 +47,7 @@ function expandDisclosure(categoryId) {
       function(data) {
         disclosure.removeClass('icon-refresh');
         disclosure.removeClass('rotate');
-        disclosure.addClass('icon-caret-down');
+        disclosure.addClass('expanded');
         bindCategoryEvents();
       }
     );
