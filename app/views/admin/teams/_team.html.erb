@@ -1,5 +1,5 @@
 <%= content_tag :tr, :class => "#{cycle("even", "odd")} team_row", :id => "team_#{team.id}_row", "data-id" => team.id do %>
-  <td class="icon"><i class="icon-parents" id="<%= team.id %>" data-name="<%= team.name %>" data-id="<%= team.id %>"></i></td>
+  <td class="icon"><i class="glyphicon-group" id="<%= team.id %>" data-name="<%= team.name %>" data-id="<%= team.id %>"></i></td>
   <td class="name">
     <%= editable team, :name %>
   </td>
