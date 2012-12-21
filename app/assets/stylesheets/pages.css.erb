@@ -177,7 +177,7 @@ p.list_link, p.atra_ncs {
 .expanded {
   background-image: url(<%= asset_path("glyphicons-halflings.png") %>);
   background-position: -264px -72px;
-  -webkit-transform:rotate(90deg);
+  @include rotate(90deg);
 }
 
 .category .icon-list {

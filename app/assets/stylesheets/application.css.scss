@@ -344,12 +344,31 @@ ul.nav + h2 {
   margin-top: $baseLineHeight;
 }
 
+@-ms-keyframes Rotate {
+  from {-ms-transform:rotate(0deg);}
+  to {-ms-transform:rotate(360deg);}
+}
+
+@-moz-keyframes Rotate {
+  from {-moz-transform:rotate(0deg);}
+  to {-moz-transform:rotate(360deg);}
+}
+
 @-webkit-keyframes Rotate {
   from {-webkit-transform:rotate(0deg);}
   to {-webkit-transform:rotate(360deg);}
 }
+
+@keyframes Rotate {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
 .rotate {
+  -ms-animation: Rotate 2s infinite linear;
+  -moz-animation: Rotate 2s infinite linear;
   -webkit-animation: Rotate 2s infinite linear;
+  animation: Rotate 2s infinite linear;
 }
 
 @import "pages";

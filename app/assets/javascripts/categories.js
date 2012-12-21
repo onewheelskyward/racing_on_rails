@@ -53,8 +53,8 @@ function expandDisclosure(categoryId) {
     );
   }
   else {
-    disclosure.removeClass('icon-caret-down');
-    disclosure.addClass('icon-caret-right');
+    disclosure.removeClass('expanded');
+    disclosure.addClass('collapsed');
     $('#category_' + categoryId + "_children").html('');
   }
 }
