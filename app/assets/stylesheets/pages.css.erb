@@ -56,12 +56,6 @@ td.day div.event {
   line-height: 16px;
 }
 
-td.day div.beginner_friendly {
-  background-image: url(<%= asset_path("icons/star_green.png") %>);
-  background-repeat: no-repeat;
-  padding-left: 20px;
-}
-
 td.day div.number {
   font-weight: bold;
   text-align: right;
@@ -105,11 +99,6 @@ table.calendar tbody td {
 
 table td.discipline {
   white-space: nowrap;
-}
-
-td.beginner_friendly img {
-  padding-top: 2px;
-  vertical-align: top;
 }
 
 /* Upcoming events */
@@ -159,6 +148,7 @@ p.list_link, p.atra_ncs {
 .disclosure {
   background-repeat: no-repeat;
   clear: none;
+  cursor: pointer;
   display: inline-block;
   float: left;
   height: 14px;
@@ -217,15 +207,6 @@ p.list_link, p.atra_ncs {
 }
 
 /* Results admin */
-table.base td.disclosure {
-  text-align: right;
-  width: 16px;
-}
-
-table.base td.disclosure img {
-  cursor: pointer;
-}
-
 table.results .drag {
   cursor: move;
 }
@@ -241,29 +222,18 @@ table.results td.result .event {
   margin-left: 8px;
 }
 
-.half_width {
-  width: 48%;
-}
-
-#left_person {
-  float: left;
-}
-
-#right_person {
-  float: left;
-  margin-left: 12px;
-  margin-right: 0px;
-}
-
 #left_person td.page_links,
 #right_person td.page_links {
   min-width: 40px;
   width: 40px;
 }
 
-#find_progress_icon {
-  padding-left: 6px;
-  padding-top: 10px;
+.find-progress {
+  text-align: right;
+  i {
+    margin-top: 5px;
+    margin-right: -18px;
+  }
 }
 
 /* Pages */

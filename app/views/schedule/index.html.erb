@@ -42,7 +42,10 @@ end -%>
           <td class="day">
             <div class="number"><%= day.day_of_month -%></div>
             <%- day.events.each do |event| -%>
-            <div class="event<%= ' atra_points_series' if event.atra_points_series? %><%= " beginner_friendly" if event.beginner_friendly? %>">
+            <div class="event<%= ' atra_points_series' if event.atra_points_series? %>">
+              <% if event.beginner_friendly? %>
+              <i class="icon-star-empty"></i>
+              <% end %>
               <%- if event.cancelled %>
           <span class="cancelled"><%= event.full_name -%></span> <i>cancelled</i>
               <%- elsif event.postponed? %>

@@ -1,15 +1,15 @@
-<%= table :caption => truncate([person.name, (person.team.blank? ? nil : person.team.name), person.city, person.racing_age].compact.join(', '), :length => 45), 
-         :class => "results",
+<h3><%= [person.name, (person.team.blank? ? nil : person.team.name), person.city, person.racing_age].compact.join(', ') %></h3>
+<%= table :class => "results",
          :dataid => person.id,
          :id => "person_#{person.id}" do %>
   <tr>
-    <th>&nbsp;</th>
+    <th></th>
     <th class="place">Place</th>
     <th>Race</th>
     <th>Category</th>
-    <th>Date</th>
-    <th>Pts</th>
-    <th>&nbsp;</th>
+    <th class="date">Date</th>
+    <th class="points">Pts</th>
+    <th></th>
   </tr>
   <%- results.sort { |x, y| y.date <=> x.date }.each do |result| -%>
     <%= render result %>
@@ -24,7 +24,7 @@
 
 <%= javascript_tag do %>
   $(document).ready(function() {
-    $('img.disclosure').click(function() {
+    $('.disclosure').click(function() {
       toggle_disclosure(this);
     });
 

@@ -91,7 +91,7 @@ div.centered {
   display: block;
 }
 
-#search_form div.centered {
+.search_form div.centered {
   width: 327px;
 }
 
