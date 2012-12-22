@@ -13,8 +13,8 @@
     <%= link_to(
           admin_race_path(race),
           :remote => true,
-          :class => "image", 
-          :class => "image", :id => "destroy_race_#{race.id}", :title => "Delete race",
+          :class => "icon", 
+          :class => "icon", :id => "destroy_race_#{race.id}", :title => "Delete race",
           :data => { :confirm => (Rails.env.acceptance? || !promoter?) ? nil : "Really delete #{race.name}?" },
           :method => :delete) do %>
       <i class="icon-minus-sign"></i>

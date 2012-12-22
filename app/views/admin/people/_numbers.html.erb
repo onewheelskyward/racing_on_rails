@@ -31,7 +31,7 @@
                     image_tag("icons/information.png"), 
                     "#", 
                     :title => "Updated #{time_ago_in_words(number.updated_at, true)} ago #{"by #{number.updated_by_name}"}", 
-                    :class => "image"
+                    :class => "icon"
                   ) %>
             </td>
             <td>
@@ -41,7 +41,7 @@
                     :remote => true,
                     :method => :delete,
                     :id => "destroy_number_#{number.id}", 
-                    :class => "image"
+                    :class => "icon"
               ) %>
             </td>
           </tr>
@@ -59,7 +59,7 @@
             image_tag("icons/add.png", :size => "16x16"), 
             new_admin_person_race_number_path(person),
             :remote => true,
-            :class => "image") %>
+            :class => "icon") %>
     </td>
   </tr>
   <% end %>

@@ -8,7 +8,7 @@
       <th colspan="2" class="numeric">Field Size</th>
       <th class="actions">
         <% if @event.has_results_including_children? %>
-        <%= link_to event_results_path(@event), :title => 'View public results web page', :title => 'View public results web page' do %>
+        <%= link_to event_results_path(@event), :class => "icon", :title => 'View public results web page' do %>
             <i class="icon-list"></i>
           <% end %>
         <% end %>

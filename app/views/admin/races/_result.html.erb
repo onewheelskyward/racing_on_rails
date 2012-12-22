@@ -11,15 +11,23 @@
     -%></td>
   <% end %>
   <td class="actions">
-    <%= link_to image_tag("icons/add.png"),
+    <%= link_to(
           create_result_admin_race_path(:before_result_id => result.id), 
           :remote => true,
-          :class => "image", :id => "result_#{result.id}_add", 
-          :method => "post"
-    %><%= link_to(image_tag("icons/delete.png"), 
+          :class => "icon",
+          :id => "result_#{result.id}_add", 
+          :method => "post") do %>
+      <i class="icon-plus-sign"></i>
+    <% end %>
+    <% unless result.new_record? %>
+      <%= link_to(
             destroy_result_admin_race_path(result.race, :result_id => result.id), 
             :remote => true,
-            :class => "image", :id => "result_#{result.id}_destroy", 
-            :method => "delete") unless result.new_record? %>
+            :class => "icon",
+            :id => "result_#{result.id}_destroy", 
+            :method => "delete") do %>
+        <i class="icon-minus-sign"></i>
+      <% end %>
+    <% end %>
   </td>
 </tr>

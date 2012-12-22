@@ -60,6 +60,11 @@ body nav a:hover, body footer a:hover, body a:hover, a:hover, .nav > li > a:hove
   text-decoration: underline;
 }
 
+body a.icon:hover {
+  background-color: transparent;
+  text-decoration: none;
+}
+
 .section {
   padding-top: 60px;
 }
@@ -174,11 +179,6 @@ nav li:last-child, footer li:last-child {
   padding-left: $baseLineHeight;
 }
 
-table .actions a {
-  padding-left: $baseLineHeight;
-  padding-right: $baseLineHeight;
-}
-
 .table td {
   border-bottom: 1px solid $tableBorder;
   border-top: none;
@@ -213,15 +213,22 @@ th, .table-striped tbody tr:nth-child(odd) th {
 
 .table-striped td.icon {
   max-width: 16px;
-  padding-bottom: 4px;
-  padding-left: 12px;
   padding-right: 0px;
-  padding-top: 8px;
   width: 16px;
 }
 
 .table-striped .check_box {
   text-align: center;
+}
+
+.table-striped td.actions {
+  padding-right: 16px;
+  text-align: right;
+  white-space: nowrap;
+
+  a + a {
+    margin-left: 8px;
+  }
 }
 
 @media (max-width: 767px) {

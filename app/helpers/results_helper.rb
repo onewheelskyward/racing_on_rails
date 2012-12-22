@@ -34,6 +34,8 @@ module ResultsHelper
   def result_cell_class(column)
     if ::ResultColumn[column].alignment == :right
       " class=\"right\"".html_safe
+    elsif column == "bar"
+      " class=\"bar\"".html_safe
     end
   end
   
