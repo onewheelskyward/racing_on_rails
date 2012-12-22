@@ -75,8 +75,8 @@
     <div class="row-fluid">
       <div class="span12">
         <%= submit_tag "Save", :class => "btn btn-primary", :id => "save" %>
-        <%= link_to("Results", team_path(@team), :class => "btn btn-link") unless @team.new_record? %>  
         <%= link_to("Delete", admin_team_path(@team), :method => :delete, :class => "btn", :id => 'delete') unless @team.new_record? %>
+        <%= link_to("Results", team_path(@team), :class => "btn btn-link") unless @team.new_record? %>  
         <div class="pull-right hidden-phone created_updated">
           <span class="created_at">
             <% if @team.created_at %>Created <%= time_ago_in_words(@team.created_at, true) + " ago" %><% end %>
