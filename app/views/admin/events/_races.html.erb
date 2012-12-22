@@ -3,13 +3,15 @@
 <table class="base table table-striped event_nav">
   <thead>
     <tr>
+      <th></th>
       <th class="category">Category</th>
       <th colspan="2" class="numeric">Field Size</th>
       <th class="actions">
-        <%= link_to(image_tag('icons/page_go.png', :title => 'View public results web page', :alt => 'View public results web page'), 
-             event_results_path(@event), 
-             { :class => "image" }) if @event.has_results_including_children?
-        -%>
+        <% if @event.has_results_including_children? %>
+        <%= link_to event_results_path(@event), :title => 'View public results web page', :title => 'View public results web page' do %>
+            <i class="icon-list"></i>
+          <% end %>
+        <% end %>
       </th>
     </tr>
   </thead>
@@ -17,18 +19,18 @@
     <%= render @event.races %>
     <%- if @event.new_record? %>
     <tr>
-      <td colspan="4">Save new event to add races.</td>
+      <td colspan="5">Save new event to add races.</td>
     </tr>
     <% end -%>
     <% unless @event.new_record? || @event.races.present? %>
     <tr>
-      <td colspan="4" class="empty">No races. Click [+] to add a race.</td>
+      <td colspan="5" class="empty">No races. Click [+] to add a race.</td>
     </tr>
     <% end %>
     <% unless @event.new_record? -%>
     <tr id="create_race_row">
-      <td colspan="2">
-        <%= image_tag "icons/spinner.gif", :id => "propagate_races_progress", :style => "display: none" %>
+      <td colspan="3">
+        <i class="icon-refresh rotate" id="propagate_races_progress" style="display: none"></i>
         <%= link_to("Copy to child events", 
                     propagate_admin_event_races_path(@event),
                     :remote => true,
@@ -51,22 +53,22 @@
         ) if @event.races.any? && administrator?
         # Lame workaround for Safari
         %>
-        <%= image_tag "icons/spinner.gif", :id => "destroy_races_progress", :style => "display: none" %>
+        <i class="icon-refresh rotate" id="destroy_races_progress" style="display: none"></i>
       </td>
       <td class="actions">
-        <%= link_to(image_tag("icons/add.png"), 
+        <%= link_to(
               admin_event_races_path(@event),
               :remote => true,
               :method => :post,
-              :class => "image", 
               :id => "create_race", 
               :title => "Add race"
-            )
-        %>
+            ) do %>
+          <i class="icon-plus-sign"></i>
+        <% end %>
       </td>
     </tr>
     <tr>
-      <td colspan="4">
+      <td colspan="5">
         <div class="page_buttons">
           <% if administrator? -%>
           <div class="control-group">
@@ -77,7 +79,7 @@
               </div>
             <% end -%>
           </div>
-          <div id="upload_progress" style="display: none;"><em>Importing Results</em>&nbsp;<%= image_tag "icons/spinner.gif" %></div>
+          <div id="upload_progress" style="display: none;"><em>Importing Results</em>&nbsp;<i class="icon-refresh rotate"></i></div>
           <% end -%>
         </div>
       </td>

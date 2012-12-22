@@ -15,13 +15,11 @@
   <td class="points"><%= number_with_precision(result.points, :precision => 0) if result.points > 0 %></td>
   <td class="page_links">
     <%= link_to event_results_path(result.event, :anchor => "race_#{result.race.id}"), 
-               :title => 'View public results web page', 
-               :alt => 'View public results web page' do %>
+               :title => 'View public results web page' do %>
       <i class="icon-list"></i>
     <% end %>
     <%= link_to edit_admin_race_path(result.race),
-    :title => 'Edit race results', 
-    :alt => 'Edit race results' do %>
+    :title => 'Edit race results' do %>
       <i class="icon-edit"></i>
     <% end %>
   </td>
