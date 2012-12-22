@@ -1,4 +1,4 @@
-<tr class="<%= cycle "even", "odd" %>">
+<tr>
   <td class="date"><%= post.date.to_s :short %></td>
   <td class="subject">
     <%= link_to h(truncate(post.subject, :length => 50)), edit_admin_mailing_list_post_path(post.mailing_list, post) %>

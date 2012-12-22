@@ -12,7 +12,7 @@
     <th class="date">Date</th>
   </tr>
   <%- @results.sort_by(&:event_end_date).reverse.each do |result| -%>
-  <tr class="<%= cycle("even", "odd") %>">
+  <tr>
     <td class="place"><%= result.place %></td>
     <td class="even"><%= link_to(result.race_full_name, event_results_path(:event_id => result.event_id)) %></td>
     <td class="category"><%= link_to(result.race_name, event_results_path(:event_id => result.event_id, :anchor => "race_#{result.race_id}")) %></td>

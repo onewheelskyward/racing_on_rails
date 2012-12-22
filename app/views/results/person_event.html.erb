@@ -15,7 +15,7 @@
     <th class="points">Points</th>
   </tr>
   <% result.scores.sort { |x, y| y.source_result.date <=> x.source_result.date }.each do |score| %>
-  <tr class="<%= cycle "even", "odd" %>">
+  <tr>
     <td class="place"><%= score.source_result.place %></td>
     <td clas="event">
       <%= link_to(score.source_result.event_full_name, 

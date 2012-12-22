@@ -19,7 +19,7 @@
   </thead>
   <tbody>
 <%- @events.each do |event| -%>
-  <tr class="<%= cycle("even", "odd") %>">
+  <tr>
     <td class="date">
       <%= event.date.strftime("%a %_m/%d") if event.date -%>
     </td>

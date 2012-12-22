@@ -17,7 +17,7 @@
     <th align="right">Cross</th>
     <th>Created at</th>
   </tr>
-  <tr class="<%= cycle('even', 'odd') %>">
+  <tr>
     <td></td>
     <td><strong<%= duplicate.person.name %></strong></td>
     <td></td>
@@ -38,12 +38,12 @@
     </td>
     <td></td>
   </tr>
-  <tr class="<%= cycle('even', 'odd') %>">
+  <tr>
     <td><%= radio_button_tag duplicate.id, 'new', true %></td>
     <td colspan="10">Create new person</td>
   </tr>
   <% for person in duplicate.people %>
-  <tr class="<%= cycle('even', 'odd') %>">
+  <tr>
     <td><%= radio_button_tag duplicate.id, person.id %></td>
     <td>Merge:</td>
     <td><%= person.aliases.collect{|a| a.name}.join(', ') %></td>
@@ -69,7 +69,6 @@
   </tr>
   <% end %>
 </table>
-<% reset_cycle %>
 <% end %>
 <%= submit_tag 'Done' %>
 </form>

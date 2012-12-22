@@ -379,4 +379,8 @@ ul.nav + h2 {
   animation: Rotate 2s infinite linear;
 }
 
+.editable {
+  display: inline-block;
+}
+
 @import "pages";

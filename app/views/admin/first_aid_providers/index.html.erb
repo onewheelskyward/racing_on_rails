@@ -1,7 +1,7 @@
 <% @page_title = 'First Aid' %>
 
 <div class="container-fluid">
-  <h3><%= Time.zone.today.year %> First Aid</h3>
+  <h3><%= @year %> First Aid</h3>
   <%= form_tag({}, { :method => :get }) do %>
     <label for="past_events" class="checkbox"><%= check_box_tag "past_events", "true", @past_events, :class => "show_past_events" %>Show past events</label>
     <%= hidden_field_tag "sort_by", @sort_by %>

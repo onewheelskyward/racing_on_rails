@@ -11,7 +11,7 @@
     <th class="date hidden-phone">Date</th>
   </tr>
   <% @event_results.sort_by(&:event_end_date).reverse.each do |result| -%>
-  <tr class="<%= cycle("even", "odd") %>">
+  <tr>
     <td class="place"><%= result.place %></td>
     <td class="event"><%= link_to(result.event_full_name, event_results_path(:event_id => result.event_id, :anchor => "race_#{result.race_id}")) %></td>
     <td class="category"><%= result.race_name %></td>
@@ -32,7 +32,7 @@
   </tr>
   <%# FIXME Add test for rendering this page with lots of results %>
   <% result.scores.sort_by(&:source_event_date).each do |score| %>
-  <tr class="<%= cycle("even", "odd") %>">
+  <tr>
     <td class="place" width="24"><%= score.source_result.place %></td>
     <td class="event">
       <%= link_to(score.source_result.event_full_name, 

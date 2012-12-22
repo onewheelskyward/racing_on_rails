@@ -26,6 +26,10 @@ table td.delete_all_races {
   margin-right: 8px;
 }
 
+#event_notes {
+  height: $baseLineHeight * 4;
+}
+
 /* Calendar of events */
 table.calendar {
   border-collapse: separate;
@@ -237,11 +241,6 @@ table.results td.result .event {
 }
 
 /* Pages */
-table.base .title div.editable {
-  background-repeat: no-repeat;
-  background-image: url(<%= asset_path("icons/page_white_world.png") %>);
-  padding-left: 20px;
-}
 
 #page_body {
   width: 100%;
@@ -264,28 +263,6 @@ table.base td.name a.cancel {
   border: none;
   text-decoration: none;
   background-color: transparent;
-}
-
-.table_container#people th.number, .table_container#people td.number {
-  text-align: right;
-}
-
-table.numbers select {
-  margin-top: 0px;
-  float: right;
-  width: 78px;
-}
-
-table.numbers td label {
-  text-align: left;
-  font-weight: normal;
-  color: black;
-  margin-top: 0px;
-  width: auto;
-}
-
-table.numbers td input[type=text] {
-  width: 60px;
 }
 
 table.person_categories td input[type=text] {
@@ -532,22 +509,13 @@ table.person_results td.dates {
   width: 100px;
 }
 
+#person_notes {
+  height: $baseLineHeight * 8;
+}
+
 .table-striped th.bar, 
 .table-striped td.bar {
   text-align: center;
-}
-
-tr.new_number td.right {
-  padding-left: 0px;
-  margin-left: 0px;
-}
-
-table.base td select#number_year {
-  margin-right: 8px;
-}
-
-table.numbers label.inline {
-  width: 120px;
 }
 
 .promoted_events .name,
@@ -681,10 +649,6 @@ select#person_date_of_birth_3i, select#person_member_from_3i, select#person_memb
 table.people div.aliases {
   color: $gray;
   font-style: italic;
-}
-
-#event_notes {
-  height: $baseLineHeight * 4;
 }
 
 /* Versions */

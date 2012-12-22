@@ -7,16 +7,14 @@ jQuery(document).ready(function() {
 
 function bindNumberYearChange() {
   jQuery('#number_year').change(function() {
-    jQuery('#numbers_wrapper').load(
-      '/admin/people/number_year_changed',
-      { 
+    jQuery.ajax({
+      url: '/admin/people/number_year_changed',
+      data: { 
         year: jQuery('#number_year').val(),
         id: jQuery('#number_year').attr('data-person-id')
       },
-      function() {
-        bindNumberYearChange();
-      }
-    );
+      type: 'post'
+    });
   });  
 }
 

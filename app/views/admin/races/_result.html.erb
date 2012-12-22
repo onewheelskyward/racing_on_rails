@@ -1,4 +1,4 @@
-<tr class="<%= cycle("even", "odd") %>" id="result_<%= result.id %>_row" style="position: relative;">
+<tr id="result_<%= result.id %>_row" style="position: relative;">
   <% result.race.result_columns_or_default_for_editing.each do |column| %>
   <td<%= result_cell_class column %>><%= 
     if result.respond_to?(column) && !result.new_record?

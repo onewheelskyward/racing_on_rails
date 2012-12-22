@@ -30,7 +30,7 @@
     </tr>
 
   <%- @people_file.rows.each do |row| -%>
-    <tr class="<%= cycle("even", "odd") %>">
+    <tr>
     <%- row.each do |cell| -%>
       <td><%= cell %></td>
     <%- end -%>

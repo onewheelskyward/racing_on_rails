@@ -1,7 +1,7 @@
 <h3>People</h3>
 <%= table do %>
   <%- people.each do |person| -%>
-  <tr class="<%= cycle("even", "odd") %>">
+  <tr>
       <td><%= link_to(
         person.name, 
         admin_person_results_path(person, :format => "js"),

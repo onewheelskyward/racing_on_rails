@@ -2,6 +2,7 @@
 
 <%= error_messages_for :page %>
 
+<h2><%= @page.title %></h2>
 <%= form_for [:admin, @page] do |f| -%>
   <div class="container-fluid">
     <div class="row-fluid">

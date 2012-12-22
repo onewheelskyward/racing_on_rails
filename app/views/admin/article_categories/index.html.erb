@@ -28,7 +28,7 @@
       </tr>
     </thead>
     <% for article_category in @article_categories %>
-      <tr class="<%= cycle("even", "odd") %>" id="article_category_<%= article_category.id %>_row">
+      <tr id="article_category_<%= article_category.id %>_row">
         <td><%=h article_category.name %></td>
         <td><%=h article_category.description %></td>
         <td><%=h article_category.position %></td>
