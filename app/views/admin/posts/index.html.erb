@@ -13,11 +13,11 @@
   <div class="row-fluid">
     <%= table :class => "posts", :id => "posts", :collection => @posts, :columns => 5 do %>
       <tr>
+        <th class="icon"></th>
         <th class="date">Date</th>
         <th class="subject">Subject</th>
         <th class="from">From</th>
-        <th class="delete right"></th>
-        <th class="edit right"></th>
+        <th class="actions"></th>
       </tr>
       <%= render @posts %>
     <% end -%>
@@ -28,6 +28,6 @@
   </div>
 
   <div class="row-fluid">
-    <%= link_to image_tag("icons/email_add.png"),  new_admin_mailing_list_post_path(@mailing_list) %>
+    <%= link_to new_admin_mailing_list_post_path(@mailing_list), :class => "btn" do %><i class="icon-envelope"></i> New Post<% end %>
   </div>
 </div>

@@ -84,7 +84,7 @@ class MailingListMailer < ActionMailer::Base
         Airbrake.notify(save_error) if Rails.env.production?
         raise
       end
-      post
     end
+    post
   end
 end

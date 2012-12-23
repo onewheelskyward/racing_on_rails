@@ -536,16 +536,6 @@ table.person_results td.dates {
   width: 600px;
 }
 
-.posts th.subject, .posts td.subject {
-  padding-left: 36px;
-}
-
-.posts td.subject {
-  background-image: url(<%= asset_path("icons/email.png") %>);
-  background-repeat: no-repeat;
-  background-position: 12px center;
-}
-
 #post_search_form label, #post_search_form input[type=text], #post_search_form input[type=submit] {
   margin-top: 0px;
 }
@@ -587,16 +577,8 @@ ul.posts_navigation li {
 }
 
 /* People */
-#preview_import_table tr th {
-  border-bottom: 1px solid gray;
-}
-
-table#preview_import_table {
-  border-top: 1px solid gray;
-}
-
-table#preview_import_table th {
-  min-width: 100px;
+#preview_import_table tr th.invalid {
+  color: red;;
 }
 
 #import_year {

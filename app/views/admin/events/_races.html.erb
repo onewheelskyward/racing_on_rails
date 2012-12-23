@@ -69,19 +69,17 @@
     </tr>
     <tr>
       <td colspan="5">
-        <div class="page_buttons">
-          <% if administrator? -%>
-          <div class="control-group">
-            <%= label_tag :results_file, "Import Results", :class => "control-label", :id => "upload_form_label" %>
-            <%= form_tag upload_admin_event_path(@event), :multipart => true, :id => "upload_form" do %>
-              <div class="controls">
-                <%= file_field_tag "results_file",:style => "width: 250px;" %>
-              </div>
-            <% end -%>
-          </div>
-          <div id="upload_progress" style="display: none;"><em>Importing Results</em>&nbsp;<i class="icon-refresh rotate"></i></div>
+        <% if administrator? -%>
+        <div class="control-group">
+          <%= label_tag :results_file, "Import Results", :class => "control-label", :id => "upload_form_label" %>
+          <%= form_tag upload_admin_event_path(@event), :multipart => true, :id => "upload_form" do %>
+            <div class="controls">
+              <%= file_field_tag "results_file",:style => "width: 250px;" %>
+            </div>
           <% end -%>
         </div>
+        <div id="upload_progress" style="display: none;"><em>Importing Results</em>&nbsp;<i class="icon-refresh rotate"></i></div>
+        <% end -%>
       </td>
     </tr>
     <% end -%>
