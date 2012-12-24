@@ -21,7 +21,7 @@
 <% end -%>
 
 <% @competition_results.sort_by(&:event_end_date).reverse.each do |result| %>
-<h3><%= link_to("#{result.place.to_i.ordinalize} &mdash; #{result.race_full_name}".html_safe, event_results_path(result.event)).html_safe %></h3>
+<h3><%= link_to("#{result.place.to_i.ordinalize} &mdash; #{result.race_full_name}".html_safe, event_results_path(:event_id => result.event_id, :anchor => "race_#{result.race_id}"))).html_safe %></h3>
 <%= table :class => "results" do %>
   <tr>
     <th class="place">&nbsp;</th>
@@ -31,7 +31,7 @@
     <th class="points hidden-phone">Points</th>
   </tr>
   <%# FIXME Add test for rendering this page with lots of results %>
-  <% result.scores.sort_by(&:source_event_date).each do |score| %>
+  <% result.scores.sort_by(&:date).each do |score| %>
   <tr>
     <td class="place" width="24"><%= score.source_result.place %></td>
     <td class="event">
