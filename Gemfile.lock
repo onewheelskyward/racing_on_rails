@@ -122,13 +122,16 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     capistrano-unicorn (0.1.6)
       capistrano
-    capybara (2.0.1)
+    capybara (1.1.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
-      xpath (~> 1.0.0)
+      xpath (~> 0.1.4)
+    capybara-webkit (0.13.0)
+      capybara (>= 1.0.0, < 1.2)
+      json
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
     ckeditor_rails (4.0)
@@ -237,7 +240,7 @@ GEM
     rubyzip (0.9.9)
     rvm-capistrano (1.2.7)
       capistrano (>= 2.0.0)
-    sass (3.2.3)
+    sass (3.2.4)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -277,7 +280,7 @@ GEM
     will_paginate (3.0.3)
     will_paginate-bootstrap (0.2.1)
       will_paginate (>= 3.0.3)
-    xpath (1.0.0)
+    xpath (0.1.4)
       nokogiri (~> 1.3)
     yui-compressor (0.9.6)
       POpen4 (>= 0.1.4)
@@ -296,6 +299,7 @@ DEPENDENCIES
   capistrano
   capistrano-unicorn
   capybara
+  capybara-webkit
   ckeditor_rails
   coffee-rails (~> 3.2)
   database_cleaner
