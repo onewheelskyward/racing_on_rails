@@ -64,12 +64,8 @@ class AcceptanceTest < ActiveSupport::TestCase
   end
   
   def assert_table(table_id, row, column, expected)
-    element = find(:xpath, "//table[@id='#{table_id}']//tr[#{row + 1}]//td[#{column + 1}]")
-    case expected
-    when Regexp
-      assert_match expected, element.text, "Row #{row} column #{column} of table #{table_id}. Table:\n #{find_by_id(table_id).text}"
-    else
-      assert_equal expected.to_s, element.text, "Row #{row} column #{column} of table #{table_id}. Table:\n #{find_by_id(table_id).text}"
+    within find(:xpath, "//table[@id='#{table_id}']//tr[#{row + 1}]//td[#{column + 1}]") do
+      assert page.has_content?(expected), "Row #{row} column #{column} of table #{table_id} in:\n#{find(table_id.content)}"
     end
   end
 
