@@ -33,3 +33,4 @@ tmp/**/*
 vendor/plugins/selenium-on-rails/log/
 /.idea/
 .sass-cache
+results.csv
