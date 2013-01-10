@@ -110,6 +110,7 @@ class EventsTest < AcceptanceTest
 
     assert_page_has_content "Import Schedule"
     click_link "Kings Valley Road Race"
+    wait_for_page_content "Senior Men Pro 1/2"
     assert_page_has_content "Senior Men Pro 1/2"
     assert_page_has_content "Senior Men 3"
 

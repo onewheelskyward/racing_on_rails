@@ -64,8 +64,12 @@ class AcceptanceTest < ActiveSupport::TestCase
   end
   
   def assert_table(table_id, row, column, expected)
-    within find(:xpath, "//table[@id='#{table_id}']//tr[#{row + 1}]//td[#{column + 1}]") do
-      assert page.has_content?(expected), "Row #{row} column #{column} of table #{table_id} in:\n#{find(table_id.content)}"
+    wait_for "##{table_id}"
+    within find("table##{table_id} tr:nth-child(#{row}) td:nth-child(#{column})") do
+    # within find(:xpath, "//table[@id='#{table_id}']//tr[#{row + 1}]//td[#{column + 1}]") do
+      assert page.has_content?(expected), -> { 
+        "#{expected} in row #{row} column #{column} of table #{table_id} in:\n#{page.source}"
+      }
     end
   end
 
