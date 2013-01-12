@@ -15,7 +15,6 @@ function flash(key, message) {
 }
 
 function hideFlash() {
-  if ($('#info').length > 0) { $('#info').hide(); }
   if ($('#notice').length > 0) { $('#notice').hide(); }
   if ($('#warn').length > 0) { $('#warn').hide(); }
 }

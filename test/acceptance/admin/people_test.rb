@@ -113,7 +113,7 @@ class PeopleTest < AcceptanceTest
     fill_in "name", :with => "a"
     press_enter "name"
     
-    find("#person_#{alice.id}").drag_to(find("#person_#{molly.id}"))
+    find("#person_#{alice.id}").drag_to(find("#person_#{molly.id}_row"))
     wait_for_page_content "Merged A Penn into Molly Cameron"
     assert page.has_selector?("#notice", :visible => true)
     assert page.has_selector?("#warn", :visible => false)
