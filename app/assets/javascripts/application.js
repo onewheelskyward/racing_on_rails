@@ -8,28 +8,6 @@
  *= require tabs
 */
 
-function restripeTable(id) {
-  var startIndex = 0;
-  if ($('#' + id + ' tr th').length > 0) {
-    startIndex = 1;
-  }
-  
-  $('#' + id + ' tr').each(function(index, tr) {
-    var row = $(tr);
-    row.removeClass('merging');
-    if (index >= startIndex && (row.hasClass('even') || row.hasClass('odd'))) {
-      row.removeClass('even');
-      row.removeClass('odd');
-      if ((index + startIndex) % 2 == 0) {
-        row.addClass('even');
-      }
-      else {
-        row.addClass('odd');
-      }
-    }
-  });
-}
-
 function flash(key, message) {
   hideFlash();
   $('#' + key + '_span').html(message);
