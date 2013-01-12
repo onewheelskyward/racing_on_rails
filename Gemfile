@@ -50,6 +50,7 @@ group :test do
   gem "sqlite3"
   gem "timecop"
   gem "minitest"
+  gem "turn"
 end
 
 group :acceptance do
