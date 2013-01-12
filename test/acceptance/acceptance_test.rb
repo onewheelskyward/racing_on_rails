@@ -3,7 +3,8 @@ ENV["RAILS_ENV"] = "acceptance"
 require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
 require "capybara/rails"
 require "minitest/autorun"
-
+require "turn/autorun"
+ 
 # Capybara supports a number of drivers/browsers. AcceptanceTest default is RackTest for non-JavaScript tests
 # and Firefox for JS test. Note that most tests require JS.
 #
@@ -27,7 +28,7 @@ class AcceptanceTest < ActiveSupport::TestCase
   DatabaseCleaner.strategy = :truncation
   
   setup :clean_database, :setup_profile, :set_capybara_driver
-  teardown :report_error_count, :reset_session
+  teardown :reset_session
   
   def self.javascript_driver
     if ENV["JAVASCRIPT_DRIVER"].present?
@@ -42,12 +43,6 @@ class AcceptanceTest < ActiveSupport::TestCase
       ENV["DEFAULT_DRIVER"].to_sym
     else
       :rack_test
-    end
-  end
-  
-  def report_error_count
-    unless @passed
-      save_page
     end
   end
   
@@ -66,9 +61,8 @@ class AcceptanceTest < ActiveSupport::TestCase
   def assert_table(table_id, row, column, expected)
     wait_for "##{table_id}"
     within find("table##{table_id} tr:nth-child(#{row}) td:nth-child(#{column})") do
-    # within find(:xpath, "//table[@id='#{table_id}']//tr[#{row + 1}]//td[#{column + 1}]") do
       assert page.has_content?(expected), -> { 
-        "#{expected} in row #{row} column #{column} of table #{table_id} in:\n#{page.source}"
+        "#{expected} in row #{row} column #{column} of table #{table_id} in:\n#{table_id}"
       }
     end
   end
@@ -232,6 +226,12 @@ class AcceptanceTest < ActiveSupport::TestCase
     Capybara.reset_sessions!
   end
   
+  def before_teardown
+    unless @passed
+      save_page
+    end
+  end
+
   def say_if_verbose(text)
     if ENV["VERBOSE"].present?
       puts text
