@@ -1,5 +1,7 @@
 require File.expand_path("../../test_helper", __FILE__)
 
+ActionController::Base.prepend_view_path "test/files/views"
+
 # :stopdoc:
 class PagesControllerTest < ActionController::TestCase
   setup :create_page
@@ -70,13 +72,13 @@ class PagesControllerTest < ActionController::TestCase
   end
   
   test "call partials" do
-    Page.create!(:body => "<h1>Mailing Lists</h1>\n<%= render :partial => 'shared/flash_messages' %>", :title => "lists")
+    Page.create!(:body => "<h1>Mailing Lists</h1>\n<%= render :partial => 'fake/flash_messages' %>", :title => "lists")
     get :show, :path => "lists"
     assert_select("p.flash_message")
   end
   
   test "call partials with concise syntax" do
-    Page.create!(:body => "<h1>Mailing Lists</h1>\n<%= render 'shared/flash_messages' %>", :title => "lists")
+    Page.create!(:body => "<h1>Mailing Lists</h1>\n<%= render 'fake/flash_messages' %>", :title => "lists")
     get :show, :path => "lists"
     assert_select("p.flash_message")
   end
