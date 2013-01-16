@@ -224,6 +224,12 @@ class AcceptanceTest < ActiveSupport::TestCase
   def reset_session
     Capybara.reset_sessions!
   end
+
+  def before_teardown
+    unless @passed
+      save_page
+    end
+  end
   
   def before_teardown
     unless @passed

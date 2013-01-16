@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 gem "rails", "~>3.2"
 
+gem "oj"
 gem "rake"
 gem "authlogic"
 gem "tabular", ">0.0.5"
@@ -55,7 +56,6 @@ end
 
 group :acceptance do
   gem "capybara"
-  gem "nokogiri"
   gem "xpath"
   gem "database_cleaner"
   gem "factory_girl"

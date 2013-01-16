@@ -23,7 +23,9 @@ function autoComplete(model, attribute, path) {
   $('#' + attribute + '_auto_complete').autocomplete({
     delay: 200,
     minLength: 3,
-    source: path,
+    source: function(request, response) {
+      $.getJSON(path, { name: request.term }, response);
+    },
     messages: {
       noResults: null,
       results: function() {}
@@ -65,7 +67,9 @@ function autoCompleteTeam(model, attribute, path) {
     $('#' + attribute + '_auto_complete').autocomplete({
       delay: 200,
       minLength: 3,
-      source: path,
+      source: function(request, response) {
+        $.getJSON(path, { name: request.term }, response);
+      },
       messages: {
         noResults: null,
         results: function() {}

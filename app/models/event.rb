@@ -88,6 +88,7 @@ class Event < ActiveRecord::Base
   }
   
   scope :today_and_future, lambda { { :conditions => [ "date >= ?", Time.zone.today ]}}
+  scope :year, lambda { |year| where("date between ? and ?", Time.zone.local(year).beginning_of_year, Time.zone.local(year).end_of_year) }
   scope :not_child, { :conditions => "parent_id is null" }
 
   attr_reader :new_promoter_name
@@ -382,6 +383,12 @@ class Event < ActiveRecord::Base
     else
       self.city = nil
       self.state = nil
+    end
+  end
+  
+  def velodrome_name=(value)
+    if value.present?
+      self.velodrome = Velodrome.find_or_create_by_name(value.strip)
     end
   end
 
