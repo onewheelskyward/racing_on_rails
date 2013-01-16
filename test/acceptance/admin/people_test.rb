@@ -147,8 +147,8 @@ class PeopleTest < AcceptanceTest
 
     visit "/admin/people"
     press_enter "name"
-    assert_table("people_table", 1, 1, "Molly Cameron")
-    assert_table("people_table", 2, 1, "Mark Matson")
+    assert_table("people_table", 2, 2, "Molly Cameron")
+    assert_table("people_table", 3, 2, "Mark Matson")
 
     fill_in_inline "#person_#{matson.id}_name", :with => "Molly Cameron"
     find(".ui-dialog-buttonset button:first-child").click
