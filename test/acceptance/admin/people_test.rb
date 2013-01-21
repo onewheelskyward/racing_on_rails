@@ -115,9 +115,8 @@ class PeopleTest < AcceptanceTest
     
     find("#person_#{alice.id}").drag_to(find("#person_#{molly.id}_row"))
     wait_for_page_content "Merged A Penn into Molly Cameron"
-    assert page.has_selector?("#notice", :visible => true)
-    assert page.has_selector?("#warn", :visible => false)
-    assert !page.has_selector?("#info")
+    assert page.has_selector?(".alert-info")
+    assert page.has_no_selector?(".alert-error")
     assert !Person.exists?(alice.id), "Alice should be merged"
     assert Person.exists?(molly.id), "Molly still exist after merge"
   end
@@ -147,8 +146,8 @@ class PeopleTest < AcceptanceTest
 
     visit "/admin/people"
     press_enter "name"
-    assert_table("people_table", 2, 2, "Molly Cameron")
-    assert_table("people_table", 3, 2, "Mark Matson")
+    assert_table("people_table", 1, 2, "Molly Cameron")
+    assert_table("people_table", 2, 2, "Mark Matson")
 
     fill_in_inline "#person_#{matson.id}_name", :with => "Molly Cameron"
     find(".ui-dialog-buttonset button:first-child").click

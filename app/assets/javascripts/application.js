@@ -7,18 +7,6 @@
  *= require_self
  *= require tabs
 */
-
-function flash(key, message) {
-  hideFlash();
-  $('#' + key + '_span').html(message);
-  $('#' + key).show();
-}
-
-function hideFlash() {
-  if ($('#notice').length > 0) { $('#notice').hide(); }
-  if ($('#warn').length > 0) { $('#warn').hide(); }
-}
-
 function autoComplete(model, attribute, path) {
   $('#' + attribute + '_auto_complete').autocomplete({
     delay: 200,

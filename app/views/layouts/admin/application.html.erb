@@ -49,27 +49,13 @@
   </div>
 
   <div class="container-fluid">
-    <% if flash[:warn].present? %>
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="alert alert-error">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= flash[:warn] %>
-        </div>
-      </div>
+    <div class="flash_messages">
+      <% [ :warn, :notice ].each do |key| %>
+        <% if flash[key] %>
+        <%= render :partial => "layouts/flash_message", :locals => { :message => flash[key], :alert_class => alert_class(key) } %>
+        <% end %>
+      <% end %>
     </div>
-    <% end %>
-
-    <% if flash[:notice].present? %>
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="alert alert-info">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= flash[:notice] %>
-        </div>
-      </div>
-    </div>
-    <% end %>
 
 <div class="content">
 <%= render :partial => "shared/tabs" %>

@@ -44,6 +44,18 @@ module ApplicationHelper
     _value
   end
 
+  def flash_js(key, message)
+    "jQuery('.flash_messages').html('#{escape_javascript(render(:partial => 'layouts/flash_message', :locals => { :message => message, :alert_class => alert_class(key) }))}');".html_safe
+  end
+  
+  def alert_class(key)
+    if key == "warn"
+      "alert-error"
+    else
+      "alert-info"
+    end
+  end
+
   # Only need this helper once, it will provide an interface to convert a block into a partial.
   # 1. Capture is a Rails helper which will 'capture' the output of a block into a variable
   # 2. Merge the 'body' variable into our options hash
