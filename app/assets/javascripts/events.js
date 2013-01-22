@@ -7,12 +7,12 @@ $(document).ready(function() {
     $('#event_type').tooltip();
   });
   
-  $('#propagate_races').live('ajax:beforeSend', function() {
+  $('#propagate_races').bind('ajax:beforeSend', function() {
     $('#propagate_races').hide();
     $('#propagate_races_progress').show();
   });
   
-  $('#destroy_races').live('ajax:beforeSend', function() {
+  $('#destroy_races').bind('ajax:beforeSend', function() {
     $('#destroy_races').hide();
     $('#destroy_races_progress').show();
   });
