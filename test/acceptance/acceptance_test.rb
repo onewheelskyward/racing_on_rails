@@ -191,6 +191,15 @@ class AcceptanceTest < ActiveSupport::TestCase
     visit "/logout"
   end
 
+  # Work around Chrome bug
+  def visit_event(event)
+    if Capybara.current_driver == :chrome
+      visit "/admin/events/#{event.id}/edit"
+    else
+      click_link event.name
+    end
+  end
+
   def clean_database
     DatabaseCleaner.clean
     Discipline.reset

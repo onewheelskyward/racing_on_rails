@@ -155,13 +155,4 @@ class EventsTest < AcceptanceTest
     assert_page_has_no_content "Unknown action"
     assert_page_has_no_content "has no parent"
   end
-  
-  # Work around Chrome bug
-  def visit_event(event)
-    if Capybara.current_driver == :chrome
-      visit "/admin/events/#{event.id}/edit"
-    else
-      click_link event.name
-    end
-  end
 end
