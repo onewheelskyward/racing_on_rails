@@ -5,7 +5,6 @@
  *= require jquery.jeditable
  *= require bootstrap
  *= require_self
- *= require tabs
 */
 function autoComplete(model, attribute, path) {
   $('#' + attribute + '_auto_complete').autocomplete({

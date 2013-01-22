@@ -91,9 +91,9 @@ class TeamsTest < AcceptanceTest
     fill_in "name", :with => "e"
     press_enter "name"
 
-    assert_table("teams_table", 1, 1, /^Chocolate/)
-    assert_table("teams_table", 2, 1, /^Gentle Lovers/)
-    assert_table("teams_table", 3, 1, /^Team dFL/)
+    assert_table("teams_table", 2, 2, "Chocolate")
+    assert_table("teams_table", 3, 2, "Gentle Lovers")
+    assert_table("teams_table", 4, 2, "Team dFL")
   end
   
   def test_merge_confirm

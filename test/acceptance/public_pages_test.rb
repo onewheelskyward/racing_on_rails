@@ -79,6 +79,9 @@ class PublicPagesTest < AcceptanceTest
       assert_page_has_content "Pennington"
     end
 
+    FactoryGirl.create :result
+    Ironman.calculate!
+
     visit "/ironman"
     assert_page_has_content "Ironman"
 
@@ -94,7 +97,7 @@ class PublicPagesTest < AcceptanceTest
     assert_page_has_content "Oregon Cup"
 
     visit "/teams"
-    assert_page_has_content "Teams"
+    assert_page_has_content "teams in Oregon"
     assert_page_has_content "Vanilla"
 
     visit "/teams/#{Team.find_by_name('Vanilla').id}"
