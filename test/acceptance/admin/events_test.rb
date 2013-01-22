@@ -109,7 +109,9 @@ class EventsTest < AcceptanceTest
     visit "/admin/events?year=2003"
 
     assert_page_has_content "Import Schedule"
-    click_link "Kings Valley Road Race"
+
+    visit_event kings_valley
+
     wait_for_page_content "Senior Men Pro 1/2"
     assert_page_has_content "Senior Men Pro 1/2"
     assert_page_has_content "Senior Men 3"
@@ -118,14 +120,14 @@ class EventsTest < AcceptanceTest
     click_link "destroy_race_#{race_1.id}"
 
     visit "/admin/events?year=2003"
-    click_link "Kings Valley Road Race"
+    visit_event kings_valley
 
     click_ok_on_confirm_dialog
     click_link "destroy_races"
 
     visit "/admin/events?year=2003"
 
-    click_link "Kings Valley Road Race"
+    visit_event kings_valley
     assert_page_has_no_content "Senior Men Pro 1/2"
     assert_page_has_no_content "Senior Men 3"
 
@@ -152,5 +154,14 @@ class EventsTest < AcceptanceTest
     assert_page_has_no_content "error"
     assert_page_has_no_content "Unknown action"
     assert_page_has_no_content "has no parent"
+  end
+  
+  # Work around Chrome bug
+  def visit_event(event)
+    if Capybara.current_driver == :chrome
+      visit "/admin/events/#{event.id}/edit"
+    else
+      click_link event.name
+    end
   end
 end
