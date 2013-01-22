@@ -64,7 +64,6 @@ group :acceptance do
   gem "mocha", "~> 0.12.0", :require => false
   gem "selenium-webdriver"
   gem "timecop"
-  gem "capybara-webkit"
 end
 
 group :staging do
