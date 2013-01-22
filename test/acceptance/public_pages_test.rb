@@ -152,7 +152,7 @@ class PublicPagesTest < AcceptanceTest
     visit "/bar/2009"
     page.has_css?("title", :text => /BAR/)
 
-    within "ul.tabs:last-child" do
+    within "ul.nav:last-child" do
       click_link "Age Graded"
     end
     assert_page_has_content "Masters Men 30-34"
@@ -160,7 +160,7 @@ class PublicPagesTest < AcceptanceTest
     visit "/bar/#{Time.zone.today.year}"
     assert_page_has_content "Overall"
   
-    within "ul.tabs:last-child" do
+    within "ul.nav:last-child" do
       click_link "Age Graded"
     end
     page.has_css?("title", :text => /Age Graded/)
