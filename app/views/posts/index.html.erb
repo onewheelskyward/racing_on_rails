@@ -21,11 +21,6 @@
   </div>
 </div>
 
-<% if @posts.empty? %>
-  <strong>No posts found.</strong>
-  <p><%= link_to @mailing_list.friendly_name, mailing_list_posts_path(@mailing_list), :class => "obvious" %></p>
-<% end %>
-
 <%= table :collection => @posts, :columns => 3 do %>
   <tr>
     <th class="date">Date</th>
