@@ -18,8 +18,10 @@
       <%= f.labelled_text_field :contact_email %>
       <%= f.labelled_text_field :contact_phone %>
       <%= f.labelled_text_field :website %>
-      <%= f.labelled_check_box :member, "Member" %>
-      <%= f.labelled_check_box :show_on_public_page, "Show on public teams page" %>
+      <div class="check_boxes">
+        <%= f.labelled_check_box :member, "Member" %>
+        <%= f.labelled_check_box :show_on_public_page, "Show on public teams page" %>
+      </div>
     </div>
     <div class="span6">
       <%= f.labelled_text_area :sponsors %>
@@ -39,15 +41,17 @@
     <div class="span4">
       <h3>Aliases</h3>
       <%= table :insert_header => true, :columns => 2, :collection => @team.aliases do %>
-        <%- @team.aliases.sort_by {|a| a.name}.each do |name_alias| -%>
+      <%- @team.aliases.sort_by(&:name).each do |name_alias| -%>
         <tr id="alias_<%= name_alias.id %>">
           <td><%= name_alias.name %></td>
           <td>
-            <%= link_to(image_tag('icons/delete.png'), 
+            <%= link_to(
                  admin_team_alias_path(@team, name_alias),
                  :method => "delete",
                  :remote => true,
-                 :class => "icon") %>
+                 :class => "icon") do %>
+               <i class="icon-minus-sign"></i>
+             <% end %>
           </td>
         </tr>
         <%- end -%>
@@ -61,10 +65,12 @@
           <td><%= name.name %></td>
           <td><%= name.year %></td>
           <td>
-            <%= link_to(image_tag("icons/delete.png"), 
+            <%= link_to(
                  :url => { :action => "destroy_name", :id => @team.id, :name_id => name.id},
                  :remote => true
-                 ) %>
+                 ) do %>
+               <i class="icon-minus-sign"></i>
+             <% end %>
           </td>
         </tr>
         <%- end -%>
