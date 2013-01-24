@@ -874,8 +874,10 @@ class Person < ActiveRecord::Base
     # Consider just using straight SQL for this --
     # it's not complicated, and the current process generates an
     # enormous amount of SQL
-    raise(ArgumentError, 'Cannot merge nil person') unless other_person
-    raise(ArgumentError, 'Cannot merge person onto itself') if other_person == self
+    
+    if other_person.nil? || other_person == self
+      return false
+    end
 
     Person.transaction do
       ActiveRecord::Base.lock_optimistically = false
