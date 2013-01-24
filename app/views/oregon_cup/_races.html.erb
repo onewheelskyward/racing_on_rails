@@ -1,14 +1,10 @@
-<p>The May 12 OBRA RR Championships Day 1 is an Oregon Cup race for women only. The June 16 OBRA RR Championships Day 2 race is an Oregon Cup race for men only.</p>
-
-<table class="base">
-  <tr>
-    <th colspan="2"><%= @oregon_cup.date.year %> Races</th>
-  </tr>
+<h3><%= @oregon_cup.date.year %> Races</h3>
+<table class="table table-striped">
   <%  unless @oregon_cup.new_record? or @oregon_cup.nil? %>
-  <%- for event in @oregon_cup.source_events.sort -%>
+  <%- @oregon_cup.source_events.sort.each do |event| -%>
   <tr>
-    <td><%= event.date.strftime("%B %d") %></td>
-    <td>
+    <td class="date"><%= event.date.strftime("%B %d") %></td>
+    <td class="name">
 <%- unless event.has_results_including_children? -%>
 <%= public_link_to_flyer event -%>
 <%- else -%>

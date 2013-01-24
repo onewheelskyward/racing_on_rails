@@ -9,11 +9,10 @@ end -%>
 <% end %>  
 
 <% if @ironman.nil? or @ironman.races.empty? %>
-No results for <%= @year %>
-<br/>
+<p class="event_notes">No results for <%= @year %></p>
 <% end %>
 
-<% unless @ironman.nil? or @ironman.races.empty? or @ironman.races.first.results.empty? %>
+<% if @ironman && @ironman.races.first.results.present? %>
 
 <h3><%= @ironman.date.year %> Ironman</h3>
 
