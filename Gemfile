@@ -42,6 +42,7 @@ end
 group :development do
   gem "capistrano"
   gem "capistrano-unicorn"
+  gem "quiet_assets"
 end
 
 group :test do

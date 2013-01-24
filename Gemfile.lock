@@ -203,6 +203,8 @@ GEM
       ruby-rc4
       ttfunk
     polyglot (0.3.3)
+    quiet_assets (1.0.1)
+      railties (~> 3.1)
     rack (1.4.4)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -318,6 +320,7 @@ DEPENDENCIES
   oj
   pdf-reader
   prawn!
+  quiet_assets
   rails (~> 3.2)
   rake
   registration_engine!
