@@ -28,7 +28,7 @@
       toggle_disclosure(this);
     });
 
-    $('#person_<%= person.id %>').droppable({
+    $('#person_<%= person.id %>_table').droppable({
       hoverClass: 'hovering',
       drop: function(event, ui) {
         ui.draggable.hide('scale');
@@ -41,6 +41,6 @@
       }
     });
 
-    $('.drag').draggable({ revert: 'invalid', opacity: 0.7 });
+    $('.drag').draggable({ revert: 'invalid', zIndex: 10000, opacity: 0.7 });
   });
 <% end -%>

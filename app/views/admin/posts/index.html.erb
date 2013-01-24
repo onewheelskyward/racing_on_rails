@@ -24,7 +24,7 @@
   </div>
 
   <div class="row-fluid">
-    <%= will_paginate(@posts) if @posts.present? %>
+    <%= will_paginate(@posts, :renderer => BootstrapPagination::Rails) if @posts.present? %>
   </div>
 
   <div class="row-fluid">

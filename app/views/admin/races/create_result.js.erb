@@ -1,2 +1,2 @@
-jQuery('#results').html('<%= escape_javascript(render(:partial => "admin/races/results", :locals => { :race => @race })) %>');
+jQuery('#results_table').html('<%= escape_javascript(render(:partial => "admin/races/results", :locals => { :race => @race })) %>');
 jQuery('#result_<%= @result.id %>_row').highlight();
