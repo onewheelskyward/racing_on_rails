@@ -1,42 +1,35 @@
 <% @page_title = "Alpenrose Velodrome" %>
 
-<div class="nav">
-  <%= link_to "Track Home", track_path %> |
-  <%= link_to "History", "http://#{RacingAssociation.current.static_host}/track/history/index.html" %> |
-  <%= link_to "Information", "http://#{RacingAssociation.current.static_host}/track/information/index.html" %> |
-  <%= link_to "Records", "http://#{RacingAssociation.current.static_host}/track/records/index.html" %> |
-  <%= link_to "Schedule", track_schedule_path %>
-</div>
+<ul class="nav">
+  <li><%= link_to "Track Home", track_path %></li>
+  <li><%= link_to "History", "http://#{RacingAssociation.current.static_host}/track/history/index.html" %></li>
+  <li><%= link_to "Information", "http://#{RacingAssociation.current.static_host}/track/information/index.html" %></li>
+  <li><%= link_to "Records", "http://#{RacingAssociation.current.static_host}/track/records/index.html" %></li>
+  <li><%= link_to "Schedule", track_schedule_path %></li>
+</li>
 
-<table>
-  <tr valign="top">
-    <td style="padding-right: 12px;">
-      <!-- Left-side cell for main content -->
-      
-      <table bgcolor="#000000" cellspacing="0" border="0" cellpadding="1" width="300">
-       
-        <tr>
-          <td colspan="3">
-            <%= image_tag "http://#{RacingAssociation.current.static_host}/track/assets/photos/avc_missandout.jpg", :border => 0, :size => "300x222", :title => "AVC Miss and Out" %>
-          </td>
-            </tr>
-            <tr bgcolor="black">
-              <td>&nbsp;</td>
-              <td><small><font color="#cccccc">Marty Nothstein leads the field during the Miss and Out competition of the Alpenrose Challenge.</font></small>
-          </td>
-              <td>&nbsp;</td>
-        </tr>
+<hr/>
 
-      </table>
-
-    </td>
-    <td style="padding-left: 12px;">
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+      <%= image_tag "http://#{RacingAssociation.current.static_host}/track/assets/photos/avc_missandout.jpg", :size => "300x222", :title => "AVC Miss and Out" %>
+      <p>
+        <small>Marty Nothstein leads the field during the Miss and Out competition of the Alpenrose Challenge.</small>
+      </p>
+    </div>
+    <div class="span6">
       <%= upcoming_events_table(@upcoming_events,
                                 link_to("Velodrome Schedule", track_schedule_path), 
-                                "Please check the #{link_to("schedule page", track_schedule_path)} details and exceptions.".html_safe)
-      %>
-    </td>
-  </tr>
-</table>
+                                "Please check the #{link_to("schedule page", track_schedule_path, :class => "obvious")} details and exceptions.".html_safe) %>
 
-<div><%= image_tag "http://#{RacingAssociation.current.static_host}/track/images/logos/alpenrose_logo.gif", :border => 0, :size => "200x65", :title => "Alpenrose" %></div>
+
+    </div>
+  </div>
+  
+  <div class="row-fluid">
+    <div class="span12">
+      <%= image_tag "http://#{RacingAssociation.current.static_host}/track/images/logos/alpenrose_logo.gif", :size => "200x65", :title => "Alpenrose" %>
+    </div>
+  </div>
+</div>
