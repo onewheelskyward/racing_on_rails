@@ -25,7 +25,7 @@
   <tr>
     <th class="date">Date</th>
     <th class="subject">Subject</th>
-    <th class="from">From</th>
+    <th class="from hidden-phone">From</th>
   </tr>
   <% @posts.each do |post| %>
   <tr>
@@ -33,7 +33,7 @@
     <td class="subject">
       <%= link_to h(truncate(post.subject, :length => 50)), post_path(post, :page => @posts.current_page) %>
     </td>
-    <td class="from"><%= h(post.sender_obscured) %></td>
+    <td class="from hidden-phone"><%= h(post.sender_obscured) %></td>
   </tr>
   <% end %>
 <% end -%>
