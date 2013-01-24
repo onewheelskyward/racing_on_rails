@@ -1,4 +1,4 @@
 jQuery('#person_<%= @other_person.id %>_row').remove();
-jQuery('#person_<%= @person.id %>_aliases').html('<%= escape_javascript(render(:partial => 'aliases', :locals => { :person => @person })) %>');
+jQuery('#person_<%= @person.id %>_aliases').html('<%= escape_javascript(render(:partial => 'aliases_cell', :locals => { :person => @person })) %>');
 
 <%= flash_js "notice", "Merged #{@other_person.name} into #{@person.name}" %>

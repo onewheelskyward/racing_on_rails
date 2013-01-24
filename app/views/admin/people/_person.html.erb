@@ -7,7 +7,7 @@
     <%= editable person, :team_name %>
   </td>
   <td class="aliases not_editable">
-    <%= render :partial => "aliases", :locals => { :person => person } %>
+    <%= render :partial => "aliases_cell", :locals => { :person => person } %>
   </td>
   <td class="number not_editable">
     <%= person.license %>
