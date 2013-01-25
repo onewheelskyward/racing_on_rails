@@ -3,31 +3,6 @@ require File.expand_path("../../../../lib/array", __FILE__)
 
 # :stopdoc:
 class ArrayTest < Ruby::TestCase
-  def test_each_row_with_index
-    assert_equal([[], 0], [].each_row_with_index {|row, index|}, 'rows with index')
-    assert_equal([[[1]], 0], [1].each_row_with_index {|row, index|}, 'rows with index')
-    assert_equal([[[1, 2]], 0], [1, 2].each_row_with_index {|row, index|}, 'rows with index')
-    assert_equal([[[1, 3], [2]], 1], [1, 2, 3].each_row_with_index {|row, index|}, 'rows with index')
-    assert_equal([[[1, 3], [2, 4]], 1], [1, 2, 3, 4].each_row_with_index {|row, index|}, 'rows with index')
-    assert_equal([[[1, 4], [2, 5], [3, 6]], 2], [1, 2, 3, 4, 5, 6].each_row_with_index {|row, index|}, 'rows with index')
-  end
-  
-  def test_merge_sort
-    assert_equal([], [].merge_sort, "[].merge_sort")
-    assert_equal([9], [9].merge_sort, "[9].merge_sort")
-    assert_equal([1, 2], [1, 2].merge_sort, "[1, 2].merge_sort")
-    assert_equal([1, 2, 7], [7, 1, 2].merge_sort, "[7, 1, 2].merge_sort")
-    assert_equal([-20, 0, 0, 0, 1, 2, 7], [0, 0, 7, 1, 2, 0, -20].merge_sort, "[0, 0, 7, 1, 2, 0, -20].merge_sort")
-
-    assert_equal_enumerables([-20, 0, 0, 0, 1, 2, 7], 
-                             [0, 0, 7, 1, 2, 0, -20].merge_sort { |x, y| x > y }, 
-                            "[0, 0, 7, 1, 2, 0, -20].merge_sort { |x, y| x > y }")
-
-    assert_equal_enumerables([7, 2, 1, 0, 0, 0, -20], 
-                             [0, 0, 7, 1, 2, 0, -20].merge_sort { |x, y| x < y }, 
-                            "[0, 0, 7, 1, 2, 0, -20].merge_sort { |x, y| x < y }")
-  end
-  
   def test_merge_sort_preserves_order
     king_hearts   = Card.new("king", "hearts")
     king_diamonds = Card.new("king", "diamonds")
