@@ -11,7 +11,7 @@
       <th class="date">Date</th>
       <th class="hidden-phone"></th>
       <th>Event</th>
-      <th>Promoter</th> 
+      <th class="hidden-phone">Promoter</th> 
       <th class="hidden-phone">Phone</th>
       <th class="hidden-phone discipline">Discipline</th>
       <th class="hidden-phone">Location</th>
@@ -39,7 +39,7 @@
       <%- end -%>
       </td> 
   <%- end -%>
-    <td><%= link_to_event_email event %></td> 
+    <td class="hidden-phone"><%= link_to_event_email event %></td> 
     <td class="contact_phone hidden-phone"><%= link_to_event_phone event %></td> 
     <td class="hidden-phone discipline"><%= event.discipline -%></td> 
     <td class="hidden-phone"><%= event.city -%></td>

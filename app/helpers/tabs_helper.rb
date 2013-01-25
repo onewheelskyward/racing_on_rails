@@ -31,15 +31,31 @@ module TabsHelper
     # Builder escapes text, which is not what we want
     def to_html(select_current_page = true)
       html = <<HTML
-<ul class="nav">
+<ul class="nav#{' hidden-phone' if @tabs.size > 2}">
 HTML
-      @tabs.each_with_index do |tab, index|
+      @tabs.each do |tab|
         html << "  <li>#{link_to(tab.name, tab.options, tab.html_options).html_safe}</li>"
       end
       end_html = <<HTML
 </ul>
 HTML
       html << end_html
+      
+      if @tabs.size > 2
+        html << "<div class='phone-nav'>\n"
+        html << "<select class='visible-phone'>\n"
+        @tabs.each do |tab|
+          if select_current_page && current_page?(tab.options)
+            html << "<option selected value='#{url_for(tab.options)}'>#{tab.name}</option>\n"
+          else
+            html << "<option value='#{url_for(tab.options)}'>#{tab.name}</option>\n"
+          end
+        end
+        html << "</select>\n"
+        html << "</div>\n"
+      end
+      
+      html
     end
     
     # FIXME

@@ -130,7 +130,15 @@ function makeEditable() {
   );
 }
 
+function phoneTabs(argument) {
+  jQuery('.phone-nav select').change(function (e) {
+    document.location = jQuery(this).val();
+    return false;
+  });
+}
+
 $(document).ready(function() {
   makeEditable();
+  phoneTabs();
   jQuery('.wants_focus:visible').select();
 });

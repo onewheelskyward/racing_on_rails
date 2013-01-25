@@ -241,6 +241,11 @@ th, .table-striped tbody tr:nth-child(odd) th {
   nav ul {
     text-align: center;
   }
+
+  .table td, .table th {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
 }
 
 .created_updated {
@@ -281,6 +286,12 @@ input[type="text"] {
   text-align: right;
   white-space: nowrap;
   width: 80px;
+}
+
+@media (max-width: 767px) {
+  .table .date {
+    width: auto;
+  }
 }
 
 select {
@@ -350,6 +361,13 @@ ul.nav li:first-child, ul.page-links li:first-child {
 
 ul.nav + h2 {
   margin-top: $baseLineHeight;
+}
+
+.phone-nav {
+  text-align: center;
+  select {
+    width: 100%;
+  }
 }
 
 @-ms-keyframes Rotate {
