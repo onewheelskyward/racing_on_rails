@@ -1,21 +1,16 @@
-<% if race -%>
-<div class="row-fluid event_info">
-  <table class="event_races">
-    <tbody>
-      <%- race.event.races.map(&:category).sort.each_row_with_index do |row, row_index| -%>
-      <tr>
-        <td>
-          <%= link_to row.first.name, bar_path(:category => row.first.friendly_param, :year => race.year, :discipline => Discipline[race.discipline]) %>
-        </td>
-        <td>
-        &nbsp;
-        <%- if row.size == 2 -%>
-          <%= link_to row.last.name, bar_full_path(race.year, Discipline[race.discipline].to_param, row.last.friendly_param) %>
+<div class="event_info">
+  <div class="event_races">
+    <div class="row-fluid">
+      <div class="span6 race">
+        <%- categories.sort[0, (categories.size / 2.0).round].each do |category| -%>
+         <%= link_to category.name, bar_path(:category => category.friendly_param, :year => race.year, :discipline => Discipline[race.discipline]) %><br/>
         <%- end -%>
-        </td>
-      </tr>
-      <%- end -%>  
-    </tbody>
-  </table>
+      </div>
+      <div class="span6 race">
+        <%- categories.sort[-(categories.size / 2), (categories.size / 2.0).round].each do |category| -%>
+        <%= link_to category.name, bar_full_path(race.year, Discipline[race.discipline].to_param, category.friendly_param) %><br/>
+        <%- end -%>
+      </div>
+    </div>
+  </div>
 </div>
-<% end -%>

@@ -161,24 +161,6 @@ nav li:last-child, footer li:last-child {
   }
 }
 
-.event_info {
-  text-align: center;
-}
-
-.event_races {
-  text-align: center;
-}
-
-.event_races table {
-  display: inline-table;
-  text-align: left;
-  width: auto;
-}
-
-.event_races td {
-  padding-left: $baseLineHeight;
-}
-
 .table td {
   border-bottom: 1px solid $tableBorder;
   border-top: none;

@@ -1,19 +1,18 @@
-<% if @event.races_with_results.size > 1 %>
-  <div class="row-fluid event_info">
-    <table class="event_races">
-      <tbody>
-        <%- results_in_first_column = @event.races_with_results.size / 2 -%>
-        <%- @event.races_with_results.sort.each_row_with_index do |row, row_index| -%>
-        <tr>
-          <td>
-          <a href="#race_<%= row.first.id %>"><%= row.first.name %></a>
-          </td>
-          <td>
-            <%= link_to(row.last.name, "#race_#{row.last.id}") if row.size == 2 %>
-          </td>
-        </tr>
-        <%- end -%>
-      </tbody>
-    </table>
+<% if @event.races_with_results.many? %>
+  <div class="event_info">
+    <div class="event_races">
+      <div class="row-fluid">
+        <div class="span6 race">
+          <%- @event.races_with_results.sort[0, (@event.races_with_results.size / 2.0).round].each do |race| -%>
+          <a href="#race_<%= race.id %>"><%= race.name %></a><br/>
+          <%- end -%>
+        </div>
+        <div class="span6 race">
+          <%- @event.races_with_results.sort[-(@event.races_with_results.size / 2), (@event.races_with_results.size / 2.0).round].each do |race| -%>
+          <a href="#race_<%= race.id %>"><%= race.name %></a><br/>
+          <%- end -%>
+        </div>
+      </div>
+    </div>
   </div>
-<%- end -%>  
+<%- end -%>
