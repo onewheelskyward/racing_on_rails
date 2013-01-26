@@ -48,7 +48,7 @@ end
 group :test do
   gem "factory_girl"
   gem "factory_girl_rails"
-  gem "mocha", "~> 0.12.0", :require => false
+  gem "mocha", :require => false
   gem "sqlite3"
   gem "timecop"
   gem "minitest"
@@ -62,7 +62,7 @@ group :acceptance do
   gem "factory_girl"
   gem "factory_girl_rails"
   gem "launchy"
-  gem "mocha", "~> 0.12.0", :require => false
+  gem "mocha", :require => false
   gem "selenium-webdriver"
   gem "timecop"
 end
