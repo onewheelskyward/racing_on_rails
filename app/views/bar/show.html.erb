@@ -6,15 +6,14 @@
 
 <%= render :partial => "years", :locals => { :overall_bar => @overall_bar, :race => @race } %>
 <%= render :partial => "disciplines", :locals => { :overall_bar => @overall_bar, :race => @race } %>
+<%= render(:partial => "races", :locals => { :race => @race, :categories => @race.event.races_with_results.map(&:category) }) if @race %>
 
-<% if @race && @race.results.any? -%>
-<h2><%= @race.year %> <%= @race.discipline %> BAR</h2>
-
-<%= render :partial => "races", :locals => { :race => @race, :categories => @overall_bar.races_with_results.map(&:category) } %>
+<% if @race -%>
+<h2><%= @race.year %> <%= @race.discipline %> <%= @race.name %> BAR</h2>
 
 <p class="created_updated">Updated <%= @race.updated_at.to_formatted_s(:long) %></p>
 
-<%= table :caption => @race.name, :class => "event_results" do %>
+<%= table :caption => @race.name, :class => "event_results", :collection => @race.results, :columns => 4 do %>
   <% 
     if @race.discipline == "Team"
       result_columns = %w{ place team_name points }

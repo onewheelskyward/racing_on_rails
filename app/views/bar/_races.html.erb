@@ -3,7 +3,7 @@
     <div class="row-fluid">
       <div class="span6 race">
         <%- categories.sort[0, (categories.size / 2.0).round].each do |category| -%>
-         <%= link_to category.name, bar_path(:category => category.friendly_param, :year => race.year, :discipline => Discipline[race.discipline]) %><br/>
+        <%= link_to category.name, bar_full_path(race.year, Discipline[race.discipline].to_param, category.friendly_param) %><br/>
         <%- end -%>
       </div>
       <div class="span6 race">
