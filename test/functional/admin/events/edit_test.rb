@@ -20,6 +20,7 @@ module Admin
         assert_not_nil(assigns["event"], "Should assign event")
         assert_nil(assigns["race"], "Should not assign race")
         assert(!@response.body["#&lt;Velodrome:"], "Should not have model in text field")
+        puts @response.body
         assert_select "input#event_date_range_long_s"
         assert_select "input#event_date"
       end

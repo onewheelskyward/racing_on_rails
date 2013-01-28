@@ -260,7 +260,6 @@ CREATE TABLE `events` (
   `custom_suggestion` varchar(255) DEFAULT NULL,
   `field_limit` int(11) DEFAULT NULL,
   `refund_policy` varchar(255) DEFAULT NULL,
-  `refunds` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_disciplined` (`discipline`),
   KEY `parent_id` (`parent_id`),
@@ -441,6 +440,23 @@ CREATE TABLE `order_people` (
   CONSTRAINT `order_people_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `order_transactions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `action` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `success` tinyint(1) DEFAULT NULL,
+  `authorization` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `message` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `params` text COLLATE utf8_unicode_ci,
+  `lock_version` int(11) NOT NULL DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_order_transactions_on_order_id` (`order_id`),
+  KEY `index_order_transactions_on_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `purchase_price` decimal(10,2) DEFAULT NULL,
@@ -477,25 +493,6 @@ CREATE TABLE `pages` (
   KEY `index_pages_on_slug` (`slug`),
   CONSTRAINT `pages_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `pages` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `payment_gateway_transactions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) DEFAULT NULL,
-  `action` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `amount` int(11) DEFAULT NULL,
-  `success` tinyint(1) DEFAULT NULL,
-  `authorization` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `message` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `params` text COLLATE utf8_unicode_ci,
-  `lock_version` int(11) NOT NULL DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `line_item_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `index_order_transactions_on_order_id` (`order_id`),
-  KEY `index_order_transactions_on_created_at` (`created_at`),
-  KEY `index_payment_gateway_transactions_on_line_item_id` (`line_item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -677,7 +674,6 @@ CREATE TABLE `products` (
   `has_amount` tinyint(1) DEFAULT '0',
   `donation` tinyint(1) DEFAULT '0',
   `unique` tinyint(1) NOT NULL DEFAULT '0',
-  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_products_on_event_id` (`event_id`),
   KEY `index_products_on_type` (`type`),
@@ -794,6 +790,8 @@ CREATE TABLE `refunds` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) DEFAULT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
+  `created_by_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_by_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `line_item_id` int(11) NOT NULL,
@@ -1364,16 +1362,6 @@ INSERT INTO schema_migrations (version) VALUES ('20120720235539');
 INSERT INTO schema_migrations (version) VALUES ('20120912022048');
 
 INSERT INTO schema_migrations (version) VALUES ('20121002174208');
-
-INSERT INTO schema_migrations (version) VALUES ('20121012141636');
-
-INSERT INTO schema_migrations (version) VALUES ('20121015181304');
-
-INSERT INTO schema_migrations (version) VALUES ('20121018204850');
-
-INSERT INTO schema_migrations (version) VALUES ('20121018222339');
-
-INSERT INTO schema_migrations (version) VALUES ('20121202210650');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
