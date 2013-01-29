@@ -3,6 +3,7 @@
  *= require jquery_ujs
  *= require jquery-ui
  *= require jquery.jeditable
+ *= require jquery-ui-timepicker-addon
  *= require bootstrap
  *= require_self
 */
