@@ -10,11 +10,10 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>  
+  <%= render :partial => "layouts/javascripts" %>
   <%= javascript_include_tag "admin" %>
-  <%= airbrake_javascript_notifier if Rails.env.production? %>
-
+  
   <link rel="shortcut icon" href="/assets/favicon.ico">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="apple-touch-icon" sizes="72x72" href="/assets/apple-touch-icon-72x72.png">
