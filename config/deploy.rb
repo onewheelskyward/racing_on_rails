@@ -41,7 +41,7 @@ namespace :deploy do
   
   task :registration_engine do
     run "rm -rf #{release_path}/lib/registration_engine"
-    run "git clone git@github.com:scottwillson/registration_engine.git #{release_path}/lib/registration_engine"
+    run "git clone git@github.com:scottwillson/registration_engine.git -b bootstrap #{release_path}/lib/registration_engine"
   end
   
   task :symlinks do
