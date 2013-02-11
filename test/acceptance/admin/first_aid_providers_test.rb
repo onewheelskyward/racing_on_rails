@@ -47,16 +47,16 @@ class FirstAidProvidersTest < AcceptanceTest
 
       # Table already sorted by date ascending, so click doesn't change order
       find(:xpath, "//th[@class='date']//a").click
-      assert_table "events_table", 2, 4, /^Copperopolis/
-      assert_table "events_table", 3, 4, /^Giro di SF/
+      assert_table "events_table", 2, 4, "Copperopolis"
+      assert_table "events_table", 3, 4, "Giro di SF"
 
       find(:xpath, "//th[@class='date']//a").click
-      assert_table "events_table", 2, 4, /^Berkeley Hills/
-      assert_table "events_table", 3, 4, /^Snelling/
+      assert_table "events_table", 2, 4, "Berkeley Hills"
+      assert_table "events_table", 3, 4, "Snelling"
 
       find(:xpath, "//th[@class='date']//a").click
-      assert_table "events_table", 2, 4, /^Copperopolis/
-      assert_table "events_table", 3, 4, /^Giro di SF/
+      assert_table "events_table", 2, 4, "Copperopolis"
+      assert_table "events_table", 3, 4, "Giro di SF"
     end  
   end
 end

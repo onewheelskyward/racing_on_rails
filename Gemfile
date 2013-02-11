@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~>3.2"
+gem "rails", ">=3.2.12"
 
 gem "oj"
 gem "rake"
@@ -33,6 +33,9 @@ gem "activemerchant"
 gem "registration_engine", :path => "lib/registration_engine"
 gem "will_paginate-bootstrap"
 
+# Security fix
+gem "json", ">= 1.7.7"
+
 group :assets do
   gem "sass-rails",   "~> 3.2"
   gem "coffee-rails", "~> 3.2"
@@ -57,7 +60,6 @@ end
 
 group :acceptance do
   gem "capybara"
-  gem "xpath"
   gem "database_cleaner"
   gem "factory_girl"
   gem "factory_girl_rails"

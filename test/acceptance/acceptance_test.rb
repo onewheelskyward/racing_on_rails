@@ -61,7 +61,9 @@ class AcceptanceTest < ActiveSupport::TestCase
   def assert_table(table_id, row, column, expected)
     within_table(table_id) do
       within find(:xpath, "//tr[#{row}]/td[#{column}]") do
-        assert page.has_content?(expected), -> { "Expected '#{expected}' in row #{row} column #{column} of table #{table_id} in table ID #{table_id}, but was #{text}" }
+        assert page.has_content?(expected), -> { 
+          "Expected '#{expected}' in row #{row} column #{column} of table #{table_id} in table ID #{table_id}, but was #{text}" 
+        }
       end
     end
   end
@@ -232,12 +234,6 @@ class AcceptanceTest < ActiveSupport::TestCase
   
   def reset_session
     Capybara.reset_sessions!
-  end
-
-  def before_teardown
-    unless @passed
-      save_page
-    end
   end
   
   def before_teardown
